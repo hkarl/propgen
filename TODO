@@ -1,0 +1,16 @@
+Things to do
+------------
+
+* Port existing functionality 
+** Rethink directory structure
+** Split pulling of wiki from producing XML code, in particular for tables 
+
+* Clean up code, make it faster 
+
+* Integrate mising features 
+** Cross-WP milestones 
+
+* Integrate Moinmoin as wiki
+** trigger builds from wiki 
+
+* Integrate Etherpad with wiki 
