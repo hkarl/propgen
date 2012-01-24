@@ -1,6 +1,8 @@
 Things to do
 ------------
 
+* Review open feature requests 
+
 * Port existing functionality 
 ** Rethink directory structure
 ** Split pulling of wiki from producing XML code, in particular for tables 
