@@ -16,3 +16,9 @@ Things to do
 ** trigger builds from wiki 
 
 * Integrate Etherpad with wiki 
+
+* Better support for figure inclusion in wiki, avoid the need to manually handle both PDF and PNG files 
+
+* Write documentation 
+
+* built support for latexdiff 

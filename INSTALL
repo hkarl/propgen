@@ -1,0 +1,25 @@
+Installation instructions: 
+
+* Obtain this package from github or elsewhere 
+  https://github.com/hkarl/propgen
+
+* Install bash, if necessary 
+  * Tested on bash 3.2.48 
+  * Note: bash is only needed to support the conversion into UTF-8 files 
+
+* Install python, if necessary
+  * Make sure you have python 2.7 
+  * Tested on python 2.7.2 
+  * The command python needs to be in the path 
+
+* Install latex, if necessary  
+  * Tested on texlive 2011 
+  * a pgfgantt style file is provided in the distro 
+
+* Decide which wiki to use 
+  * Currently supported: twiki 
+  * twiki
+    * twiki needs the pyhton module mechanize to be installed 
+
+* Configure settings.cfg 
+
