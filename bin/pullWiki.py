@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import sys 
+import re
 
 ###########################################
 
@@ -121,8 +122,20 @@ class PullMoinmoin(PullWikiMechanize):
 
         if verbose: 
             print "trying to load: " + targetURL
-        self.br.open(targetURL)
-        response = self.br.response().read()
+
+        try:
+            self.br.open(targetURL)
+            response = self.br.response().read()
+        except mechanize.HTTPError as e:
+            print "HTTTP Error exception in page " + page + " : "
+            print e
+            response = None 
+        except:
+            print "Unexpected error:", sys.exc_info()[0]            
+            response = None
+            
+        if response=="Page " + page + "not found.":
+            response = None 
 
         return response 
     
@@ -193,3 +206,5 @@ if __name__ == "__main__":
         print res.encode('utf-8')
     
 
+
+    print pullInstance.getPage("nldf")
