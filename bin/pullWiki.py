@@ -17,6 +17,8 @@ def pullFactory (configs, verbose=False):
         pullInstance = PullMoinmoinLocal (configs, verbose)
     elif wikitype=="moinmoin":
         pullInstance = PullMoinmoin (configs, verbose)
+    elif wikitype=="twiki":
+        pullInstance = PullTwiki (configs, verbose)
     else:
         print "unknown wiki type!"
         sys.exit()
@@ -57,7 +59,7 @@ class PullWikiMechanize(PullWiki):
         self.baseURL = configs.get('Wiki', 'baseURL')
         self.wikiuser = configs.get('Wiki', 'wikiuser')
         self.wikipassword = configs.get('Wiki', 'wikipassword')
-        self.wikiproject = configs.get('Wiki', 'projectPage')
+        self.wikiproject = configs.get('Wiki', 'projectName')
         
         import mechanize
         self.br=mechanize.Browser()
@@ -65,13 +67,67 @@ class PullWikiMechanize(PullWiki):
         self.setProxyValues (configs, verbose)
         
     def setProxyValues (self, configs, verbose=False):
+        """Note: Proxy support is shaky at best, and known not to always work.
+        Your mileage will vary!"""
 
         if verbose:
             print "setting proxy values is known not to work reliably, not implemented yet!"
+        proxies = {}
+        # should we use a HTTP proxy?
+        ip = configs.get('Wiki', 'httpProxyIP')
+        if ip:
+            user = configs.get('Wiki', 'httpProxyuser')
+            password = configs.get('Wiki', 'httpProxypassword')
+            port = configs.get('Wiki', 'httpProxyport')
 
+            s = ""
+
+            if user:
+                s += user 
+            if password:
+                s += ":" + password
+            if user:
+                s += "@"
+            s += ip
+            if port:
+                s += ":" + port
+
+            proxies["http"] = s 
+
+        # and the same thing for https: 
+        ip = configs.get('Wiki', 'httpsProxyIP')
+        if ip:
+            user = configs.get('Wiki', 'httpsProxyuser')
+            password = configs.get('Wiki', 'httpsProxypassword')
+            port = configs.get('Wiki', 'httpsProxyport')
+
+            s = ""
+
+            if user:
+                s += user 
+            if password:
+                s += ":" + password
+            if user:
+                s += "@"
+            s += ip
+            if port:
+                s += ":" + port
+
+            proxies["https"] = s 
+
+        if proxies:
+            self.br.set_proxies (proxies)
         
 ###########################################
-# pull page from twiki 
+# pull page from twiki
+
+class PullTwiki(PullWikiMechanize):
+    """Pull pages from a Twiki wiki"""
+
+    def __init__ (self, configs, verbose=False):
+        print "Twiki supported not implemented"
+
+
 
 ###########################################
 # pull page from moinmoin, remotely
@@ -159,7 +215,7 @@ class PullMoinmoinLocal(PullWiki):
 
     def getPage (self, page, verbose=False):
 
-        print self.request 
+        # print self.request 
         from MoinMoin.Page import Page
         text = Page (self.request, page).get_raw_body()
         if verbose:
@@ -200,11 +256,10 @@ if __name__ == "__main__":
     if options.page:
         res = pullInstance.getPage(options.page)
     else:
-        res = pullInstance.getPage(config.get('Wiki','projectPage'))
+        res = pullInstance.getPage(config.get('Wiki','projectName'))
 
     if res:
         print res.encode('utf-8')
     
 
 
-    print pullInstance.getPage("nldf")
