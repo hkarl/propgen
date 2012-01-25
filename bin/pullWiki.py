@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-
+import sys 
 
 ###########################################
 
@@ -18,7 +18,7 @@ def pullFactory (configs, verbose=False):
         pullInstance = PullMoinmoin (configs, verbose)
     else:
         print "unknown wiki type!"
-        exit 
+        sys.exit()
     
     return pullInstance  
 
@@ -31,13 +31,13 @@ class PullWiki:
     def __init__ (self, options, verbose=False):
         if verbose:
             print options
-        exit
+        sys.exit()
 
     def getPage (self, page, verbose=False):
         if verbose:
             print page
             print "base class not callable"
-        exit
+        sys.exit()
         
 
 ###########################################
@@ -56,7 +56,7 @@ class PullWikiMechanize(PullWiki):
         self.baseURL = configs.get('Wiki', 'baseURL')
         self.wikiuser = configs.get('Wiki', 'wikiuser')
         self.wikipassword = configs.get('Wiki', 'wikipassword')
-
+        self.wikiproject = configs.get('Wiki', 'projectPage')
         
         import mechanize
         self.br=mechanize.Browser()
@@ -77,21 +77,54 @@ class PullWikiMechanize(PullWiki):
 
 class PullMoinmoin(PullWikiMechanize):
 
-    ## def __init__ (self, configs, verbose=False):
-    ##     PullWikiMechanize.__init__(self, configs, verbose)
-    ##     print "init in PullMoinmoin"
+    def __init__ (self, configs, verbose=False):
+
+        import mechanize
+        
+        PullWikiMechanize.__init__(self, configs, verbose)
+
+        ## let's do the login by accessing the main project page  
+        ## loginURL = self.baseURL + self.wikiproject + "?action=login"
+        # we don't really need a particular page: 
+        loginURL = self.baseURL +  "?action=login"
+        if verbose:
+            print "init in PullMoinmoin"
+            print "login url: " + loginURL
+
+        loginresponse = self.br.open(loginURL)
+        loginforms = mechanize.ParseResponse(loginresponse) 
+
+        loginform=None
+        for f in loginforms:
+            try:
+                f.find_control (name="password")
+                loginform = f
+            except:
+                pass
+
+        if loginform:
+            if verbose:
+                print loginform
+            loginform["name"]=self.wikiuser
+            loginform["password"]=self.wikipassword
+            self.br.open(loginform.click()).read()
+        else:
+            print "No password field found when trying to login into moinmoin. Giving up!"
+            sys.exit() 
+            
         
     def getPage (self, page, verbose=False):
 
         import mechanize
         
         targetURL = self.baseURL + page + "?action=raw"
-        print "trying to load: " + targetURL
+
+        if verbose: 
+            print "trying to load: " + targetURL
         self.br.open(targetURL)
         response = self.br.response().read()
-        print response 
 
-        return None
+        return response 
     
 ###########################################
 # pull page from moinmoin, locally  
@@ -160,4 +193,3 @@ if __name__ == "__main__":
         print res.encode('utf-8')
     
 
-    
