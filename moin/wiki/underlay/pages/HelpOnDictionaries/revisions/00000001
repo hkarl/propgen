@@ -1,0 +1,49 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+
+
+## DO NOT TRANSLATE, UNFINISHED.
+
+
+= Dictionaries =
+<<TableOfContents>>
+A dictionary is a simple data structure that maps a dictionary name to a set of key/value pairs. It can be used e.g. to provide additional translations.
+
+The dictionary name usually is something like `GermanDict` (some word ending with `Dict`). This default pattern can be changed (e.g. for non-english languages etc.), see page_dict_regex on HelpOnConfiguration.
+
+The dict members are key/value pairs (both unicode strings).
+
+== Wiki Dicts ==
+=== Defining them ===
+You can create a dict definition for a dict named `GermanDict` by creating a page called `GermanDict` with this content:
+
+{{{
+#format wiki
+This translates some words from English to German:
+ dog:: Hund
+ cat:: Katze
+ mouse: Maus
+}}}
+
+Important:
+ * Dict members have to be on a first-level definition list (see HelpOnLists).
+  * /!\ The leading space and the space after '::' are important.
+ * Everything else (other text, second-level items, etc.) is ignored.
+
+=== Using them ===
+==== Translation ====
+MoinMoin uses `<Language>Dict` additionally to the builtin gettext based translations. E.g. if it wants to translate `cat` to German and doesn't find it in the .po file, it will try to look it up on `GermanDict` (and find `Katze` there, see the example above).
+
+==== Variables ====
+See also HelpOnVariables.
+
+=== Protecting them ===
+You can use ACLs as usual to protect your dict pages.
+
+== Other ways to define dicts / access dict definitions ==
+!MoinMoin can also use dict definitions from other sources, but this needs to be configured in your wiki config. See `dicts` on HelpOnConfiguration.

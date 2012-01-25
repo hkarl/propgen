@@ -1,0 +1,64 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+= Actions =
+
+Actions are tools that work on a page or the whole wiki, but unlike macros they do not add ''to'' the page content when viewing a page, rather they work ''on'' that page content. They either produce some output based on page contents (navigational actions like searching) or implement functions that are not related to viewing a page (like deleting or renaming a page).
+
+There is a set of system-defined actions, which includes page editing; you can extend the set of known actions by your own ones.
+
+The following actions are added to the list of user-defined extension actions at the bottom of each page (or in the "More actions" menu). This happens to any mixed-case extension, for other actions (all lower-case) see the list further down this page. Some of these action might not be available for your wiki site.
+
+||<tablewidth="100%" width="25%" rowbgcolor="#ffffcc"> '''Action''' || '''Description''' ||
+|| `AttachFile` || Attach files to a page, see /AttachFile for more details. NOTE: This action is not granted if you are not logged in. ||
+|| `CopyPage` || Copy a page, after you confirmed it. All subpages could be copied too. ||
+|| `DeletePage` || Delete a page, after you confirmed it; deletion means a final backup copy is created and only then the page is deleted, i.e. you can ''revive'' the page later on (as long as the backups are not physically deleted). All subpages could be deleted too. NOTE: This action is not granted if you are not logged in. ||
+|| `RenamePage` || Rename a page, after you confirmed it. All subpages could be renamed too. ||
+|| `LikePages` || List pages whose title starts or ends with the same MeatBall:WikiWord as the current page title. ||
+|| `LocalSiteMap` || Show nearby links of the current page, i.e. list all referred-to pages, and in turn their references, to a certain limited depth. ||
+|| `SlideShow` || Treat a wiki page as a set of slides.  Displays a single slide at a time, along with a navigation aid; see HelpOnSlideShows for more. ||
+|| `SpellCheck` || Call the spell checker for the current page; see HelpOnSpellCheck for more. ||
+|| `SubscribeUser` || Administrators can use it to subscribe other users to pages. ||
+|| `SyncPages` || Used to synchronise different wiki sites. See HelpOnSynchronisation. ||
+|| `Load` || Used to load a page into the wiki or an attachment onto the current. ||
+|| `Save` || Used to save a page of the wiki into a text file. ||
+
+
+The following is a list of ''internal'' actions that are used to implement the various icons and links at the top and bottom of pages, or supplement certain macros.
+
+||<tablewidth="100%" width="25%" rowbgcolor="#ffffcc"> '''Action''' || '''Description''' ||
+|| `titleindex`|| Implements the listing of all page names as text (append `?action=titleindex` to your wiki address) or XML (`?action=titleindex&mimetype=text/xml`); the main use of this action is to enable MeatBall:MetaWiki. ||
+|| `fullsearch`|| This action is triggered by clicking on the "Search Text" button of the `FullSearch` macro (`?action=fullsearch&value=HelpOnActions`). ||
+|| `titlesearch`|| This action is triggered by clicking on the "Search Titles" button of the `TitleSearch` macro (`?action=titlesearch&value=HelpOnActions`). ||
+|| `inlinesearch`|| This implements the inline search for the form fields at the bottom of each page (note that this uses POST requests, so you won't normally see this action in URLs). ||
+|| `highlight`|| Highlight the search word when you click on a link in a search result list. ||
+|| `diff`|| Display differences between page revisions. ||
+|| `info`|| Show meta-data on a page. ||
+|| `login`|| Log into the wiki. ||
+|| `newaccount` || Create a new user account on the wiki. ||
+|| `recall`|| Display an older revision of a page. ||
+|| `show`|| Display a page (the default action). ||
+|| `refresh`|| Refresh the cached version of a page (currently only used on XSLT-formatted pages). ||
+|| `print`|| Show the print-view of a page, which omits the navigational items from the display view. ||
+|| `edit`|| Edit this page. ||
+|| `savepage`|| Save this page (do not ever use this manually). ||
+|| `subscribe`|| Subscribe to a page. ||
+|| `userform`|| Save user preferences. ||
+|| `bookmark`|| Set bookmark for RecentChanges. ||
+|| `raw`|| Send the raw wiki markup as text/plain (e.g. for backup purposes via wget); `SystemInfo?action=raw` will show the markup of SystemInfo. ||
+|| `format`|| Emit specially formatted views of a page. Parameter `mimetype` specifies the wanted mime-type.  You can generate '''!DocBook''' markup from your pages by appending `?action=format&mimetype=xml/docbook` to the address (note: you need to install PyXML to use it). ||
+|| `rss_rc`|| Generate a RSS feed of RecentChanges. ||
+|| `chart`|| Display charts. ||
+|| `export`|| Export the wiki content. NOTE: this is currently experimental. ||
+|| `content`|| For transclusion into static web pages, this action emits the pure page content, without any <html>, <head>, or <body> tags. ||
+|| `links`|| Generates a list of all pages and the links on them, just like MeatBall:LinkDatabase. ||
+|| `sitemap`|| Generates a Google XML sitemap, see [[http://www.google.com/webmasters/sitemaps/docs/en/protocol.html|Sitemap protocol]]. ||
+|| `xmlrpc` and `xmlrpc2` || Wiki XML-RPC interface, see MeatBall:XmlRpcToWiki. By default this is disabled by `actions_excluded`. ||
+|| `revert`|| Revert to an older version of the page. ||
+|| `showtags`|| Dumps all sync tags related to the page. ||
+|| `thread_monitor`|| Dumps the tracebacks of all current running threads. Note that you must enable the thread monitor support by putting the line ` from MoinMoin.util.thread_monitor import activate_hook; activate_hook()` at the top of  your CGI/FCGI/... python file. ||
+|| `supplementation`|| Calls a supplementation page e.g. discussion for a page. ||

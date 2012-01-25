@@ -1,0 +1,72 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:
+##master-date:
+#acl -All:write Default
+#format wiki
+#language en
+= Subscribing =
+<<TableOfContents>>
+
+Subscribing is an optional feature on MoinMoin wikis which enables users to receive an email notification when any changes have been made on specific wiki webpages.  This optional feature is available only if the wiki administrator has enabled email support (see HelpOnConfiguration/EmailSupport).  
+
+There are two general ways to subscribe to wiki pages. The first and easiest way is to click on the 'Subscribe' link at the top of a wiki page.  The second way is to edit 'User Preferences'.  Both methods are described in detail below.
+
+----
+
+'''Definitions:'''
+
+ Subscribe :: When you 'subscribe' to a wiki page, you are requesting that an email be sent to you when anyone other than yourself changes the contents of the webpage.
+
+ Unsubscribe :: At any time after you have 'subscribed' to a wiki page, you may choose to 'unsubscribe' to this webpage.  After you 'unsubscribe' to a wiki webpage, you will NOT be notified when changes are made to this webpage.
+
+ Wiki farm :: A wiki farm is a cluster of wiki websites that are maintained on a common server or server farm and share the same domain name (e.g. {{{myfirstwiki.example.net}}} and {{{mysecondwiki.example.net}}}). Email support may also be available across a whole wiki farm if the administrator has enabled shared user accounts across the farm (see HelpOnUserHandling).  
+
+ InterWiki name :: A shorthand abbreviation for a wiki URL, and in the case of a wiki farm will refer to the name of other wiki's within the farm.  An interwiki name is assigned by the wiki administrator. When subscribing using regex, you may want to rely on !InterWiki names so that your subscriptions return only notifications from specified wiki's. Otherwise, you can inadvertently subscribe to any matching page across the entire wiki farm. See InterWiki.
+
+== Subscribing to a wiki page ==
+
+In order to subscribe, you need to first log in and enter your email address in your account settings. 
+
+Once this is done, you can simply click the 'Subscribe' link at the top of any given page. The link will change to 'Unsubscribe', and you will now be notified by email any time another user modifies that page.  You will not receive notifications when you edit the page yourself.
+
+To stop email notifications, simply click the 'Unsubscribe' link. (remember that you must be logged in in order to change your preferences.
+
+If you forget which wiki webpages you have subscribed to, you can find a list of these pages under User Preferences.
+
+== Subscribing to multiple pages at a time ==
+
+Naturally, you can repeat the above process in order to subscribe to any number of wiki pages.  However, an easier way is to use regular expressions to subscribe to a collection of wiki pages.
+
+Once you're logged into your wiki, click on the 'Settings' link near the top of the page, then 'Notifications', and scroll down the page until you see the following label:
+
+ __Subscribed wiki pages (one regex per line)__
+
+If you have previously subscribed to individual wiki webpages as described above, there should be a list of these webpages in the text box (otherwise, it will be blank). To subscribe, follow the examples shown in the table below, adding one statement (regex) per line. 
+
+||<tablewidth="100%" width="33%" rowbgcolor="#ffffcc"> '''Example''' || '''Subscribes to'''  ||
+|| {{{.*}}} || All webpages on the current wiki (or wiki farm). Use with caution, as you may receive a ''lot'' of emails, depending on how busy your wiki is.  ||
+|| {{{MyFirstWiki:.*}}} || All webpages on the !MyFirstWiki wiki||
+|| {{{FrontPage}}} || All pages named '!FrontPage' on the current wiki (or wiki farm). See note below. ||
+|| {{{MyFirstWiki:FrontPage}}} || The !FrontPage on the !MyFirstWiki wiki ||
+|| {{{MyFirstWiki:FrontPage/.*}}} || All subpages of the !FrontPage on the !MyFirstWiki wiki ||
+|| {{{Help.*}}} || All pages starting with the word 'Help' on the current wiki (or wiki farm) ||
+|| {{{MyFirstWiki:Help.*}}} || All pages starting with the word 'Help' on the !MyFirstWiki wiki ||
+|| {{{Help(On|For).*}}} || All pages starting with the term '!HelpOn' or '!HelpFor' on the current wiki (or wiki farm ||
+|| {{{MyFirstWiki:FrontPage/.*(Help|Question).*}}} || All subpages of the !FrontPageon the !MyFirstWiki wiki which contain either the word 'Help'or the word 'Question' anywhere in the name ||
+
+
+You can ''Unsubscribe'' from any of the above regex's by simply removing the line from the text box and saving.
+
+
+== Additional Notes ==
+
+ Searching individual versus multiple wiki's :: ''[this only applies if your wiki is a part of a wiki farm (see definition above) __and__ the administrator has a common user directory for the farm]'' 
+ :: In the examples in the table above, if the interwiki name is NOT included (before the colon character), the regex term will apply across the entire wiki farm. For example, in the regex-subscription to {{{FrontPage}}} will notify you every time the page changes on {{{MyFirstWiki}}}, {{{MySecondWiki}}}, and so on.
+ :: To limit your notifications to a specific wiki, leverage the interwiki name.  To use, begin your regex with the interwiki name (for example {{{MyFirstWiki}}}) followed by a colon, like so- {{{MyFirstWiki:}}}
+
+ Regular Expressions :: Regular expressions (often abbreviated as ''regex'') are symbolic terms used for pattern matching in computer programming languages.  As illustrated above, regular expressions are used to subscribe to more than one wiki page at a time.  For example, the term period-asterisk (.*) means zero or more repetitions (*) of any character (.) in the page name.  The expression '(Help|Question)' means either the word 'Help' or the word 'Question' must occur in the page name.  
+
+ :: An important feature of regex expressions used for subscribing in a !MoinMoin wiki (as illustrated in the table above) is that each expression is automatically enclosed between the symbols "^" and "$" which represent the beginning and end of the wiki webpage name.  Thus, the regex expression {{{'MainPage'}}} will match only pages with that name but will not match pages named {{{'MyMainPage' or 'MainPageOne'}}}, etc. 
+
+ :: There are many more symbols used in regular expressions but they are beyond the scope of this help page.  For further reading, see [[http://wikipedia.org/wiki/Regular_expression|Regular expression on Wikipedia]] and  [[http://docs.python.org/lib/re-syntax.html|Python programming language]].

@@ -1,0 +1,78 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+= Working with Drawings =
+<<TableOfContents>>
+== Basics ==
+
+Since !MoinMoin 1.9 you can choose from two drawing tools: TWikiDraw and (new) !AnyWikiDraw.
+
+TWikiDraw is available in !MoinMoin since quite a while and a bit outdated meanwhile. We still provide it for compatibility with existing drawings.
+
+[[http://sourceforge.net/projects/anywikidraw/|AnyWikiDraw]] is a special version for wikis of JHotDraw7, a successor of TWikiDraw with a modern user interface and a few very cool features.
+
+== Usage ==
+
+Use this syntax for including a drawing on your page:
+
+{{{
+{{drawing:<name of your drawing>[.tdraw|.adraw]}}
+}}}
+
+Use '''.tdraw''' for TWikiDraw drawings and '''.adraw''' for !AnyWikiDraw drawings. If you don't add an extension it will default to TWikiDraw.
+
+If a drawing does not exist, you will see the attachment symbol instead of a drawing. A click on it will lead you to a page where the drawing applet gets started, so you can create a new drawing and save it.
+
+When moin renders the wiki page afterwards, you'll see a rendered PNG of your new drawing.
+
+If you click on the PNG rendering of an existing drawing, moin will invoke the drawing applet so you can modify it.
+
+(!) In case you see some message asking whether you want to load the applet, you should confirm that.
+
+Please play around with the drawing tools on your own, you will explore a lot of cool features.
+
+E.g. add images to your drawings, play around with grouping, transparency effects and rotate everything by slowly double clicking on it. 
+
+Have fun!
+
+
+== Examples ==
+
+=== Markup for a TWikiDraw drawing ===
+{{{
+{{drawing:twikitest.tdraw}}
+}}}
+
+=== Rendering of a TWikiDraw drawing ===
+{{drawing:twikitest.tdraw}}
+
+=== Markup for a AnyWikiDraw drawing ===
+{{{
+{{drawing:anywikitest.adraw}}
+}}}
+
+=== Rendering of a AnyWikiDraw drawing ===
+{{drawing:anywikitest.adraw}}
+
+
+== .tdraw file format ==
+!MoinMoin < 1.9 stored 3 files for each TWikiDraw drawing:
+ * drawingname.draw (drawing file for TWikiDraw)
+ * drawingname.map (for clickable drawings)
+ * drawingname.png (PNG rendering of the drawing)
+
+With !MoinMoin 1.9 this was changed so that only 1 file is needed (please use `moin migration data` to convert existing data):
+ * drawingname.tdraw
+
+This .tdraw file is simply a tar archive that internally contains the 3 files (see above). The contained files are ever called `drawing.*` so they do not need to get renamed if the .tdraw file gets renamed.
+
+== .adraw file format ==
+!MoinMoin 1.9 now also supports !AnyWikiDraw drawings and saves them into a .adraw tar file, which contains:
+ * drawing.svg (SVG file for !AnyWikiDraw)
+ * drawing.png (PNG rendering of the SVG)
+
+The contained files are ever called `drawing.*` so they do not need to get renamed if the .adraw file gets renamed.

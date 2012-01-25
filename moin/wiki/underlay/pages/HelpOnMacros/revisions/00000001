@@ -1,0 +1,84 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:None
+##master-date:None
+#acl -All:write Default
+#format wiki
+#language en
+= Macros =
+<<TableOfContents>>
+
+Macros allow the insertion of system features into normal wiki pages; the only thing that makes those pages special is that they contain macros. If you edit pages like RecentChanges or SystemInfo, you'll see what that means.
+
+For more information on the possible markup, see HelpOnEditing and HelpOnMoinWikiSyntax.
+
+== Search macros ==
+MoinMoin now uses a new search engine, that lets your make sophisticated searches using both the interactive search box or any of the search macros. For more help, see HelpOnSearching.
+
+||<tablewidth="100%" width="33%" rowbgcolor="#ffffcc"> '''Macro''' || '''Description'''  ||
+||{{{<<AdvancedSearch>>}}}||<75% style="margin: 10px; vertical-align: top;"> create an advanced search dialogue on the page. See FindPage. ||
+||{{{<<TitleSearch>>}}}|| create a search box on the page, which search the page titles. See FindPage. ||
+||{{{<<FullSearch>>}}}|| create a search box on the page, which search the page contents.See FindPage. ||
+||{{{<<FullSearch()>>}}}|| print a list of pages whose content matches the current page title (like clicking on the page title). See CategoryCategory for example ||
+||{{{<<FullSearch(text)>>}}}|| print a list of pages whose content matches the search term. ||
+||{{{<<FullSearchCached(text)>>}}}|| Works like the {{{FullSearch}}} macro but caches the results statically. Use it if you prefer speed over an up-to-date result. ||
+||{{{<<GoTo>>}}}|| directly go to the page you enter. See FindPage.  ||
+||{{{<<PageList(Help)>>}}}|| print a list of pages whose title matches the search term. See HelpIndex. ||
+
+== Navigation macros ==
+
+||<tablewidth="100%" width="33%" rowbgcolor="#ffffcc"> '''Macro''' || '''Description'''  ||
+|| {{{<<RecentChanges>>}}} || a list of recently edited pages. See RecentChanges ||
+|| {{{<<TitleIndex>>}}} || an index of all page titles. See TitleIndex ||
+|| {{{<<WordIndex>>}}} || an index of all words in page titles. See WordIndex ||
+|| {{{<<WantedPages>>}}} || list links to non-existent pages. See WantedPages ||
+|| {{{<<OrphanedPages>>}}} || list pages no other page links to. See OrphanedPages ||
+|| {{{<<AbandonedPages>>}}} || list pages that were not edited for the longest time. See AbandonedPages ||
+|| {{{<<RandomPage>>}}} || inserts a link to a random page. ||
+|| {{{<<RandomPage(#)>>}}} || links to a number of random pages. ||
+|| {{{<<TableOfContents([maxdepth])>>}}} || display a local table of contents, possibly limited to a maximal depth. ||
+|| {{{<<Anchor(anchorname)>>}}} || macro to insert anchors into a page. ||
+|| {{{<<Navigation(children[,maxdepth])>>}}} || macro to list all of a pages' children. See start of this page for sample. ||
+|| {{{<<Navigation(siblings[,maxdepth])>>}}} || quick navigation to siblings of a page. See /MailTo for sample. ||
+|| {{{<<Navigation(slideshow)>>}}} || creates a link to toggle between slide show and wiki mode, and a link to start the slide show. See HelpOnSlideShows ||
+|| {{{<<Navigation(slides)>>}}} || displays first/prev/next/last links. See HelpOnSlideShows ||
+|| {{{<<AttachInfo>>}}} ||displays number of attachments for current page. See HelpOnActions/AttachFile ||
+|| {{{<<AttachInfo(page)>>}}} || displays number of attachments for page. See HelpOnActions/AttachFile ||
+|| {{{<<AttachList(pagename,mimetype)>>}}} || displays list of attachments. See HelpOnActions/AttachFile ||
+
+== System Information macros ==
+
+||<tablewidth="100%" width="33%" rowbgcolor="#ffffcc"> '''Macro''' || '''Description'''  ||
+||{{{<<Hits>>}}}|| a counter for page hits {{{<<Hits([all=(False,True)][,event_type=(VIEWPAGE,SAVEPAGE)]>>}}} ||
+||{{{<<InterWiki>>}}}|| a list of all known InterWiki names.||
+||{{{<<SystemInfo>>}}}|| info on the wiki, the python interpreter and the host system. ||
+||{{{<<PageCount(exists)>>}}}||current page count. If {{{exists}}} is supplied as an argument, only existing pages will be shown.  ||
+||{{{<<PageSize>>}}}|| list the sizes of all pages. See PageSize ||
+||{{{<<StatsChart(type)>>}}}|| shows statistical charts (currently defined types: hitcounts, pagesize, useragents, languages). See EventStats and subpages ||
+||{{{<<SystemAdmin>>}}}|| Information for system administrators, see SystemAdmin. ''You need to be superuser to use this macro.'' ||
+||{{{<<EditedSystemPages>>}}}|| A list of system pages that were modified. ||
+||{{{<<WikiConfig>>}}}|| Shows wiki configuration settings which are either non-default or unknown. ''You need to be superuser to use this macro.'' ||
+||{{{<<WikiConfigHelp>>}}}|| Shows all wiki configuration settings with descriptions. ||
+||{{{<<HighlighterList>>}}}|| List available Pygments lexers. See MoinMoin:MacroMarket/HighlighterList for additional information. ||
+
+== Others ==
+
+||<tablewidth="100%" width="33%" rowbgcolor="#ffffcc"> '''Macro'''||'''Description''' ||
+||{{{<<Action(action [,text])>>}}}||links to page with valid action, optional text could be used as alias. (action names are case sensitive). Example: `<<Action(print, Print this page)>>` will generate <<Action(print, Print this page)>>||
+||{{{<<Icon(image)>>}}}||display system icons.  See HelpOnNavigation ||
+||{{{<<BR>>}}}|| insert a line break. ||
+||{{{<<RandomQuote(pagename)>>}}} || Select a random quote from the given page, or from {{{FortuneCookies}}} if omitted. ||
+||{{{<<Include(HelloWorld[,"heading"[,level]])>>}}} || include contents of another page. See [[/Include]] ||
+||{{{<<FootNote(text)>>}}}|| Add a footnote<<FootNote(the text cannot contain any wiki markup)>>, or explicitly display collected footnotes when no args are given.  ||
+||{{{<<Date(timestamp)>>}}}|| display a timestamp according to system settings, in the style of <<Date>> ||
+||{{{<<DateTime(timestamp)>>}}}|| display a timestamp<<FootNote("timestamp" can be empty (current time), a number of seconds since 1970 (unix timestamp), or a W3C time specification ("2002-01-23T12:34:56"). See RFC822, sect. 5. )>> according to user settings, in the style of <<DateTime>> ||
+||{{{<<GetText(text)>>}}}|| ~-(mainly intended for use on Help pages)-~ Loads I18N texts. Example: "Edit``Text" is translated to "<<GetText(EditText)>>" ||
+||{{{<<GetText2(,message,argument1,argument2,...)>>}}}|| ~-(mainly intended for use on Help pages or in generated output on wiki pages)-~ loads I18N texts and replaces `%s` in the message by the arguments. The first character of the argument is used as the separator (in this example: a comma). You can escape the separator by using a backslash. Example: "`<<GetText2(,[You may not read %s],FooBar)>>`" yields "<<GetText2(,[You may not read %s],FooBar)>>". For named placeholders, use "key=value" argument syntax, for example, "`<<GetText2(,Upload new attachment \"%(filename)s\",filename=file.txt)>>`" yields "<<GetText2(,Upload new attachment \"%(filename)s\",filename=file.txt)>>". ||
+||{{{<<TeudView>>}}}|| useful for intranet developer wikis, a means to view pydoc documentation, formatted via a XSLT stylesheet. See http://twistedmatrix.com/wiki/python/TeudProject ||
+||{{{<<MailTo(email)>>}}}|| protect your email address from spam bots. See /MailTo ||
+||{{{<<NewPage(PageTemplate,ButtonLabel,[ParentPage,@ME,@SELF] [,NameTemplate])>>}}}|| Allow the user to create (sub-)pages easily, using the page {{{PageTemplate}}} as the template for the new page and the string {{{NameTemplate}}} as a template for the name.<<FootNote(`NameTemplate` is formatted with `time.strftime()`, with the exception of `%s` which is replaced by the input into the edit box (which is only shown if necessary). If `NameTemplate` is not specified or empty, it defaults to `%s`.)>> `@ME` is used if you want the  page created below the users homepage. `@SELF` is used to create a subpage below the page where it is called from. ||
+||{{{<<GetVal(NeatSnippets,regards)>>}}}|| Retrieve dictionary entries from dict pages. Example: If you have a page called GermanDict which contains the entry ''Test'', you should see the translation here: <<GetVal(GermanDict,Test)>> ||
+||{{{<<MonthCalendar(,,12)>>}}}|| Displays a Calendar and creates link for entries to each day on subpages. See /MonthCalendar ||
+
+
+<<FootNote>>

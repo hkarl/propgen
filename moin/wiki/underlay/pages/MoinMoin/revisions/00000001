@@ -1,0 +1,13 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+
+MoinMoin is a Wiki software implemented in [[MoinMoin:Python|Python]] and distributed as Free Software under [[MoinMoin:GPL|GNU GPL license]].
+
+The name "MoinMoin" is a common German slang expression (see [[MoinMoin:MoinMoinEtymology|our "MoinMoin" etymology page]] for more about that).
+
+For more information about MoinMoin, please see the project wiki at http://moinmo.in/.

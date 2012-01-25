@@ -1,0 +1,33 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+
+<<AdvancedSearch>>
+
+You can use regular expressions and other search modifiers (see HelpOnSearching), e.g. :
+
+{{{regex:seriali[sz]e}}}
+
+Or you can go directly to a page, or create a new page by entering its name here:
+  <<GoTo>>
+
+If you like to browse manually, good starting points to explore a wiki are:
+ * RecentChanges: see where people are currently working
+ * TitleIndex: a list of all pages in the wiki
+ * WordIndex: a list of all words that are part of page title (thus, a list of the concepts in a wiki)
+ * WantedPages: a list of linked, but not existing pages
+ * OrphanedPages: a list of existing, but not linked pages
+ * AbandonedPages: a list of pages that have seen no changes for long
+ * RandomPage: some random pages
+ * PageSize: size statistics
+ * PageHits: hit statistics
+
+You can navigate to other wiki pages related to the current page by selecting these actions, available through the dropdown lists in the edit bars at the top and/or bottom of each page:
+ * <<GetText(Like Pages)>>
+ * <<GetText(Local Site Map)>>
+
+Additionally, there are the {{{<<PageList>>}}}, {{{<<FullSearch(...)>>}}}, {{{<<Navigation(...)>>}}}, and {{{<<TableOfContents>>}}} macros, which allow you to automatically generate indices for cohesive parts of a wiki (see HelpOnMacros).

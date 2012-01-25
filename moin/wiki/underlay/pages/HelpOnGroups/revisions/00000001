@@ -1,0 +1,74 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+
+
+## DO NOT TRANSLATE, UNFINISHED.
+
+
+= Groups =
+<<TableOfContents>>
+A group is a simple data structure that maps a group name to a set of group member names. It can be used e.g. within ACL definitions to specify groups of users.
+
+The group name usually is something like `EditorGroup` (some word ending with `Group`). This default pattern can be changed (e.g. for non-english languages etc.), see page_group_regex on HelpOnConfiguration.
+
+The group members are just arbitrary names (unicode strings). Note that groups are not limited to ''user'' names, you can also define a group of your favourite wiki pages (but you would need some code that uses that group in a somehow useful way).
+
+== Wiki Groups ==
+=== Defining ===
+You can create a group definition for a group named `EditorGroup` by creating a page called `EditorGroup` with this content:
+
+{{{
+#format wiki
+These are people that are trusted to edit pages on this wiki:
+ * JaneDoe
+  * this is ignored
+ * JoeDoe
+ * [[John Smith]]
+}}}
+
+Important:
+ * Group members have to be on an unordered first-level list.
+ * If link markup is used, the link target will be added as member. Please only use rather simple link markup.
+ * Everything else (other text, second-level items, etc.) is ignored.
+ * You have to explicitly ''use'' the group (there are no hardcoded group names in moin), see below.
+
+=== Usage ===
+
+Use groups to define permissions for those users on your wiki (see HelpOnAccessControlLists).  
+
+For example, you could have this in your wiki config:
+{{{
+    acl_rights_default = u'EditorGroup:read,write,delete,revert All:read'
+}}}
+
+
+Of course you can also use the group in on-page ACLs:
+
+{{{
+#acl EditorGroup:read,write,delete,revert All:read'
+}}}
+
+=== Protecting them ===
+If your default ACL allows writing for everyone, it is a good idea to protect critical group definition pages with some more restrictive ACL.
+
+E.g. on a group definition page `AdminGroup`:
+{{{
+#acl AdminGroup:read,write,revert All:read
+#format wiki
+Members of this group will get admin rights. If you think you should be in this group, contact one of its members to add you.
+ * SomeAdmin
+ * AnotherAdmin
+}}}
+
+As you see: only members of this group may write to the group definition page (and of course everyone who gets write rights from acl_rights_before in the wiki config).
+
+=== Using groups within groups ===
+You can also add names of other groups as group members, that is the same as including all their members directly.
+
+== Other ways to define groups / access group definitions ==
+!MoinMoin can also use group definitions from other sources, but this needs to be configured in your wiki config. See `groups` on HelpOnConfiguration.

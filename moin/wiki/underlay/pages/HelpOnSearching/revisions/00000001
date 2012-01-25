@@ -1,0 +1,48 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+
+= Search Queries =
+
+The MoinMoin search engine is capable of using regex and other operators in the search input fields.
+
+Additionally, the same search patterns are allowed as parameters in various search macros, such as for the {{{FullSearch}}}, {{{TitleSearch}}}, {{{FullSearchCached}}}, and {{{PageList}}} macros (see also HelpOnMacros).
+
+
+||<tablewidth="100%" width="25%" rowbgcolor="#ffffcc"> '''Operator''' || '''Description'''  ||
+|| (space between keywords) || Several search terms separated by white space. By default, terms are connected by conjunction - only pages containing all search term are returned. <<BR>> Double or single quotes may be used to include white space within search terms (phrase search), to search for the quotes themselves either quote them in the other type of quote or double them within a quoted string. ||
+|| `-TERM` || a minus (-) before a search term will exclude any pages containing that term from the results. ||
+|| `regex:TERM` ||  treated as a regular expression.  !MoinMoin follows Python regex rules (see [[http://docs.python.org/lib/re-syntax.html]] for more info) ||
+|| `title:TERM` || searches in pages whose titles match TERM. <<BR>> Normal search terms do search the titles, too. Matches in titles get more weight than matches in pages. ||
+|| {{{case:TERM}}} || searches case sensitive. ||
+|| {{{linkto:TERM}}} || searches for links to TERM. ||
+|| {{{language:LANG-ISO-CODE}}} || searches for pages written in a given language ISO code, e.g. en, de ||
+|| {{{category:CategorySomething}}} || searches for pages belonging to Category``Something ||
+|| {{{mimetype:TYPE}}} || searches for pages and attachments with mimetype TYPE, e.g. image/png <<BR>> /!\ {{{mimetype:}}} search has limited support for the builtin search (only pages have a mimetype - `text/<format>`) ||
+|| {{{domain:TERM}}} || searches for pages in a domain like underlay or system (for system pages) ||
+|| {{{title:}}}, {{{regex:}}}, {{{linkto:}}} and {{{case:}}} || May be used in combination in one search term. <<BR>> These modifiers may be abbreviated to any length: e.g. {{{re:}}}, {{{t:}}}, {{{reg:}}}, {{{cas:}}}, {{{l:}}} <<BR>> If you want to use multiple prefixes, you have to concatenate them like this: `t:re:TERM` <<BR>> If used, the `-` must be put before any other modifiers ||
+|| `OR` || operator has a lower precedence than the implicit AND (e.g., `car diesel or gas` will find any page containing both "car" and "diesel", but will also hit on pages containing "gas", even if "car" is not on the page.) ||
+|| `(` and `)` || Parentheses can be used for grouping. ||
+
+== Examples ==
+
+||<tablewidth="100%" width="25%" rowbgcolor="#ffffcc"> '''Example''' || '''Description'''  ||
+|| {{{title:Help macro}}} || searches for help pages that contain the word "macro". ||
+|| {{{apple (computer or "operating system")}}} || searches for pages containing the word "apple" and at least one of "computer" or "operating system".||
+|| {{{windows winamp or linux xmms}}} || searches for pages containing both "windows" and "winamp", and also for pages containing both "linux" and "xmms". ||
+|| {{{"is text"}}} || Will match both "th'''is text'''" and "'''is text'''s". Quotes are used only to include whitespace. ||
+|| {{{linkto:WindowsPage title:Linux}}} || searches for pages that have "Linux" in the page name and that link to !WindowsPage||
+|| {{{r:\bdog\b}}} || searches for the word "dog" and ''will not'' find the word "doggy". ||
+|| {{{help -domain:system}}} || search for pages containing the word "help" but which are not system pages ||
+|| {{{category:CategoryHomepage title:thomas}}} || search for pages in CategoryHomepage with the word "thomas" in the title (user homepages of all persons named Thomas) ||
+
+
+== Xapian ==
+
+Xapian is an optional indexing search engine that indexes your wiki for much faster searching performance.
+
+See HelpOnXapian for more information on Xapian and its setup.

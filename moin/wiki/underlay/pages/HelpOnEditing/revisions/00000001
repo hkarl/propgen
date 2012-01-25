@@ -1,0 +1,98 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+
+= Editing =
+
+<<TableOfContents>>
+
+== Page Editing ==
+
+Names of pages may either {{{LookLikeThis}}} (that is called a WikiName) or {{{[[Like this]]}}} (a so-called free link). If you write a word that LookLikeThis, it will be automatically turned into a link. More details about this you find on HelpForBeginners.
+
+The following pages describe the elements (wiki markup) you can use to get special formatting effects:
+ * HelpOnFormatting - general text formatting rules
+ * HelpOnLinking - external hyperlinks and inline images
+ * HelpOnHeadlines - section headings
+ * HelpOnRules - horizontal rules
+ * HelpOnLists - lists and indented sections
+ * HelpOnTables - tables
+ * HelpOnDictionaries - dictionaries
+ * HelpOnSmileys - how to insert a :)
+ * HelpOnMacros - Macros allow you to use dynamic elements in a page
+ * HelpOnParsers - data processing parsers
+ * HelpOnProcessingInstructions - how to influence page formatting 
+ * HelpOnVariables - how variables work
+ * HelpOnXmlPages - how to store pages with XML content and process them via XSLT
+ * HelpOnEditLocks - how to behave correctly when edit locking is activated
+ * HelpOnCategories - how to group wiki pages
+ * /SubPages - how to group together related information
+ * HelpOnAdmonitions - how to put a warning, a note, a tip, mark caution
+
+To experiment with wiki markup, go to the WikiSandBox and then click on "Edit''''''Text" at the bottom of the page. Use your browser's "open a new window with this link" feature on the word "WikiSandBox", so you can keep the help pages open side-by-side to the editing window.
+
+== Automatic Backup of Drafts ==
+## Advanced
+
+Every time you are in the editor and use the "Preview", "Spell Check", "Cancel" or "Save Changes" buttons, moin saves a draft copy of your work internally. Use preview often!
+
+If you hit "cancel" accidentally, your machine crashes, or the browser window was accidentally closed, then the automatic backup of your draft may be easily recovered.
+
+To recover that draft, you simply edit that page again. If there is a draft, an alert message will be in the message box and a "load draft" button will be present.  Clicking the "load draft" will load your saved draft into the editor box replacing the current revision already loaded. You can continue editing the loaded draft, but this time try to save it at the end. :)
+
+{{attachment:load_draft.png}}
+
+
+(!) Don't use the "preview", "spell check", "save changes" or "cancel" buttons on that page before "load draft" or you will overwrite your old draft with a new one.
+
+If you successfully save a page, the internal draft copy of it is not needed any more and will be deleted.
+
+
+== Open Editor On Double Click ==
+
+When viewing a page that the user is authorized to edit, the editor can be opened by double-clicking on the line to be edited.  If the text editor was selected in user preferences, the editing textarea will be scrolled and the caret positioned on or near the line that was double-clicked. If the GUI editor is selected, the GUI editor will open but the editing area will not be scrolled.
+
+=== Setup ===
+
+To use this feature, logged-in users must have the ''Open Editor On Double Click'' option selected in their user preferences.  For the auto-scrolling feature, select ''text'' as the ''Editor Preference''.  
+
+Users who are not logged-in will have the open editor on double-click option if their local wiki has the option `user_checkbox_defaults = {'edit_on_doubleclick': 1}` set in wikconfig.py or farmconfig.py.  As of MoinMoin 1.9.3 this option is set on by default.
+
+=== Where to Double-Click ===
+
+Double-clicking works on the edit draft preview page as well as on the wiki page view.
+
+In general, double-click directly on the text, image, table, or list that requires editing.  One exception to this rule is the editing of hyperlinks. To edit a hyperlink, double-click on nearby plain text or on the blank space directly to the right of the hyperlink.
+
+There are double-click dead spaces within the wiki page where double-clicking will have no effect.  These areas include:
+ * blank space between (above and below) paragraphs, images, tables, etc.
+ * theme headers and footers
+ * page margins (blank space in far left and right sides)
+ * immutable pages (pages you are not allowed ot edit)
+ * pages using the Creole or RST formatters
+
+=== Scrolling Accuracy ===
+
+Positioning of the caret is based upon the line number of the text and data in the raw wiki markup.  The caret can not be positioned on the exact character or word that was double-clicked.
+
+In general, the best results are presently obtained with current versions of the Firefox, Chrome, and Safari browsers.  Most of the time these browsers will scroll the textarea so the line or paragraph that was double-clicked will be near the top of the edit textarea and the caret will be positioned on the left margin.
+
+The IE and Opera browsers will scroll the textarea and place the caret in or near the selected line or paragraph.  IE will scroll the textarea so the target is near the bottom of the textarea. Short lines of text tend to increase the vertical error in placing the caret.
+
+=== Workarounds ===
+
+==== Editor Size of 0 ====
+
+If the editor size in user preferences is set to 0, then the editor textarea size will expand to encompass the entire document and the window may not scroll so the caret is visible.  Pressing the keyboard right-arrow will scroll the window.
+
+==== Opera Displays Context Menu on Double-Click ====
+
+To turn off this Opera feature, click on Settings > Preferences > Advanced > Toolbars and uncheck the box labeled ''Double-click text to display context menu''.
+
+==== Caret Misses Target Line ====
+
+If preformatted text is enclosed in triple curly braces, double-clicking on any line within a block of preformatted text will position the caret on the last line.  

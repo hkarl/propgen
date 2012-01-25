@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
 
-import settings 
 
 ###########################################
 
@@ -15,6 +14,8 @@ def pullFactory (configs, verbose=False):
 
     if wikitype=="moinmoin-local":
         pullInstance = PullMoinmoinLocal (configs, verbose)
+    elif wikitype=="moinmoin":
+        pullInstance = PullMoinmoin (configs, verbose)
     else:
         print "unknown wiki type!"
         exit 
@@ -39,13 +40,59 @@ class PullWiki:
         exit
         
 
+###########################################
+# pull from anything based on mechanize
+# to be subclassed further for the particular wiki type
 
+class PullWikiMechanize(PullWiki):
+    """A class to capture the mechanize-modul based login to a wiki.
+    Needs to be subclassed further to capture idiosyncracies of different wiki types."""
+
+    def __init__ (self, configs, verbose=False):
+
+        if verbose:
+            print "Trying to setup mechanize"
+
+        self.baseURL = configs.get('Wiki', 'baseURL')
+        self.wikiuser = configs.get('Wiki', 'wikiuser')
+        self.wikipassword = configs.get('Wiki', 'wikipassword')
+
+        
+        import mechanize
+        self.br=mechanize.Browser()
+        self.br.set_handle_robots(False)
+        self.setProxyValues (configs, verbose)
+        
+    def setProxyValues (self, configs, verbose=False):
+
+        if verbose:
+            print "setting proxy values is known not to work reliably, not implemented yet!"
+
+        
 ###########################################
 # pull page from twiki 
 
 ###########################################
-# pull page from moinmoin, remotely 
+# pull page from moinmoin, remotely
 
+class PullMoinmoin(PullWikiMechanize):
+
+    ## def __init__ (self, configs, verbose=False):
+    ##     PullWikiMechanize.__init__(self, configs, verbose)
+    ##     print "init in PullMoinmoin"
+        
+    def getPage (self, page, verbose=False):
+
+        import mechanize
+        
+        targetURL = self.baseURL + page + "?action=raw"
+        print "trying to load: " + targetURL
+        self.br.open(targetURL)
+        response = self.br.response().read()
+        print response 
+
+        return None
+    
 ###########################################
 # pull page from moinmoin, locally  
 
@@ -96,13 +143,21 @@ if __name__ == "__main__":
 
 
     ### try to read the settings file:
+    import settings 
+
     config = settings.getSettings(options.settingsfile)
     if options.verbose:
         print config
     
     pullInstance = pullFactory (config, options.verbose)
 
-    pullInstance.getPage('TestProject', verbose=True)
-    pullInstance.getPage('LanguageSetup', verbose=True)
+    if options.page:
+        res = pullInstance.getPage(options.page)
+    else:
+        res = pullInstance.getPage(config.get('Wiki','projectPage'))
+
+    if res:
+        print res.encode('utf-8')
+    
 
     

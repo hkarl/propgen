@@ -1,0 +1,150 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+= Linking Reference =
+<<TableOfContents>>
+There are two fundamental linking types on !MoinMoin.
+
+ * Brackets (`[[  ]]`) are used to ''link'' to a target (a local wiki page, an external URL, a file, etc).
+ * Braces (`{{  }}`) are used to ''embed'' (transclude/include/show) some target (often an image, but can be text).
+
+Targets are very flexible in that they support virtually any style you can with regular HTML (relative or absolute paths, anchors, etc).
+
+== Linking ==
+Properly-formed URLs (i.e. {{{http://example.net}}}), InterWiki pages, email addresses, and CamelCase pagenames are automatically recognized as targets even without using brackets.
+||<tablewidth="100%"rowbgcolor="#ffffcc"25%>'''Description''' ||'''Syntax''' ||'''Comment''' ||
+||internal link ||`WikiName` ||CamelCase page name ||
+||internal free link ||`[[free link]]` ||any page name ||
+||internal link to sub page ||`/SubPage` or `[[/sub page]]` || ||
+||internal link to sister page ||`../SisterPage` or `[[../SisterPage|link text]]` || ||
+||internal link with linktext ||`[[SomePage|some Page]]` || ||
+||internal link to a section ||`[[SomePage#subsection|subsection of Some Page]]` || See [[#Anchors]] section below ||
+||internal link with linktext & parameter ||`[[SomePage|some Page|target="_blank"]]` ||see below for parameter configurations ||
+||internal link using a graphic as button ||`[[SomePage|{{attachment:imagefile.png}}]]` || ||
+||internal link using graphic button, open new window ||`[[SomePage|{{attachment:samplegraphic.png}}|target="_blank"]]` || ||
+||link to attachment ||`[[attachment:image.png]]` ||links to attachment image ||
+||link to attachment of another page ||`[[attachment:SomePage/image.png]]` ||links to image attached to a different page ||
+||interwiki link ||`Otherwiki:somepage` ||requires uppercase wikiname ||
+||interwiki free link ||`[[otherwiki:somepage]]` ||any wikiname in the map works ||
+||external link ||`http://example.net/` || ||
+||external link with linktext ||`[[http://example.net/|example site]]` || ||
+||external link with linktext, open new window ||`[[http://example.net/|example site|target="_blank"]]` ||see below for parameter configurations ||
+||external link using a graphic as button ||`[[http://example.net/|{{attachment:samplegraphic.png}}]]` || ||
+||external link using graphic button, open new window ||`[[http://example.net/|{{attachment:samplegraphic.png}}|target="_blank"]]` || ||
+||border of internal link ||{{{WikiName``s}}} ||2 backticks - for when a !WikiName ends in the middle of a word ||
+||avoid an internal link ||`!WikiName` ||configurable function ||
+
+<<BR>>
+
+== Embedding ==
+Embedding/Transclusion is used if you want to include an external file within your wiki.  Most commonly, this will be a graphic. But it can also be a text file or any other file that the wiki understands (for example, you can provide link for downloading ''and'' display the contents of that file on the page!).
+
+''see HelpOnImages for examples.''
+
+||<tablewidth="100%"rowbgcolor="#ffffcc"25%>'''Description''' ||'''Syntax''' ||'''Comment''' ||
+||embed an attached graphics ||`{{attachment:image.png}}` ||show attached image file `image.png` ||
+||embed an attached graphics and give alt text ||`{{attachment:image.png|alt text}}` ||show attached image file `image.png` with alternative text saying `alt text` (recommended for accessibility) ||
+||embed an attached graphics and define alignment ||`{{attachment:image.png|alt text|align="position"}}` ||show attached image file `image.png` with alternative text `alt text` and  aligned to ''position'', where ''position'' can be one of '''top''', '''middle''', '''bottom''', '''right''' or '''left''' (do not omit alt text) ||
+||embed an attached graphics and resize it ||`{{attachment:image.png|alt text|width=100 height=150}}` ||show attached image file `image.png` with alternative text `alt text` and resize it to 100px width and 150px high (do not omit alt text) ||
+||embed an external graphics ||`{{http://example.net/image.png}}` ||show target image inline ||
+||embed an external graphics and give alt text ||`{{http://example.net/image.png|alt text}}` ||show target image inline with alternative text saying `alt text` (recommended for accessibility) ||
+||embed an external graphics and define alignment ||`{{http://example.net/image.png|alt text|align="position"}}` ||show target image inline with alternative text `alt text` and aligned to ''position'', where ''position'' can be one of '''top''', '''middle''', '''bottom''', '''right''', or '''left''' (do not omit alt text) ||
+||embed an external graphics and resize it ||`{{http://example.net/image.png|alt text|width=100}}` ||show target image inline with alternative text `alt text` and resize it to 100px width (do not omit alt text) ||
+
+
+== Explanations ==
+=== URLs ===
+If you enter URLs into normal text, there is the problem of detecting what belongs to the URL and what not. There are four ways to force the ending of an URL:
+
+ * put a space after the URL,
+ * use the Wiki:SixSingleQuotes escaping,
+ * use the double bracketed URL syntax.
+
+The supported URL schemes are: `http`, `https`, `ftp`, `file` and some others. The administrator of your wiki can extend the supported schemes by using the {{{url_schemas}}} variable (see HelpOnConfiguration).
+
+In addition to the standard schemes, there are MoinMoin-specific ones: `attachment` and `drawing`, these are related to file attachments and are explained on HelpOnActions/AttachFile.
+
+=== Spaces ===
+You can use double-brackets (or double-braces) syntax to link to a page or file name with spaces. This will even work for interwiki links, provided the target wiki understands standard url quoting (spaces will become {{{%20}}}).
+
+However, best practice is to try to avoid spaces in URLs, as you may find it's more difficult to work with that URL. For example, if you try copying and emailing that URL link, the receiver may have difficulty landing on the page you specified.
+
+<<Anchor(Anchors)>>
+=== Anchors ===
+To ''insert'' anchors into a page you need the ''Anchor'' macro (see HelpOnMacros): `<<Anchor(anchorname)>>`, where "anchorname" is the actual identifier of the anchor.
+
+To link to an anchor on the same wiki page use `[[#anchorname]]` or `[[#anchorname|label text]]`.
+
+To link to an anchor on another wiki page write `[[PageName#anchorname]]` or `[[PageName#anchorname|label text]]`, where "PageName" is the name of the other page and "anchorname" is the identifier of the anchor on that page.
+
+
+
+=== Preventing Automatically Generated Links ===
+
+To keep a word like PageName from automatically being turned into a link, 
+you can suppress CamelCase linking by putting an exclamation mark ({{{!}}}) before the word, i.e. `!PageName`. This method will not interfere with most searches (the exception is certain quoted phrases and regular expressions). 
+
+Alternatively, you can insert two back-ticks {{{Page``Name}}}.  However, the problem with doing this is that it will prevent a simple search for the word "!PageName" from matching {{{Page``Name}}} in a page, due to the inserted characters.
+
+To prevent automatic URL linking, use either {{{`http://...`}}} or `{{{http://...}}}`.
+
+
+
+=== Using link parameters ===
+Sometimes you may want to give additional parameters for a link, influencing how it looks like, how it behaves and how exactly it links to the target - this is what the '''params''' part of `[[target|text|params]]` is for.
+
+e.g. if you want a direct download link you want to enter as `param &do=get` `[[attachment:HelpOnImages/pineapple.jpg|a pineapple|&do=get]]` [[attachment:HelpOnImages/pineapple.jpg|a pineapple|&do=get]]
+
+==== Setting attributes of the <a> tag ====
+Available attributes: class, title, target, accesskey (see some html reference if you want to know what they mean).
+
+Example: `[[http://moinmo.in/|MoinMoin Wiki|class=green dotted,accesskey=1]]`
+
+Renders as: [[http://moinmo.in/|MoinMoin Wiki|class=green dotted,accesskey=1]]
+
+(!) Pressing the access key should jump to that link target (for Firefox 2.x and the example above it is Alt-Shift-1).
+
+==== Creating a query string for the target URL ====
+What is possible for this depends on the target site.
+
+Example: `[[MoinMoin:MoinMoinWiki|MoinMoin Wiki|&action=diff,&rev1=1,&rev2=2]]`
+
+Renders as: [[MoinMoin:MoinMoinWiki?rev1=1&action=diff&rev2=2|MoinMoin Wiki]]
+
+(!) Please remember:
+
+ * If you want to give a key=value item for the query string, don't forget the ampersand (&).
+ * Giving query string items does not work when you give a URL as target (but for links to pages or attachments).
+ * If you give a URL as target, you can include a query string directly in that target, no need for params.
+ * You don't need to encode and url_quote the query string stuff, moin does this automatically for you.
+
+=== Images ===
+You may use
+
+{{{
+{{attachment:imagefile.png|text describing image|width=100}}
+}}}
+to have the attached file `imagefile.png` displayed with a width of 100px; the graphics' height will be reduced/ enlarged proportionally (e.g. if `imagefile.png` was actually 200px width and 400px heigh, height would be reduced in this example to 200px). You may also use
+
+{{{
+{{attachment:imagefile.png|text describing image|height=100}}
+}}}
+to have the attached file `imagefile.png` displayed with a height of 100px, and the graphics' width will be reduced/ enlarged proportionally. Use
+
+{{{
+{{attachment:imagefile.png|text describing image|width=100 height=150}}
+}}}
+to have the attached file `imagefile.png` displayed with a width of 100px and a height of 150px. Please do not omit the alternative text in neither case.
+
+Note this does not alter the attached file itself, in only makes the browser scale the image down/ up to the value given while displaying it.
+
+==== Thumbnails ====
+You may combine the transclusion with the linking syntax, leading to an image displayed in reduced size that links to itself in actual size, e.g.
+
+{{{
+[[attachment:imagefile.png|{{attachment:imagefile.png|text describing image|width=100}}]]
+}}}

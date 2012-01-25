@@ -1,0 +1,131 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+
+= Formatting =
+<<TableOfContents>>
+
+This page describes using the MoinMoin wiki syntax (which is the default syntax for a MoinMoin based wiki, but not the only one).
+For other parsers/syntaxes take a look at HelpOnParsers.
+
+== General ==
+
+ * Use one or more blank lines to separate paragraphs.
+ * Use `<<BR>>` [[HelpOnMacros|macro]] to insert linebreaks into paragraphs.
+
+== Typeface ==
+
+## Note that in some places we've used backticks here to "escape" the Wiki markup.
+
+||<rowbgcolor="#ffffcc">''' Name/Sample''' || ''' Markup '''   || ''' Notes '''          ||
+||  ''italic''     || `''italic''`       || Double single quotes.  ||
+||  '''bold'''     || `'''bold'''`       || Triple single quotes.  ||
+||  `monospace`    || {{{`monospace`}}}  || Single backticks for inline monospaced text. If possible, try to avoid long monospaced texts, especially inside tables: sometimes they are not properly wrapped by the browsers. Wiki markup is ignored. ||
+||  `monospace`    || `{{{monospace}}}`  || Same as backticks. Placing the braces in separate lines produces a [[#codeexample|code block]]. ||
+||  __underline__  || `__underline__`    ||                         ||
+||  ^super^script  || `^super^script`    ||                         ||
+||  ,,sub,,script  || `,,sub,,script`    ||                         ||
+||  ~-smaller-~    || `~-smaller-~`      ||                         ||
+||  ~+larger+~     || `~+larger+~`       ||                         ||
+|| --(stroke)--    || `--(stroke)--`     ||                         ||
+
+== Colorize text  ==
+
+Colorizing is enabled in tables without additional macros (see HelpOnTables). 
+
+##Or install the macro [[http://moinmo.in/MacroMarket/Color2|Color2]].
+
+== Colorize code (Syntax Highlighting) ==
+
+There are several ways to highlight code:
+ 1. Start a special code block containing the parser's name: `{{{#!parsername`
+ 1. Embed a file attachment bearing a supported extension (such as `".py"`) with `{{attachment:test.py}}`
+ 1. Begin a page with the [[HelpOnProcessingInstructions|format processing instruction]]: `#format parsername`
+
+[[#SyntaxHighlighting|Example.]]
+
+!MoinMoin comes with a special parser called [[HelpOnParsers#The_highlight_parser|highlight]] that is based on [[http://pygments.org/|Pygments]] internally.
+
+You can use it to highlight many sorts of programming source code, configuration files and other sorts of text files used on computers.
+
+== Examples ==
+
+=== Mixing ''italic'' and '''bold''' ===
+<<Anchor(italic_bold_example)>>
+
+## Note that in some places we've used backticks here to "escape" the Wiki markup.
+
+||<rowbgcolor="#ffffcc"> '''Markup''' || '''Result'''                    ||
+|| `'''''Mix''' at the beginning''`   ||  '''''Mix''' at the beginning''  ||
+|| `'''''Mix'' at the beginning'''`   ||  '''''Mix'' at the beginning'''  ||
+|| `'''Mix at the ''end'''''`         ||  '''Mix at the ''end'''''        ||
+|| `''Mix at the '''end'''''`         ||  ''Mix at the '''end'''''        ||
+
+
+
+=== Superscript & Subscript ===
+
+{{{
+You might recall ''a''^2^ `+` ''b''^2^ `=` ''c''^2^ from your math lessons, unless your head is filled with H,,2,,O.
+}}}
+
+Result:
+
+You might recall ''a''^2^ `+` ''b''^2^ `=` ''c''^2^ from your math lessons, unless your head is filled with H,,2,,O.
+
+
+<<Anchor(codeexample)>>
+=== Code blocks ===
+
+Markup:
+{{{{
+{{{
+10 PRINT "Hello, world!"
+20 GOTO 10
+}}}
+}}}}
+
+Result:
+{{{
+10 PRINT "Hello, world!"
+20 GOTO 10
+}}}
+
+==== Nesting curly braces ====
+
+As pointed out on HelpOnParsers, you can nest multiple levels of curly braces:
+
+Markup:
+{{{{{
+{{{{ 
+This is a preformatted text block.
+{{{ with curly braces inside }}}
+}}}}
+}}}}}
+
+Result:
+{{{{
+This is a preformatted text block.
+{{{ with curly braces inside }}}
+}}}}
+
+<<Anchor(SyntaxHighlighting)>>
+==== Colorized Code ====
+
+Markup:
+{{{{
+{{{#!highlight python
+from colors import palette
+palette.colorize('python')
+}}}
+}}}}
+
+Result:
+{{{#!highlight python
+from colors import palette
+palette.colorize('python')
+}}}

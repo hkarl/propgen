@@ -1,0 +1,148 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+= Navigation =
+<<TableOfContents>>
+
+/!\ This help is based on the layout of the MoinMoin '''modernized''' theme. If the '''modernized''' theme is not your current theme, the positions and labels of navigation controls may be slightly different. However, the functions of the individual controls will be the same.
+
+== Screen Layout ==
+
+The screen layout contains the following parts (from top to bottom):
+
+ 1. Page header
+ 1. Navigation bar, a collection of tabs for quick links
+ 1. Dynamic message box
+ 1. Actions toolbar
+ 1. Canvas for page rendering
+ 1. Actions toolbar, same as part 4
+ 1. Page bottom
+
+The first four parts are the most important and will be introduced below.
+
+=== Page Header ===
+
+This part contains the following elements:
+
+ * Site logo (optional): it is also a link to the front page (home).
+ * User login:
+  * not logged in: offers a link to log in
+  * logged in: shows your user name (links to your home page), provides a link to user preferences (Settings) and a logout link.
+ * Search bar: allows you to search this site. The default button (you get it by hitting <ENTER>) does a ''title'' search. If you want to do a full text search, you need to click on the other button.
+ * Page path: shows the path of the page. Clicking on the page title link will show every page that refers this page. If it is a subpage, you can click on the parent page to go up.
+ * Page trail: lists the last five pages visited, so you can jump back several pages easily. You have to enable '''<<GetText(Show page trail)>>''' to see it.
+
+=== Navigation Bar ===
+
+This part is a collection of tabs for quick links. By default, there are three tabs:
+
+ * RecentChanges, links to a page to show recent modifications of the wiki
+ * FindPage, links to a page offering search and index functions
+ * HelpContents, links to main help page
+
+Besides the default tabs, you can also add your favourite pages to this bar by clicking '''<<GetText(Add Link)>>''' on each page or editing '''<<GetText(Quick links)>>''' list in your user preferences.
+
+=== Dynamic Message Box ===
+
+This box is displayed when there are messages. You can click '''<<GetText(Clear message)>>''' to close it or it will be closed automatically when you move to another page.
+
+=== Actions Toolbar ===
+
+This part is the links for the most often used functions:
+
+ * '''<<GetText(Edit)>>''', allows you to edit the page
+  * Depends on your user preferences, it may be '''<<GetText(Edit (Text))>>''' and '''<<GetText(Edit (GUI))>>''' to let you choose which editor to use
+  * If you have no right to edit this page, '''<<GetText(Immutable Page)>>''' is displayed instead
+ * '''<<GetText(Comments)>>''', toggles visibility of comments (appears only when the current page has comments, see HelpOnComments)
+ * '''<<GetText(Info)>>''', shows meta information about the page, especially the full version history
+  * '''Show "<<GetText(Revision History)>>"''', shows revision history of the page
+  * '''Show "<<GetText(General Page Infos)>>"''', shows general information of the page
+  * '''Show chart "<<GetText(Page hits and edits)>>"''', shows page hits and edits count
+ * '''<<GetText(Subscribe)>>'''/'''<<GetText(Unsubscribe)>>''', allows to subscribe or unsubscribe to email notifications for the current page
+ * '''<<GetText(Add Link)>>'''/'''<<GetText(Remove Link)>>''', allows to add/remove your favourite pages to/from navigation bar
+ * '''<<GetText(Attachments)>>''', allows to manipulate attachments of the page
+ * '''<<GetText(More Actions:)>>''', contains the following common functions:
+  * '''<<GetText(Raw Text)>>''', shows the source code of the current page
+  * '''<<GetText(Print View)>>''', shows a printable version of the page without the header or footer
+  * '''<<GetText(Delete Cache)>>''', force the page to be recompiled
+  * '''<<GetText(Check Spelling)>>''', invokes spelling checker
+  * '''<<GetText(Like Pages)>>''', prints a list of pages with titles similar to this page
+  * '''<<GetText(Local Site Map)>>''', prints a list of pages that are referred from this page
+  * '''<<GetText(Rename Page)>>''', allows to rename this page
+  * '''<<GetText(Delete Page)>>''', allows to delete this page
+  * Any custom actions you have installed.
+
+(!) This toolbar is duplicated at the page bottom for convenience.
+
+== Icon ==
+You can add any image of your theme img folder by the Icon [[HelpOnMacros|macro]].
+
+||<rowbgcolor="#ffffcc"> '''Example'''  || '''Result'''                   ||
+|| `<<Icon(admon-caution.png)>>`        || <<Icon(admon-caution.png)>>    ||
+|| `<<Icon(admon-important.png)>>`      || <<Icon(admon-important.png)>>  ||
+|| `<<Icon(admon-note.png)>>`           || <<Icon(admon-note.png)>>       ||
+|| `<<Icon(admon-tip.png)>>`            || <<Icon(admon-tip.png)>>        ||
+|| `<<Icon(admon-warning.png)>>`        || <<Icon(admon-warning.png)>>    ||
+|| `<<Icon(alert.png)>>`                || <<Icon(alert.png)>>            ||
+|| `<<Icon(angry.png)>>`                || <<Icon(angry.png)>>            ||
+|| `<<Icon(attach.png)>>`               || <<Icon(attach.png)>>           ||
+|| `<<Icon(attention.png)>>`            || <<Icon(attention.png)>>        ||
+|| `<<Icon(biggrin.png)>>`              || <<Icon(biggrin.png)>>          ||
+|| `<<Icon(checkmark.png)>>`            || <<Icon(checkmark.png)>>        ||
+|| `<<Icon(devil.png)>>`                || <<Icon(devil.png)>>            ||
+|| `<<Icon(draft.png)>>`                || <<Icon(draft.png)>>            ||
+|| `<<Icon(frown.png)>>`                || <<Icon(frown.png)>>            ||
+|| `<<Icon(icon-error.png)>>`           || <<Icon(icon-error.png)>>       ||
+|| `<<Icon(icon-info.png)>>`            || <<Icon(icon-info.png)>>        ||
+|| `<<Icon(idea.png)>>`                 || <<Icon(idea.png)>>             ||
+|| `<<Icon(moin-attach.png)>>`          || <<Icon(moin-attach.png)>>      ||
+|| `<<Icon(moin-bottom.png)>>`          || <<Icon(moin-bottom.png)>>      ||
+|| `<<Icon(moin-conflict.png)>>`        || <<Icon(moin-conflict.png)>>    ||
+|| `<<Icon(moin-deleted.png)>>`         || <<Icon(moin-deleted.png)>>     ||
+|| `<<Icon(moin-diff.png)>>`            || <<Icon(moin-diff.png)>>        ||
+|| `<<Icon(moin-edit.png)>>`            || <<Icon(moin-edit.png)>>        ||
+|| `<<Icon(moin-email.png)>>`           || <<Icon(moin-email.png)>>       ||
+|| `<<Icon(moin-ftp.png)>>`             || <<Icon(moin-ftp.png)>>         ||
+|| `<<Icon(moin-help.png)>>`            || <<Icon(moin-help.png)>>        ||
+|| `<<Icon(moin-home.png)>>`            || <<Icon(moin-home.png)>>        ||
+|| `<<Icon(moin-icon.png)>>`            || <<Icon(moin-icon.png)>>        ||
+|| `<<Icon(moin-info.png)>>`            || <<Icon(moin-info.png)>>        ||
+|| `<<Icon(moin-inter.png)>>`           || <<Icon(moin-inter.png)>>       ||
+|| `<<Icon(moin-new.png)>>`             || <<Icon(moin-new.png)>>         ||
+|| `<<Icon(moin-news.png)>>`            || <<Icon(moin-news.png)>>        ||
+|| `<<Icon(moin-parent.png)>>`          || <<Icon(moin-parent.png)>>      ||
+|| `<<Icon(moin-print.png)>>`           || <<Icon(moin-print.png)>>       ||
+|| `<<Icon(moin-raw.png)>>`             || <<Icon(moin-raw.png)>>         ||
+|| `<<Icon(moin-renamed.png)>>`         || <<Icon(moin-renamed.png)>>     ||
+|| `<<Icon(moin-rss.png)>>`             || <<Icon(moin-rss.png)>>         ||
+|| `<<Icon(moin-search.png)>>`          || <<Icon(moin-search.png)>>      ||
+|| `<<Icon(moin-show.png)>>`            || <<Icon(moin-show.png)>>        ||
+|| `<<Icon(moin-subscribe.png)>>`       || <<Icon(moin-subscribe.png)>>   ||
+|| `<<Icon(moin-telnet.png)>>`          || <<Icon(moin-telnet.png)>>      ||
+|| `<<Icon(moin-top.png)>>`             || <<Icon(moin-top.png)>>         ||
+|| `<<Icon(moin-unsubscribe.png)>>`     || <<Icon(moin-unsubscribe.png)>> ||
+|| `<<Icon(moin-updated.png)>>`         || <<Icon(moin-updated.png)>>     ||
+|| `<<Icon(moin-up.png)>>`              || <<Icon(moin-up.png)>>          ||
+|| `<<Icon(moin-www.png)>>`             || <<Icon(moin-www.png)>>         ||
+|| `<<Icon(moin-xml2.png)>>`            || <<Icon(moin-xml2.png)>>        ||
+|| `<<Icon(moin-xml.png)>>`             || <<Icon(moin-xml.png)>>         ||
+|| `<<Icon(ohwell.png)>>`               || <<Icon(ohwell.png)>>           ||
+|| `<<Icon(prio1.png)>>`                || <<Icon(prio1.png)>>            ||
+|| `<<Icon(prio2.png)>>`                || <<Icon(prio2.png)>>            ||
+|| `<<Icon(prio3.png)>>`                || <<Icon(prio3.png)>>            ||
+|| `<<Icon(PythonPowered.png)>>`        || <<Icon(PythonPowered.png)>>    ||
+|| `<<Icon(redface.png)>>`              || <<Icon(redface.png)>>          ||
+|| `<<Icon(sad.png)>>`                  || <<Icon(sad.png)>>              ||
+|| `<<Icon(smile2.png)>>`               || <<Icon(smile2.png)>>           ||
+|| `<<Icon(smile3.png)>>`               || <<Icon(smile3.png)>>           ||
+|| `<<Icon(smile4.png)>>`               || <<Icon(smile4.png)>>           ||
+|| `<<Icon(smile.png)>>`                || <<Icon(smile.png)>>            ||
+|| `<<Icon(star_off.png)>>`             || <<Icon(star_off.png)>>         ||
+|| `<<Icon(star_on.png)>>`              || <<Icon(star_on.png)>>          ||
+|| `<<Icon(thumbs-up.png)>>`            || <<Icon(thumbs-up.png)>>        ||
+|| `<<Icon(tired.png)>>`                || <<Icon(tired.png)>>            ||
+|| `<<Icon(tongue.png)>>`               || <<Icon(tongue.png)>>           ||

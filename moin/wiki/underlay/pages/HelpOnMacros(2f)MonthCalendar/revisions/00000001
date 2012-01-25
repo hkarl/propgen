@@ -1,0 +1,100 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:
+##master-date:
+#acl -All:write Default
+#format wiki
+#language en
+
+= MonthCalendar =
+<<TableOfContents>>
+
+This macro is for those who want to use MoinMoin as a Personal Information Manager and need a calendar wiki integration.
+
+== Usage ==
+
+`<<MonthCalendar(BasePage,year,month,monthoffset,monthoffset2,height6,anniversary,template)>>`
+
+||<rowbgcolor="#ffffcc"> '''Parameter name''' || '''Possible values'''   || '''Default value''' || '''Description''' ||
+|| !BasePage                                  || Page name               || current page        || Base page for calendar entry pages. ||
+|| year                                       || Integer number          || current year        || Year to display on calendar. ||
+|| month                                      || `1`..`12`               || current month       || Base month using for displaying calendar. See also `monthoffset`, `monthoffset2`. ||
+|| monthoffset                                || Integer number          || `0`                 || Offset added to month for displaying. ||
+|| monthoffset2                               || Integer number          || `0`                 || Offset added to month for navigation links (previous/next month/year). ||
+|| height6                                    || `0` or `1`              || `0`                 || When this parameter set to 1, calendar aligned at height of 6 lines. ||
+|| anniversary                                || `0` or `1`              || `0`                 || Year calendar (no year in page links). ||
+|| template                                   || Page name               || —                   || Template page used for calendar event pages creation. ||
+
+Each parameter can be empty and then defaults to currentpage or currentdate or monthoffset=0
+
+When an event is entered on a date, that date will be highlighted on the calendar, which you can also mouse over and get a javascript pop-up.
+To get a summary in that pop-up, put the summary in a heading 1 case, like {{{= Big Birthday Today! =}}}
+
+== Examples ==
+=== Show Single Month ===
+The simplest version looks like this: 
+||<bgcolor="#ffffcc"> '''Markup'''     ||<bgcolor="#ffffcc"> '''Result'''   ||<style="border:none; width:99%"> ||
+|| `<<MonthCalendar>>`                 || <<MonthCalendar>>                 ||<style="border:none; width:99%"> ||
+||||||<style="border:none; text-align:left"> <<BR>>The previous month's calendar for page "!OtherUser" looks like that: ||
+||<bgcolor="#ffffcc"> '''Markup'''     ||<bgcolor="#ffffcc"> '''Result'''   ||<style="border:none; width:99%"> ||
+|| `<<MonthCalendar(OtherUser,,,-1)>>` || <<MonthCalendar(OtherUser,,,-1)>> ||<style="border:none; width:99%"> ||
+||||||<style="border:none; text-align:left"> <<BR>>Calendar of Page !SampleUser, this year's December:  ||
+||<bgcolor="#ffffcc"> '''Markup'''     ||<bgcolor="#ffffcc"> '''Result'''   ||<style="border:none; width:99%"> ||
+|| `<<MonthCalendar(SampleUser,,12)>>` || <<MonthCalendar(SampleUser,,12)>> ||<style="border:none; width:99%"> ||
+||||||<style="border:none; text-align:left"> <<BR>>Calendar of current Page, this year's December: ||
+||<bgcolor="#ffffcc"> '''Markup'''     ||<bgcolor="#ffffcc"> '''Result'''   ||<style="border:none; width:99%"> ||
+|| `<<MonthCalendar(,,12)>>`           || <<MonthCalendar(,,12)>>           ||<style="border:none; width:99%"> ||
+||||||<style="border:none; text-align:left"> <<BR>>Calendar of December, 2001: ||
+||<bgcolor="#ffffcc"> '''Markup'''     ||<bgcolor="#ffffcc"> '''Result'''   ||<style="border:none; width:99%"> ||
+|| `<<MonthCalendar(,2001,12)>>`       || <<MonthCalendar(,2001,12)>>       ||<style="border:none; width:99%"> ||
+||||||<style="border:none; text-align:left"> <<BR>>Calendar of the month two months after December, 2001 (maybe doesn't make much sense, but is possible) ||
+||<bgcolor="#ffffcc"> '''Markup'''     ||<bgcolor="#ffffcc"> '''Result'''   ||<style="border:none; width:99%"> ||
+|| `<<MonthCalendar(,2001,12,+2)>>`    || <<MonthCalendar(,2001,12,+2)>>    ||<style="border:none; width:99%"> ||
+
+=== Entire Year Calendar ===
+Calendar of year 2002 (every month padded to height of 6):
+
+==== Markup ====
+{{{
+||||||||<bgcolor="#ffffcc"> '''Year 2002'''                                                             ||
+|| <<MonthCalendar(,2002,1,,,1)>>  || <<MonthCalendar(,2002,2,,,1)>>  ||<<MonthCalendar(,2002,3,,,1)>>  ||
+|| <<MonthCalendar(,2002,4,,,1)>>  || <<MonthCalendar(,2002,5,,,1)>>  ||<<MonthCalendar(,2002,6,,,1)>>  ||
+|| <<MonthCalendar(,2002,7,,,1)>>  || <<MonthCalendar(,2002,8,,,1)>>  ||<<MonthCalendar(,2002,9,,,1)>>  ||
+|| <<MonthCalendar(,2002,10,,,1)>> || <<MonthCalendar(,2002,11,,,1)>> ||<<MonthCalendar(,2002,12,,,1)>> ||
+}}}
+
+==== Result ====
+{{{#!wiki dashed
+||||||||<bgcolor="#ffffcc"> '''Year 2002'''                                                             ||
+|| <<MonthCalendar(,2002,1,,,1)>>  || <<MonthCalendar(,2002,2,,,1)>>  ||<<MonthCalendar(,2002,3,,,1)>>  ||
+|| <<MonthCalendar(,2002,4,,,1)>>  || <<MonthCalendar(,2002,5,,,1)>>  ||<<MonthCalendar(,2002,6,,,1)>>  ||
+|| <<MonthCalendar(,2002,7,,,1)>>  || <<MonthCalendar(,2002,8,,,1)>>  ||<<MonthCalendar(,2002,9,,,1)>>  ||
+|| <<MonthCalendar(,2002,10,,,1)>> || <<MonthCalendar(,2002,11,,,1)>> ||<<MonthCalendar(,2002,12,,,1)>> ||
+}}}
+
+
+=== Current Month Calendar ===
+Current calendar of me, also showing entries of A and B: 
+||<bgcolor="#ffffcc"> '''Markup'''                           ||<bgcolor="#ffffcc"> '''Result'''                         ||<style="border:none; width:99%"> ||
+|| `<<MonthCalendar(MyPage*TestUserA*TestUserB)>>`           || <<MonthCalendar(MyPage*TestUserA*TestUserB)>>           ||<style="border:none; width:99%"> ||
+
+=== SubPage Calendar ===
+
+||<bgcolor="#ffffcc"> '''Markup'''                           ||<bgcolor="#ffffcc"> '''Result'''                                            ||<style="border:none; width:99%"> ||
+|| `<<MonthCalendar(MyName/CalPrivate)>>`                    || <<MonthCalendar(MyName/CalPrivate)>>                    ||<style="border:none; width:99%"> ||
+|| `<<MonthCalendar(MyName/CalBusiness)>>`                   || <<MonthCalendar(MyName/CalBusiness)>>                   ||<style="border:none; width:99%"> ||
+|| `<<MonthCalendar(MyName/CalBusiness*MyName/CalPrivate)>>` || <<MonthCalendar(MyName/CalBusiness*MyName/CalPrivate)>> ||<style="border:none; width:99%"> ||
+
+=== Anniversary Calendar ===
+No year data.
+||<bgcolor="#ffffcc"> '''Markup'''    ||<bgcolor="#ffffcc"> '''Result'''                                                ||<style="border:none; width:99%"> ||
+|| `<<MonthCalendar(Yearly,,,+1,,1,1)>>`                     || <<MonthCalendar(Yearly,,,+1,,1,1)>>                     ||<style="border:none; width:99%"> ||
+
+=== Using a Template ===
+This creates calendars of the format Yearly/MM-DD. By leaving out the year, you can set birthdays, and anniversaries in this calendar and not have to re-enter each year. 
+
+This creates a calendar which uses !MonthCalendarTemplate for directly editing nonexisting day pages: 
+||<bgcolor="#ffffcc"> '''Markup'''                           ||<bgcolor="#ffffcc"> '''Result'''                         ||<style="border:none; width:99%"> ||
+|| `<<MonthCalendar(,,,,,,,MonthCalendarTemplate)>>`         || <<MonthCalendar(,,,,,,,MonthCalendarTemplate)>>         ||<style="border:none; width:99%"> ||
+
+see also: HelpOnMacros
