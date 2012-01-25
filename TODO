@@ -1,6 +1,8 @@
 Things to do
 ------------
 
+* Put templates in place to setup the basic protocol wiki structure 
+
 * Review open feature requests 
 
 * Port existing functionality 
@@ -22,3 +24,6 @@ Things to do
 * Write documentation 
 
 * built support for latexdiff 
+
+* redo support for excel file integration; needs to be much more configurable to pull out the right places of the wiki 
+
