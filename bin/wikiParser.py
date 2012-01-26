@@ -73,6 +73,14 @@ class wikiParser:
             else:
                 if found:
                     break
+
+        # and get rid of some empty entries:
+        for r in rows:
+            try:
+                r.pop('')
+            except:
+                pass
+            
         return rows
 
     def getLaTeX (self, wiki):
