@@ -36,8 +36,8 @@ class PullWiki:
             print options
         sys.exit()
 
-    def getPage (self, page, verbose=False):
-        if verbose:
+    def getPage (self, page):
+        if self.verbose:
             print page
             print "base class not callable"
         sys.exit()
@@ -53,7 +53,8 @@ class PullWikiMechanize(PullWiki):
 
     def __init__ (self, configs, verbose=False):
 
-        if verbose:
+        self.verbose=False
+        if self.verbose:
             print "Trying to setup mechanize"
 
         self.baseURL = configs.get('Wiki', 'baseURL')
@@ -64,13 +65,13 @@ class PullWikiMechanize(PullWiki):
         import mechanize
         self.br=mechanize.Browser()
         self.br.set_handle_robots(False)
-        self.setProxyValues (configs, verbose)
+        self.setProxyValues (configs)
         
-    def setProxyValues (self, configs, verbose=False):
+    def setProxyValues (self, configs):
         """Note: Proxy support is shaky at best, and known not to always work.
         Your mileage will vary!"""
 
-        if verbose:
+        if self.verbose:
             print "setting proxy values is known not to work reliably, not implemented yet!"
         proxies = {}
         # should we use a HTTP proxy?
@@ -117,40 +118,12 @@ class PullWikiMechanize(PullWiki):
 
         if proxies:
             self.br.set_proxies (proxies)
-        
-###########################################
-# pull page from twiki
 
-class PullTwiki(PullWikiMechanize):
-    """Pull pages from a Twiki wiki"""
-
-    def __init__ (self, configs, verbose=False):
-        print "Twiki supported not implemented"
-
-
-
-###########################################
-# pull page from moinmoin, remotely
-
-class PullMoinmoin(PullWikiMechanize):
-
-    def __init__ (self, configs, verbose=False):
-
+    def login (self, loginURL, loginfield):
         import mechanize
+        loginresponse = self.br.open(loginURL) 
+        loginforms = mechanize.ParseResponse(loginresponse)
         
-        PullWikiMechanize.__init__(self, configs, verbose)
-
-        ## let's do the login by accessing the main project page  
-        ## loginURL = self.baseURL + self.wikiproject + "?action=login"
-        # we don't really need a particular page: 
-        loginURL = self.baseURL +  "?action=login"
-        if verbose:
-            print "init in PullMoinmoin"
-            print "login url: " + loginURL
-
-        loginresponse = self.br.open(loginURL)
-        loginforms = mechanize.ParseResponse(loginresponse) 
-
         loginform=None
         for f in loginforms:
             try:
@@ -160,23 +133,21 @@ class PullMoinmoin(PullWikiMechanize):
                 pass
 
         if loginform:
-            if verbose:
+            if self.verbose:
                 print loginform
-            loginform["name"]=self.wikiuser
+            loginform[loginfield]=self.wikiuser
             loginform["password"]=self.wikipassword
             self.br.open(loginform.click()).read()
         else:
             print "No password field found when trying to login into moinmoin. Giving up!"
             sys.exit() 
-            
         
-    def getPage (self, page, verbose=False):
-
+    def getPageRawDelimiter (self, page, rawdelimiter):
         import mechanize
         
-        targetURL = self.baseURL + page + "?action=raw"
+        targetURL = self.baseURL + page + rawdelimiter
 
-        if verbose: 
+        if self.verbose: 
             print "trying to load: " + targetURL
 
         try:
@@ -194,6 +165,60 @@ class PullMoinmoin(PullWikiMechanize):
             response = None 
 
         return response 
+        
+###########################################
+# pull page from twiki
+
+class PullTwiki(PullWikiMechanize):
+    """Pull pages from a Twiki wiki"""
+
+    def __init__ (self, configs, verbose=False):
+        
+        PullWikiMechanize.__init__(self, configs, verbose)
+
+        loginURL =  config.get('Wiki', 'loginURL')
+        self.login(loginURL, "username")
+        
+        
+
+    def getPage (self, page):
+
+        alltext  = self.getPageRawDelimiter (page, "?raw=on")
+        # get rid off all the fluff that twiki spits out
+        rawtext = re.search('twikiTextarea twikiTextareaRawView">(.*)</textarea>',
+                            alltext, re.DOTALL).group(1)
+        
+        
+        # check whether this is an empty page; twiki immediately returns a
+        # "do you want to create it?" page even in raw view
+        if re.search("MAKETEXT\{&quot;Note: This topic does not exist&quot;\}",
+                     rawtext):
+            rawtext = None 
+        
+        return rawtext 
+            
+###########################################
+# pull page from moinmoin, remotely
+
+class PullMoinmoin(PullWikiMechanize):
+
+    def __init__ (self, configs, verbose=False):
+
+        import mechanize
+        
+        PullWikiMechanize.__init__(self, configs, verbose)
+
+        ## let's do the login by accessing the main project page  
+        ## loginURL = self.baseURL + self.wikiproject + "?action=login"
+        # we don't really need a particular page: 
+        loginURL = self.baseURL +  "?action=login"
+
+        self.login(loginURL, "name")
+        
+    def getPage (self, page):
+
+        return self.getPageRawDelimiter(page, "?action=raw") 
+
     
 ###########################################
 # pull page from moinmoin, locally  
@@ -201,6 +226,7 @@ class PullMoinmoin(PullWikiMechanize):
 class PullMoinmoinLocal(PullWiki):
     """Talk to a locally available Moinmoin wiki."""
     def __init__ (self, configs, verbose=False):
+        self.verbose = verbose
         if verbose:
             print "Trying to setup pulling from local moinmoin files"
 
@@ -213,14 +239,11 @@ class PullMoinmoinLocal(PullWiki):
         from MoinMoin.web.contexts import ScriptContext
         self.request = ScriptContext()
 
-    def getPage (self, page, verbose=False):
+    def getPage (self, page):
 
         # print self.request 
         from MoinMoin.Page import Page
         text = Page (self.request, page).get_raw_body()
-        if verbose:
-            print type(text)
-            print text.encode('utf-8')
         return text 
 
 ###########################################
@@ -262,4 +285,14 @@ if __name__ == "__main__":
         print res.encode('utf-8')
     
 
+    # some more test cases: 
+    res = pullInstance.getPage("ProposalAbstract")
+    if res:
+        print res.encode('utf-8')
 
+    res = pullInstance.getPage("PslkdfjlskdjfroposalAbstract")
+    if res:
+        print res.encode('utf-8')
+    else:
+        print "empty result"
+    
