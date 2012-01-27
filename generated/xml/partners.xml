@@ -1,0 +1,26 @@
+<allpartners>
+	<partnerdescription>
+		<Wiki> PartnerABC</Wiki>
+		<Name> A Broad Company</Name>
+		<Number> 1</Number>
+		<Nation> FR</Nation>
+		<Shortname> ABC</Shortname>
+		<Type> IN</Type>
+	</partnerdescription>
+	<partnerdescription>
+		<Wiki> PartnerUE</Wiki>
+		<Name> University Everywhere</Name>
+		<Number> 3</Number>
+		<Nation> DE</Nation>
+		<Shortname> UE</Shortname>
+		<Type> AC</Type>
+	</partnerdescription>
+	<partnerdescription>
+		<Wiki> PartnerISC</Wiki>
+		<Name> Important Small Company</Name>
+		<Number> 2</Number>
+		<Nation> FI</Nation>
+		<Shortname> ISC</Shortname>
+		<Type> SME</Type>
+	</partnerdescription>
+</allpartners>

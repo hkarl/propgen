@@ -1,0 +1,185 @@
+= WP Architecture =
+
+<<TableOfContents(4)>>
+
+No explanatory fluff on this page! 
+
+## Start of text ##
+
+== Objectives ==
+
+The objectives of this workpage are Lorem ipsum dolor sit amet,
+consectetuer adipiscing elit. Nulla urna. Maecenas interdum nunc in
+augue. Mauris quis massa in ante tincidunt mollis. Proin
+imperdiet. Donec porttitor pede id est. Sed in ante. Integer id
+arcu. Nam lectus nisl, posuere sit amet, imperdiet ut, tristique ac,
+lorem. In erat. In commodo enim.  Phasellus libero ipsum, tempor a,
+pharetra consequat, pellentesque sit amet, sem. Praesent ut augue
+luctus elit adipiscing ultricies.  Vestibulum suscipit cursus
+leo. Nullam molestie justo.
+
+
+== WP Description  ==
+
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla
+urna. Maecenas interdum nunc in augue. Mauris quis massa in ante
+tincidunt mollis. Proin imperdiet. Donec porttitor pede id est. Sed
+in ante. Integer id arcu. Nam lectus nisl, posuere sit amet,
+imperdiet ut, tristique ac, lorem. In erat. In commodo enim.
+Phasellus libero ipsum, tempor a, pharetra consequat, pellentesque
+sit amet, sem. Praesent ut augue luctus elit adipiscing ultricies.
+Vestibulum suscipit cursus leo. Nullam molestie justo.
+
+
+
+== Tasks ==
+
+=== Task Description: architectureDesign   ===
+
+==== Objectives ====
+
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla
+urna. Maecenas interdum nunc in augue. Mauris quis massa in ante
+tincidunt mollis. Proin imperdiet. Donec porttitor pede id est. Sed
+in ante. Integer id arcu. Nam lectus nisl, posuere sit amet,
+imperdiet ut, tristique ac, lorem. In erat. In commodo enim.
+Phasellus libero ipsum, tempor a, pharetra consequat, pellentesque
+sit amet, sem. Praesent ut augue luctus elit adipiscing ultricies.
+Vestibulum suscipit cursus leo. Nullam molestie justo.
+
+   * Objective one for a task 
+   * Objective two for a task 
+   * Objective three for a task 
+
+
+==== Description of work ====
+
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla
+urna. Maecenas interdum nunc in augue. Mauris quis massa in ante
+tincidunt mollis. Proin imperdiet. Donec porttitor pede id est. Sed
+in ante. Integer id arcu. Nam lectus nisl, posuere sit amet,
+imperdiet ut, tristique ac, lorem. In erat. In commodo enim.
+Phasellus libero ipsum, tempor a, pharetra consequat, pellentesque
+sit amet, sem. Praesent ut augue luctus elit adipiscing ultricies.
+Vestibulum suscipit cursus leo. Nullam molestie justo.
+
+
+Morbi dui. Morbi convallis mi sed sem. Nulla convallis lacus vitae
+risus. Phasellus adipiscing. Nullam tortor. Sed laoreet aliquam
+ante. Vestibulum diam. Pellentesque nec leo. Pellentesque velit.
+Praesent congue mi eu ipsum cursus fringilla. Etiam leo erat,
+tristique et, pharetra eget, mollis vitae, velit. In hac habitasse
+platea dictumst. In quam nibh, facilisis et, laoreet non, facilisis
+tempus, justo.
+
+
+Donec nulla lectus, faucibus sit amet, auctor non, consectetuer
+quis, pede. Nullam dictum. Nullam suscipit, ligula in scelerisque
+posuere, sapien purus rutrum magna, vitae pharetra leo quam vel
+tortor. Donec eleifend condimentum sapien. Etiam sed orci. Aliquam
+tempor. Pellentesque egestas tortor id eros. Donec mauris justo,
+commodo id, pellentesque id, eleifend non, mi. Duis venenatis
+sagittis metus. 
+
+
+=== Task description: archImprovement  ===
+
+==== Objectives ====
+
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla
+urna. Maecenas interdum nunc in augue. Mauris quis massa in ante
+tincidunt mollis. Proin imperdiet. Donec porttitor pede id est. Sed
+in ante. Integer id arcu. Nam lectus nisl, posuere sit amet,
+imperdiet ut, tristique ac, lorem. In erat. In commodo enim.
+Phasellus libero ipsum, tempor a, pharetra consequat, pellentesque
+sit amet, sem. Praesent ut augue luctus elit adipiscing ultricies.
+Vestibulum suscipit cursus leo. Nullam molestie justo.
+
+   * Objective one for a task 
+   * Objective two for a task 
+   * Objective three for a task 
+
+
+==== Description of work ====
+
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla
+urna. Maecenas interdum nunc in augue. Mauris quis massa in ante
+tincidunt mollis. Proin imperdiet. Donec porttitor pede id est. Sed
+in ante. Integer id arcu. Nam lectus nisl, posuere sit amet,
+imperdiet ut, tristique ac, lorem. In erat. In commodo enim.
+Phasellus libero ipsum, tempor a, pharetra consequat, pellentesque
+sit amet, sem. Praesent ut augue luctus elit adipiscing ultricies.
+Vestibulum suscipit cursus leo. Nullam molestie justo.
+
+
+Morbi dui. Morbi convallis mi sed sem. Nulla convallis lacus vitae
+risus. Phasellus adipiscing. Nullam tortor. Sed laoreet aliquam
+ante. Vestibulum diam. Pellentesque nec leo. Pellentesque velit.
+Praesent congue mi eu ipsum cursus fringilla. Etiam leo erat,
+tristique et, pharetra eget, mollis vitae, velit. In hac habitasse
+platea dictumst. In quam nibh, facilisis et, laoreet non, facilisis
+tempus, justo.
+
+
+Donec nulla lectus, faucibus sit amet, auctor non, consectetuer
+quis, pede. Nullam dictum. Nullam suscipit, ligula in scelerisque
+posuere, sapien purus rutrum magna, vitae pharetra leo quam vel
+tortor. Donec eleifend condimentum sapien. Etiam sed orci. Aliquam
+tempor. Pellentesque egestas tortor id eros. Donec mauris justo,
+commodo id, pellentesque id, eleifend non, mi. Duis venenatis
+sagittis metus. 
+
+
+=== Task description: archFalsify ===
+
+==== Objectives ====
+
+Falsify the proposed architecture. 
+
+==== Description of work ====
+
+We will do everything we can to falsify the architecture that we proposed. 
+ 
+
+== Adminstrative information  ==
+
+   * WP leadership: ISC
+
+=== Tasks  ===
+
+|| '''Label''' || '''Start''' || '''Duration''' || '''Name''' || '''Lead partner''' ||
+|| architectureDesign || 1 || 3 || Architecture Design  || UE ||
+|| archImprovement || 4 || 2 || Improvement of the Architecture  || ABC  ||
+|| archImprovement || 8 || 2 || Improvement of the Architecture  || ABC  ||
+|| archImprovement || 12 || 2 || Improvement of the Architecture  || ABC  ||
+|| archFalsify || 10 || 10 || Falsification of the proposed Architecture  || ISC  ||
+
+Note: The several mentions of the archImprovement task shows multi-phase tasks in a workpackage. 
+
+=== Effort  ===
+
+
+|| '''Partner''' || '''architectureDesign''' || '''archImprovement''' || '''archFalsify''' ||
+||  ABC      || 10               || 5           || 0 ||
+|| UE        || 3                || 7           || 3 ||
+|| ISC       || 0                || 0           || 8 ||
+
+
+
+=== Milestones ===
+
+
+|| '''Label''' || '''Month due''' || '''Title''' || '''Contributors''' || '''Description''' || '''Producing task(s) ''' || '''Verification means''' ||
+|| archDescrFormat || 2 || Architcture description format chosen  || '''ABC''' || To ensure a precise communication of architectures, this milestone will select the proper formal description technique  || architectureDesign, otherTask  || Formal technique communicated to all partners  ||
+
+Note: otherTask  is a task from another WP, demonstrating cross-WP production of milestones (similar for deliverables, see below) 
+
+=== Deliverables ===
+
+|| '''Label''' || '''Month due''' || '''Title''' || '''Contributors''' || '''Description''' || '''Producing task(s)''' || '''Nature''' || '''Dissemination''' ||
+|| initialArch  ||  3  ||  Initial architecture description    || UE, '''ABC''' || The initial version of the architecture is described in the chosen formal description technique  || architectureDescription, plan || R || PU ||
+|| improvArch  ||  9  ||  Improved architecture description    || '''UE''', ABC ||Based on experiences with the initial architecture, an updated and improved version is described.   || archImprovement || R || PU ||
+
+
+
+## End of text ##

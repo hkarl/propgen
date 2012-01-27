@@ -27,3 +27,7 @@ Things to do
 
 * redo support for excel file integration; needs to be much more configurable to pull out the right places of the wiki 
 
+
+* look through the LaTeX packages, which ones are really necessary. Suspicious are: 
+** checkend 
+

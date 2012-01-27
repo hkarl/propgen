@@ -41,7 +41,20 @@ class PullWiki:
             print page
             print "base class not callable"
         sys.exit()
-        
+
+    def stripStartStop (self, page):
+        """Remove text before ## Start of text ## - if it appears.
+        Remove text after ## End of text ## - if it appears.
+        TODO: make this text configurable."""
+
+        t = re.findall ("## Start of text ##(.*)", page, re.DOTALL)
+        if t:
+            page=t[0]
+        t = re.findall ("(.*)## End of text ##", page, re.DOTALL)
+        if t:
+            page=t[0]
+
+        return page
 
 ###########################################
 # pull from anything based on mechanize
@@ -195,7 +208,7 @@ class PullTwiki(PullWikiMechanize):
                      rawtext):
             rawtext = None 
         
-        return rawtext 
+        return self.stripStartStop(rawtext)
             
 ###########################################
 # pull page from moinmoin, remotely
@@ -217,7 +230,7 @@ class PullMoinmoin(PullWikiMechanize):
         
     def getPage (self, page):
 
-        return self.getPageRawDelimiter(page, "?action=raw") 
+        return self.stripStartStop(self.getPageRawDelimiter(page, "?action=raw"))
 
     
 ###########################################
@@ -244,7 +257,7 @@ class PullMoinmoinLocal(PullWiki):
         # print self.request 
         from MoinMoin.Page import Page
         text = Page (self.request, page).get_raw_body()
-        return text 
+        return self.stripStartStop(text)
 
 ###########################################
 
@@ -261,10 +274,6 @@ if __name__ == "__main__":
                        help="print lot's of debugging information",
                        action="store_true", default=False)
     (options, args) = parser.parse_args()
-
-    if options.verbose:
-        print options
-        print args
 
 
     ### try to read the settings file:
@@ -286,13 +295,13 @@ if __name__ == "__main__":
     
 
     # some more test cases: 
-    res = pullInstance.getPage("ProposalAbstract")
-    if res:
-        print res.encode('utf-8')
+    ## res = pullInstance.getPage("ProposalAbstract")
+    ## if res:
+    ##     print res.encode('utf-8')
 
-    res = pullInstance.getPage("PslkdfjlskdjfroposalAbstract")
-    if res:
-        print res.encode('utf-8')
-    else:
-        print "empty result"
+    ## res = pullInstance.getPage("PslkdfjlskdjfroposalAbstract")
+    ## if res:
+    ##     print res.encode('utf-8')
+    ## else:
+    ##     print "empty result"
     

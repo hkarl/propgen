@@ -1,0 +1,388 @@
+\documentclass[a4paper,11pt,twoside]{scrreprt}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% packages were the user might want to configure a few things: 
+
+
+% should there be space for page headings in the page layout? 
+\usepackage{fullpage}
+% \usepackage[headings]{fullpage}
+
+%% KOMA Options (for details and further options, look into the KOMA 
+%% documentation) 
+% should there be horizontal lines in header and footer? 
+% \KOMAoptions{headsepline=true,footsepline=true}
+
+% should there be standard headings? 
+%\KOMAoptions{headings=normal}
+
+
+% how should fixme's be displayed? 
+\usepackage[inline,nomargin,draft]{fixme}
+
+% to display the commission hints: 
+\newcommand{\commissionhints}[1]{\small \textit{#1}}
+
+% how deeply should headings be numbered? 
+\setcounter{secnumdepth}{3}
+
+% to what level should the table of content display sections? 
+\setcounter{tocdepth}{\tocLevel}
+
+% compact lists options 
+% TODO: check whether this works before loading the package? 
+\setlength{\pltopsep}{0.5ex}
+\setlength{\plitemsep}{0.25ex}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% packages that are needed or highly advisable, 
+% but which should not needed any configuration 
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{checkend}
+\usepackage{varioref}
+\usepackage{subfigure}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{xtab}
+\usepackage{tabularx}
+\usepackage{adjustbox}
+\usepackage{capt-of}
+\usepackage{acronym}
+
+\usepackage{pdflscape}
+\newlength\landscapewidth
+\newlength\landscapeheight
+
+\usepackage{multicol}
+
+\usepackage[table]{xcolor}
+\usepackage[alwaysadjust]{paralist}
+\usepackage{url}
+\usepackage{calc}
+\usepackage{ifthen}
+\usepackage{tikz}
+\usepackage{pgf-pie}
+
+\usepackage{framed}
+\usepackage{comment}
+
+\usepackage{mathptmx}
+\usepackage[scaled=.90]{helvet}
+\usepackage{courier}
+
+
+\usepackage{textcomp}           %for euro symbol
+
+\usepackage{graphicx}
+\graphicspath{{Figures/}{figures/}}
+
+%%% make sure to use the pgfgantt file from the SVN! 
+\usepackage{pgfgantt}
+
+%%% Needed to redefine bibliography environment to get rid of the
+%%% chapter heading 
+\usepackage{bibhack}
+
+
+
+%%%% to get references to WPs and tasks 
+\newcounter{wpcounter}
+\newcounter{taskcounter}[wpcounter]
+
+
+%%%% to get references to the deliverables 
+\makeatletter
+\newcommand{\labitem}[2]{%
+\def\@itemlabel{\textbf{#1}:}
+\item
+\def\@currentlabel{#1}\label{#2}}
+\makeatother
+
+
+
+% compact bibliography: 
+\let\oldbibliography\thebibliography
+\renewcommand{\thebibliography}[1]{%
+  \oldbibliography{#1}%
+  \setlength{\itemsep}{0pt}%
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% import all the settings that result from switches in settings.cfg 
+\input{wp/settings}
+
+
+
+\begin{document}
+
+\setlength\landscapewidth{\textheight}
+\setlength\landscapeheight{\textwidth+2\headsep}
+
+
+
+\pagenumbering{roman}
+\thispagestyle{empty}
+\input{titlepage}
+
+\vspace{0.5cm}
+\centerline{\includegraphics*[height=3.5cm]{steam-logo-1}}
+
+\newpage
+\noindent \textbf{Proposal Abstract}
+\addcontentsline{toc}{chapter}{\numberline{}Abstract}
+\par\medskip\noindent
+\input{../generated/latex/ProposalAbstract}
+
+
+{\small\tableofcontents
+\ifthenelse{\boolean{LaTeX-showListOfTables}}{
+  \listoftables
+  \addcontentsline{toc}{chapter}{\numberline{}List of Tables}
+}{}
+\ifthenelse{\boolean{LaTeX-showListOfFigures}}{
+  \listoffigures
+  \addcontentsline{toc}{chapter}{\numberline{}List of Figures}
+}{}
+\ifthenelse{\boolean{LaTeX-showListOfFigures}}{
+  \input{acronyms}}{}
+}
+
+
+\ifthenelse{\boolean{LaTeX-showWarnings}}{
+\listoffixmes
+\begin{compactitem}
+\input{wp/warnings}
+\end{compactitem}
+}{\renewcommand{\fxnote}[1]{}
+\renewcommand{\fxwarning}[1]{}
+\renewcommand{\fxerror}[1]{}
+\renewcommand{\fxfatal}[1]{}
+}
+
+
+\cleardoublepage
+\setcounter{part}{2}% part B
+
+\chapter{Scientific and Technical Quality}
+\label{chap:quality}
+\pagenumbering{arabic}
+\commissionhints{MAximum length for the whole of Section 1 
+--  twenty pages, not including the tables in Section 1.3}
+
+\input{ConceptAndObjectives}
+
+\input{BeyondStateOfTheArt}
+
+
+\input{MethodologyWorkplan}
+
+
+\input{WorkPlanning}
+
+
+
+\input{tables/wpsummarytable}
+
+\input{gantts/completeGantt}
+\input{gantts/ganttAllMS}
+\input{gantts/ganttAllDel}
+\input{gantts/ganttAllDel-Compressed}
+\input{gantts/ganttAllMS-Compressed}
+\input{gantts/ganttAllDelMS-Compressed}
+\input{gantts/ganttAllDelMS-Compressed-landscape}
+\input{gantts/ganttAllDelMSWithTasks}
+\input{gantts/ganttAllDelMSWithTasksAndLegend}
+
+
+%%%
+
+\input{DeliverableList}
+
+
+\input{tables/alldeliverableTable}
+
+
+\subsection{Work Packages}
+\label{sec:workpackages}
+\input{wp/wpIncluder}
+
+
+\input{tables/effortTable}
+\input{tables/effortTableTaskPartner}
+
+
+
+
+
+\chapter{Implementation}
+\label{chap:implementation}
+
+
+\input{ManagementStructureAndProcedures}
+
+
+
+\section{Individual Participants}
+\label{sec:partners}
+\commissionhints{  For each participant in the proposed project, provide a brief description of the
+  organisation, the main tasks they have been attributed, and the previous experience
+  relevant to those tasks. Provide also a short profile of the staff members who will be
+  undertaking the work.
+  \\
+Maximum length for Section 2.2: one page per participant. However, where two or more departments within an organisation have quite distinct roles within the proposal, one page per department is acceptable. 
+The maximum length applying to a legal entity composed of several members, each of which is a separate legal entity (for example an EEIG), is one page per member, provided that the members have quite distinct roles within the proposal.
+}
+
+\input{partners/partner-frame}
+
+
+
+\input{ConsortiumAsaWhole}
+
+
+
+\input{SubContracting}
+
+\input{OtherCountries}
+
+\input{AdditionalPartners}
+
+\input{ResourcesToBeCommitted}
+
+
+%%%%%%%%
+
+
+\ifthenelse{\boolean{Summaries-pieTotalPerPartner}}{
+\begin{figure}[htbp]
+  \centering
+  \input{wp/totalPartner}
+  \caption{Distribution of total budget over partners  (in percent)}
+  \label{fig:total:pie:partner}
+\end{figure}
+}{}
+
+\ifthenelse{\boolean{Summaries-pieContribPerPartner}}{
+\begin{figure}[htbp]
+  \centering
+  \input{wp/contribPartner}
+  \caption{Distribution of EU contribution over partners  (in percent)}
+  \label{fig:contrib:pie:partner}
+\end{figure}
+}{}
+
+
+\ifthenelse{\boolean{Summaries-pieContribPerPartnerType}}{
+\begin{figure}[htbp]
+  \centering
+  \input{wp/contribType}
+  \caption{Distribution of EU contribution over partner kinds (in percent)}
+  \label{fig:contrib:pie:kind}
+\end{figure}
+}{}
+
+
+
+\ifthenelse{\boolean{Summaries-pieContribPerNation}}{
+\begin{figure}[htbp]
+  \centering
+  \input{wp/contribNation}
+  \caption{Distribution of EU contribution over partner nations  (in percent)}
+  \label{fig:contrib:pie:nation}
+\end{figure}
+}{}
+
+
+\chapter{Impact}\label{chap:impact}
+\commissionhints{Recommended length for the whole of Section 3 --- ten
+  pages}
+
+
+\input{ExpectedImpact}
+
+\input{DisseminationExploitation}
+
+
+\chapter{Ethical Issues}\label{chap:ethical}
+\commissionhints{ %
+  Describe any ethical issues that may arise in the project. In particular, you should
+  explain the benefit and burden of the experiments and the effects it may have on the
+  research subject. Identify the countries where research will be undertaken and which
+  ethical committees and regulatory organisations will need to be approached during the
+  life of the project.
+\\
+  Include the Ethical issues table below.  If you indicate YES to any issue, please
+  identify the pages in the proposal where this ethical issue is described. Answering
+  'YES' to some of these boxes does not automatically lead to an ethical review1.  It
+  enables the independent experts to decide if an ethical review is required. If you are
+  sure that none of the issues apply to your proposal, simply tick the YES box in the last
+  row.
+\\
+In particular: Data protection issues: Avoid the unnecessary collection and use of
+personal data. Identify the source of the data, describing whether it
+is collected as part of the research or is previously collected data
+being used. Consider issues of informed consent for any data being
+used. Describe how personal identify of the data is protected. Data
+protection issues require authorisation from the national data
+protection authorities. 
+}
+
+\begin{small}
+\begin{tabular}{|p{1em}p{11cm}|l|l|}\hline
+%   \multicolumn{2}{|l|}{\cellcolor{lightgray}{\strut}} & 
+  \multicolumn{2}{|l|}{{\strut}} & 
+ {YES} & 
+%   \cellcolor{lightgray}{PAGE}\\\hline 
+  {PAGE}\\\hline 
+ \multicolumn{2}{|l|}{\bf{Informed Consent}} & & \\\hline
+  & Does the proposal involve children?  & & \\\hline
+  & Does the proposal involve patients or persons not able to give consent? & & \\\hline
+  & Does the proposal involve adult healthy volunteers? & & \\\hline
+  & Does the proposal involve Human Genetic Material? & & \\\hline
+  & Does the proposal involve Human biological samples? & & \\\hline
+  & Does the proposal involve Human data collection? & & \\\hline
+  \multicolumn{2}{|l|}{\bf{Research on Human embryo/foetus}}  & & \\\hline
+  & Does the proposal involve Human Embryos? & & \\\hline
+  & Does the proposal involve Human Foetal Tissue / Cells? & & \\\hline
+  & Does the proposal involve Human Embryonic Stem Cells? & & \\\hline
+  \multicolumn{2}{|l|}{\bf{Privacy}} & & \\\hline
+  & Does the proposal involve processing of genetic information 
+         or personal data (eg. health, sexual lifestyle, ethnicity, 
+         political opinion, religious or philosophical conviction)  & & \\\hline 
+  & Does the proposal involve tracking the location or observation 
+         of people? & & \\\hline 
+  \multicolumn{2}{|l|}{\bf{Research on Animals}} & & \\\hline 
+  & Does the proposal involve research on animals? & & \\\hline 
+  & Are those animals transgenic small laboratory animals? & & \\\hline 
+  & Are those animals transgenic farm animals? & & \\\hline 
+  & Are those animals cloned farm animals? & & \\\hline 
+  & Are those animals non-human primates?  & & \\\hline 
+  \multicolumn{2}{|l|}{\bf{Research Involving Developing Countries}} & & \\\hline 
+  & Use of local resources (genetic, animal, plant etc) & & \\\hline 
+  & Benefit to local community (capacity building 
+         i.e. access to healthcare, education etc) & & \\\hline 
+  \multicolumn{2}{|l|}{\bf{Dual Use}} & & \\\hline 
+  & Research having direct military application  & & \\\hline 
+  & Research having the potential for terrorist abuse & & \\\hline 
+  \multicolumn{2}{|l|}{\bf{ICT Implants}} & & \\\hline 
+  & Does the proposal involve clinical trials of ICT implants?  & & \\\hline 
+  \multicolumn{2}{|l|}{\bf\footnotesize{I CONFIRM THAT NONE OF THE ABOVE ISSUES APPLY TO MY PROPOSAL}} 
+      &  \textbf{X} &\\\hline 
+\end{tabular}
+\end{small}
+
+\appendix 
+\chapter{References}
+
+\begin{footnotesize}
+  \bibliographystyle{savetrees}
+  \bibliography{bibinfo}
+\end{footnotesize}
+
+\end{document}

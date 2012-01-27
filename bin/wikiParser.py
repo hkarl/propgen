@@ -110,8 +110,9 @@ class wikiParserMoinmoin(wikiParser):
     def getTable (self, wiki):
         """turn the first table at the beginning of wiki text into a dictionary"""
         t = self.getTableDelimiter (wiki, '||', r"^\|\|", "'")
-        pp(t)
+        # pp(t)
         return t 
 
 class wikiParserTwiki(wikiParser):
     """Specialized for Twiki"""
+ 

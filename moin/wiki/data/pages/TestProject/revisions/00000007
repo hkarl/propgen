@@ -1,0 +1,70 @@
+= Project master configuration page =
+
+This wiki page contains the main configuration data for a project: name, acronym, etc. as well as the partner information. 
+
+
+
+'''Note''' Please keep the syntax of this page unmodified, in particular, the headings need to stay in place and the table format should not be changed. Else, scripts would be able to process information. Feel free to remove the Note paragraphs. 
+
+
+==  Proposal structure ==
+
+   * ProposalAbstract 
+   * ConceptAndObjectives 
+   * ProgressBeyondStateoftheArt 
+   * MethdologyWorkplan
+   * WorkPlanning 
+   * DeliverableList 
+   * ManagementStructureAndProcedures
+   * ConsortiumAsaWhole
+   * SubContracting
+   * OtherCountries
+   * AdditionalPartners 
+   * ResourcesToBeCommitted 
+   * ExpectedImpact 
+   * DisseminationExploitation 
+   * (Ethical Issues - much easier handled in main.tex than on wiki) 
+
+
+
+'''Note''': Use this to put links to Wiki pages for the various parts of the project. LaTeX files with corresponding filenames will be generated and can be included into the main LaTeX file.  Commands to include these files are *not* automatically generated, with the exception of the workpackage files. This gives maximal flexibility to structure and layout the text. 
+
+== Main data ==
+
+
+   * Projectname: Investigating really important research topics  
+   * Acronym: IRIR
+   * Duration: 24
+   * Call: ICT FP7-ICT-2012-8
+   * Topics: Objective ICT-2011.1.1 Future Networks
+   * Instrument: 
+   * CoordinatorName: 
+   * CoordinatorEmail: 
+   * CoordinatorPhone: 
+
+'''Note''': Duration is used for Gantt charts. Call, topics, and instrument fields go on the titlepage of the proposal. Do not introduce linebreaks in each bullet line! 
+
+== Workpackages ==
+
+'''Note''': List all the workpackages here, in the itemize list. They will get incorporated automatically,  using a wiki page of the corresponding name (it is convenient to use a WikiName for the workpackages).  Change the examples here to your need. 
+
+
+   * WpManagement
+   * WpArchitecture
+
+'''Note''': When you create another workpackage, it is ESSENTIAL that you upload the corresponding template file to that wiki page. Else, nothing works. 
+
+'''Note''': the names given here are also used as (parts of) filesnames. You should not introduce special characters here. 
+
+== Partner data ==
+
+|| '''Number''' || '''Shortname''' || '''Name'''                      || '''Nation''' || '''Type'''  || '''Wiki'''       ||
+||  1       || ABC         || A Broad Company             || FR       || IN      || PartnerABC   ||
+||  3       || UE          || University Everywhere       || DE       || AC      || PartnerUE    ||
+||  2       || ISC         || Important Small Company     || FI       || SME     || PartnerISC   ||
+
+'''Note''': number must be a positive integer; no sanity checking; number can be used as a sort key (can be configured). The coordinator MUST be number 1! Shortnames are used as indexes internally in hash table; they must be strings of letters. So is type and nation. Name is used as plain string. Type and nation can be used to generate summary graphs and are required in any case. Adding more partners should be obvious. The wiki column should have a wiki name where the corresponding partner description can be found. 
+
+== Other information ==
+
+Feel free to put any other information you'd like 

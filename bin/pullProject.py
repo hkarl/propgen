@@ -8,16 +8,8 @@ import os
 from optparse import OptionParser
 import wikiParser 
 from pprint import pprint as pp
+import utils
 
-#############################
-#
-# write file to right outfile
-
-def writefile (t, f):
-    fp = open (f, 'w')
-    # print type(f)
-    fp.write(t)
-    fp.close 
 
 
 ############################
@@ -30,7 +22,7 @@ def getProposalStructure (masterPage, pullInstance, config, wikidir, parser):
     for p in pages:
         # print p
         t = pullInstance.getPage (p)
-        writefile (t, os.path.join(wikidir, p))
+        utils.writefile (t, os.path.join(wikidir, p))
 
 
 ############################
@@ -43,7 +35,7 @@ def getWorkpackages (masterPage, pullInstance, config, wikidir, parser):
     for p in pages:
         # print p
         t = pullInstance.getPage (p)
-        writefile (t, os.path.join(wikidir, "wp", p))
+        utils.writefile (t, os.path.join(wikidir, "wp", p))
 
 
 ############################
@@ -57,7 +49,7 @@ def getPartners (masterPage, pullInstance, config, wikidir, parser):
     for p in table:
         pw = str(p['Wiki'])
         t = pullInstance.getPage (pw)
-        writefile (t, os.path.join(wikidir, pw))
+        utils.writefile (t, os.path.join(wikidir, pw))
         
     
     ## TODO: build the XML file for partners
@@ -85,7 +77,7 @@ if __name__ == "__main__":
     ### main file: 
     pullInstance = pullWiki.pullFactory (config, options.verbose)
     masterPage = pullInstance.getPage(projectname)
-    writefile (masterPage, os.path.join(wikidir, projectname))
+    utils.writefile (masterPage, os.path.join(wikidir, projectname))
 
     getProposalStructure (masterPage, pullInstance, config, wikidir, wikiParser)
     getWorkpackages (masterPage, pullInstance, config, wikidir, wikiParser)
