@@ -57,10 +57,18 @@ def getPartners (masterPage, pullInstance, config, parser):
     
     ## TODO: build the XML file for partners
     
+############################
+
+def ensureDirectories(c):
+    paths = c.options("PathNames")
+    for p in paths:
+        # print p, c.get("PathNames", p)  
+        if not os.access (c.get("PathNames", p), os.F_OK):
+            os.mkdir (c.get("PathNames", p))
     
+############################
 if __name__ == "__main__":
 
-############################
     # get command line options 
     parser=OptionParser()
     parser.add_option ("-s", "--settings", dest="settingsfile",
@@ -75,6 +83,9 @@ if __name__ == "__main__":
 
     projectname = config.get('Wiki','projectName')
     wikiParser = wikiParser.wikiParserFactory(config)
+
+    ### Ensure that all directories exist!
+    ensureDirectories (config) 
 
     ### main file: 
     pullInstance = pullWiki.pullFactory (config, options.verbose)
