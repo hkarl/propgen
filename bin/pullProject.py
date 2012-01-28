@@ -13,7 +13,7 @@ import utils
 
 
 ############################
-def getProposalStructure (masterPage, pullInstance, config, wikidir, parser):
+def getProposalStructure (masterPage, pullInstance, config, parser):
     """Extract all the relevant files for the actual proposal text from the wiki."""
 
     t = parser.getSection(masterPage, "Proposal structure", 2)
@@ -22,11 +22,12 @@ def getProposalStructure (masterPage, pullInstance, config, wikidir, parser):
     for p in pages:
         # print p
         t = pullInstance.getPage (p)
-        utils.writefile (t, os.path.join(wikidir, p))
+        utils.writefile (t,
+                         os.path.join(config.get("PathNames", "wikipath"), p))
 
 
 ############################
-def getWorkpackages (masterPage, pullInstance, config, wikidir, parser):
+def getWorkpackages (masterPage, pullInstance, config, parser):
     """Identify all the workpackages and download them""" 
 
     t = parser.getSection(masterPage, "Workpackages", 2)
@@ -35,11 +36,12 @@ def getWorkpackages (masterPage, pullInstance, config, wikidir, parser):
     for p in pages:
         # print p
         t = pullInstance.getPage (p)
-        utils.writefile (t, os.path.join(wikidir, "wp", p))
+        utils.writefile (t,
+                         os.path.join(config.get("PathNames", "wikiwppath"), p))
 
 
 ############################
-def getPartners (masterPage, pullInstance, config, wikidir, parser):
+def getPartners (masterPage, pullInstance, config, parser):
     """get all the partner description files"""
 
     t = parser.getSection(masterPage, "Partner data", 2)
@@ -49,7 +51,8 @@ def getPartners (masterPage, pullInstance, config, wikidir, parser):
     for p in table:
         pw = str(p['Wiki'])
         t = pullInstance.getPage (pw)
-        utils.writefile (t, os.path.join(wikidir, pw))
+        utils.writefile (t,
+                         os.path.join(config.get("PathNames", "wikipartnerpath"), pw))
         
     
     ## TODO: build the XML file for partners
@@ -70,16 +73,17 @@ if __name__ == "__main__":
 
     config = settings.getSettings(options.settingsfile) 
 
-    wikidir = config.get('PathNames', 'wikipath')
     projectname = config.get('Wiki','projectName')
     wikiParser = wikiParser.wikiParserFactory(config)
 
     ### main file: 
     pullInstance = pullWiki.pullFactory (config, options.verbose)
     masterPage = pullInstance.getPage(projectname)
-    utils.writefile (masterPage, os.path.join(wikidir, projectname))
+    utils.writefile (masterPage,
+                     os.path.join(config.get('PathNames', 'wikipath'),
+                                  projectname))
 
-    getProposalStructure (masterPage, pullInstance, config, wikidir, wikiParser)
-    getWorkpackages (masterPage, pullInstance, config, wikidir, wikiParser)
-    getPartners (masterPage, pullInstance, config, wikidir, wikiParser)
+    getProposalStructure (masterPage, pullInstance, config, wikiParser)
+    getWorkpackages (masterPage, pullInstance, config, wikiParser)
+    getPartners (masterPage, pullInstance, config, wikiParser)
     

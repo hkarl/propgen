@@ -15,4 +15,6 @@ proposal:
 pullproject: 
 	cd bin ; python pullProject.py -s ../$(SETTINGS)
 
+clean:
+	find generated/ -type f -print | grep -v README | xargs rm 
 
