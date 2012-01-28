@@ -15,6 +15,9 @@ proposal:
 pullproject: 
 	cd bin ; python pullProject.py -s ../$(SETTINGS)
 
+xml:
+	cd bin ; python generateXML.py -s ../$(SETTINGS)
+
 clean:
 	find generated/ -type f -print | grep -v README | xargs rm 
 

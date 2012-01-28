@@ -45,6 +45,14 @@ class wikiParser:
         
         return res 
 
+    def getListAsDict (self, wiki, delimiter = ":"):
+        """tmp is an aray of strings, assumed to be key/values delimited by delimited
+        split them up, return a proper dictionary for that"""
+        tmp = self.getList(wiki)
+        tmp = [x.split(':') for x in tmp]
+        tmp = [(x[0].strip(), x[1].strip()) for x in tmp]
+        return dict(tmp)
+        
     def getTable (self, wiki):
         """turn the first table into list of dictionaries, using the first row as
         keys for the dictionaries. Removing boldfacing from the first row entries."""
@@ -83,6 +91,9 @@ class wikiParser:
             
         return rows
 
+    def boldfaceDelimiter (self):
+        return None
+    
     def getLaTeX (self, wiki):
         """turn all of the wiki into LaTeX"""
         return ""
@@ -92,13 +103,15 @@ class wikiParserMoinmoin(wikiParser):
     def getSection (self, wiki, title, level):
         """extract the section with title at level """
         startre = '='*level + ' +' + title + ' +' + '='*level
+
+        # print wiki
         # print startre
 
         t = re.split (startre, wiki)[1]
 
         ## try to find the end of the section; signaled by another heading
         ## of the same or smaller level
-        ## no matter if not found, then simply talk all the text
+        ## no matter if not found, then simply take all the text
         
         endre = '=' + '=?'*(level-1) + ' '
         # print endre 
@@ -113,6 +126,11 @@ class wikiParserMoinmoin(wikiParser):
         # pp(t)
         return t 
 
+    def boldfaceDelimiter (self):
+        return "'''"
+
 class wikiParserTwiki(wikiParser):
     """Specialized for Twiki"""
  
+    def boldfaceDelimiter (self):
+        return "*"

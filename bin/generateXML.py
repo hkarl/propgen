@@ -11,24 +11,13 @@ import settings
 import os 
 from xml.etree.ElementTree import ElementTree, dump, SubElement, Element
 from string import Template
-from utils import *
+import utils 
 
 
 def projectXML(wiki, parser):
     """Produce the main project file"""
 
-    tmp = parser.getList(parser.getSection (wiki, "Main data", 2))
-    tmp = [x.split(':') for x in tmp]
-    tmp = [(x[0], x[1].strip()) for x in tmp]
-    mainData = dict(tmp)
-
-    ## pp(mainData)
-
-    ## tree=Element("project")
-    ## tmp = SubElement (tree, "duration")
-    ## tmp.text = mainData["Duration (in months)"]
-
-    ## dump(tree)
+    mainData = parser.getListAsDict(parser.getSection (wiki, "Main data", 2))
 
     t = Template("""
   <projectname> ${Projectname} </projectname> 
@@ -51,12 +40,87 @@ def projectXML(wiki, parser):
 
 
 ####################################
-def singleWorkpackageXML (wp, wpwiki, parser):
-    print "analyzing wp: " + wp
-    print "wiki code: \n" + wpwiki
+def dictAsXML (d, parser=None, specialFields=[]):
+    """Turn a dict into an XML string. specialFields is a list of keys where the
+    content should be split up into individual fields."""
 
-    if not wpwiki:
-        return 
+    t = ""
+    for k, v in d.iteritems():
+        if k in specialFields:
+            kk= k.strip('s')
+            kk= kk.strip('(s)') 
+            for vv in v.split(','):
+                # is it the main contributor?
+                vvv = vv.lstrip(parser.boldfaceDelimiter()).strip(parser.boldfaceDelimiter())
+                if vv==vvv:
+                    t += "<" + kk + " main=0>" + str(vv.strip()) + "</" + kk + ">\n"
+                else:
+                    t += "<" + kk + " main=1>" + str(vvv) + "</" + kk + ">\n"
+        else:
+            t += "<" + k + ">" + str(v) + "</" + k + ">\n"
+
+    return t 
+
+####################################
+def singleWorkpackageXML (wp, wpwiki, parser, wpcount):
+    # print "analyzing wp: " + wp
+    # print "wiki code: \n" + wpwiki
+
+    ### main adminstration information: 
+    wpMain = parser.getListAsDict(parser.getSection (wpwiki,
+                                               "Administrative information", 2))
+    wpMain['Number'] = wpcount 
+
+    #### get the deliverables
+    wpDelXML = ""
+    for deliv in parser.getTable(parser.getSection (wpwiki, "Deliverables", 3)): 
+        wpDelXML += '<deliverable id="' + deliv["Label"] +'">\n'  + \
+                    dictAsXML(deliv, parser, ["Contributors", "Producing task(s)"]) + \
+                    "</deliverable>\n"
+
+    ## get the milestones
+    wpMilestonesXML = "" 
+    for ms in parser.getTable(parser.getSection (wpwiki, "Milestones", 3)): 
+        wpMilestonesXML += '<milestone id="' + ms["Label"] + '">\n'  + \
+                    dictAsXML(ms, parser, ["Contributors", "Producing task(s)"]) + \
+                    "</milestone>\n"
+
+    ## get the tasks
+    wpTasksXML = "" 
+    for task in parser.getTable(parser.getSection (wpwiki, "Tasks", 3)): 
+        wpTasksXML += '<task id="' + task["Label"] + '">\n'  + \
+                    dictAsXML(task) + \
+                    "</task>\n"
+        
+    ## get the effort - that's a little bit more difficult: 
+    wpEffortXML = ""
+    for effort in parser.getTable(parser.getSection (wpwiki, "Effort", 3)):
+        wpEffortXML += '<partner id="' + effort["Partner"] + '">\n'
+        for k,v in effort.iteritems():
+            if not k=="Partner":
+                wpEffortXML += "<taskeffort><task>" + k + \
+                               "</task><resources>" + v + \
+                               "</resources></taskeffort>\n"
+                # a bit of error checking:
+                if not k in wpTasksXML:
+                    print "Warning: assigning effort to task " + k + " which is not defined in this wp " + wp 
+        wpEffortXML += '</partner>\n'
+        
+
+    ## and the final workpackage string 
+    wpXML =  '<workpackage id="' + wp + '">' + \
+            dictAsXML (wpMain) + \
+            "<objectives>\n" + parser.getSection(wpwiki, "Objectives", 2).strip() + "</objectives>\n" + \
+            wpDelXML + \
+            wpMilestonesXML + \
+            wpTasksXML + \
+            wpEffortXML + \
+            "</workpackage>"
+
+    utils.writefile (wpXML, 
+                     os.path.join(config.get('PathNames', 'xmlwppath'),
+                                  wp + '.xml'))
+
 
 ####################################
 
@@ -76,16 +140,18 @@ def workpackageXML(wiki, parser):
     t+="</workpackages>\n"
 
     # and generate the individual wps:
+    wpCount = 1
     for wp in wplist:
-        wpwiki = open(os.path.join(config.get('PathNames', 'wppath'),
+        wpwiki = open(os.path.join(config.get('PathNames', 'wikiwppath'),
                                    wp),
                       'r').read()
-        singleWorkpackageXML (wp, wpwiki, parser)
+        singleWorkpackageXML (wp, wpwiki, parser, wpCount)
+        wpCount += 1 
         wpIncluder += "\\input{wp/"+ wp + ".tex}\n"
 
-    writefile (wpIncluder, 
-               os.path.join(config.get('PathNames', 'wppath'),
-                            'wpIncluder.tex'))
+    utils.writefile (wpIncluder, 
+                     os.path.join(config.get('PathNames', 'genlatexwppath'),
+                                  'wpIncluder.tex'))
     
     return t
     
@@ -110,13 +176,13 @@ def partnerXML(wiki, parser):
         partnerIncluder += "\\input{partners/" + partner["Wiki"] + ".tex}\n" 
     xml += "</allpartners>\n"
 
-    writefile (xml, 
-               os.path.join(config.get('PathNames', 'xmlpath'),
-                            'partners.xml'))
+    utils.writefile (xml, 
+                     os.path.join(config.get('PathNames', 'xmlpath'),
+                                  'partners.xml'))
 
-    writefile (partnerIncluder, 
-               os.path.join(config.get('PathNames', 'partnerspath'),
-                            'partnersIncluder.tex'))
+    utils.writefile (partnerIncluder, 
+                     os.path.join(config.get('PathNames', 'genlatexpartnerspath'),
+                                  'partnersIncluder.tex'))
 
 
 
@@ -150,8 +216,8 @@ if __name__ == "__main__":
            workpackageXML (projectWiki, wikiParser) + \
            "</project>"
     
-    writefile (tree,
-               os.path.join(config.get('PathNames', 'xmlpath'),
-                            'main.xml'))
+    utils.writefile (tree,
+                     os.path.join(config.get('PathNames', 'xmlpath'),
+                                  'main.xml'))
     
     partnerXML (projectWiki, wikiParser) 

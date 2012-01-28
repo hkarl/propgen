@@ -1,0 +1,62 @@
+<workpackage id="WpManagement"><Name>Project Management</Name>
+<Number>1</Number>
+<Start>1</Start>
+<Leadership>ISC</Leadership>
+<Duration>24</Duration>
+<Shortname>Management</Shortname>
+<Type>MGMT</Type>
+<objectives>
+The objectives of this workpage are Lorem ipsum dolor sit amet,
+consectetuer adipiscing elit. Nulla urna. Maecenas interdum nunc in
+augue. Mauris quis massa in ante tincidunt mollis. Proin
+imperdiet. Donec porttitor pede id est. Sed in ante. Integer id
+arcu. Nam lectus nisl, posuere sit amet, imperdiet ut, tristique ac,
+lorem. In erat. In commodo enim.  Phasellus libero ipsum, tempor a,
+pharetra consequat, pellentesque sit amet, sem. Praesent ut augue
+luctus elit adipiscing ultricies.  Vestibulum suscipit cursus
+leo. Nullam molestie justo.</objectives>
+<deliverable id="reserachplan">
+<Month due>12</Month due>
+<Description>A complete research plan to be followed for the remained of the project is described.</Description>
+<Contributor main=1>UE</Contributor>
+<Contributor main=0>ABC</Contributor>
+<Contributor main=0>ISC</Contributor>
+<Title>A research plan description</Title>
+<Nature>R</Nature>
+<Producing task main=0>plan</Producing task>
+<Producing task main=0>othertask</Producing task>
+<Dissemination>PU</Dissemination>
+<Label>reserachplan</Label>
+</deliverable>
+<milestone id="website">
+<Month due>5</Month due>
+<Description>Website for the project is ready</Description>
+<Contributor main=1>ABC</Contributor>
+<Title>Website goes public</Title>
+<Label>website</Label>
+<Verification means>Website can be accessed</Verification means>
+<Producing task(s) >otherTask</Producing task(s) >
+</milestone>
+<task id="plan">
+<Name>Research preparation</Name>
+<Duration>24</Duration>
+<Label>plan</Label>
+<Start>1</Start>
+<Lead partner>UE</Lead partner>
+</task>
+<task id="otherTask">
+<Name>Research execution</Name>
+<Duration>3</Duration>
+<Label>otherTask</Label>
+<Start>5</Start>
+<Lead partner>ISC</Lead partner>
+</task>
+<partner id="ABC">
+<taskeffort><task>otherTask</task><resources>5</resources></taskeffort>
+<taskeffort><task>plan</task><resources>10</resources></taskeffort>
+</partner>
+<partner id="UE">
+<taskeffort><task>otherTask</task><resources>7</resources></taskeffort>
+<taskeffort><task>plan</task><resources>3</resources></taskeffort>
+</partner>
+</workpackage>
