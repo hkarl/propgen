@@ -409,8 +409,11 @@ class wikiParser:
         t = re.sub (r'<del>(.|\n)*?</del>', r'', t)
         t = re.sub (r'<!--(.*)-->', r'%% \1\n ', t)
 
-        # deal with verbatim environments:
+        # deal with the commissionHints:
+        t = self.moveCommissionHints (t)
 
+
+        # deal with verbatim environments:
         # t = [('bla1 \\b{v} bla2 \\e{v} bla3 \\b{v} bla4 ', ' bla5')]
         verbatimsplitter = re.compile (r'(.*?)\\begin\{verbatim\}(.*?)\\end\{verbatim\}', re.DOTALL)
         # [('bla1 ', ' bla2 '), (' bla3 ', ' bla4 ')]
@@ -455,7 +458,21 @@ class wikiParser:
         t = re.sub (r'\s', '', t)
         return t 
 
+    def moveCommissionHints (self, t):
+        """Make sure that commission hints appear after the first heading!"""
+        startCom = self.localHeading ("Start commission hints", 5)
+        endCom = self.localHeading ("End commission hints", 5)
 
+        m = re.search (startCom + "(.*)" + endCom, t, re.DOTALL)
+        if m:
+            hint =  m.group(1)
+            t = re.sub (startCom + ".*" + endCom, "", t, 0, re.DOTALL)
+            anyHeading =  '|'.join([x[0] for x in self.headingReplacements])
+            t = re.sub (anyHeading,
+                        lambda m: m.group() +
+                        "\\commissionhint{" + hint + "}", t, 1) 
+        return t 
+                       
     
 class wikiParserMoinmoin(wikiParser):
     """Specialized for Moinmoin"""
@@ -486,7 +503,7 @@ class wikiParserMoinmoin(wikiParser):
     def getSection (self, wiki, title, level):
         """extract the section with title at level """
 
-        startre = '='*level + ' +' + title + ' +' + '='*level
+        startre = self.localHeading (title, level)
         endre = '=' + '=?'*(level-1) + ' '
 
         return self.getSectionRe (wiki, startre, endre)
@@ -511,17 +528,9 @@ class wikiParserMoinmoin(wikiParser):
 
         return latex
 
-    ## def buildHeadings (self, l):
+    def localHeading (self, title, level):
+        return '='*level + ' +' + title + ' +' + '='*level
 
-
-    ##     l = re.sub (r'===== (.*) =====', r'\\subparagraph{\1}', l)
-    ##     l = re.sub (r'==== (.*) ====', r'\\paragraph{\1}', l)
-    ##     l = re.sub (r'=== (.*) ===', r'\\subsubsection{\1}', l)
-    ##     l = re.sub (r'== (.*) ==', r'\\subsection{\1}', l)
-    ##     l = re.sub (r'= (.*) =', r'\\section{\1}', l)
-
-    ##     return l
-    
 
 class wikiParserTwiki(wikiParser):
     """Specialized for Twiki"""
@@ -542,7 +551,7 @@ class wikiParserTwiki(wikiParser):
 
     def getSection (self, wiki, title, level):
         """extract the section with title at level """
-        startre = r'---' + r'\+'*level + r' +' + title
+        startre = self.localHeading (title, level)
         endre = r'---' + r'\+?'*(level-1) + r' '
 
         return self.getSectionRe (wiki, startre, endre)
@@ -567,19 +576,11 @@ class wikiParserTwiki(wikiParser):
 
         return latex
 
-    ## def buildHeadings (self, l):
-
-
-    ##     ## l = re.sub (r'---\+ (.*)', r'\\section{\1}', l)
-    ##     ## l = re.sub (r'---\+\+ (.*)', r'\\subsection{\1}', l)
-    ##     ## l = re.sub (r'---\+\+\+ (.*)', r'\\subsubsection{\1}', l)
-    ##     ## l = re.sub (r'---\+\+\+\+ (.*)', r'\\paragraph{\1}', l)
-    ##     ## l = re.sub (r'---\+\+\+\+\+ (.*)', r'\\subparagraph{\1}', l)
-
-    ##     return l
-
-
-
+    def localHeading (self, title, level):
+        """How does a heading with the given title, at the given level,
+        look in this wiki style? Describe it as a regular expression."""
+        return r'---' + r'\+'*level + r' +' + title
+        
 
 ########################
 # interactive calling:
