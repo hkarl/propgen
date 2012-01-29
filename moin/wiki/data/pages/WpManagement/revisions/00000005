@@ -1,0 +1,204 @@
+= WP Management =
+
+<<TableOfContents(4)>>
+
+This is the template for a generic workpackage. It is IMPORTANT not to change the names or levels of headinges, table structures, etc. See the documentation for details which information goes where. 
+
+
+## Start of text ##
+
+== Objectives ==
+
+The objectives of this workpage are Lorem ipsum dolor sit amet,
+consectetuer adipiscing elit. Nulla urna. Maecenas interdum nunc in
+augue. Mauris quis massa in ante tincidunt mollis. Proin
+imperdiet. Donec porttitor pede id est. Sed in ante. Integer id
+arcu. Nam lectus nisl, posuere sit amet, imperdiet ut, tristique ac,
+lorem. In erat. In commodo enim.  Phasellus libero ipsum, tempor a,
+pharetra consequat, pellentesque sit amet, sem. Praesent ut augue
+luctus elit adipiscing ultricies.  Vestibulum suscipit cursus
+leo. Nullam molestie justo.
+
+
+== WP Description  ==
+
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla
+urna. Maecenas interdum nunc in augue. Mauris quis massa in ante
+tincidunt mollis. Proin imperdiet. Donec porttitor pede id est. Sed
+in ante. Integer id arcu. Nam lectus nisl, posuere sit amet,
+imperdiet ut, tristique ac, lorem. In erat. In commodo enim.
+Phasellus libero ipsum, tempor a, pharetra consequat, pellentesque
+sit amet, sem. Praesent ut augue luctus elit adipiscing ultricies.
+Vestibulum suscipit cursus leo. Nullam molestie justo.
+
+
+
+== Tasks ==
+
+=== Task Description: plan   ===
+
+==== Objectives ====
+
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla
+urna. Maecenas interdum nunc in augue. Mauris quis massa in ante
+tincidunt mollis. Proin imperdiet. Donec porttitor pede id est. Sed
+in ante. Integer id arcu. Nam lectus nisl, posuere sit amet,
+imperdiet ut, tristique ac, lorem. In erat. In commodo enim.
+Phasellus libero ipsum, tempor a, pharetra consequat, pellentesque
+sit amet, sem. Praesent ut augue luctus elit adipiscing ultricies.
+Vestibulum suscipit cursus leo. Nullam molestie justo.
+
+   * Objective one for a task 
+   * Objective two for a task 
+   * Objective three for a task 
+
+
+==== Description of work ====
+
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla
+urna. Maecenas interdum nunc in augue. Mauris quis massa in ante
+tincidunt mollis. Proin imperdiet. Donec porttitor pede id est. Sed
+in ante. Integer id arcu. Nam lectus nisl, posuere sit amet,
+imperdiet ut, tristique ac, lorem. In erat. In commodo enim.
+Phasellus libero ipsum, tempor a, pharetra consequat, pellentesque
+sit amet, sem. Praesent ut augue luctus elit adipiscing ultricies.
+Vestibulum suscipit cursus leo. Nullam molestie justo.
+
+
+Morbi dui. Morbi convallis mi sed sem. Nulla convallis lacus vitae
+risus. Phasellus adipiscing. Nullam tortor. Sed laoreet aliquam
+ante. Vestibulum diam. Pellentesque nec leo. Pellentesque velit.
+Praesent congue mi eu ipsum cursus fringilla. Etiam leo erat,
+tristique et, pharetra eget, mollis vitae, velit. In hac habitasse
+platea dictumst. In quam nibh, facilisis et, laoreet non, facilisis
+tempus, justo.
+
+
+Donec nulla lectus, faucibus sit amet, auctor non, consectetuer
+quis, pede. Nullam dictum. Nullam suscipit, ligula in scelerisque
+posuere, sapien purus rutrum magna, vitae pharetra leo quam vel
+tortor. Donec eleifend condimentum sapien. Etiam sed orci. Aliquam
+tempor. Pellentesque egestas tortor id eros. Donec mauris justo,
+commodo id, pellentesque id, eleifend non, mi. Duis venenatis
+sagittis metus. 
+
+
+=== Task description: otherTask  ===
+
+==== Objectives ====
+
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla
+urna. Maecenas interdum nunc in augue. Mauris quis massa in ante
+tincidunt mollis. Proin imperdiet. Donec porttitor pede id est. Sed
+in ante. Integer id arcu. Nam lectus nisl, posuere sit amet,
+imperdiet ut, tristique ac, lorem. In erat. In commodo enim.
+Phasellus libero ipsum, tempor a, pharetra consequat, pellentesque
+sit amet, sem. Praesent ut augue luctus elit adipiscing ultricies.
+Vestibulum suscipit cursus leo. Nullam molestie justo.
+
+   * Objective one for a task 
+   * Objective two for a task 
+   * Objective three for a task 
+
+
+==== Description of work ====
+
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla
+urna. Maecenas interdum nunc in augue. Mauris quis massa in ante
+tincidunt mollis. Proin imperdiet. Donec porttitor pede id est. Sed
+in ante. Integer id arcu. Nam lectus nisl, posuere sit amet,
+imperdiet ut, tristique ac, lorem. In erat. In commodo enim.
+Phasellus libero ipsum, tempor a, pharetra consequat, pellentesque
+sit amet, sem. Praesent ut augue luctus elit adipiscing ultricies.
+Vestibulum suscipit cursus leo. Nullam molestie justo.
+
+
+Morbi dui. Morbi convallis mi sed sem. Nulla convallis lacus vitae
+risus. Phasellus adipiscing. Nullam tortor. Sed laoreet aliquam
+ante. Vestibulum diam. Pellentesque nec leo. Pellentesque velit.
+Praesent congue mi eu ipsum cursus fringilla. Etiam leo erat,
+tristique et, pharetra eget, mollis vitae, velit. In hac habitasse
+platea dictumst. In quam nibh, facilisis et, laoreet non, facilisis
+tempus, justo.
+
+
+Donec nulla lectus, faucibus sit amet, auctor non, consectetuer
+quis, pede. Nullam dictum. Nullam suscipit, ligula in scelerisque
+posuere, sapien purus rutrum magna, vitae pharetra leo quam vel
+tortor. Donec eleifend condimentum sapien. Etiam sed orci. Aliquam
+tempor. Pellentesque egestas tortor id eros. Donec mauris justo,
+commodo id, pellentesque id, eleifend non, mi. Duis venenatis
+sagittis metus. 
+
+
+
+
+== Adminstrative information  ==
+
+   * WP name: Project Management
+   * Short name: Management 
+   * WP leadership: ABC
+   * Start month: 1
+   * Duration: 24 
+   * Type: MGMT 
+
+=== Tasks  ===
+
+|| '''Label''' || '''Start''' || '''Duration''' || '''Name''' || '''Lead partner''' ||
+|| plan || 1 || 24 || Research preparation || UE ||
+|| otherTask || 5 || 3 || Research execution  || ISC  ||
+
+
+Label: The label used in the task headline above, in the paranethesis. This label is VERY important to tie the various information about a task together. 
+
+Start: The task starts on the first day of the given month; M1 is the first month of the project. 
+Duration: A task lasts for this number of months. Integers; no support for partial usage of months. 
+
+Example: A task with start 1 and duration 2 will start on the very first day of the project and last until the end of the second month. 
+
+Name: Name of the task. 
+
+Lead partner: must be a single, existing partner shortname. 
+
+=== Effort  ===
+
+The following table specifies which partner has how many person months of effort in which task. It has one column for the partner shortnames, and one column each for the tasks defined above. Use the task labels to link this to the right task! 
+Partners not appearing in this table are assumed to have zero effort in this workpaackage. 
+
+|| '''Partner''' || '''plan''' || '''otherTask''' ||
+||  ABC      || 10               || 5           ||
+|| UE        || 3                || 7           ||
+
+
+=== Milestones ===
+
+Milestones have a symbolic label similar to tasks. The following table gives all information necessary for a milestone. One row per milestone. 
+
+|| '''Label''' || '''Month due''' || '''Title''' || '''Contributors''' || '''Description''' || '''Producing task(s) ''' || '''Verification means''' ||
+|| website || 5 || Website goes public || '''ABC''' || Website for the project is ready  || otherTask  || Website can be accessed ||
+
+
+Note: Contributors can be a comma-separated list of partner shortnames. The lead partner for a milestone should be set in boldface, this is then automatically recognized. Producing tasks columns can also be a comma-separated list of task symbolic labels. 
+
+
+
+
+=== Deliverables ===
+
+|| '''Label''' || '''Month due''' || '''Title''' || '''Contributors''' || '''Description''' || '''Producing task(s)''' || '''Nature''' || '''Dissemination''' ||
+|| reserachplan  ||  12  ||  A research plan description   || '''UE''', ABC, ISC  || A complete research plan to be followed for the remained of the project is described.   || plan, othertask || R || PU ||
+
+   * Label: symbolic label to refer to the deliverable 
+   * Title: Actual title to be used in the text 
+   * Contributors: partner short names, comma separated, set lead partner in boldface (if any) 
+   * Description: A slightly longer description what the deliverable contains. Optional. 
+   * Producing tasks: which tasks contribute to this deliverable? 
+   * Nature: what is the deliverable? a report R, a prototype P , ... ? 
+   * Dissemination level: PU=public, RE=restricted 
+
+
+## End of text ##
+
+
+
+Put additional notes here. E.g., comments from internal reviews, suggestions for improvements, ...  

@@ -194,8 +194,6 @@ if __name__ == "__main__":
     parser = OptionParser()
     parser.add_option ("-s", "--settings", dest="settingsfile",
                        help="the settings file")
-    parser.add_option ("-p", "--page", dest="page",
-                       help="which page to pull from the wiki")
     parser.add_option ("-v", "--verbose", dest="verbose",
                        help="print lot's of debugging information",
                        action="store_true", default=False)
