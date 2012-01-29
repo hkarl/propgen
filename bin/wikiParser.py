@@ -105,6 +105,12 @@ class wikiParser:
         
 
     def buildHeadings (self, latex):
+        for rep in self.headingReplacements:
+            latex = re.sub (rep[0],
+                            lambda m: '\\' + rep[1] + '{' + m.group(1) + '}' +
+                            "\n\\label{sec:" +
+                            self.constructLabel (m.group(1)) + "}\n",
+                            latex)
         return latex
 
     def buildLists (self, latex):
@@ -374,7 +380,7 @@ class wikiParser:
         # build the headings:
         latex = self.buildHeadings (latex) 
 
-        # an compactenum list? 
+        # an compactenum list?
         latex = self.buildLists (latex)
 
         # process a figure:
@@ -432,6 +438,24 @@ class wikiParser:
 
         return latex
 
+    def constructLabel (self, t):
+        """Given a heading, construct a suitable label out of it.
+        Remove whitspaces and obvious strange characters."""
+
+        # in case someone has the bright idea to put ampersands in the titles: 
+        t = re.sub ('&', '', t)
+
+        # remove double whitespaces:
+        t = re.sub (r'\s+', ' ', t)
+
+        # capitalize to CamelCase:
+        t = re.sub (r' ([a-z])', lambda m: m.group(1).upper(), t)
+        
+        # and remove all the remaining whitespaces: 
+        t = re.sub (r'\s', '', t)
+        return t 
+
+
     
 class wikiParserMoinmoin(wikiParser):
     """Specialized for Moinmoin"""
@@ -442,6 +466,11 @@ class wikiParserMoinmoin(wikiParser):
         self.tableColumns = "||"
         self.tableColumnsRE = "\|\|"
         self.tableRows = r"^\|\|"
+        self.headingReplacements = [(r'===== (.*) =====', 'subparagraph'),
+                                    (r'==== (.*) ====', 'paragraph'),
+                                    (r'=== (.*) ===', 'subsubsection'),
+                                    (r'== (.*) ==', 'subsection'),
+                                    (r'= (.*) =', 'section')]
 
 
         ## sadly, is seems we have to use the twiki approach here 
@@ -482,15 +511,16 @@ class wikiParserMoinmoin(wikiParser):
 
         return latex
 
-    def buildHeadings (self, l):
+    ## def buildHeadings (self, l):
 
-        l = re.sub (r'===== (.*) =====', r'\\subparagraph{\1}', l)
-        l = re.sub (r'==== (.*) ====', r'\\paragraph{\1}', l)
-        l = re.sub (r'=== (.*) ===', r'\\subsubsection{\1}', l)
-        l = re.sub (r'== (.*) ==', r'\\subsection{\1}', l)
-        l = re.sub (r'= (.*) =', r'\\section{\1}', l)
 
-        return l
+    ##     l = re.sub (r'===== (.*) =====', r'\\subparagraph{\1}', l)
+    ##     l = re.sub (r'==== (.*) ====', r'\\paragraph{\1}', l)
+    ##     l = re.sub (r'=== (.*) ===', r'\\subsubsection{\1}', l)
+    ##     l = re.sub (r'== (.*) ==', r'\\subsection{\1}', l)
+    ##     l = re.sub (r'= (.*) =', r'\\section{\1}', l)
+
+    ##     return l
     
 
 class wikiParserTwiki(wikiParser):
@@ -504,6 +534,11 @@ class wikiParserTwiki(wikiParser):
         self.tableRows = r"^\|"
         self.figureRE = r'&lt;img (.*)/&gt;'
         self.figureKeys = r'([^ =]+) *= *(&quot;(.*?)&quot;|[^ ]*)'
+        self.headingReplacements = [(r'---\+ (.*)', 'section'),
+                                    (r'---\+\+ (.*)', 'subsection'),
+                                    (r'---\+\+\+ (.*)', 'subsubsection'),
+                                    (r'---\+\+\+\+ (.*)', 'paragraph'),
+                                    (r'---\+\+\+\+\+ (.*)', 'subparagraph')]
 
     def getSection (self, wiki, title, level):
         """extract the section with title at level """
@@ -532,16 +567,16 @@ class wikiParserTwiki(wikiParser):
 
         return latex
 
-    def buildHeadings (self, l):
+    ## def buildHeadings (self, l):
 
 
-        l = re.sub (r'---\+ (.*)', r'\\section{\1}', l)
-        l = re.sub (r'---\+\+ (.*)', r'\\subsection{\1}', l)
-        l = re.sub (r'---\+\+\+ (.*)', r'\\subsubsection{\1}', l)
-        l = re.sub (r'---\+\+\+\+ (.*)', r'\\paragraph{\1}', l)
-        l = re.sub (r'---\+\+\+\+\+ (.*)', r'\\subparagraph{\1}', l)
+    ##     ## l = re.sub (r'---\+ (.*)', r'\\section{\1}', l)
+    ##     ## l = re.sub (r'---\+\+ (.*)', r'\\subsection{\1}', l)
+    ##     ## l = re.sub (r'---\+\+\+ (.*)', r'\\subsubsection{\1}', l)
+    ##     ## l = re.sub (r'---\+\+\+\+ (.*)', r'\\paragraph{\1}', l)
+    ##     ## l = re.sub (r'---\+\+\+\+\+ (.*)', r'\\subparagraph{\1}', l)
 
-        return l
+    ##     return l
 
 
 
