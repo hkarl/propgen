@@ -196,7 +196,7 @@ class PullWikiMechanize(PullWiki):
             print e
             response = None 
         except:
-            print "Unexpected error:", sys.exc_info()[0]          
+            print "Unexpected error in pullWiki::getPageRawDelimiter:", sys.exc_info()[0]          
             response = None
             
         if response=="Page " + page + "not found.":

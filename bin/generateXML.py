@@ -142,9 +142,11 @@ def workpackageXML(wiki, parser):
     # and generate the individual wps:
     wpCount = 1
     for wp in wplist:
-        wpwiki = open(os.path.join(config.get('PathNames', 'wikiwppath'),
+        import codecs 
+        wpwiki = codecs.open(os.path.join(config.get('PathNames', 'wikiwppath'),
                                    wp),
-                      'r').read()
+                      'r', 'utf-8').read()
+        # print type(wpwiki)
         singleWorkpackageXML (wp, wpwiki, parser, wpCount)
         wpCount += 1 
         wpIncluder += "\\input{wp/"+ wp + ".tex}\n"
@@ -203,7 +205,8 @@ if __name__ == "__main__":
 
     # read in the main project wiki file
     projectWiki = codecs.open(os.path.join(config.get('PathNames', 'wikipath'),
-                                           config.get('Wiki', 'projectName')), 'r').read()
+                                           config.get('Wiki', 'projectName')),
+                              'r', 'utf-8').read()
 
     # print projectWiki
 
