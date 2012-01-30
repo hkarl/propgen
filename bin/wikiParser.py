@@ -110,7 +110,7 @@ class wikiParser:
                             lambda m: '\\' + rep[1] + '{' + m.group(1) + '}' +
                             "\n\\label{sec:" +
                             self.constructLabel (m.group(1)) + "}\n",
-                            latex)
+                            latex, 0 , re.M)
         return latex
 
     def buildLists (self, latex):
@@ -470,7 +470,7 @@ class wikiParser:
             anyHeading =  '|'.join([x[0] for x in self.headingReplacements])
             t = re.sub (anyHeading,
                         lambda m: m.group() +
-                        "\\commissionhint{" + hint + "}", t, 1) 
+                        "\n\\commissionhint{" + hint + "}", t, 1, re.M) 
         return t 
                        
     
@@ -483,11 +483,11 @@ class wikiParserMoinmoin(wikiParser):
         self.tableColumns = "||"
         self.tableColumnsRE = "\|\|"
         self.tableRows = r"^\|\|"
-        self.headingReplacements = [(r'===== (.*) =====', 'subparagraph'),
-                                    (r'==== (.*) ====', 'paragraph'),
-                                    (r'=== (.*) ===', 'subsubsection'),
-                                    (r'== (.*) ==', 'subsection'),
-                                    (r'= (.*) =', 'section')]
+        self.headingReplacements = [(r'^===== (.*) =====$', 'subparagraph'),
+                                    (r'^==== (.*) ====$', 'paragraph'),
+                                    (r'^=== (.*) ===$', 'subsubsection'),
+                                    (r'^== (.*) ==$', 'subsection'),
+                                    (r'^= (.*) =$', 'section')]
 
 
         ## sadly, is seems we have to use the twiki approach here 
@@ -543,11 +543,11 @@ class wikiParserTwiki(wikiParser):
         self.tableRows = r"^\|"
         self.figureRE = r'&lt;img (.*)/&gt;'
         self.figureKeys = r'([^ =]+) *= *(&quot;(.*?)&quot;|[^ ]*)'
-        self.headingReplacements = [(r'---\+ (.*)', 'section'),
-                                    (r'---\+\+ (.*)', 'subsection'),
-                                    (r'---\+\+\+ (.*)', 'subsubsection'),
-                                    (r'---\+\+\+\+ (.*)', 'paragraph'),
-                                    (r'---\+\+\+\+\+ (.*)', 'subparagraph')]
+        self.headingReplacements = [(r'^---\+ (.*)$', 'section'),
+                                    (r'^---\+\+ (.*)$', 'subsection'),
+                                    (r'^---\+\+\+ (.*)$', 'subsubsection'),
+                                    (r'^---\+\+\+\+ (.*)$', 'paragraph'),
+                                    (r'^---\+\+\+\+\+ (.*)$', 'subparagraph')]
 
     def getSection (self, wiki, title, level):
         """extract the section with title at level """
