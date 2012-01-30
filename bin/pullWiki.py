@@ -47,12 +47,13 @@ class PullWiki:
         Remove text after ## End of text ## - if it appears.
         TODO: make this text configurable."""
 
-        t = re.findall ("## Start of text ##(.*)", page, re.DOTALL)
-        if t:
-            page=t[0]
-        t = re.findall ("(.*)## End of text ##", page, re.DOTALL)
-        if t:
-            page=t[0]
+        if page:
+            t = re.findall ("## Start of text ##(.*)", page, re.DOTALL)
+            if t:
+                page=t[0]
+            t = re.findall ("(.*)## End of text ##", page, re.DOTALL)
+            if t:
+                page=t[0]
 
         return page
 
@@ -66,7 +67,7 @@ class PullWikiMechanize(PullWiki):
 
     def __init__ (self, configs, verbose=False):
 
-        self.verbose=False
+        self.verbose=verbose
         if self.verbose:
             print "Trying to setup mechanize"
 
@@ -166,12 +167,36 @@ class PullWikiMechanize(PullWiki):
         try:
             self.br.open(targetURL)
             response = self.br.response().read()
+
+            info =  self.br.response().info()
+            # info is a mimetools.message!!! 
+            ## print info 
+            ## print type(info)
+            ## print info.getencoding()
+            ## print info.gettype()
+            ## print info.getmaintype()
+            ## print info.getplist()
+            ## print info.getparam("charset")
+            
+            charset = info.getparam("charset")
+            if charset and self.verbose:
+                print "charset: ", charset
+                
+            # adapt this to the charset given in the content-type of response!
+            if charset:
+                # response =  response.decode("iso-8859-15")
+                response =  response.decode(charset)
+            if self.verbose:
+                print self.br.response().info()
+                # print response
+                print "response type after decode: ", type(response) 
+                # print unicode(response)
         except mechanize.HTTPError as e:
             print "HTTTP Error exception in page " + page + " : "
             print e
             response = None 
         except:
-            print "Unexpected error:", sys.exc_info()[0]            
+            print "Unexpected error:", sys.exc_info()[0]          
             response = None
             
         if response=="Page " + page + "not found.":
@@ -189,10 +214,9 @@ class PullTwiki(PullWikiMechanize):
         
         PullWikiMechanize.__init__(self, configs, verbose)
 
-        loginURL =  config.get('Wiki', 'loginURL')
+        loginURL =  configs.get('Wiki', 'loginURL')
         self.login(loginURL, "username")
-        
-        
+
 
     def getPage (self, page):
 
@@ -200,13 +224,12 @@ class PullTwiki(PullWikiMechanize):
         # get rid off all the fluff that twiki spits out
         rawtext = re.search('twikiTextarea twikiTextareaRawView">(.*)</textarea>',
                             alltext, re.DOTALL).group(1)
-        
-        
+
         # check whether this is an empty page; twiki immediately returns a
         # "do you want to create it?" page even in raw view
         if re.search("MAKETEXT\{&quot;Note: This topic does not exist&quot;\}",
                      rawtext):
-            rawtext = None 
+            return None 
         
         return self.stripStartStop(rawtext)
             

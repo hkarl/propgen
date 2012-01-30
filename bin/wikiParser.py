@@ -96,7 +96,7 @@ class wikiParser:
         try:
             t = re.split (startre, wiki)[1]
         except:
-            print "Warning: Section " + title + " not found!"
+            print "Warning: Section not found! regular expression:", startre
             return ""
         
         tt = re.split (endre, t)[0]

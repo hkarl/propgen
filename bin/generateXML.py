@@ -12,7 +12,7 @@ import os
 from xml.etree.ElementTree import ElementTree, dump, SubElement, Element
 from string import Template
 import utils 
-
+import codecs 
 
 def projectXML(wiki, parser):
     """Produce the main project file"""
@@ -51,7 +51,7 @@ def dictAsXML (d, parser=None, specialFields=[]):
             kk= kk.strip('(s)') 
             for vv in v.split(','):
                 # is it the main contributor?
-                vvv = vv.lstrip(parser.boldfaceDelimiter()).strip(parser.boldfaceDelimiter())
+                vvv = vv.lstrip(parser.boldfaceDelimiter).strip(parser.boldfaceDelimiter)
                 if vv==vvv:
                     t += "<" + kk + " main=0>" + str(vv.strip()) + "</" + kk + ">\n"
                 else:
@@ -202,8 +202,8 @@ if __name__ == "__main__":
     config = settings.getSettings(options.settingsfile)
 
     # read in the main project wiki file
-    projectWiki = open(os.path.join(config.get('PathNames', 'wikipath'),
-                                    config.get('Wiki', 'projectName')), 'r').read()
+    projectWiki = codecs.open(os.path.join(config.get('PathNames', 'wikipath'),
+                                           config.get('Wiki', 'projectName')), 'r').read()
 
     # print projectWiki
 
