@@ -53,11 +53,14 @@ def projectXML(wiki, parser, verbose=False):
 def dictAsXML (d, parser=None, specialFields=[]):
     """Turn a dict into an XML string. specialFields is a list of keys where the
     content should be split up into individual fields."""
+    import re 
 
     t = ""
-    for k, v in d.iteritems():
+    for k0, v in d.iteritems():
+        k = k0.strip()
         if k in specialFields:
-            kk= k.strip('s')
+            kk = re.sub('\s', '', k)
+            kk= kk.strip('s')
             kk= kk.strip('(s)') 
             for vv in v.split(','):
                 # is it the main contributor?
@@ -67,6 +70,7 @@ def dictAsXML (d, parser=None, specialFields=[]):
                 else:
                     t += "<" + kk + " main=1>" + str(vvv) + "</" + kk + ">\n"
         else:
+            k = re.sub ('\s', '', k) 
             t += "<" + k + ">" + str(v) + "</" + k + ">\n"
 
     return t 
