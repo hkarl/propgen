@@ -189,7 +189,7 @@ class PullWikiMechanize(PullWiki):
             if self.verbose:
                 print self.br.response().info()
                 # print response
-                print "response type after decode: ", type(response) 
+                # print "response type after decode: ", type(response) 
                 # print unicode(response)
         except mechanize.HTTPError as e:
             print "HTTTP Error exception in page " + page + " : "

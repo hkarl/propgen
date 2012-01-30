@@ -13,10 +13,14 @@ from xml.etree.ElementTree import ElementTree, dump, SubElement, Element
 from string import Template
 import utils 
 import codecs 
+import utils
 
-def projectXML(wiki, parser):
+def projectXML(wiki, parser, verbose=False):
     """Produce the main project file"""
 
+    if verbose:
+        print "Parsing main project information"
+        
     mainData = parser.getListAsDict(parser.getSection (wiki, "Main data", 2))
 
     t = Template("""
@@ -34,7 +38,13 @@ def projectXML(wiki, parser):
 #include<partners.xml>
     """)
 
-    res = t.substitute (mainData)
+    try: 
+        res = t.substitute (mainData)
+    except KeyError as k:
+        print "In the main project setup, an entry was missing: ", k.__str__()
+        utils.warning("In the main project setup, an entry was missing: ", k.__str__())
+        raise 
+        
     # print res 
     return res
 
@@ -124,7 +134,7 @@ def singleWorkpackageXML (wp, wpwiki, parser, wpcount):
 
 ####################################
 
-def workpackageXML(wiki, parser):
+def workpackageXML(wiki, parser, verbose=False):
     """Produce the workpackage-related XML structure.
     - The include commands in the project-wide XML
     - The per-workpackage XML
@@ -142,6 +152,8 @@ def workpackageXML(wiki, parser):
     # and generate the individual wps:
     wpCount = 1
     for wp in wplist:
+        if verbose:
+            print "now parsing into XML of workpackage : " + wp 
         import codecs 
         wpwiki = codecs.open(os.path.join(config.get('PathNames', 'wikiwppath'),
                                    wp),
@@ -213,8 +225,8 @@ if __name__ == "__main__":
     wikiParser = wikiParser.wikiParserFactory (config)
 
     tree = "<project>" + \
-           projectXML (projectWiki, wikiParser) + \
-           workpackageXML (projectWiki, wikiParser) + \
+           projectXML (projectWiki, wikiParser, options.verbose) + \
+           workpackageXML (projectWiki, wikiParser, options.verbose) + \
            "</project>"
     
     utils.writefile (tree,

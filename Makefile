@@ -2,9 +2,8 @@
 
 # where is the settings file? 
 SETTINGS = settings.cfg
-
+FLAGS = -v 
 ####################################
-SHELL?=/bin/bash 
 .PHONY: proposal pdf clean pullproject
 ####################################
 
@@ -15,13 +14,13 @@ proposal:
 	make latexFromWiki
 
 pullproject: 
-	cd bin ; python pullProject.py -s ../$(SETTINGS)
+	cd bin ; python pullProject.py -s ../$(SETTINGS) $(FLAGS) 
 
 xml:
-	cd bin ; python generateXML.py -s ../$(SETTINGS)
+	cd bin ; python generateXML.py -s ../$(SETTINGS) $(FLAGS) 
 
 latexFromWiki:
-	cd bin ; python latexFromWiki.py -s ../$(SETTINGS)
+	cd bin ; python latexFromWiki.py -s ../$(SETTINGS) $(FLAGS) 
 
 clean:
 	find generated/ -type f -print | grep -v README | xargs rm 
