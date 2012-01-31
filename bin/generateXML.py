@@ -30,11 +30,9 @@ def projectXML(wiki, parser, verbose=False):
   <call> ${Call}  </call> 
   <instrument> ${Instrument} </instrument> 
   <topics> ${Topics}</topics>
-  <coordinator>
-    <name> ${CoordinatorName}</name>
-    <email>${CoordinatorEmail}</email>
-    <tel> ${CoordinatorPhone}</tel>
-  </coordinator>
+  <coordinatorname>   ${CoordinatorName} </coordinatorname>
+  <coordinatoremail>   ${CoordinatorEmail} </coordinatoremail>
+  <coordinatorphone>   ${CoordinatorPhone} </coordinatorphone>
 #include<partners.xml>
     """)
 
@@ -64,11 +62,17 @@ def dictAsXML (d, parser=None, specialFields=[]):
             kk= kk.strip('(s)') 
             for vv in v.split(','):
                 # is it the main contributor?
-                vvv = vv.lstrip(parser.boldfaceDelimiter).strip(parser.boldfaceDelimiter)
+                # vvv = vv.lstrip(parser.boldfaceDelimiter).rstrip(parser.boldfaceDelimiter)
+                # print vv
+                # complicated: white spaces might be all around the place
+                vvv = vv.strip()
+                vvv = vvv.strip(parser.boldfaceDelimiter)
+                vvv = vvv.strip()
+                # print vvv
                 if vv==vvv:
-                    t += "<" + kk + " main=0>" + str(vv.strip()) + "</" + kk + ">\n"
+                    t += "<" + kk + ' main="False">' + str(vvv) + "</" + kk + ">\n"
                 else:
-                    t += "<" + kk + " main=1>" + str(vvv) + "</" + kk + ">\n"
+                    t += "<" + kk + ' main="True">' + str(vvv) + "</" + kk + ">\n"
         else:
             k = re.sub ('\s', '', k) 
             t += "<" + k + ">" + str(v) + "</" + k + ">\n"
@@ -150,7 +154,7 @@ def workpackageXML(wiki, parser, verbose=False):
     wpIncluder = "" 
     t = "<workpackages>\n"
     for wp in wplist:
-        t += "#include<" + wp + ".xml>\n"
+        t += "#include<wp/" + wp + ".xml>\n"
     t+="</workpackages>\n"
 
     # and generate the individual wps:

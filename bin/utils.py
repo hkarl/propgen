@@ -50,3 +50,36 @@ def warning (w):
      
 
 
+#####################
+# resolve include commands:
+
+def deepExpandInclude (prefix, infile):
+    fin = codecs.open (os.path.join(prefix, infile),
+                       'r', 'utf-8')
+    tout = []
+    tin = fin.readlines()
+    for t in tin:
+        if t.find('#include', 0,8) == 0:
+            l=t.find('<')
+            r=t.find('>')
+            newfile = t[l+1:r]
+            newfile = newfile.strip()
+            tt = deepExpandInclude(prefix, newfile)
+            tout.append(tt)
+        else:
+            tout.append(t)
+    fin.close()
+    return ' '.join(tout)
+    
+def expandInclude (prefix, infile, outfile):
+
+    prefOut = os.path.join (prefix, outfile)
+    
+    fout = codecs.open (prefOut, 'w', 'utf-8')
+    tout = deepExpandInclude (prefix, infile)
+
+    for t in tout:
+        fout.write(t)
+    fout.close()
+
+

@@ -17,8 +17,6 @@ Generate LaTeX code from all the plain wiki files.
 
 * Uses the settings file to find out relevant directories.
 
-* Make sure we feed the input through iconv first to get proper UTF-8 data! 
-
 * XML files are not treated here; that is more complicated.
 
 """

@@ -22,6 +22,8 @@ xml:
 latexFromWiki:
 	cd bin ; python latexFromWiki.py -s ../$(SETTINGS) $(FLAGS) 
 
+latexFromXML:
+	cd bin ; python latexFromXML.py  -s ../$(SETTINGS) $(FLAGS) 
 clean:
 	find generated/ -type f -print | grep -v README | xargs rm 
 
