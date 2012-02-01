@@ -180,7 +180,7 @@ Note: Contributors can be a comma-separated list of partner shortnames. The lead
 === Deliverables ===
 
 || '''Label''' || '''Month due''' || '''Title''' || '''Contributors''' || '''Description''' || '''Producing task(s)''' || '''Nature''' || '''Dissemination''' ||
-|| reserachplan  ||  12  ||  A research plan description   || '''UE''', ABC, ISC  || A complete research plan to be followed for the remained of the project is described.   || plan, othertask || R || PU ||
+|| reserachplan  ||  12  ||  A research plan description   || '''UE''', ABC, ISC  || A complete research plan to be followed for the remained of the project is described.   || plan, otherTask || R || PU ||
 
    * Label: symbolic label to refer to the deliverable 
    * Title: Actual title to be used in the text 

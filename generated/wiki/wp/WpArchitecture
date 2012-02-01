@@ -176,7 +176,7 @@ Note: otherTask  is a task from another WP, demonstrating cross-WP production of
 === Deliverables ===
 
 || '''Label''' || '''Month due''' || '''Title''' || '''Contributors''' || '''Description''' || '''Producing task(s)''' || '''Nature''' || '''Dissemination''' ||
-|| initialArch  ||  3  ||  Initial architecture description    || UE, '''ABC''' || The initial version of the architecture is described in the chosen formal description technique  || architectureDescription, plan || R || PU ||
+|| initialArch  ||  3  ||  Initial architecture description    || UE, '''ABC''' || The initial version of the architecture is described in the chosen formal description technique  || architectureDesign, plan || R || PU ||
 || improvArch  ||  9  ||  Improved architecture description    || '''UE''', ABC ||Based on experiences with the initial architecture, an updated and improved version is described.   || archImprovement || R || PU ||
 
 

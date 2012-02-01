@@ -37,7 +37,7 @@ def projectXML(wiki, parser, verbose=False):
     """)
 
     try: 
-        res = t.substitute (mainData)
+        res = t.safe_substitute (mainData)
     except KeyError as k:
         print "In the main project setup, an entry was missing: ", k.__str__()
         utils.warning("In the main project setup, an entry was missing: ", k.__str__())
