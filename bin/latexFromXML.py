@@ -177,25 +177,6 @@ def analyzeWPs (tree, verbose=False):
             allDeliverables.append(thisdict)
 
 
-        # we need to replace the symbolic task names in the producing task sections
-        # for milestones and deliverables. Here we just do it for the ProducingtaskString,
-        # leaving options open to do that later or to use the symbolic names
-        # but in the string, symbolic labels make no sense
-        ## for m in allMilestones:
-        ##     if m.has_key("ProducingtaskString"):
-        ##         for t in allTasks:
-        ##             print t["Label"], t["taskId"], m["ProducingtaskString"]
-        ##             m["ProducingtaskString"] = re.sub (t["Label"],
-        ##                                                t["taskId"],
-        ##                                                m["ProducingtaskString"])
-        
-        ## for m in allDeliverables:
-        ##     if m.has_key("ProducingtaskString"):
-        ##         for t in allTasks:
-        ##             print t["Label"], t["taskId"], m["ProducingtaskString"]
-        ##             m["ProducingtaskString"] = re.sub (t["Label"],
-        ##                                                t["taskId"],
-        ##                                                m["ProducingtaskString"])
     fixProducingTask (allMilestones) 
     fixProducingTask (allDeliverables) 
 
@@ -207,8 +188,6 @@ def analyzeTree(tree, verbose=False):
 
     # titlepage 
     titlepageDict = dictFromXML (tree)
-    if verbose:
-        pp(titlepageDict)
 
     # partners
     allpartnersNode = tree.find ("allpartners")
@@ -241,13 +220,13 @@ def generateTemplatesBuildListResult (templ, listtoworkon, keytosave, expandedre
 
     return expandedresults 
 
-def generateTemplates():
+def generateTemplates(config, verbose):
     from templates import templates as templates
 
     global titlepageDict, partnerList 
     global allWPDicts, allMilestones, allDeliverables, allTasks, allEfforts
 
-    pp(templates)
+    # pp(templates)
 
     expanded = {}
     
@@ -262,9 +241,9 @@ def generateTemplates():
             # listresult = [t.substitute(x) for x in ]
             if templ.has_key ("groupby"):
                 # groupby must be a key in the directory contained in the list
-                print eval(templ["list"])
+                # print eval(templ["list"])
                 groups = set ([x[templ["groupby"]] for x in eval(templ["list"])])
-                print groups
+                # print groups
                 for g in groups:
                     listtoworkon = [x for x in eval(templ["list"]) if x[templ["groupby"]] == g]
                     expanded = generateTemplatesBuildListResult (templ,
@@ -273,11 +252,64 @@ def generateTemplates():
                                                                  expanded)
                     # expanded[templ["label"]] = groupresult
             else:
-                expanded = generateTemplatesBuildListResult (templ, eval(templ["list"]), templ["label"], expanded) 
+                expanded = generateTemplatesBuildListResult (templ,
+                                                             eval(templ["list"]),
+                                                             templ["label"], expanded) 
 
+        # write this entry to file?
+        if templ.has_key("file"):
+            if templ["file"] == True:
+                if templ.has_key("dir"):
+                    filename = config.get("PathNames",
+                                          "genlatex" + templ["dir"] + "path")
+                else:
+                    filename = config.get ("PathNames",
+                                           "genlatexpath")
+                filename = os.path.join (filename, templ["label"])
+                # print filename
+                
+                if templ.has_key("groupby"):
+                    for g in groups:
+                        fn = filename + "-group-" + g + ".tex"
+                        # print fn
+                        key = templ["label"] + "-group" + g
+                        # print key 
+                        # print expanded[key]
+                        utils.writefile (expanded[key], fn)
+                else:
+                    utils.writefile (expanded[templ["label"]], filename +".tex")
     pp(expanded)
 
+#########################################
     
+def computeStatistics (verbose):
+    """Embellish the global lists with some additional sums, statistics,
+    cross-referencing to IDs, etc. Add whatever seems useful here, makes
+    it later to generate the LaTeX strings later on."""
+
+    global titlepageDict, partnerList 
+    global allWPDicts, allMilestones, allDeliverables, allTasks, allEfforts
+
+
+    # What can we compute about WPs?
+    for wp in allWPDicts:
+        wp['wpeffort'] = str(sum([int(e['resources'])
+                                  for e in allEfforts if e['wp'] == wp['Number']]))
+        taskset = set([task['Label'] for task in allTasks if task['wp'] == wp['Number']])
+        wp['taskeffort'] = dict([ (t, sum([int(te['resources'])
+                                           for te in allEfforts if te['task'] == t]))
+                                  for t in taskset ] )
+        
+        partnerset = set([te['partner'] for te in allEfforts if te['wp'] == wp['Number'] and int(te['resources']) > 0])
+        wp['partnereffort'] = dict([ (p, sum([int(te['resources'])
+                                              for te in allEfforts
+                                              if te['partner'] == p and te['wp'] == wp['Number'] and int(te['resources']) > 0]))
+                                     for p in partnerset ] )
+
+        wp['End'] = int(wp['Start']) + int(wp['Duration'])
+
+        wp['Leadernumber'] = [p['Number'] for p in partnerList if p['Shortname'] == wp['Leadership']][0]
+    return 
 
 ########################################
 if __name__ == '__main__':
@@ -314,6 +346,8 @@ if __name__ == '__main__':
 
     # create internal datastructures
     analyzeTree (tree.getroot(), options.verbose)
+
+    computeStatistics (options.verbose)
     
     if options.verbose:
         pp(titlepageDict)
@@ -323,9 +357,17 @@ if __name__ == '__main__':
         pp(allDeliverables)
         pp(allEfforts)
         pp(partnerList) 
-    
 
-    generateTemplates ()
+    ## pp (allEfforts)
+    ## pp(allWPDicts)
+    ## newWP = [x.update({'effort': str(sum([int(e['resources']) for e in allEfforts if e['wp'] == x['Number']]))}) for x in allWPDicts]
+    ## pp(newWP)
+    ## pp ([  dict (x, **{'effort': str(sum([int(e['resources']) for e in allEfforts if e['wp'] == x['Number']]))})
+    ##        for x in allWPDicts]) 
+
+    # pp ([ dict (e, **{'blabla': 17}) for e in allEfforts])
+    
+    generateTemplates (config, options.verbose)
     
     ## let's try this iterator idea
 
