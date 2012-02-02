@@ -169,7 +169,7 @@ Partners not appearing in this table are assumed to have zero effort in this wor
 Milestones have a symbolic label similar to tasks. The following table gives all information necessary for a milestone. One row per milestone. 
 
 || '''Label''' || '''Month due''' || '''Title''' || '''Contributors''' || '''Description''' || '''Producing task(s) ''' || '''Verification means''' ||
-|| website || 5 || Website goes public || '''ABC''' || Website for the project is ready  || otherTask  || Website can be accessed ||
+|| website || 7 || Website goes public || '''ABC''' || Website for the project is ready  || otherTask  || Website can be accessed ||
 
 
 Note: Contributors can be a comma-separated list of partner shortnames. The lead partner for a milestone should be set in boldface, this is then automatically recognized. Producing tasks columns can also be a comma-separated list of task symbolic labels. 

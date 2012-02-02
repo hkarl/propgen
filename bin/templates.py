@@ -79,6 +79,66 @@ templates = [
       "dir" : "tables",
       },
     #######################
+    # some building blocks for various Gantt charts
+    { "label" : "ganttPrefix",
+      "template" : r"""
+      \begin{tikzpicture}
+      \begin{ganttchart}%
+      [vgrid,hgrid,
+      x unit=0.371cm, y unit chart = 0.75cm,
+      title label font={\footnotesize},
+      bar height = 0.55,
+      bar top shift = 0.225,
+      inline, 
+      milestone label font=\color{black}\small, 
+      milestone label inline anchor={right=.1cm}, 
+      bar label inline anchor={anchor=west}, bar label font=\small,
+      link={-latex, rounded corners=1ex, thick}]{${duration}}
+       \gantttitlelist{1,...,${duration}}{1}""",
+      "dict" : "titlepageDict"
+        },
+    { "label" : "ganttPostfix",
+      "template" : r"""\end{ganttchart} 
+      \end{tikzpicture}
+      """},
+    #######################
+    # actual gantts: one gantt per WP 
+    { "label" : "ganttWP",
+      "template" : r"""
+      \begin{figure}[htbp]
+      ${ganttPrefix}
+      ${groupbar}\\
+      ${taskGantt}\\
+      ${deliverableGanttString} \\
+      ${milestoneGanttString}
+      ${ganttPostfix}
+      \begin{compactitem}
+      ${deliverableGanttLegend}
+      ${milestoneGanttLegend}
+      \end{compactitem}
+      \caption{Gantt chart for Work package ${Number}: ${Shortname}}
+      \label{fig:gantt-WP${Number}}
+      \end{figure}
+      """,
+      "list" : "allWPDicts",
+      "dict" : "expanded",
+      "file" : True,
+      "numerator" : "value['Number']",  # don't change this one! needed to generate correct include code for the WPs! 
+      "dir" : "gantts",
+        },
+    { "label": "allDelMSList",
+      "template" : """${groupbar}\\
+      ${taskGantt}\\
+      ${deliverableGanttString} \\
+      ${milestoneGanttString}  """,
+      "list" : "allWPDicts",
+      },
+    { "label": "allDelMS",
+      "template" : "",   # empty template: just pass through the list itself! 
+      "list": "expanded['allDelMSList']",
+      "joiner" : "\\\\ \n",
+        },
+    #######################
     # initial demo trials, not important for content, just for testing 
     { "label" : "partnerTableRowsAsList",
       "template" : "Name: ${Name} &  ${Nation} & ${Type}",
@@ -91,8 +151,8 @@ templates = [
       },
     { "label" : "partnerTableRowsWithShortname",
       "template" : "Name: ${Name} &  ${Nation} & ${Type}",
-      "list" : "partnerList",
-      "numerator" : "value['Shortname']",
+      "list" : "partnerList", 
+     "numerator" : "value['Shortname']",
       },
     { "label" : "effortPerPartner",
       "template" : "Task: ${task} Resource: ${resources}",

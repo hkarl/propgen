@@ -19,8 +19,8 @@ allDeliverables = []
 allTasks = []
 allEfforts = []
 partnerList = []
-titlepage = {}
-
+titlepageDict = {}
+expanded = {}
 
 def dictFromXML (tree):
     return dict ([(x.tag.strip(), x.text.strip()) for x in tree.getchildren()])
@@ -64,6 +64,40 @@ def dictFromXMLWithMains (tree):
                                           else x
                                           for x in sorted(d[tag])])
     return d
+
+
+###############
+# produce the LaTeX options 
+def processLaTeX (config):
+    t = ""
+    if config.get('LaTeX', 'showCommissionHints'):
+        t += "% commissionHints command unchanged to have them included\n"
+    else:
+        t += "\\renewcommand{\commissionhints}[1]{}\n"
+
+    
+    if config.get('LaTeX', 'useShowkeys'):
+        t += "\\usepackage{showkeys}\n"
+    else:
+        t += "% showkeys not used \n"
+
+    ## make all boolean variables directly available as toggles in LaTeX:
+    for s in configs.sections():
+        for k in configs.options(s):
+            # print k 
+            try:
+                v = configs.getboolean (s,k)
+                if v:
+                    t +="\\newboolean{" + s + "-" + k + "}\n" + "\\setboolean{" + s + "-" + k + "}{true}\n"
+                else:
+                    t +="\\newboolean{" + s + "-" + k + "}\n" + "\\setboolean{" + s + "-" + k + "}{false}\n"
+            except ValueError:
+                pass
+            
+    writefile (t, os.path.join(config.get('LaTeX', 'genlatexpath'),
+                               "settings.tex"))
+    
+##############################################################
 
 def analyzePartners (tree):
     
@@ -165,6 +199,14 @@ def analyzeWPs (tree, verbose=False):
             thisdict["Monthdue"] = int(thisdict["Monthdue"])
             allMilestones.append(thisdict)
 
+        # create milestone ids
+        currentWP = "" 
+        for m in allMilestones:
+            if not m['wp'] == currentWP:
+                currentWP = m['wp']
+                count = 1
+            m['id'] = 'M\,' + currentWP +"." + str(count)
+            count += 1 
 
         # analyze deliverables
         deliverables = wp.findall("deliverable")
@@ -176,12 +218,144 @@ def analyzeWPs (tree, verbose=False):
             thisdict["Monthdue"] = int(thisdict["Monthdue"])
             allDeliverables.append(thisdict)
 
+        currentWP = "" 
+        for m in allDeliverables:
+            if not m['wp'] == currentWP:
+                currentWP = m['wp']
+                count = 1
+            m['id'] = 'D\,' + currentWP +"." + str(count)
+            count += 1 
+
 
     fixProducingTask (allMilestones) 
     fixProducingTask (allDeliverables) 
 
+###############################################################################################################
+####    GANTT HANDLING
+###############################################################################################################
+
+
+def produceCompressedGantt (l, config):
+    # sort by date first:
+    # note: a bit complex, let's assure that when there are several ones on the same date, they appear
+    # in order of their id. Irrespective of whether they belong to the same WP (TODO: should this be made
+    # an option to choose that "own" items come first? -- Makes little sense 
+    inputlist = sorted(l, key=lambda x: int(x['Monthdue']))
+
+    maxNumLines = len(inputlist)
+    projectDuration = int(titlepageDict["duration"])
+
+    occupancyMatrix = [[False for i in range(projectDuration+1)] for j in range(maxNumLines)]
+    resultLists = [[] for j in range(maxNumLines)]
+
+    for entry in inputlist:
+        # search the first line where the month of this entry is not yet occupied
+        line = 0
+        while occupancyMatrix[line][int(entry['Monthdue'])] == True:
+            line += 1
+
+        # put this entry in the lineth line: 
+        resultLists[line].append(entry)
+
+        for m in range(int(entry['Monthdue']), \
+                       min(int(projectDuration)+1,
+                           int(entry['Monthdue'])+int(config.get ("Gantts", 'ganttDistanceBetweenMS')))):
+            occupancyMatrix[line][m] = True
+
+    return "\\\\ \n".join([ "\n".join([ "\\ganttmilestone" + e['deco'] + "{"+ e['id'] + '}{' + str(e['Monthdue']) + "}" for e in line])
+                     for line in resultLists if line])
+
+
+    
+def computeGanttStrings (config):
+    global titlepageDict, partnerList, expanded 
+    global allWPDicts, allMilestones, allDeliverables, allTasks, allEfforts
+
+    for wp in allWPDicts:
+
+        # print "WP: ", wp['Number']
+        # the actual gantt chart, spearately for task bars, the deliverables, and the milestones.
+        # also a combined deliverables/milestones string 
+        # enables easy mix and match 
+
+        # construct the relevant milestone, deliverable list
+        # question is whether to incorporate also the cross-WP
+        # milestones/deliverables; this is configurable option
+
+        # print "milestones WITH cross-WP milestones, as arrays:"
+        milestoneList = [x for x in allMilestones
+                         if x['wp'] == wp['Number'] or
+                         ( config.getboolean ("Gantts", "milestonesShowCrossWP") and 
+                           utils.treeReduce ([[task['wp'] == wp['Number'] for task in allTasks if task['Label'] ==contribTask ]
+                                              for contribTask in x['Producingtask']],
+                                             lambda a, b: a or b)
+                           )]
+        for m in milestoneList:
+            m["deco"] = "[milestone={" + config.get ("Gantts", "milestoneDecoration") + "}]" 
+            
+        wp["milestoneGanttString"] = produceCompressedGantt (milestoneList, config)
+        wp["milestoneInGantt"] = [m["Label"] for m in milestoneList]
+        wp["milestoneGanttLegend"] = "\n".join([Template(config.get("Gantts","milestoneLegendTemplate")).substitute(x) for x in milestoneList])
         
-def analyzeTree(tree, verbose=False):
+        deliverableList = [x for x in allDeliverables
+                           if x['wp'] == wp['Number'] or
+                           ( config.getboolean ("Gantts", "milestonesShowCrossWP") and 
+                             utils.treeReduce ([[task['wp'] == wp['Number'] for task in allTasks if task['Label'] ==contribTask ]
+                                                for contribTask in x['Producingtask']],
+                                               lambda a, b: a or b)
+                             )]
+
+        for d in deliverableList:
+            d["deco"] = ""
+
+        wp["deliverableGanttString"] = produceCompressedGantt (deliverableList, config)
+        wp["deliverableInGantt"] = [d["Label"] for d in deliverableList]
+        wp["deliverableGanttLegend"] = "\n".join([Template(config.get("Gantts","deliverableLegendTemplate")).substitute(x) for x in deliverableList])
+
+        ########################
+        # the groupbar for a WP is fairly simple:
+        wp["groupbar"] = r"\ganttgroup{}{" + wp['Start'] +  "}{" \
+                         + str(int(wp["Start"]) + int(wp['Duration']) - 1) + r"} \\"
+        
+        ########################
+        # compute the taskbar gantt part
+        # complicated by possibly multi-phased tasks
+        wp["taskGantt"] = ""
+        tasksofthiswp = set ([t['Label'] for t in allTasks if t['wp'] == wp['Number']])
+        # pp(tasksofthiswp)
+        for tasklabel in tasksofthiswp:
+            # print tasklabel
+            phases = sorted ([t for t in allTasks if t['Label'] == tasklabel],
+                            key=lambda x: x['Start'])
+
+            for i,t in enumerate (phases):
+                taskganttid = "T" + t["wp"] + "-" + str(t["tasknumber"])
+                # print taskganttid
+                t["ganttid"] = taskganttid
+                if i==0:
+                    thistaskgantt = "\\ganttbar[name="+ taskganttid  + "-" + str(i) + \
+                                         "]{" + t['taskId'] + \
+                                         ((": " + t['Name']) if
+                                          config.getboolean('Gantts', 'ganttTaskbarsShowTaskname')
+                                          else "" ) +  \
+                                          "}{"+ str(t['Start']) + "}{" + str(t['Start']+t['Duration']-1) + "} \\\\ \n"
+                else:
+                    thistaskgantt += "\\ganttbar[name="+ taskganttid  + "-" + str(i)+ \
+                                     "]{" + t['taskId'] + \
+                                     ((" (Phase " + str(i+1) + ")") if
+                                      config.getboolean('Gantts', 'ganttTaskbarsShowTaskname')
+                                      else "(" +  str(i+1)+ ")")  + \
+                                     "}{"+ str(t['Start']) + "}{" + str(t['Start']+t['Duration']-1) + "} \\\\ \n"
+                    thistaskgantt += "\\ganttlink[link type=F-S]{" + taskganttid + "-" + str(i-1) + "}{" + \
+                                     taskganttid + "-" + str(i) + "} \n" 
+                    
+            # print thistaskgantt
+            wp["taskGantt"] += thistaskgantt
+                              
+
+    return 
+
+def analyzeTree(tree, config, verbose=False):
     """Take an XML tree and create all the necessary data structures"""
     global titlepageDict
     global partnerList 
@@ -197,14 +371,29 @@ def analyzeTree(tree, verbose=False):
     allWPsNode = tree.find ("workpackages")
     analyzeWPs (allWPsNode, verbose)
 
+    # compute the gantt chart entries 
+    computeGanttStrings (config)
+
+
 ########################################
-## 
+## use the templates to generate latex text 
 
-def generateTemplatesBuildListResult (templ, listtoworkon, keytosave, expandedresults ):
+def generateTemplatesBuildListResult (templ, listtoworkon, dicttouse,
+                                      keytosave, expandedresults ):
 
-    t = Template(templ["template"])
-    
-    substitutedValues = [(t.substitute(x), x) for x in listtoworkon]
+
+    if templ["template"]:
+        t = Template(templ["template"])
+        # print "keytosave: ", keytosave
+        if dicttouse:
+            # pp(dicttouse)
+            substitutedValues = [ ((t.substitute(dict (dicttouse, **x)), x) if isinstance (x, dict)
+                                   else (t.substitute(dict (dicttouse, **{"Listelement": x})), x))
+            for x in listtoworkon]
+        else:
+            substitutedValues = [(t.substitute(x), x) for x in listtoworkon]
+    else:
+        substitutedValues = [ (x, None) for x in listtoworkon]
     
     if templ.has_key("joiner"):
         exp = templ["joiner"].join([x[0]  for x in substitutedValues])
@@ -223,20 +412,30 @@ def generateTemplatesBuildListResult (templ, listtoworkon, keytosave, expandedre
 def generateTemplates(config, verbose):
     from templates import templates as templates
 
-    global titlepageDict, partnerList 
+    global titlepageDict, partnerList, expanded 
     global allWPDicts, allMilestones, allDeliverables, allTasks, allEfforts
+
 
     # pp(templates)
 
     expanded = {}
     
     for templ in templates:
-        if templ.has_key("dict"):
-            # dealing with a dictionary is quite straightforward. 
-            t = Template(templ["template"])
-            exp =  t.substitute (eval(templ["dict"]))
-            expanded[templ["label"]] = exp
-        elif templ.has_key("list"):
+        if not templ.has_key("list"):
+            if templ.has_key("dict"):
+                # dealing with a dictionary is quite straightforward. 
+                t = Template(templ["template"])
+                exp =  t.substitute (eval(templ["dict"]))
+                expanded[templ["label"]] = exp
+            else:
+                # print "Template " + templ["label"] + " has neither dict not list; makes no sense."
+                expanded[templ["label"]] = templ["template"]
+        else:
+            # do we ALSO have a dict to use or substitution keys?
+            if templ.has_key ("dict"):
+                d = eval(templ["dict"])
+            else:
+                d = None 
             # dealing with a list argument is more complex, since it can be grouped
             # listresult = [t.substitute(x) for x in ]
             if templ.has_key ("groupby"):
@@ -247,13 +446,13 @@ def generateTemplates(config, verbose):
                 for g in groups:
                     listtoworkon = [x for x in eval(templ["list"]) if x[templ["groupby"]] == g]
                     expanded = generateTemplatesBuildListResult (templ,
-                                                                 listtoworkon,
+                                                                 listtoworkon, d, 
                                                                  templ["label"] + "-group" + g,
                                                                  expanded)
                     # expanded[templ["label"]] = groupresult
             else:
                 expanded = generateTemplatesBuildListResult (templ,
-                                                             eval(templ["list"]),
+                                                             eval(templ["list"]), d, 
                                                              templ["label"], expanded) 
 
         # write this entry to file?
@@ -265,20 +464,28 @@ def generateTemplates(config, verbose):
                 else:
                     filename = config.get ("PathNames",
                                            "genlatexpath")
-                filename = os.path.join (filename, templ["label"])
-                # print filename
-                
-                if templ.has_key("groupby"):
-                    for g in groups:
-                        fn = filename + "-group-" + g + ".tex"
+
+                # find all keys that start with label and write that file accordingly:
+
+                # print "label to save: ", templ["label"]
+                for k, v in expanded.iteritems():
+                    if re.match (templ["label"], k):
+                        fn =  os.path.join (filename, k + ".tex")
                         # print fn
-                        key = templ["label"] + "-group" + g
-                        # print key 
-                        # print expanded[key]
-                        utils.writefile (expanded[key], fn)
-                else:
-                    utils.writefile (expanded[templ["label"]], filename +".tex")
-    pp(expanded)
+                        # print v 
+                        utils.writefile (v, fn)
+                    
+                ## if templ.has_key("groupby"):
+                ##     for g in groups:
+                ##         fn = filename + "-group-" + g + ".tex"
+                ##         # print fn
+                ##         key = templ["label"] + "-group" + g
+                ##         # print key 
+                ##         # print expanded[key]
+                ##         utils.writefile (expanded[key], fn)
+                ## else:
+                ##     utils.writefile (expanded[templ["label"]], filename +".tex")
+    # pp(expanded)
 
 #########################################
     
@@ -306,7 +513,7 @@ def computeStatistics (verbose):
                                               if te['partner'] == p and te['wp'] == wp['Number'] and int(te['resources']) > 0]))
                                      for p in partnerset ] )
 
-        wp['End'] = int(wp['Start']) + int(wp['Duration'])
+        wp['End'] = int(wp['Start']) + int(wp['Duration']) - 1 
 
         wp['Leadernumber'] = [p['Number'] for p in partnerList if p['Shortname'] == wp['Leadership']][0]
     return 
@@ -345,7 +552,7 @@ if __name__ == '__main__':
         tree.write (sys.stdout, encoding="utf-8")
 
     # create internal datastructures
-    analyzeTree (tree.getroot(), options.verbose)
+    analyzeTree (tree.getroot(), config, options.verbose)
 
     computeStatistics (options.verbose)
     
@@ -358,36 +565,11 @@ if __name__ == '__main__':
         pp(allEfforts)
         pp(partnerList) 
 
-    ## pp (allEfforts)
-    ## pp(allWPDicts)
-    ## newWP = [x.update({'effort': str(sum([int(e['resources']) for e in allEfforts if e['wp'] == x['Number']]))}) for x in allWPDicts]
-    ## pp(newWP)
-    ## pp ([  dict (x, **{'effort': str(sum([int(e['resources']) for e in allEfforts if e['wp'] == x['Number']]))})
-    ##        for x in allWPDicts]) 
-
-    # pp ([ dict (e, **{'blabla': 17}) for e in allEfforts])
     
     generateTemplates (config, options.verbose)
-    
-    ## let's try this iterator idea
 
-    ## iterator = "[x['Shortname'] for x in partnerList]"
-    ## rowtemplate = "${Name} & ${Nation} & ${Type}"
-    
-    ## for i in eval(iterator):
-    ##     print i
-    ##     # print rowtemplate.substitute(partnerList[i])
 
-    ## wpgrouper = "[x['Number'] for x in allWPDicts]"
-    ## deltemplate = Template("""Name: ${Title} Month Due: ${Monthdue}""")
-    ## delpick = "[a for a in allDeliverables if a['wp']==i]"
-    ## deljoiner = "\\\\ \n"
-    ## for i in eval(wpgrouper):
-    ##     print i
-    ##     print deljoiner.join([deltemplate.substitute(x) for x in eval(delpick)])
-    ##     ## for x in eval(delpick):
-    ##     ##     print 
+    if options.verbose:
+        pp (expanded) 
 
-    ## print "".join([str(x)  for x in [{"Name": 5, "Monthdue": 17}]])
-    ## print "".join([deltemplate.substitute(x)  for x in [eval('{"Title": 5, "Monthdue": 17}')]])
-    ## print deltemplate.substitute(eval('{"Title": 5, "Monthdue": 17}'))
+    processLaTeX (config) 

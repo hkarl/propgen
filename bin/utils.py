@@ -83,3 +83,34 @@ def expandInclude (prefix, infile, outfile):
     fout.close()
 
 
+################
+# mapReduce a la google
+
+def mapReduce (l, reducefct):
+    return [reduce ( lambda a,b: (a[0], reducefct(a[1], b[1])), ll) \
+           for ll in [filter (lambda x: x[0]==nn, l) \
+                      for nn in set([ll[0] for ll in l])] \
+           ]
+
+######
+# treeReduce: 
+
+def treeReduce (l, reducefct):
+    """recursively apply a reduce function to a nested list structure.
+    Atomic elements must be boolean values."""
+    if isinstance(l, bool):
+        return l
+    else:
+        ll = map (lambda x: treeReduce (x, reducefct), l)
+        return reduce (reducefct, ll)
+
+#####
+
+def searchListOfDicts (l, key, value, returnkey):
+    """Search a list l which contains dictionaries for an entry
+    where key has value, and return the value of returnkey."""
+
+
+    for ll in l:
+        if ll[key] == value:
+            return ll[returnkey]
