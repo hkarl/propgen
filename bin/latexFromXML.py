@@ -402,20 +402,71 @@ def computeWPTable (config):
     global allWPDicts, allMilestones, allDeliverables, allTasks, allEfforts
 
     maxPartnerPerRow = config.getint('WPTables', 'maxPartnersPerRow')
+    firstColumn = config.getint ('WPTables', 'firstColumnWidth')
+    otherColumns = config.getfloat ('WPTables', 'tabularCorrection')*(100.0-firstColumn) / maxPartnerPerRow /100.0
+
     for wp in allWPDicts:
         t = r"\begin{tabular}"
 
-        t += "{|l"
-        t += ("|" + config.get('LaTeX', 'wptablespacing') +
-              "c" + config.get('LaTeX', 'wptablespacing'))  \
+        t += r"{|p{0.%d\textwidth}" % firstColumn 
+        t += ("|" + config.get('WPTables', 'wptablespacing') +
+              r"p{%f\textwidth}" % otherColumns + \
+              config.get('WPTables', 'wptablespacing'))  \
               * maxPartnerPerRow
         t += "|} \n \\hline"
 
         # which WP?
-        # t += r'\textbf{Workpackage no.} & %d & \multicolumn{}
+        t += r'\textbf{Workpackage no.} & \multicolumn{1}{c|}{%s} & \multicolumn{%d}{l|}{\textbf{Start date:} M %s} \\ \hline ' % (wp['Number'], maxPartnerPerRow-1, wp['Start'])
+        t += "\n"
+        t += r'\textbf{Title} & \multicolumn{%d}{l|}{%s} \\ \hline' % (maxPartnerPerRow,
+                                                                       wp['Name'])
+        t += r'\textbf{Activity type} & \multicolumn{%d}{l|}{%s \hfill} \\ \hline ' % (maxPartnerPerRow,
+                                                                                wp['Type'])
+        t += "\n"
+
+        # build the partner lists
+        numPartners = len(partnerList)
+        printedPartners = 0
+        while printedPartners < numPartners:
+            fromPartner = printedPartners +1
+            toPartner = fromPartner + min(maxPartnerPerRow, numPartners-printedPartners)-1
+            # print fromPartner, toPartner
+
+            t1 = "Part.\ no.\ "
+            t2 = "Short name "
+            t3 = "Effort "
+            
+            for i in range (fromPartner, fromPartner + maxPartnerPerRow):
+                # print i
+                if i <= toPartner:
+                    shortname = [x['Shortname'] for x in partnerList
+                                 if i == int(x['Number'])][0]
+                    try: 
+                        thiseffort = wp['partnereffort'][shortname]
+                    except KeyError:
+                        thiseffort = 0
+
+                    inactiveLighter = lambda x: x if thiseffort > 0 else \
+                                     r'\textcolor{%s}{%s}' % (config.get('WPTables',
+                                                                       'colorInactivePartner'),
+                                                             str(x))
+                    wpHighligher = lambda x: inactiveLighter(x) if not wp['Leadership'] == shortname else \
+                                   r'\textbf{%s}' % inactiveLighter(x)
+
+                    centerer = lambda x: "\centering{%s}" % wpHighligher(x)
+                    t1 += " & " + centerer(str(i)) 
+                    t2 += " & " + centerer(shortname) 
+                    t3 += " & " + centerer(str(thiseffort))
+                else:
+                    t1 += " & "
+                    t2 += " & "
+                    t3 += " & "
+            t += t1 + r'\\ \hline ' + "\n" + t2 + r'\\ \hline ' + "\n" + t3 + r'\\ \hline ' + "\n"
+            printedPartners = toPartner
+
         t += r'\end{tabular}'
         wp['tableheader'] = t
-        pp(wp)
+        # pp(wp)
 
 ###############################################
 
@@ -438,9 +489,6 @@ def analyzeTree(tree, config, verbose=False):
     # compute the gantt chart entries 
     computeGanttStrings (config)
 
-    # compute the WP table as far as necessary; try to delegate as much as possible
-    # to the templating engine
-    computeWPTable (config) 
 
 ########################################
 ## use the templates to generate latex text 
@@ -454,10 +502,15 @@ def generateTemplatesBuildListResult (templ, listtoworkon,
         dicttouse = None 
 
     if templ["template"]:
+        ## print "--------------"
+        ## print templ["template"]
         t = Template(templ["template"])
+        ## print t.template
         # print "keytosave: ", keytosave
         if dicttouse:
+            ## print "--------------"
             # pp(dicttouse)
+            # pp (listtoworkon)
             substitutedValues = [ ((t.substitute(dict (dicttouse, **x)), x) if isinstance (x, dict)
                                    else (t.substitute(dict (dicttouse, **{"Listelement": x})), x))
             for x in listtoworkon]
@@ -534,7 +587,7 @@ def generateTemplates(config, verbose):
                     listtoworkon = [x for x in eval(templ["list"]) if x[templ["groupby"]] == g]
                     expanded = generateTemplatesBuildListResult (templ,
                                                                  listtoworkon,
-                                                                 templ["label"] + "-group" + g,
+                                                                 templ["label"] + "-" + g,
                                                                  expanded)
             else:
                 expanded = generateTemplatesBuildListResult (templ,
@@ -668,6 +721,10 @@ if __name__ == '__main__':
     analyzeTree (tree.getroot(), config, options.verbose)
 
     computeStatistics (options.verbose)
+
+    # compute the WP table as far as necessary; try to delegate as much as possible
+    # to the templating engine
+    computeWPTable (config) 
 
     generatePartnerDescriptions (config, options.verbose)
     

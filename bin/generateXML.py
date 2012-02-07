@@ -171,7 +171,7 @@ def workpackageXML(wiki, parser, verbose=False):
         wpMain = singleWorkpackageXML (wp, wpwiki, parser, wpCount)
         # pp(wpMain)
         wpCount += 1 
-        wpIncluder += "\\input{wp/Wp-"+ wpMain['Shortname'] + ".tex}\n"
+        wpIncluder += "\\input{wp/Wp-"+ wpMain['Shortname'] + ".tex}\n \n"
 
     utils.writefile (wpIncluder, 
                      os.path.join(config.get('PathNames', 'genlatexwppath'),
