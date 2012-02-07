@@ -99,7 +99,7 @@ templates = [
         },
     { "label" : "ganttPostfix",
       "template" : r"""\end{ganttchart} 
-      \end{tikzpicture}
+      \end{tikzpicture} 
       """},
     #######################
     # actual gantts: one gantt per WP 
@@ -127,7 +127,7 @@ templates = [
       "dir" : "gantts",
         },
     { "label": "allDelMSList",
-      "template" : """${groupbar}\\
+      "template" : """ ${groupbar}\\
       ${taskGantt}\\
       ${deliverableGanttString} \\
       ${milestoneGanttString}  """,

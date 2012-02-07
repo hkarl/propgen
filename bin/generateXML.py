@@ -139,6 +139,7 @@ def singleWorkpackageXML (wp, wpwiki, parser, wpcount):
                      os.path.join(config.get('PathNames', 'xmlwppath'),
                                   wp + '.xml'))
 
+    return wpMain 
 
 ####################################
 
@@ -167,9 +168,10 @@ def workpackageXML(wiki, parser, verbose=False):
                                    wp),
                       'r', 'utf-8').read()
         # print type(wpwiki)
-        singleWorkpackageXML (wp, wpwiki, parser, wpCount)
+        wpMain = singleWorkpackageXML (wp, wpwiki, parser, wpCount)
+        # pp(wpMain)
         wpCount += 1 
-        wpIncluder += "\\input{wp/"+ wp + ".tex}\n"
+        wpIncluder += "\\input{wp/Wp-"+ wpMain['Shortname'] + ".tex}\n"
 
     utils.writefile (wpIncluder, 
                      os.path.join(config.get('PathNames', 'genlatexwppath'),

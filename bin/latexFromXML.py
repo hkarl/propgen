@@ -82,11 +82,11 @@ def processLaTeX (config):
         t += "% showkeys not used \n"
 
     ## make all boolean variables directly available as toggles in LaTeX:
-    for s in configs.sections():
-        for k in configs.options(s):
+    for s in config.sections():
+        for k in config.options(s):
             # print k 
             try:
-                v = configs.getboolean (s,k)
+                v = config.getboolean (s,k)
                 if v:
                     t +="\\newboolean{" + s + "-" + k + "}\n" + "\\setboolean{" + s + "-" + k + "}{true}\n"
                 else:
@@ -94,7 +94,7 @@ def processLaTeX (config):
             except ValueError:
                 pass
             
-    writefile (t, os.path.join(config.get('LaTeX', 'genlatexpath'),
+    utils.writefile (t, os.path.join(config.get('PathNames', 'genlatexpath'),
                                "settings.tex"))
     
 ##############################################################
@@ -227,6 +227,9 @@ def analyzeWPs (tree, verbose=False):
             count += 1 
 
 
+        # produce the wp header
+        
+        
     fixProducingTask (allMilestones) 
     fixProducingTask (allDeliverables) 
 
@@ -235,6 +238,12 @@ def analyzeWPs (tree, verbose=False):
 ###############################################################################################################
 
 
+def produceUncompressedGantt (l, config):
+    """produce a Gantt string for the elements in list, without trying to
+    compress that into a complact representation. Each element a separate line."""
+    return "\\\\ \n".join(["\\ganttmilestone" + e['deco'] + "{"+ e['id'] + '}{' \
+                           + str(e['Monthdue']) + "}" for e in l    ])
+    
 def produceCompressedGantt (l, config):
     # sort by date first:
     # note: a bit complex, let's assure that when there are several ones on the same date, they appear
@@ -294,6 +303,7 @@ def computeGanttStrings (config):
             m["deco"] = "[milestone={" + config.get ("Gantts", "milestoneDecoration") + "}]" 
             
         wp["milestoneGanttString"] = produceCompressedGantt (milestoneList, config)
+        wp["milestoneUncompressedGanttString"] = produceUncompressedGantt (milestoneList, config)
         wp["milestoneInGantt"] = [m["Label"] for m in milestoneList]
         wp["milestoneGanttLegend"] = "\n".join([Template(config.get("Gantts","milestoneLegendTemplate")).substitute(x) for x in milestoneList])
         
@@ -309,6 +319,7 @@ def computeGanttStrings (config):
             d["deco"] = ""
 
         wp["deliverableGanttString"] = produceCompressedGantt (deliverableList, config)
+        wp["deliverableUncompressedGanttString"] = produceUncompressedGantt (deliverableList, config)
         wp["deliverableInGantt"] = [d["Label"] for d in deliverableList]
         wp["deliverableGanttLegend"] = "\n".join([Template(config.get("Gantts","deliverableLegendTemplate")).substitute(x) for x in deliverableList])
 
@@ -322,8 +333,14 @@ def computeGanttStrings (config):
         # complicated by possibly multi-phased tasks
         wp["taskGantt"] = ""
         tasksofthiswp = set ([t['Label'] for t in allTasks if t['wp'] == wp['Number']])
+        # make sure we iterate over these tasks in the right order (Damm, these phased tasks
+        # create so many problems :-(
+
+        # pp(allTasks)
         # pp(tasksofthiswp)
-        for tasklabel in tasksofthiswp:
+        for tasklabel in sorted(tasksofthiswp,
+                                key=lambda x:
+                                [t['taskId'] for t in allTasks if t['Label']==x][0]):
             # print tasklabel
             phases = sorted ([t for t in allTasks if t['Label'] == tasklabel],
                             key=lambda x: x['Start'])
@@ -338,19 +355,20 @@ def computeGanttStrings (config):
                                          ((": " + t['Name']) if
                                           config.getboolean('Gantts', 'ganttTaskbarsShowTaskname')
                                           else "" ) +  \
-                                          "}{"+ str(t['Start']) + "}{" + str(t['Start']+t['Duration']-1) + "} \\\\ \n"
+                                          "}{"+ str(t['Start']) + "}{" + str(t['Start']+t['Duration']-1) + "} \\\\  \n"
                 else:
                     thistaskgantt += "\\ganttbar[name="+ taskganttid  + "-" + str(i)+ \
                                      "]{" + t['taskId'] + \
                                      ((" (Phase " + str(i+1) + ")") if
                                       config.getboolean('Gantts', 'ganttTaskbarsShowTaskname')
                                       else "(" +  str(i+1)+ ")")  + \
-                                     "}{"+ str(t['Start']) + "}{" + str(t['Start']+t['Duration']-1) + "} \\\\ \n"
+                                     "}{"+ str(t['Start']) + "}{" + str(t['Start']+t['Duration']-1) + "} \\\\  \n"
                     thistaskgantt += "\\ganttlink[link type=F-S]{" + taskganttid + "-" + str(i-1) + "}{" + \
-                                     taskganttid + "-" + str(i) + "} \n" 
+                                     taskganttid + "-" + str(i) + "}\n" 
                     
             # print thistaskgantt
             wp["taskGantt"] += thistaskgantt
+        wp["taskGantt"] = wp["taskGantt"].strip("\n")
                               
 
     return 
@@ -378,9 +396,13 @@ def analyzeTree(tree, config, verbose=False):
 ########################################
 ## use the templates to generate latex text 
 
-def generateTemplatesBuildListResult (templ, listtoworkon, dicttouse,
-                                      keytosave, expandedresults ):
+def generateTemplatesBuildListResult (templ, listtoworkon, 
+                                      keytosave, expandedresults):
 
+    if templ.has_key ("dict"):
+        dicttouse = eval(templ["dict"])
+    else:
+        dicttouse = None 
 
     if templ["template"]:
         t = Template(templ["template"])
@@ -397,20 +419,23 @@ def generateTemplatesBuildListResult (templ, listtoworkon, dicttouse,
     
     if templ.has_key("joiner"):
         exp = templ["joiner"].join([x[0]  for x in substitutedValues])
-        expandedresults[keytosave] = exp
+        expandedresults[keytosave] = exp.strip()
+        writeTemplateResult (expandedresults, templ, keytosave) 
     else:
         if templ.has_key("numerator"):
             i = 0
             for substitutedText, value in substitutedValues:
-                expandedresults[keytosave+"-"+str(eval(templ["numerator"]))] = substitutedText
+                keytosave2 = keytosave+"-"+str(eval(templ["numerator"]))
+                expandedresults[keytosave2] = substitutedText.strip()
+                writeTemplateResult (expandedresults, templ, keytosave2) 
                 i +=1 
         else:
-            expandedresults[keytosave] = [x[0]  for x in substitutedValues]
+            expandedresults[keytosave] = [x[0].strip()  for x in substitutedValues]
+            writeTemplateResult (expandedresults, templ, keytosave) 
 
     return expandedresults 
 
 def generateTemplates(config, verbose):
-    from templates import templates as templates
 
     global titlepageDict, partnerList, expanded 
     global allWPDicts, allMilestones, allDeliverables, allTasks, allEfforts
@@ -418,24 +443,29 @@ def generateTemplates(config, verbose):
 
     # pp(templates)
 
+    templateParser = settings.getSettings(config.get("PathNames",
+                                                     "latexTemplates"))
+
+
     expanded = {}
     
-    for templ in templates:
+    for templsection in templateParser.sections():
+        # print templsection
+        templ = templateParser._sections[templsection]
+        # pp (templ)
+        templ["label"] = templsection
         if not templ.has_key("list"):
             if templ.has_key("dict"):
                 # dealing with a dictionary is quite straightforward. 
                 t = Template(templ["template"])
                 exp =  t.substitute (eval(templ["dict"]))
-                expanded[templ["label"]] = exp
+                expanded[templ["label"]] = exp.strip()
             else:
                 # print "Template " + templ["label"] + " has neither dict not list; makes no sense."
-                expanded[templ["label"]] = templ["template"]
+                expanded[templ["label"]] = templ["template"].strip()
+            writeTemplateResult (expanded, templ) 
         else:
             # do we ALSO have a dict to use or substitution keys?
-            if templ.has_key ("dict"):
-                d = eval(templ["dict"])
-            else:
-                d = None 
             # dealing with a list argument is more complex, since it can be grouped
             # listresult = [t.substitute(x) for x in ]
             if templ.has_key ("groupby"):
@@ -446,47 +476,60 @@ def generateTemplates(config, verbose):
                 for g in groups:
                     listtoworkon = [x for x in eval(templ["list"]) if x[templ["groupby"]] == g]
                     expanded = generateTemplatesBuildListResult (templ,
-                                                                 listtoworkon, d, 
+                                                                 listtoworkon,
                                                                  templ["label"] + "-group" + g,
                                                                  expanded)
-                    # expanded[templ["label"]] = groupresult
             else:
                 expanded = generateTemplatesBuildListResult (templ,
-                                                             eval(templ["list"]), d, 
-                                                             templ["label"], expanded) 
+                                                             eval(templ["list"]),
+                                                             templ["label"],
+                                                             expanded) 
 
-        # write this entry to file?
-        if templ.has_key("file"):
-            if templ["file"] == True:
-                if templ.has_key("dir"):
-                    filename = config.get("PathNames",
-                                          "genlatex" + templ["dir"] + "path")
-                else:
-                    filename = config.get ("PathNames",
-                                           "genlatexpath")
 
-                # find all keys that start with label and write that file accordingly:
 
-                # print "label to save: ", templ["label"]
-                for k, v in expanded.iteritems():
-                    if re.match (templ["label"], k):
-                        fn =  os.path.join (filename, k + ".tex")
-                        # print fn
-                        # print v 
-                        utils.writefile (v, fn)
-                    
-                ## if templ.has_key("groupby"):
-                ##     for g in groups:
-                ##         fn = filename + "-group-" + g + ".tex"
-                ##         # print fn
-                ##         key = templ["label"] + "-group" + g
-                ##         # print key 
-                ##         # print expanded[key]
-                ##         utils.writefile (expanded[key], fn)
-                ## else:
-                ##     utils.writefile (expanded[templ["label"]], filename +".tex")
-    # pp(expanded)
 
+
+def writeTemplateResult (expanded, templ, keytouse = None):
+    """Use the information in templ to check whether it should be written out"""
+
+    if not keytouse:
+        keytouse = templ["label"]
+
+    # should we write a toggle around the latex code?
+    # yes, if there is a correspoding filed in config
+    # TODO - this is complicated since the keytouse typically has suffixes for workpackages!!
+    ## toggle = False
+    ## toggleSection = "" 
+    ## for s in config.sections():
+    ##     try:
+    ##         config.getboolean(s, keytouse)
+    ##         toggle = True
+    ##         toggleSection = s
+    ##         break 
+    ##     except:
+    ##         pass
+        
+    ## print keytouse, toggle, toggleSection 
+
+
+    # write this entry to file?
+    if templ.has_key("file"):
+        if templ["file"] == 'True':
+
+            if templ.has_key("dir"):
+                filename = config.get("PathNames",
+                                      "genlatex" + templ["dir"] + "path")
+            else:
+                filename = config.get ("PathNames",
+                                       "genlatexpath")
+
+            filename = os.path.join (filename, keytouse)
+            filename += ".tex"
+            # print "filename: ", filename
+            # print "content: ", pp(expanded[keytouse])
+            utils.writefile (expanded[keytouse], filename)
+
+    
 #########################################
     
 def computeStatistics (verbose):
