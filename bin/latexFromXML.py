@@ -431,9 +431,15 @@ def generateTemplatesBuildListResult (templ, listtoworkon,
         substitutedValues = [ (x, None) for x in listtoworkon]
     
     if templ.has_key("joiner"):
+        # little nastiness: newline characters are not interpreted as such from cfg file
         templ["joiner"] = re.sub(r'\\n', '\n', templ["joiner"])
-        # print ">>>", templ["joiner"], "<<<"
-        exp = (templ["joiner"]).join([x[0]  for x in substitutedValues])
+        if templ.has_key("sorter"):
+            tmp = sorted(substitutedValues,
+                         key = lambda y: ((eval(templ['sorter']))(y[1])))
+            exp = (templ["joiner"]).join([x[0] for x in tmp])
+            # print exp
+        else:
+            exp = (templ["joiner"]).join([x[0]  for x in substitutedValues])
         expandedresults[keytosave] = exp.strip()
         writeTemplateResult (expandedresults, templ, keytosave) 
     else:
