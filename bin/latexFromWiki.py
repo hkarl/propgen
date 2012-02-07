@@ -74,4 +74,13 @@ if __name__ == '__main__':
         
         handleFile (f, config.get("PathNames", "genlatexpath"),
                     parser, config, options.verbose)
-        
+
+    ## and the partner files: 
+    files = glob.glob (os.path.join (config.get("PathNames", "wikipartnerpath"),
+                                     "*"))
+    for f in files:
+        if os.path.isdir (f):
+            continue
+
+        handleFile (f, config.get("PathNames", "genlatexpartnerspath"),
+                    parser, config, options.verbose)

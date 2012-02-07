@@ -190,23 +190,18 @@ def partnerXML(wiki, parser):
 
     # pp(partnerDict) 
 
-    partnerIncluder = "" 
     xml = "<allpartners>\n"
     for partner in partnerDict:
         xml += "\t<partnerdescription>\n"
         for k,v in partner.iteritems():
             xml += "\t\t<" + k + "> " + v + "</" + k + ">\n"  
         xml += "\t</partnerdescription>\n"
-        partnerIncluder += "\\input{partners/" + partner["Wiki"] + ".tex}\n" 
     xml += "</allpartners>\n"
 
     utils.writefile (xml, 
                      os.path.join(config.get('PathNames', 'xmlpath'),
                                   'partners.xml'))
 
-    utils.writefile (partnerIncluder, 
-                     os.path.join(config.get('PathNames', 'genlatexpartnerspath'),
-                                  'partnersIncluder.tex'))
 
 
 

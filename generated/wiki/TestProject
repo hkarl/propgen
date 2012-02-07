@@ -12,7 +12,7 @@ This wiki page contains the main configuration data for a project: name, acronym
    * ProposalAbstract 
    * ConceptAndObjectives 
    * ProgressBeyondStateoftheArt 
-   * MethdologyWorkplan
+   * MethodologyWorkplan
    * WorkPlanning 
    * DeliverableList 
    * ManagementStructureAndProcedures
@@ -23,6 +23,7 @@ This wiki page contains the main configuration data for a project: name, acronym
    * ResourcesToBeCommitted 
    * ExpectedImpact 
    * DisseminationExploitation 
+   * AcronymsList
    
 (Ethical Issues is much easier handled in main.tex than on wiki) 
 
@@ -37,10 +38,10 @@ This wiki page contains the main configuration data for a project: name, acronym
    * Duration: 24
    * Call: ICT FP7-ICT-2012-8
    * Topics: Objective ICT-2011.1.1 Future Networks
-   * Instrument: 
-   * CoordinatorName: 
-   * CoordinatorEmail: 
-   * CoordinatorPhone: 
+   * Instrument: Integrated Project 
+   * CoordinatorName: Peter Pan
+   * CoordinatorEmail: peter.pan@neverland.org
+   * CoordinatorPhone: +12 345 5678
 
 '''Note''': Duration is used for Gantt charts. Call, topics, and instrument fields go on the titlepage of the proposal. Do not introduce linebreaks in each bullet line! 
 

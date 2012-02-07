@@ -24,16 +24,6 @@
 % to display the commission hints: 
 \newcommand{\commissionhints}[1]{\small \textit{#1}}
 
-% how deeply should headings be numbered? 
-\setcounter{secnumdepth}{3}
-
-% to what level should the table of content display sections? 
-\setcounter{tocdepth}{\tocLevel}
-
-% compact lists options 
-% TODO: check whether this works before loading the package? 
-\setlength{\pltopsep}{0.5ex}
-\setlength{\plitemsep}{0.25ex}
 
 
 
@@ -115,8 +105,19 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% import all the settings that result from switches in settings.cfg 
-\input{wp/settings}
+\input{settings}
 
+% how deeply should headings be numbered? 
+\setcounter{secnumdepth}{\secNumDepth}
+
+% to what level should the table of content display sections? 
+\setcounter{tocdepth}{\tocLevel}
+
+%%%%%
+% compact lists options 
+% TODO: check whether this works before loading the package? 
+\setlength{\pltopsep}{0.5ex}
+\setlength{\plitemsep}{0.25ex}
 
 
 \begin{document}
@@ -130,8 +131,6 @@
 \thispagestyle{empty}
 \input{titlepage}
 
-\vspace{0.5cm}
-\centerline{\includegraphics*[height=3.5cm]{steam-logo-1}}
 
 \newpage
 \noindent \textbf{Proposal Abstract}
@@ -150,15 +149,16 @@
   \addcontentsline{toc}{chapter}{\numberline{}List of Figures}
 }{}
 \ifthenelse{\boolean{LaTeX-showListOfFigures}}{
-  \input{acronyms}}{}
+  \input{AcronymsList}}{}
 }
 
 
 \ifthenelse{\boolean{LaTeX-showWarnings}}{
 \listoffixmes
-\begin{compactitem}
-\input{wp/warnings}
-\end{compactitem}
+\IfFileExists{warnings.tex}{
+  \begin{compactitem}
+    \input{warnings}
+  \end{compactitem}}{No warnings found!}
 }{\renewcommand{\fxnote}[1]{}
 \renewcommand{\fxwarning}[1]{}
 \renewcommand{\fxerror}[1]{}
@@ -177,7 +177,7 @@
 
 \input{ConceptAndObjectives}
 
-\input{BeyondStateOfTheArt}
+\input{ProgressBeyondStateoftheArt}
 
 
 \input{MethodologyWorkplan}
@@ -187,7 +187,7 @@
 
 
 
-\input{tables/wpsummarytable}
+\input{figures/tables/wpsummarytable}
 
 % \input{gantts/completeGantt}
 % \input{gantts/ganttAllMS}
@@ -239,7 +239,7 @@ Maximum length for Section 2.2: one page per participant. However, where two or 
 The maximum length applying to a legal entity composed of several members, each of which is a separate legal entity (for example an EEIG), is one page per member, provided that the members have quite distinct roles within the proposal.
 }
 
-\input{partners/partner-frame}
+\input{partners/partnersIncluder}
 
 
 

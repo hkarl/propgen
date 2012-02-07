@@ -4,7 +4,13 @@
 subtree exist, unless there is already a real file there. """
 
 import settings
+import os
 
+def ensureWarningFile (config):
+    f = open (os.path.join(config.get ("PathNames", 'genlatexpath'),
+                           "warnings.tex"), 'a')
+    print >> f, "% Warning file created"
+    f.close 
 
 def createLinks (config):
     """Look into config, in the Paths section, for any directory
@@ -66,6 +72,8 @@ if __name__ == '__main__':
     (options, args) = parser.parse_args()
 
     config = settings.getSettings(options.settingsfile)
+
+    # ensureWarningFile (config) 
 
     createLinks (config)
     

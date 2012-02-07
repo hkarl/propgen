@@ -431,7 +431,9 @@ def generateTemplatesBuildListResult (templ, listtoworkon,
         substitutedValues = [ (x, None) for x in listtoworkon]
     
     if templ.has_key("joiner"):
-        exp = templ["joiner"].join([x[0]  for x in substitutedValues])
+        templ["joiner"] = re.sub(r'\\n', '\n', templ["joiner"])
+        # print ">>>", templ["joiner"], "<<<"
+        exp = (templ["joiner"]).join([x[0]  for x in substitutedValues])
         expandedresults[keytosave] = exp.strip()
         writeTemplateResult (expandedresults, templ, keytosave) 
     else:
@@ -574,6 +576,19 @@ def computeStatistics (verbose):
         wp['Leadernumber'] = [p['Number'] for p in partnerList if p['Shortname'] == wp['Leadership']][0]
     return 
 
+
+def generatePartnerDescriptions(config, verbose):
+    t = ""
+    for p in partnerList:
+        # print p
+        t += r"\subsection{" + p['Name'] + " (" + p['Shortname'] + ")}\n"
+        t += r"\label{partner:" + p['Shortname'] +"}\n"
+        t += "\\input{partners/" + p["Wiki"] + ".tex}\n" 
+
+    utils.writefile (t, 
+                     os.path.join(config.get('PathNames', 'genlatexpartnerspath'),
+                                  'partnersIncluder.tex'))
+
 ########################################
 if __name__ == '__main__':
     import sys
@@ -611,6 +626,8 @@ if __name__ == '__main__':
     analyzeTree (tree.getroot(), config, options.verbose)
 
     computeStatistics (options.verbose)
+
+    generatePartnerDescriptions (config, options.verbose)
     
     if options.verbose:
         pp(titlepageDict)

@@ -308,7 +308,7 @@ class wikiParser:
         for l in lines:
             # is there a tabular header in the wiki input?
             # extract it for the next following table
-            mh = re.search (r'#+ *TABULAR: *(.*) *#*$', l)
+            mh = re.search (r'#+ *TABULAR: *(.*?) *#*$', l)
             if mh:
                 # print mh.group(1)
                 tabularHeader = mh.group(1) 
@@ -470,7 +470,7 @@ class wikiParser:
             anyHeading =  '|'.join([x[0] for x in self.headingReplacements])
             t = re.sub (anyHeading,
                         lambda m: m.group() +
-                        "\n\\commissionhint{" + hint + "}", t, 1, re.M) 
+                        "\n\\commissionhints{" + hint + "}", t, 1, re.M) 
         return t 
                        
     

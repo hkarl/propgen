@@ -27,6 +27,7 @@ latexFromWiki:
 
 latexFromXML:
 	cd bin ; python latexFromXML.py  -s ../$(SETTINGS) $(FLAGS) 
+
 ensureSymbolicLinks:
 	cd bin ; python ensureSymbolicLinks.py   -s ../$(SETTINGS) $(FLAGS) 
 
