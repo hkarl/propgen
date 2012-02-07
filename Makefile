@@ -12,6 +12,9 @@ proposal:
 	make pullproject
 	make xml 
 	make latexFromWiki
+	make latexFromXML
+	make ensureSymbolicLinks 
+
 
 pullproject: 
 	cd bin ; python pullProject.py -s ../$(SETTINGS) $(FLAGS) 
@@ -24,6 +27,10 @@ latexFromWiki:
 
 latexFromXML:
 	cd bin ; python latexFromXML.py  -s ../$(SETTINGS) $(FLAGS) 
+ensureSymbolicLinks:
+	cd bin ; python ensureSymbolicLinks.py   -s ../$(SETTINGS) $(FLAGS) 
+
+
 clean:
 	find generated/ -type f -print | grep -v README | xargs rm 
 

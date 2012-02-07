@@ -70,30 +70,43 @@ def dictFromXMLWithMains (tree):
 # produce the LaTeX options 
 def processLaTeX (config):
     t = ""
-    if config.get('LaTeX', 'showCommissionHints'):
+    if config.getboolean('LaTeX', 'showCommissionHints'):
         t += "% commissionHints command unchanged to have them included\n"
     else:
         t += "\\renewcommand{\commissionhints}[1]{}\n"
 
     
-    if config.get('LaTeX', 'useShowkeys'):
+    if config.getboolean('LaTeX', 'useShowkeys'):
         t += "\\usepackage{showkeys}\n"
     else:
         t += "% showkeys not used \n"
 
     ## make all boolean variables directly available as toggles in LaTeX:
+
     for s in config.sections():
-        for k in config.options(s):
-            # print k 
-            try:
-                v = config.getboolean (s,k)
-                if v:
-                    t +="\\newboolean{" + s + "-" + k + "}\n" + "\\setboolean{" + s + "-" + k + "}{true}\n"
-                else:
-                    t +="\\newboolean{" + s + "-" + k + "}\n" + "\\setboolean{" + s + "-" + k + "}{false}\n"
-            except ValueError:
-                pass
-            
+        if not s == "CustomLaTeX": 
+            for k in config.options(s):
+                # print k 
+                try:
+                    v = config.getboolean (s,k)
+                    if v:
+                        t +="\\newboolean{" + s + "-" + k + "}\n" + "\\setboolean{" + s + "-" + k + "}{true}\n"
+                    else:
+                        t +="\\newboolean{" + s + "-" + k + "}\n" + "\\setboolean{" + s + "-" + k + "}{false}\n"
+                except ValueError:
+                    pass
+
+    ## and put all the entries in CustomLaTeX 
+    if config.has_section('CustomLaTeX'):
+        for o in config.options('CustomLaTeX'):
+            c =  config.get('CustomLaTeX', o)
+            # print c 
+            r = eval(c)
+            # print r
+            # print r"\newcommand{" + o + "}{" + str(r) + "}\n"
+            t += "\\newcommand{\\" + o + "}{" + str(r) + "}\n"
+        
+    
     utils.writefile (t, os.path.join(config.get('PathNames', 'genlatexpath'),
                                "settings.tex"))
     
