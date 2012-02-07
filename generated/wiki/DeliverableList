@@ -8,4 +8,8 @@ Milestones are \textbf{control points} where decisions are needed with regard to
 
 == Deliverables ==
 
+All deliverables for the project are summarized in Table~\ref{tab:deliverablesummary}. The milestones are listed in Table~\ref{tab:milestonessummary}. 
+
+\input{figures/tables/DeliverableTable}
+\input{figures/tables/MilestoneTable}
 

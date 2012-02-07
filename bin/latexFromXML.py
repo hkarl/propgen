@@ -330,12 +330,13 @@ def computeGanttStrings (config):
 
         for d in deliverableList:
             d["deco"] = ""
-
+            
         wp["deliverableGanttString"] = produceCompressedGantt (deliverableList, config)
         wp["deliverableUncompressedGanttString"] = produceUncompressedGantt (deliverableList, config)
         wp["deliverableInGantt"] = [d["Label"] for d in deliverableList]
         wp["deliverableGanttLegend"] = "\n".join([Template(config.get("Gantts","deliverableLegendTemplate")).substitute(x) for x in deliverableList])
 
+        
         ########################
         # the groupbar for a WP is fairly simple:
         wp["groupbar"] = r"\ganttgroup{}{" + wp['Start'] +  "}{" \
@@ -382,9 +383,41 @@ def computeGanttStrings (config):
             # print thistaskgantt
             wp["taskGantt"] += thistaskgantt
         wp["taskGantt"] = wp["taskGantt"].strip("\n")
-                              
+
+
+    #####
+    ## Gantt Legend strings for deliverables and milestones
+
+    for d in allDeliverables:
+        d['ganttLegend'] = Template(config.get("Gantts",
+                                               "deliverableLegendTemplate")).substitute(d)
+    for ms in allMilestones:
+        ms['ganttLegend'] = Template(config.get("Gantts","milestoneLegendTemplate")).substitute(ms)
 
     return 
+
+################################################
+def computeWPTable (config):
+    global titlepageDict, partnerList, expanded 
+    global allWPDicts, allMilestones, allDeliverables, allTasks, allEfforts
+
+    maxPartnerPerRow = config.getint('WPTables', 'maxPartnersPerRow')
+    for wp in allWPDicts:
+        t = r"\begin{tabular}"
+
+        t += "{|l"
+        t += ("|" + config.get('LaTeX', 'wptablespacing') +
+              "c" + config.get('LaTeX', 'wptablespacing'))  \
+              * maxPartnerPerRow
+        t += "|} \n \\hline"
+
+        # which WP?
+        # t += r'\textbf{Workpackage no.} & %d & \multicolumn{}
+        t += r'\end{tabular}'
+        wp['tableheader'] = t
+        pp(wp)
+
+###############################################
 
 def analyzeTree(tree, config, verbose=False):
     """Take an XML tree and create all the necessary data structures"""
@@ -405,6 +438,9 @@ def analyzeTree(tree, config, verbose=False):
     # compute the gantt chart entries 
     computeGanttStrings (config)
 
+    # compute the WP table as far as necessary; try to delegate as much as possible
+    # to the templating engine
+    computeWPTable (config) 
 
 ########################################
 ## use the templates to generate latex text 
