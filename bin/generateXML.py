@@ -110,10 +110,11 @@ def singleWorkpackageXML (wp, wpwiki, parser, wpcount):
         if task['Label'] not in newTasks:
             print task['Label']
             newTasks.add(task['Label'])
-            task['Main'] =True 
+            task['Main'] =True
+            # plug out corresponding description 
         else:
             task['Main'] = False 
-        pp(task)
+        # pp(task)
 
         wpTasksXML += '<task id="' + task["Label"] + '">\n'  + \
                     dictAsXML(task) + \
