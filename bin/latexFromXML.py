@@ -493,9 +493,24 @@ def analyzeTree(tree, config, verbose=False):
 ########################################
 ## use the templates to generate latex text 
 
+class recursiveTemplate(Template):
+    """ try to find recursively occuring patterns and replace them first"""
+    def substitute (self, d):
+        # print "REC"
+        tmp = self.template
+        # print "template before RE: ", tmp
+        tmp = re.sub (r'\${([_a-zA-Z][_a-zA-Z0-9]*)_(\${([_a-zA-Z][_a-zA-Z0-9]*)})}',
+                lambda m: "${" + m.group(1) + "_" + d[m.group(3)] +"}",
+                tmp)
+        # print "template after RE: ", tmp
+        # pp(d)
+        ts = Template(tmp)
+        return ts.substitute (d)
+
 def generateTemplatesBuildListResult (templ, listtoworkon, 
                                       keytosave, expandedresults):
 
+        
     if templ.has_key ("dict"):
         dicttouse = eval(templ["dict"])
     else:
@@ -504,7 +519,7 @@ def generateTemplatesBuildListResult (templ, listtoworkon,
     if templ["template"]:
         ## print "--------------"
         ## print templ["template"]
-        t = Template(templ["template"])
+        t = recursiveTemplate(templ["template"])
         ## print t.template
         # print "keytosave: ", keytosave
         if dicttouse:
@@ -535,7 +550,7 @@ def generateTemplatesBuildListResult (templ, listtoworkon,
         if templ.has_key("numerator"):
             i = 0
             for substitutedText, value in substitutedValues:
-                keytosave2 = keytosave+"-"+str(eval(templ["numerator"]))
+                keytosave2 = keytosave+"_"+str(eval(templ["numerator"]))
                 expandedresults[keytosave2] = substitutedText.strip()
                 writeTemplateResult (expandedresults, templ, keytosave2) 
                 i +=1 
@@ -567,7 +582,7 @@ def generateTemplates(config, verbose):
         if not templ.has_key("list"):
             if templ.has_key("dict"):
                 # dealing with a dictionary is quite straightforward. 
-                t = Template(templ["template"])
+                t = recursiveTemplate(templ["template"])
                 exp =  t.substitute (eval(templ["dict"]))
                 expanded[templ["label"]] = exp.strip()
             else:
@@ -587,14 +602,13 @@ def generateTemplates(config, verbose):
                     listtoworkon = [x for x in eval(templ["list"]) if x[templ["groupby"]] == g]
                     expanded = generateTemplatesBuildListResult (templ,
                                                                  listtoworkon,
-                                                                 templ["label"] + "-" + g,
+                                                                 templ["label"] + "_" + g,
                                                                  expanded)
             else:
                 expanded = generateTemplatesBuildListResult (templ,
                                                              eval(templ["list"]),
                                                              templ["label"],
                                                              expanded) 
-
 
 
 

@@ -104,8 +104,17 @@ def singleWorkpackageXML (wp, wpwiki, parser, wpcount):
                     "</milestone>\n"
 
     ## get the tasks
-    wpTasksXML = "" 
+    wpTasksXML = ""
+    newTasks = set([])
     for task in parser.getTable(parser.getSection (wpwiki, "Tasks", 3)): 
+        if task['Label'] not in newTasks:
+            print task['Label']
+            newTasks.add(task['Label'])
+            task['Main'] =True 
+        else:
+            task['Main'] = False 
+        pp(task)
+
         wpTasksXML += '<task id="' + task["Label"] + '">\n'  + \
                     dictAsXML(task) + \
                     "</task>\n"
