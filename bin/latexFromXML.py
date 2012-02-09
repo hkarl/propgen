@@ -244,7 +244,13 @@ def analyzeWPs (tree, verbose=False):
         
         
     fixProducingTask (allMilestones) 
-    fixProducingTask (allDeliverables) 
+    fixProducingTask (allDeliverables)
+
+    # put any additional information into the task strings
+
+    pp (allTasks) 
+    # for t in allTasks:
+        
 
 ###############################################################################################################
 ####    GANTT HANDLING

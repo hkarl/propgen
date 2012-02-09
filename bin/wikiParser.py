@@ -98,7 +98,9 @@ class wikiParser:
         except:
             print "Warning: Section not found! regular expression:", startre
             return ""
-        
+
+        ## print "previous string removed:"
+        ## print t 
         tt = re.split (endre, t)[0]
 
         return tt 
@@ -504,8 +506,9 @@ class wikiParserMoinmoin(wikiParser):
         """extract the section with title at level """
 
         startre = self.localHeading (title, level)
-        endre = '=' + '=?'*(level-1) + ' '
-
+        endre = r'\n=' + '=?'*(level-1) + ' '
+        
+        # print "start, end re: >>" + startre + "<< >>" + endre +  "<<"
         return self.getSectionRe (wiki, startre, endre)
 
     ## def getTable (self, wiki):

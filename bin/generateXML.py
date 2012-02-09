@@ -75,7 +75,7 @@ def dictAsXML (d, parser=None, specialFields=[]):
                     t += "<" + kk + ' main="True">' + str(vvv) + "</" + kk + ">\n"
         else:
             k = re.sub ('\s', '', k) 
-            t += "<" + k + ">" + str(v) + "</" + k + ">\n"
+            t += "<" + k + ">" + (parser.getLaTeX(str(v)) if parser else str(v)).strip() + "</" + k + ">\n"
 
     return t 
 
@@ -111,13 +111,21 @@ def singleWorkpackageXML (wp, wpwiki, parser, wpcount):
             print task['Label']
             newTasks.add(task['Label'])
             task['Main'] =True
-            # plug out corresponding description 
+            # plug out corresponding description
+            # print wpwiki
+            td = parser.getSection (wpwiki, "Task [dD]escription: " + task['Label'].strip(), 3)
+            obj = parser.getSection (td, "Objectives", 4)
+            descr = parser.getSection (td, "Description of work", 4)
+            print "Objectives: ", obj
+            print "Descr: ", descr
+            task['taskobjectives'] = obj
+            task['taskdescription'] = descr
         else:
             task['Main'] = False 
         # pp(task)
 
         wpTasksXML += '<task id="' + task["Label"] + '">\n'  + \
-                    dictAsXML(task) + \
+                    dictAsXML(task, parser) + \
                     "</task>\n"
         
     ## get the effort - that's a little bit more difficult: 
@@ -181,7 +189,7 @@ def workpackageXML(wiki, parser, verbose=False):
         wpMain = singleWorkpackageXML (wp, wpwiki, parser, wpCount)
         # pp(wpMain)
         wpCount += 1 
-        wpIncluder += "\\input{wp/Wp-"+ wpMain['Shortname'] + ".tex}\n \n"
+        wpIncluder += "\\input{wp/Wp_"+ wpMain['Shortname'] + ".tex}\n \n"
 
     utils.writefile (wpIncluder, 
                      os.path.join(config.get('PathNames', 'genlatexwppath'),
