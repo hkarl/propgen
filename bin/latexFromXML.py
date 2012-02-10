@@ -248,9 +248,12 @@ def analyzeWPs (tree, verbose=False):
 
     # put any additional information into the task strings
 
-    pp (allTasks) 
-    # for t in allTasks:
-        
+    for t in allTasks:
+        t['contributedDeliverables'] = [d['Label'] for d in allDeliverables if t['Label'] in d['Producingtask'] ]
+        t['contributedMilestones'] = [d['Label'] for d in allMilestones if t['Label'] in d['Producingtask'] ]
+
+    # pp (allTasks) 
+
 
 ###############################################################################################################
 ####    GANTT HANDLING
@@ -511,7 +514,17 @@ class recursiveTemplate(Template):
         # print "template after RE: ", tmp
         # pp(d)
         ts = Template(tmp)
-        return ts.substitute (d)
+        substituted =  ts.substitute (d)
+        # print substituted 
+        # print re.findall (r'%{(.*?)}', substituted)
+        # print substituted
+        ## m = re.search (r'%{(.*?)%}', substituted)
+        ## if m:
+        ##     print m.group(1)
+        ##     print eval(m.group(1))
+        executed = re.sub (r'%{(.*?)%}', lambda m: eval(m.group(1)), substituted)
+        # print executed 
+        return executed 
 
 def generateTemplatesBuildListResult (templ, listtoworkon, 
                                       keytosave, expandedresults):
