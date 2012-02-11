@@ -614,6 +614,7 @@ def generateTemplates(config, verbose):
             # listresult = [t.substitute(x) for x in ]
             if templ.has_key ("groupby"):
                 # groupby must be a key in the directory contained in the list
+                # print templ['list']
                 # print eval(templ["list"])
                 groups = set ([x[templ["groupby"]] for x in eval(templ["list"])])
                 # print groups
