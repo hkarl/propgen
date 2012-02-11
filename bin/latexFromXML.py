@@ -517,13 +517,14 @@ class recursiveTemplate(Template):
         substituted =  ts.substitute (d)
         # print substituted 
         # print re.findall (r'%{(.*?)}', substituted)
-        # print substituted
+        ## print "----"
+        ## print substituted
         ## m = re.search (r'%{(.*?)%}', substituted)
         ## if m:
         ##     print m.group(1)
         ##     print eval(m.group(1))
         executed = re.sub (r'%{(.*?)%}', lambda m: eval(m.group(1)), substituted)
-        # print executed 
+        ## print executed 
         return executed 
 
 def generateTemplatesBuildListResult (templ, listtoworkon, 
