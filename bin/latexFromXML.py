@@ -523,7 +523,10 @@ class recursiveTemplate(Template):
         ## if m:
         ##     print m.group(1)
         ##     print eval(m.group(1))
-        executed = re.sub (r'%{(.*?)%}', lambda m: eval(m.group(1)), substituted)
+        executed = re.sub (r'%{(.*?)%}',
+                           lambda m: eval(m.group(1)),
+                           substituted,
+                           flags=re.DOTALL)
         ## print executed 
         return executed 
 
@@ -763,20 +766,25 @@ if __name__ == '__main__':
 
     generatePartnerDescriptions (config, options.verbose)
     
-    if options.verbose:
-        pp(titlepageDict)
-        pp(allWPDicts)
-        pp(allTasks)
-        pp(allMilestones)
-        pp(allDeliverables)
-        pp(allEfforts)
-        pp(partnerList) 
-
     
     generateTemplates (config, options.verbose)
 
 
     if options.verbose:
-        pp (expanded) 
+        print "titlepage" 
+        pp(titlepageDict)
+        print "allWPDicts"
+        pp(allWPDicts)
+        print "allTasks"
+        pp(allTasks)
+        print "allMilestones"
+        pp(allMilestones)
+        print "allDeliverables"
+        pp(allDeliverables)
+        print "allEfforts"
+        pp(allEfforts)
+        print "patnerList"
+        pp(partnerList) 
+        ## pp (expanded) 
 
     processLaTeX (config) 

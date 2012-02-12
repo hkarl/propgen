@@ -147,6 +147,7 @@ def singleWorkpackageXML (wp, wpwiki, parser, wpcount):
     wpXML =  '<workpackage id="' + wp + '">' + \
             dictAsXML (wpMain) + \
             "<objectives>\n" + parser.getSection(wpwiki, "Objectives", 2).strip() + "</objectives>\n" + \
+            "<wpdescription>\n" + parser.getSection(wpwiki, "WP Description", 2).strip() + "</wpdescription>\n" + \
             wpDelXML + \
             wpMilestonesXML + \
             wpTasksXML + \
