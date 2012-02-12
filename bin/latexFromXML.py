@@ -252,6 +252,16 @@ def analyzeWPs (tree, verbose=False):
         t['contributedDeliverables'] = [d['Label'] for d in allDeliverables if t['Label'] in d['Producingtask'] ]
         t['contributedMilestones'] = [d['Label'] for d in allMilestones if t['Label'] in d['Producingtask'] ]
 
+    # make sure all tasks and all partners show up in allEfforts:
+    for t in allTasks:
+        for p in partnerList:
+            if not [e for e in allEfforts if e['partner'] == p['Shortname'] and
+                    e['task'] == t['Label']]:
+                allEfforts.append ({"partner": p['Shortname'],
+                                    "task": t['Label'],
+                                    "resources": '0',
+                                    "wp": t['wp']})
+
     # pp (allTasks) 
 
 
@@ -610,6 +620,8 @@ def generateTemplates(config, verbose):
                 expanded[templ["label"]] = exp.strip()
             else:
                 # print "Template " + templ["label"] + " has neither dict not list; makes no sense."
+                # pp(templ)
+                # pp(templ['template'])
                 expanded[templ["label"]] = templ["template"].strip()
             writeTemplateResult (expanded, templ) 
         else:
@@ -775,6 +787,7 @@ if __name__ == '__main__':
     
     generateTemplates (config, options.verbose)
 
+    processLaTeX (config) 
 
     if options.verbose:
         print "titlepage" 
@@ -790,7 +803,7 @@ if __name__ == '__main__':
         print "allEfforts"
         pp(allEfforts)
         print "partnerList"
-        pp(partnerList) 
-        ## pp (expanded) 
+        pp(partnerList)
+        print "expanded"
+        pp (expanded) 
 
-    processLaTeX (config) 
