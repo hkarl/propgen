@@ -701,8 +701,14 @@ def computeStatistics (verbose):
         partnerset = set([te['partner'] for te in allEfforts if te['wp'] == wp['Number'] and int(te['resources']) > 0])
         wp['partnereffort'] = dict([ (p, sum([int(te['resources'])
                                               for te in allEfforts
-                                              if te['partner'] == p and te['wp'] == wp['Number'] and int(te['resources']) > 0]))
+                                              if te['partner'] == p and
+                                              te['wp'] == wp['Number'] and int(te['resources']) > 0]))
                                      for p in partnerset ] )
+        # make sure that every partner is mentioned in partnereffort, with 0 if no effort
+        for p in partnerList:
+            if not wp['partnereffort'].has_key(p['Shortname']):
+                wp['partnereffort'][p['Shortname']] = 0
+            
 
         wp['End'] = int(wp['Start']) + int(wp['Duration']) - 1 
 
@@ -783,7 +789,7 @@ if __name__ == '__main__':
         pp(allDeliverables)
         print "allEfforts"
         pp(allEfforts)
-        print "patnerList"
+        print "partnerList"
         pp(partnerList) 
         ## pp (expanded) 
 
