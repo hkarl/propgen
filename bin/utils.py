@@ -114,3 +114,30 @@ def searchListOfDicts (l, key, value, returnkey):
     for ll in l:
         if ll[key] == value:
             return ll[returnkey]
+
+
+#####
+def roundPie  (l):
+    """ round the values to 100%, input: list of (name, value) tuples"""
+
+    v = [ll[1]*1.0 for ll in l] 
+    s = sum(v)
+
+
+    percents = [ vv*100./s for vv in v]
+    
+    rounded = [ int(vv) for vv in percents]
+
+    
+    while (sum(rounded) < 100):
+        # which is point of largest rounding error?
+        dif = [percents[i]-rounded[i] for i in range(len(rounded))]
+        [maxval, maxind] = max([x, y] for y,x in enumerate(dif))
+
+        rounded[maxind] += 1 
+
+    # return [ (l[i][0], str(rounded[i])) for i in range(len(rounded)) ]
+    return ', '.join([ "%d/%s" %  (rounded[i], l[i][0]) for i in range(len(rounded)) ])
+
+
+        

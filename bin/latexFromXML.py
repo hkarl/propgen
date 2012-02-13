@@ -807,3 +807,12 @@ if __name__ == '__main__':
         print "expanded"
         pp (expanded) 
 
+
+## pp( utils.roundPie(utils.mapReduce ([   (utils.searchListOfDicts(partnerList,
+##                                                                  'Shortname',
+##                                                                  e['partner'],
+##                                                                  'Nation'),
+##                                          int(e['resources']))
+##                                         for e in allEfforts],
+##                                     lambda a,b: a+b))
+##     )

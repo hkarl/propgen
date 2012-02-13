@@ -467,7 +467,7 @@ class wikiParser:
 
         m = re.search (startCom + "(.*)" + endCom, t, re.DOTALL)
         if m:
-            hint =  m.group(1)
+            hint =  m.group(1).strip()
             t = re.sub (startCom + ".*" + endCom, "", t, 0, re.DOTALL)
             anyHeading =  '|'.join([x[0] for x in self.headingReplacements])
             t = re.sub (anyHeading,
