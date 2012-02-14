@@ -17,4 +17,12 @@ def getSettings(filename):
         print "Serious problem - giving up"
         exit
 
+    # add a .. prefix if pathNames appear
+    if c.has_section('PathNames'):
+        for o in c.options('PathNames'):
+            if not o == 'bindir':
+                c.set ('PathNames', o, os.path.join ('..', c.get('PathNames', o)))
+                # print o, c.get('PathNames', o)
+
+
     return c 
