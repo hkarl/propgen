@@ -341,7 +341,7 @@ def computeGanttStrings (config):
         
         deliverableList = [x for x in allDeliverables
                            if x['wp'] == wp['Number'] or
-                           ( config.getboolean ("Gantts", "milestonesShowCrossWP") and 
+                           ( config.getboolean ("Gantts", "deliverablesShowCrossWP") and 
                              utils.treeReduce ([[task['wp'] == wp['Number'] for task in allTasks if task['Label'] ==contribTask ]
                                                 for contribTask in x['Producingtask']],
                                                lambda a, b: a or b)
@@ -734,7 +734,8 @@ def generatePartnerDescriptions(config, verbose):
         # print p
         t += r"\subsection{" + p['Name'] + " (" + p['Shortname'] + ")}\n"
         t += r"\label{partner:" + p['Shortname'] +"}\n"
-        t += "\\input{partners/" + p["Wiki"] + ".tex}\n" 
+        t += "\\input{partners/" + p["Wiki"] + ".tex}\n"
+        t += r"\ithenelse{\boolean{Participants-newpageAfterEachPartner}}{\newpage}{}"
 
     utils.writefile (t, 
                      os.path.join(config.get('PathNames', 'genlatexpartnerspath'),
