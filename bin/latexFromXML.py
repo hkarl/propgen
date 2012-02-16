@@ -735,7 +735,7 @@ def generatePartnerDescriptions(config, verbose):
         t += r"\subsection{" + p['Name'] + " (" + p['Shortname'] + ")}\n"
         t += r"\label{partner:" + p['Shortname'] +"}\n"
         t += "\\input{partners/" + p["Wiki"] + ".tex}\n"
-        t += r"\ithenelse{\boolean{Participants-newpageAfterEachPartner}}{\newpage}{}"
+        t += r"\ifthenelse{\boolean{Participants-newpageAfterEachPartner}}{\newpage}{}"
 
     utils.writefile (t, 
                      os.path.join(config.get('PathNames', 'genlatexpartnerspath'),
