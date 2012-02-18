@@ -7,9 +7,15 @@ Requirements:
 * make 
 * python 2.7 
 * latex
-* bash shell 
 * a file system that supports symbolic links 
-  * at least, it is HIGHLY recommended, not tested to work without 
+  (it should be possible to do without, but that is not tested) 
+
+
+Installation:
+-------------
+
+* Read INSTALL 
+
 
 Directories: 
 ------------
