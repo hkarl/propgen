@@ -1,0 +1,69 @@
+## Start of text ##
+
+===== Start commission hints =====
+Explain the concept of your project. What are the main ideas that led you to propose this work?  Describe in detail the S& T objectives. Show how they relate to the topics addressed by the call. The objectives should be those achievable within the project, not through subsequent development. They should be stated in a measurable and verifiable form, including through the milestones that will be indicated under Section 1.3 below.
+===== End commission hints =====
+
+= Concept and Objectives =
+
+
+This is test text. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla
+urna. Maecenas interdum nunc in augue. Mauris quis massa in ante
+tincidunt mollis. Proin imperdiet. Donec porttitor pede id est. Sed
+in ante. Integer id arcu. Nam lectus nisl, posuere sit amet,
+imperdiet ut, tristique ac, lorem. In erat. In commodo enim.
+Phasellus libero ipsum, tempor a, pharetra consequat, pellentesque
+sit amet, sem. Praesent ut augue luctus elit adipiscing ultricies.
+Vestibulum suscipit cursus leo. Nullam molestie justo.
+
+== Subheading with text ==
+
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla
+urna. Maecenas interdum nunc in augue. Mauris quis massa in ante
+tincidunt mollis. Proin imperdiet. Donec porttitor pede id est. Sed
+in ante. Integer id arcu. Nam lectus nisl, posuere sit amet,
+imperdiet ut, tristique ac, lorem. In erat. In commodo enim.
+Phasellus libero ipsum, tempor a, pharetra consequat, pellentesque
+sit amet, sem. Praesent ut augue luctus elit adipiscing ultricies.
+Vestibulum suscipit cursus leo. Nullam molestie justo.
+
+\begin{verbatim}
+  $ x = y_5 $
+\end{verbatim}
+
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla
+urna. Maecenas interdum nunc in augue. Mauris quis massa in ante
+tincidunt mollis.
+
+Some demo formattings: 
+   * This is '''boldface''' and now 
+   * this is ''italics''
+
+We can also include figures using normal Wiki syntax and have the figure show up in the PDF file. 
+{{attachment:duckie.png|alt text|position="top"}}. Sadly, moinmoin does not allow syntax extension of attachment links, so we have to do this rather crudely, in the twiki style: 
+<img file="duckie" label="duckie" caption="The main objectives of the Test project" latexwidth="1"/>
+
+<del>
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla
+urna. Maecenas interdum nunc in augue. Mauris quis massa in ante
+tincidunt mollis. Proin imperdiet. Donec porttitor pede id est. Sed
+in ante. Integer id arcu. Nam lectus nisl, posuere sit amet,
+imperdiet ut, tristique ac, lorem. In erat. In commodo enim.
+Phasellus libero ipsum, tempor a, pharetra consequat, pellentesque
+sit amet, sem. Praesent ut augue luctus elit adipiscing ultricies.
+Vestibulum suscipit cursus leo. Nullam molestie justo.
+</del>
+
+And a little table, we can provide some hints on proper layouting of the columns. 
+
+## TABULAR: p{0.2\textwidth}cp{0.4\textwidth} ##
+|| '''Column A''' || '''Column B''' || '''Column C'''||
+|| 1 || 2 || 3 ||
+|| 4 || 5 || 6 ||
+
+This text comes after the table. 
+
+
+Lot's of special characters: äöü ß ÄÖÜ é è á à § 
+
+## End of text ##
