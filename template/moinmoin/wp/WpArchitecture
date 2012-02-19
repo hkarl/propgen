@@ -1,13 +1,6 @@
----+ WP NameOfTheWorkpackage
-
-%TOC{depth=4}%
-
-This is the template for a generic workpackage. It is IMPORTANT not to change the names or levels of headinges, table structures, etc. See the documentation for details which information goes where. 
 
 
-## Start of text ##
-
----++ Objectives
+== Objectives ==
 
 The objectives of this workpage are Lorem ipsum dolor sit amet,
 consectetuer adipiscing elit. Nulla urna. Maecenas interdum nunc in
@@ -20,7 +13,7 @@ luctus elit adipiscing ultricies.  Vestibulum suscipit cursus
 leo. Nullam molestie justo.
 
 
----++ WP Description 
+== WP Description  ==
 
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla
 urna. Maecenas interdum nunc in augue. Mauris quis massa in ante
@@ -33,11 +26,11 @@ Vestibulum suscipit cursus leo. Nullam molestie justo.
 
 
 
----++ Tasks
+== Tasks ==
 
----+++ Task description: plan
+=== Task Description: architectureDesign   ===
 
----++++ Objectives
+==== Objectives ====
 
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla
 urna. Maecenas interdum nunc in augue. Mauris quis massa in ante
@@ -53,7 +46,7 @@ Vestibulum suscipit cursus leo. Nullam molestie justo.
    * Objective three for a task 
 
 
----++++ Description of work
+==== Description of work ====
 
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla
 urna. Maecenas interdum nunc in augue. Mauris quis massa in ante
@@ -83,11 +76,11 @@ commodo id, pellentesque id, eleifend non, mi. Duis venenatis
 sagittis metus. 
 
 
----+++ Task Descripton: otherTask
+=== Task description: archImprovement  ===
 
----++++ Objectives
+==== Objectives ====
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla
+Some objectives for another task. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla
 urna. Maecenas interdum nunc in augue. Mauris quis massa in ante
 tincidunt mollis. Proin imperdiet. Donec porttitor pede id est. Sed
 in ante. Integer id arcu. Nam lectus nisl, posuere sit amet,
@@ -96,12 +89,8 @@ Phasellus libero ipsum, tempor a, pharetra consequat, pellentesque
 sit amet, sem. Praesent ut augue luctus elit adipiscing ultricies.
 Vestibulum suscipit cursus leo. Nullam molestie justo.
 
-   * Objective one for a task 
-   * Objective two for a task 
-   * Objective three for a task 
 
-
----++++ Description of work
+==== Description of work ====
 
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla
 urna. Maecenas interdum nunc in augue. Mauris quis massa in ante
@@ -131,69 +120,60 @@ commodo id, pellentesque id, eleifend non, mi. Duis venenatis
 sagittis metus. 
 
 
+=== Task description: archFalsify ===
+
+==== Objectives ====
+
+Falsify the proposed architecture. 
+
+==== Description of work ====
+
+We will do everything we can to falsify the architecture that we proposed. 
+ 
+
+== Administrative information  ==
+
+   * Name: Architecture Innovations
+   * Shortname: Architecture 
+   * Leadership: ABC
+   * Start: 1
+   * Duration: 20 
+   * Type: RTD
+
+=== Tasks  ===
+
+|| '''Label''' || '''Start''' || '''Duration''' || '''Name''' || '''Lead partner''' ||
+|| architectureDesign || 1 || 3 || Architecture Design  || UE ||
+|| archImprovement || 4 || 2 || Improvement of the Architecture  || ABC  ||
+|| archImprovement || 8 || 2 || Improvement of the Architecture  || ABC  ||
+|| archImprovement || 12 || 2 || Improvement of the Architecture  || ABC  ||
+|| archFalsify || 10 || 10 || Falsification of the proposed Architecture  || ISC  ||
+
+Note: The several mentions of the archImprovement task shows multi-phase tasks in a workpackage. 
+
+=== Effort  ===
 
 
----++ Adminstrative information 
-
-   * WP leadership: ABC
-
----+++ Tasks 
-
-|| *Label* || *Start* || *Duration* || *Name* || *Lead partner* || 
-|| plan || 1 || 24 || Research preparation || UE ||
-|| otherTask || 5 || 3 || Research execution  || ISC  ||
-
-
-Label: The label used in the task headline above, in the paranethesis. This label is VERY important to tie the various information about a task together. 
-
-Start: The task starts on the first day of the given month; M1 is the first month of the project. 
-Duration: A task lasts for this number of months. Integers; no support for partial usage of months. 
-
-Example: A task with start 1 and duration 2 will start on the very first day of the project and last until the end of the second month. 
-
-Name: Name of the task. 
-
-Lead partner: must be a single, existing partner shortname. 
-
----+++ Effort 
-
-The following table specifies which partner has how many person months of effort in which task. It has one column for the partner shortnames, and one column each for the tasks defined above. Use the task labels to link this to the right task! 
-Partners not appearing in this table are assumed to have zero effort in this workpaackage. 
-
-|| *Partner* || *plan* || *otherTask* || 
-||  ABC      || 10               || 5           ||  
-|| UE        || 3                || 7           ||  
-
-
----+++ Milestones
-
-Milestones have a symbolic label similar to tasks. The following table gives all information necessary for a milestone. One row per milestone. 
-
-|| *Label* || *Month due* || *Title* || *Contributors* || *Description* || *Producing task(s) * || *Verification means* ||
-|| website || 5 || Website goes public || *ABC* || Website for the project is ready  || otherTask  || Website can be accessed ||
-
-
-Note: Contributors can be a comma-separated list of partner shortnames. The lead partner for a milestone should be set in boldface, this is then automatically recognized. Producing tasks columns can also be a comma-separated list of task symbolic labels. 
+|| '''Partner''' || '''architectureDesign''' || '''archImprovement''' || '''archFalsify''' ||
+||  ABC      || 10               || 5           || 0 ||
+|| UE        || 3                || 7           || 3 ||
+|| ISC       || 0                || 0           || 8 ||
 
 
 
-
----+++ Deliverables
-
-|| *Label* || *Month due* || *Title* || *Contributors* || *Description* || *Producing task(s)* || *Nature* || *Dissemination* || 
-|| reserachplan  ||  12  ||  A research plan description   || *UE*, ABC, ISC  || A complete research plan to be followed for the remained of the project is described.   || plan, othertask || R || PU ||
-
-   * Label: symbolic label to refer to the deliverable 
-   * Title: Actual title to be used in the text 
-   * Contributors: partner short names, comma separated, set lead partner in boldface (if any) 
-   * Description: A slightly longer description what the deliverable contains. Optional. 
-   * Producing tasks: which tasks contribute to this deliverable? 
-   * Nature: what is the deliverable? a report R, a prototype P , ... ? 
-   * Dissemination level: PU=public, RE=restricted 
+=== Milestones ===
 
 
-## End of text ##
+|| '''Label''' || '''Month due''' || '''Title''' || '''Contributors''' || '''Description''' || '''Producing task(s) ''' || '''Verification means''' ||
+|| archDescrFormat || 2 || Architcture description format chosen  || '''ABC''' || To ensure a precise communication of architectures, this milestone will select the proper formal description technique  || architectureDesign, otherTask  || Formal technique communicated to all partners  ||
+
+Note: otherTask  is a task from another WP, demonstrating cross-WP production of milestones (similar for deliverables, see below) 
+
+=== Deliverables ===
+
+|| '''Label''' || '''Month due''' || '''Title''' || '''Contributors''' || '''Description''' || '''Producing task(s)''' || '''Nature''' || '''Dissemination''' ||
+|| initialArch  ||  3  ||  Initial architecture description    || UE, '''ABC''' || The initial version of the architecture is described in the chosen formal description technique  || architectureDesign, plan || R || PU ||
+|| improvArch  ||  9  ||  Improved architecture description    || '''UE''', ABC ||Based on experiences with the initial architecture, an updated and improved version is described.   || archImprovement || R || PU ||
 
 
 
-Put additional notes here. E.g., comments from internal reviews, suggestions for improvements, ...  

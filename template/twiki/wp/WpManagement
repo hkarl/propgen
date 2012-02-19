@@ -1,13 +1,6 @@
-= WP NameOfTheWorkpackage =
-
-<<TableOfContents(4)>>
-
-This is the template for a generic workpackage. It is IMPORTANT not to change the names or levels of headinges, table structures, etc. See the documentation for details which information goes where. 
 
 
-## Start of text ##
-
-== Objectives ==
+---++ Objectives
 
 The objectives of this workpage are Lorem ipsum dolor sit amet,
 consectetuer adipiscing elit. Nulla urna. Maecenas interdum nunc in
@@ -19,8 +12,10 @@ pharetra consequat, pellentesque sit amet, sem. Praesent ut augue
 luctus elit adipiscing ultricies.  Vestibulum suscipit cursus
 leo. Nullam molestie justo.
 
+Umlaut test: äöü é è ß 
 
-== WP Description  ==
+
+---++ WP Description 
 
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla
 urna. Maecenas interdum nunc in augue. Mauris quis massa in ante
@@ -33,11 +28,11 @@ Vestibulum suscipit cursus leo. Nullam molestie justo.
 
 
 
-== Tasks ==
+---++ Tasks
 
-=== Task Description: plan   ===
+---+++ Task Description: plan  
 
-==== Objectives ====
+---++++ Objectives
 
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla
 urna. Maecenas interdum nunc in augue. Mauris quis massa in ante
@@ -53,7 +48,7 @@ Vestibulum suscipit cursus leo. Nullam molestie justo.
    * Objective three for a task 
 
 
-==== Description of work ====
+---++++ Description of work
 
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla
 urna. Maecenas interdum nunc in augue. Mauris quis massa in ante
@@ -83,9 +78,9 @@ commodo id, pellentesque id, eleifend non, mi. Duis venenatis
 sagittis metus. 
 
 
-=== Task description: otherTask  ===
+---+++ Task description: otherTask 
 
-==== Objectives ====
+---++++ Objectives
 
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla
 urna. Maecenas interdum nunc in augue. Mauris quis massa in ante
@@ -101,7 +96,7 @@ Vestibulum suscipit cursus leo. Nullam molestie justo.
    * Objective three for a task 
 
 
-==== Description of work ====
+---++++ Description of work
 
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla
 urna. Maecenas interdum nunc in augue. Mauris quis massa in ante
@@ -132,16 +127,20 @@ sagittis metus.
 
 
 
+---++ Administrative information 
 
-== Adminstrative information  ==
+   * Name: Project Management
+   * Shortname: Management 
+   * Leadership: ISC
+   * Start: 1
+   * Duration: 24 
+   * Type: MGMT
 
-   * WP leadership: ABC
+---+++ Tasks 
 
-=== Tasks  ===
-
-|| '''Label''' || '''Start''' || '''Duration''' || '''Name''' || '''Lead partner''' ||
-|| plan || 1 || 24 || Research preparation || UE ||
-|| otherTask || 5 || 3 || Research execution  || ISC  ||
+| *Label* | *Start* | *Duration* | *Name* | *Lead partner* |
+| plan | 1 | 24 | Research preparation | UE |
+| otherTask | 5 | 3 | Research execution  | ISC  |
 
 
 Label: The label used in the task headline above, in the paranethesis. This label is VERY important to tie the various information about a task together. 
@@ -155,22 +154,22 @@ Name: Name of the task.
 
 Lead partner: must be a single, existing partner shortname. 
 
-=== Effort  ===
+---+++ Effort 
 
 The following table specifies which partner has how many person months of effort in which task. It has one column for the partner shortnames, and one column each for the tasks defined above. Use the task labels to link this to the right task! 
 Partners not appearing in this table are assumed to have zero effort in this workpaackage. 
 
-|| '''Partner''' || '''plan''' || '''otherTask''' ||
-||  ABC      || 10               || 5           ||
-|| UE        || 3                || 7           ||
+| *Partner* | *plan* | *otherTask* |
+|  ABC      | 10               | 5           |
+| UE        | 3                | 7           |
 
 
-=== Milestones ===
+---+++ Milestones
 
 Milestones have a symbolic label similar to tasks. The following table gives all information necessary for a milestone. One row per milestone. 
 
-|| '''Label''' || '''Month due''' || '''Title''' || '''Contributors''' || '''Description''' || '''Producing task(s) ''' || '''Verification means''' ||
-|| website || 5 || Website goes public || '''ABC''' || Website for the project is ready  || otherTask  || Website can be accessed ||
+| *Label* | *Month due* | *Title* | *Contributors* | *Description* | *Producing task(s) * | *Verification means* |
+| website | 7 | Website goes public | *ABC* | Website for the project is ready  | otherTask  | Website can be accessed |
 
 
 Note: Contributors can be a comma-separated list of partner shortnames. The lead partner for a milestone should be set in boldface, this is then automatically recognized. Producing tasks columns can also be a comma-separated list of task symbolic labels. 
@@ -178,10 +177,10 @@ Note: Contributors can be a comma-separated list of partner shortnames. The lead
 
 
 
-=== Deliverables ===
+---+++ Deliverables
 
-|| '''Label''' || '''Month due''' || '''Title''' || '''Contributors''' || '''Description''' || '''Producing task(s)''' || '''Nature''' || '''Dissemination''' ||
-|| reserachplan  ||  12  ||  A research plan description   || '''UE''', ABC, ISC  || A complete research plan to be followed for the remained of the project is described.   || plan, othertask || R || PU ||
+| *Label* | *Month due* | *Title* | *Contributors* | *Description* | *Producing task(s)* | *Nature* | *Dissemination* |
+| reserachplan  |  12  |  A research plan description   | *UE*, ABC, ISC  | A complete research plan to be followed for the remained of the project is described.   | plan, otherTask | R | PU |
 
    * Label: symbolic label to refer to the deliverable 
    * Title: Actual title to be used in the text 
@@ -192,8 +191,4 @@ Note: Contributors can be a comma-separated list of partner shortnames. The lead
    * Dissemination level: PU=public, RE=restricted 
 
 
-## End of text ##
 
-
-
-Put additional notes here. E.g., comments from internal reviews, suggestions for improvements, ...  
