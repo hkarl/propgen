@@ -47,6 +47,7 @@ ensureSymbolicLinks:
 
 pdf: 
 	cd ${LATEXPATH}; pdflatex main; bibtex main; pdflatex main; pdflatex main 
+	cp ${LATEXPATH}/main.pdf ${PROJECTNAME}.pdf
 
 
 clean:
@@ -61,7 +62,6 @@ fullcommit:
 	make clean 
 	make proposal 
 	make clean 
-	cp ${LATEXPATH}/main.pdf ${PROJECTNAME}.pdf
 	cd docsource ; make install
 	git commit -a -m "a full commit triggered by the makefile" 
 
