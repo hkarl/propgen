@@ -62,7 +62,6 @@ latexFromXML
 ==============
 
 .. automodule:: latexFromXML
-   :members:
 
 
 ============

@@ -14,6 +14,7 @@ WIKIPATH = $(shell grep "wikipath " ${SETTINGS} | cut -f 2 -d = )
 XMLPATH = $(shell grep "xmlpath " ${SETTINGS} | cut -f 2 -d = )
 LATEXPATH = $(shell grep "manuallatexpath " ${SETTINGS} | cut -f 2 -d = )
 GENERATEDLATEXPATH = $(shell grep "genlatexpath " ${SETTINGS} | cut -f 2 -d = )
+LATEXLINKS = $(shell find ${LATEXPATH} -type l)	
 
 ####################################
 .PHONY: proposal pdf clean pullproject xml latexFromWiki latexFromXML ensureSymbolicLinks
@@ -53,6 +54,6 @@ clean:
 	find ${GENERATEDLATEXPATH} -type f -print | grep -v README | xargs rm 
 	# remove empty symbolic links from latex path - this is debatable! 
 	cd ${LATEXPATH} ; rm -f main.aux main.lof main.log main.lot main.lox main.out main.toc main.bbl main.blg 
-	for d in `find ${LATEXPATH} -type l`; do test ! -e $$d && rm $$d ; done  
+	for d in ${LATEXLINKS}; do test ! -e $$d && rm $$d ; done  
 
 

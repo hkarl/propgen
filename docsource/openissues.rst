@@ -49,3 +49,7 @@ Ideas for future features
 
 5. Build support for latexdiff. Possibly triggered
    from wiki as well? 
+6. Better support for figures in both wiki in latex. One idea might be
+   to upload a PDF to the wiki and have the Wiki convert it to a PNG
+   file. And the pull the PDF file directly from the wiki, without
+   need to manually put it in the LaTeX figure directory.
