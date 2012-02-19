@@ -1,0 +1,399 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Source code documentation &mdash; PropGen 0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="PropGen 0 documentation" href="index.html" />
+    <link rel="prev" title="Open Issues" href="openissues.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="openissues.html" title="Open Issues"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">PropGen 0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="source-code-documentation">
+<h1>Source code documentation<a class="headerlink" href="#source-code-documentation" title="Permalink to this headline">¶</a></h1>
+<p>The code described here lists in the bin directory. Some general remarks:</p>
+<ul class="simple">
+<li>The invocation sequence is pullproject -&gt; generateXML -&gt; latexFromWiki -&gt; latexFromXML -&gt; ensureSymbolicLinks</li>
+<li>Details are in the makefile in the main directory</li>
+<li>Many functions get passed a parameter &#8220;config&#8221;. This is the content of settings.cfg, as parsed by the standard python configuration file parser ConfigParser.SafeConfigParser (see python library documentation for details).</li>
+</ul>
+<div class="section" id="module-pullProject">
+<span id="pullproject"></span><h2>pullproject<a class="headerlink" href="#module-pullProject" title="Permalink to this headline">¶</a></h2>
+<p>Pull the raw wiki files from wherever is specified in
+settings.cfg. Store the raw wiki syntax in the wikipath directory.</p>
+<dl class="function">
+<dt id="pullProject.ensureDirectories">
+<tt class="descclassname">pullProject.</tt><tt class="descname">ensureDirectories</tt><big>(</big><em>config</em><big>)</big><a class="headerlink" href="#pullProject.ensureDirectories" title="Permalink to this definition">¶</a></dt>
+<dd><p>A small helper function that makes sure that all the
+directories that are mentioned in settings.cfg PathNames section
+actually exist. This can be useful after a make clean or in case
+directories have been manually and inadvertently removed.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pullProject.getPartners">
+<tt class="descclassname">pullProject.</tt><tt class="descname">getPartners</tt><big>(</big><em>masterPage</em>, <em>pullInstance</em>, <em>config</em>, <em>parser</em>, <em>verbose=False</em><big>)</big><a class="headerlink" href="#pullProject.getPartners" title="Permalink to this definition">¶</a></dt>
+<dd><p>get all the partner description files</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pullProject.getProposalStructure">
+<tt class="descclassname">pullProject.</tt><tt class="descname">getProposalStructure</tt><big>(</big><em>masterPage</em>, <em>pullInstance</em>, <em>config</em>, <em>parser</em>, <em>verbose=False</em><big>)</big><a class="headerlink" href="#pullProject.getProposalStructure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract all the relevant files for the actual proposal text from the wiki.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pullProject.getWorkpackages">
+<tt class="descclassname">pullProject.</tt><tt class="descname">getWorkpackages</tt><big>(</big><em>masterPage</em>, <em>pullInstance</em>, <em>config</em>, <em>parser</em>, <em>verbose=False</em><big>)</big><a class="headerlink" href="#pullProject.getWorkpackages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Identify all the workpackages and download them</p>
+</dd></dl>
+
+</div>
+<div class="section" id="wikiparser">
+<h2>wikiParser<a class="headerlink" href="#wikiparser" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-wikiParser">
+<span id="the-wikiparser-module-as-such"></span><h3>The wikiParser module as such<a class="headerlink" href="#module-wikiParser" title="Permalink to this headline">¶</a></h3>
+<p>We need to parse various wiki formats into useable latex. This module
+provides an abstract base class wikiParser that implements a lot of
+basic functions e.g.,  to extract tables, lists, etc.</p>
+<p>This base class has to be subclassed to specialize for specific Wiki
+syntax variants. The subclasses can be fairly slim and mostly specify
+regular expressions to use (e.g., how to recognize headings).</p>
+<p>A factory function is called to obtain an instance of such a parser.</p>
+<dl class="function">
+<dt id="wikiParser.wikiParserFactory">
+<tt class="descclassname">wikiParser.</tt><tt class="descname">wikiParserFactory</tt><big>(</big><em>config</em><big>)</big><a class="headerlink" href="#wikiParser.wikiParserFactory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct an instance of the correct parser class, choice depends on what is
+selected in settings.cfg.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="the-wikiparser-base-class">
+<h3>The wikiParser base class<a class="headerlink" href="#the-wikiparser-base-class" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="wikiParser.wikiParser">
+<em class="property">class </em><tt class="descclassname">wikiParser.</tt><tt class="descname">wikiParser</tt><a class="headerlink" href="#wikiParser.wikiParser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class to get the interface for turning wiki syntax into useful stuff</p>
+<dl class="method">
+<dt id="wikiParser.wikiParser.constructLabel">
+<tt class="descname">constructLabel</tt><big>(</big><em>t</em><big>)</big><a class="headerlink" href="#wikiParser.wikiParser.constructLabel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a heading, construct a suitable label out of it.
+Remove whitspaces and obvious strange characters.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wikiParser.wikiParser.getLaTeX">
+<tt class="descname">getLaTeX</tt><big>(</big><em>t</em><big>)</big><a class="headerlink" href="#wikiParser.wikiParser.getLaTeX" title="Permalink to this definition">¶</a></dt>
+<dd><p>turn all of the wiki into LaTeX</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wikiParser.wikiParser.getList">
+<tt class="descname">getList</tt><big>(</big><em>wiki</em><big>)</big><a class="headerlink" href="#wikiParser.wikiParser.getList" title="Permalink to this definition">¶</a></dt>
+<dd><p>turn the first itemize in the wiki into a list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wikiParser.wikiParser.getListAsDict">
+<tt class="descname">getListAsDict</tt><big>(</big><em>wiki</em>, <em>delimiter=':'</em><big>)</big><a class="headerlink" href="#wikiParser.wikiParser.getListAsDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>tmp is an aray of strings, assumed to be key/values delimited by delimited
+split them up, return a proper dictionary for that</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wikiParser.wikiParser.getSection">
+<tt class="descname">getSection</tt><big>(</big><em>wiki</em>, <em>title</em>, <em>level</em><big>)</big><a class="headerlink" href="#wikiParser.wikiParser.getSection" title="Permalink to this definition">¶</a></dt>
+<dd><p>extract the section with title at level</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wikiParser.wikiParser.getTable">
+<tt class="descname">getTable</tt><big>(</big><em>wiki</em><big>)</big><a class="headerlink" href="#wikiParser.wikiParser.getTable" title="Permalink to this definition">¶</a></dt>
+<dd><p>turn the first table into list of dictionaries, using the first row as
+keys for the dictionaries. Removing boldfacing from the first row entries.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wikiParser.wikiParser.moveCommissionHints">
+<tt class="descname">moveCommissionHints</tt><big>(</big><em>t</em><big>)</big><a class="headerlink" href="#wikiParser.wikiParser.moveCommissionHints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make sure that commission hints appear after the first heading!</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-moinmoin-parser">
+<h3>The moinmoin parser<a class="headerlink" href="#the-moinmoin-parser" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="wikiParser.wikiParserMoinmoin">
+<em class="property">class </em><tt class="descclassname">wikiParser.</tt><tt class="descname">wikiParserMoinmoin</tt><big>(</big><em>config</em><big>)</big><a class="headerlink" href="#wikiParser.wikiParserMoinmoin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Specialized for Moinmoin</p>
+<dl class="method">
+<dt id="wikiParser.wikiParserMoinmoin.getSection">
+<tt class="descname">getSection</tt><big>(</big><em>wiki</em>, <em>title</em>, <em>level</em><big>)</big><a class="headerlink" href="#wikiParser.wikiParserMoinmoin.getSection" title="Permalink to this definition">¶</a></dt>
+<dd><p>extract the section with title at level</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-twiki-parser">
+<h3>The twiki parser<a class="headerlink" href="#the-twiki-parser" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="wikiParser.wikiParserTwiki">
+<em class="property">class </em><tt class="descclassname">wikiParser.</tt><tt class="descname">wikiParserTwiki</tt><big>(</big><em>config</em><big>)</big><a class="headerlink" href="#wikiParser.wikiParserTwiki" title="Permalink to this definition">¶</a></dt>
+<dd><p>Specialized for Twiki</p>
+<dl class="method">
+<dt id="wikiParser.wikiParserTwiki.getSection">
+<tt class="descname">getSection</tt><big>(</big><em>wiki</em>, <em>title</em>, <em>level</em><big>)</big><a class="headerlink" href="#wikiParser.wikiParserTwiki.getSection" title="Permalink to this definition">¶</a></dt>
+<dd><p>extract the section with title at level</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wikiParser.wikiParserTwiki.localHeading">
+<tt class="descname">localHeading</tt><big>(</big><em>title</em>, <em>level</em><big>)</big><a class="headerlink" href="#wikiParser.wikiParserTwiki.localHeading" title="Permalink to this definition">¶</a></dt>
+<dd><p>How does a heading with the given title, at the given level,
+look in this wiki style? Describe it as a regular expression.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="module-latexFromWiki">
+<span id="latexfromwiki"></span><h2>latexFromWiki<a class="headerlink" href="#module-latexFromWiki" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="latexFromWiki.handleFile">
+<tt class="descclassname">latexFromWiki.</tt><tt class="descname">handleFile</tt><big>(</big><em>f</em>, <em>outdir</em>, <em>parser</em>, <em>config</em>, <em>verbose=False</em><big>)</big><a class="headerlink" href="#latexFromWiki.handleFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Translate a wiki file with name f to the corresponding LaTeX file.</p>
+<p>Information where and how to translate are giving in config. Parser is
+a parser object for the correct wiki style.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-latexFromXML">
+<span id="latexfromxml"></span><h2>latexFromXML<a class="headerlink" href="#module-latexFromXML" title="Permalink to this headline">¶</a></h2>
+<p>general docu for latexFromXML</p>
+<dl class="class">
+<dt id="latexFromXML.recursiveTemplate">
+<em class="property">class </em><tt class="descclassname">latexFromXML.</tt><tt class="descname">recursiveTemplate</tt><big>(</big><em>template</em><big>)</big><a class="headerlink" href="#latexFromXML.recursiveTemplate" title="Permalink to this definition">¶</a></dt>
+<dd><p>try to find recursively occuring patterns and replace them first</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="latexFromXML.analyzeTree">
+<tt class="descclassname">latexFromXML.</tt><tt class="descname">analyzeTree</tt><big>(</big><em>tree</em>, <em>config</em>, <em>verbose=False</em><big>)</big><a class="headerlink" href="#latexFromXML.analyzeTree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Take an XML tree and create all the necessary data structures</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="latexFromXML.computeStatistics">
+<tt class="descclassname">latexFromXML.</tt><tt class="descname">computeStatistics</tt><big>(</big><em>verbose</em><big>)</big><a class="headerlink" href="#latexFromXML.computeStatistics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Embellish the global lists with some additional sums, statistics,
+cross-referencing to IDs, etc. Add whatever seems useful here, makes
+it later to generate the LaTeX strings later on.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="latexFromXML.fixProducingTask">
+<tt class="descclassname">latexFromXML.</tt><tt class="descname">fixProducingTask</tt><big>(</big><em>ll</em><big>)</big><a class="headerlink" href="#latexFromXML.fixProducingTask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Input is a list of milestones or deliverables. We need to
+fix the ProducingtaskString; dictFromXMLWithMains is not
+specific enough for that job. Replace the task label by the task
+IDs and do proper sorting, keeping in mind the ordering of task ids</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="latexFromXML.produceUncompressedGantt">
+<tt class="descclassname">latexFromXML.</tt><tt class="descname">produceUncompressedGantt</tt><big>(</big><em>l</em>, <em>config</em><big>)</big><a class="headerlink" href="#latexFromXML.produceUncompressedGantt" title="Permalink to this definition">¶</a></dt>
+<dd><p>produce a Gantt string for the elements in list, without trying to
+compress that into a complact representation. Each element a separate line.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="latexFromXML.writeTemplateResult">
+<tt class="descclassname">latexFromXML.</tt><tt class="descname">writeTemplateResult</tt><big>(</big><em>expanded</em>, <em>templ</em>, <em>keytouse=None</em><big>)</big><a class="headerlink" href="#latexFromXML.writeTemplateResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use the information in templ to check whether it should be written out</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="latexFromXML.allWPDicts">
+<tt class="descclassname">latexFromXML.</tt><tt class="descname">allWPDicts</tt><em class="property"> = []</em><a class="headerlink" href="#latexFromXML.allWPDicts" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list storing one directory per workpackage. Filled from XML file. Fields of this directory are:</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="latexFromXML.titlepageDict">
+<tt class="descclassname">latexFromXML.</tt><tt class="descname">titlepageDict</tt><em class="property"> = {}</em><a class="headerlink" href="#latexFromXML.titlepageDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dictionary containing all information about the project in general; mostly it goes on the titlepage.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-settings">
+<span id="settings"></span><h2>settings<a class="headerlink" href="#module-settings" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="settings.getSettings">
+<tt class="descclassname">settings.</tt><tt class="descname">getSettings</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#settings.getSettings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Try to find the settings file, turn it into a configParser
+object, and do some first preprocessing on it.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-ensureSymbolicLinks">
+<span id="ensuresymboliclinks"></span><h2>ensureSymbolicLinks<a class="headerlink" href="#module-ensureSymbolicLinks" title="Permalink to this headline">¶</a></h2>
+<p>Make sure that the symbolic links from the manual to the generated
+subtree exist, unless there is already a real file there.</p>
+<dl class="function">
+<dt id="ensureSymbolicLinks.createLinks">
+<tt class="descclassname">ensureSymbolicLinks.</tt><tt class="descname">createLinks</tt><big>(</big><em>config</em><big>)</big><a class="headerlink" href="#ensureSymbolicLinks.createLinks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Look into config, in the Paths section, for any directory
+with generated as prefix, and has a corresponding manual directory as peer.
+Put symbolic links there if necessary to all files in generated.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-utils">
+<span id="utils"></span><h2>utils<a class="headerlink" href="#module-utils" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="utils.roundPie">
+<tt class="descclassname">utils.</tt><tt class="descname">roundPie</tt><big>(</big><em>l</em><big>)</big><a class="headerlink" href="#utils.roundPie" title="Permalink to this definition">¶</a></dt>
+<dd><p>round the values to 100%, input: list of (name, value) tuples</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="utils.searchListOfDicts">
+<tt class="descclassname">utils.</tt><tt class="descname">searchListOfDicts</tt><big>(</big><em>l</em>, <em>key</em>, <em>value</em>, <em>returnkey</em><big>)</big><a class="headerlink" href="#utils.searchListOfDicts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Search a list l which contains dictionaries for an entry
+where key has value, and return the value of returnkey.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="utils.treeReduce">
+<tt class="descclassname">utils.</tt><tt class="descname">treeReduce</tt><big>(</big><em>l</em>, <em>reducefct</em><big>)</big><a class="headerlink" href="#utils.treeReduce" title="Permalink to this definition">¶</a></dt>
+<dd><p>recursively apply a reduce function to a nested list structure.
+Atomic elements must be boolean values.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="utils.writefile">
+<tt class="descclassname">utils.</tt><tt class="descname">writefile</tt><big>(</big><em>t</em>, <em>f</em><big>)</big><a class="headerlink" href="#utils.writefile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write text t into file f. If flag utf8conversion is set,
+try to run a conversion into UTF-8.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Source code documentation</a><ul>
+<li><a class="reference internal" href="#module-pullProject">pullproject</a></li>
+<li><a class="reference internal" href="#wikiparser">wikiParser</a><ul>
+<li><a class="reference internal" href="#module-wikiParser">The wikiParser module as such</a></li>
+<li><a class="reference internal" href="#the-wikiparser-base-class">The wikiParser base class</a></li>
+<li><a class="reference internal" href="#the-moinmoin-parser">The moinmoin parser</a></li>
+<li><a class="reference internal" href="#the-twiki-parser">The twiki parser</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-latexFromWiki">latexFromWiki</a></li>
+<li><a class="reference internal" href="#module-latexFromXML">latexFromXML</a></li>
+<li><a class="reference internal" href="#module-settings">settings</a></li>
+<li><a class="reference internal" href="#module-ensureSymbolicLinks">ensureSymbolicLinks</a></li>
+<li><a class="reference internal" href="#module-utils">utils</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="openissues.html"
+                        title="previous chapter">Open Issues</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/sourcecodedoc.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="openissues.html" title="Open Issues"
+             >previous</a> |</li>
+        <li><a href="index.html">PropGen 0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Holger Karl.
+      Last updated on Feb 18, 2012.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+  </body>
+</html>

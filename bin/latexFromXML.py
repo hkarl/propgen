@@ -1,3 +1,7 @@
+#!/usr/bin/python
+
+"""general docu for latexFromXML"""
+
 import settings
 import wikiParser
 import glob
@@ -14,12 +18,17 @@ from xml.etree.ElementTree import ElementTree, dump
 
 # global variables, to store all the state of the proposal 
 allWPDicts= []
+"""A list storing one directory per workpackage. Filled from XML file. Fields of this directory are:
+"""
+
 allMilestones = []
 allDeliverables = []
 allTasks = []
 allEfforts = []
 partnerList = []
 titlepageDict = {}
+""" Dictionary containing all information about the project in general; mostly it goes on the titlepage."""
+
 expanded = {}
 
 def dictFromXML (tree):

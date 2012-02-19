@@ -1,0 +1,51 @@
+******************************* 
+Open Issues
+******************************* 
+
+
+========================== 
+Known bugs 
+========================== 
+
+None, of course :-). If you find any, let me know! 
+
+========================== 
+Things still to do (TODO)
+========================== 
+
+#. Put the bibtex file onto the Wiki as
+   well. Probably better than to rely on version
+   control to distribute it. 
+
+==========================  
+Debatable aspects
+========================== 
+
+#. The settings files could be put on the Wiki as
+   well. Two-edged sword: Might make it easier for
+   everybody to configure things, but that is a
+   serious downside as well. Technically, this would
+   not be difficult to do. Not made up my mind yet.  
+
+==========================  
+Ideas for future features
+========================== 
+
+1. Integrate a version control system like SVN for
+   the produced LaTeX files 
+2. Generate PDF files directly from the Wiki, make
+   it possible to trigger that at least. 
+3. Integrate Etherpad into Wiki 
+4. Build a bridge to the financial planning of a
+   project. 
+
+  - Either by parsing from/ writing to an Excel
+    (or similar) spreadsheet. Relatively easy, but
+    hard to make this general 
+  
+  - Or by putting spreadsheet-functionality onto
+    the wiki. Hard to do for different wiki types
+    (a nightmare, probably). 
+
+5. Build support for latexdiff. Possibly triggered
+   from wiki as well? 

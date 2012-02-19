@@ -1,8 +1,17 @@
 #!/usr/bin/python
 
-# we need to parse various wiki formats into useable latex
-# also, helper functions to extract tables, lists, etc.
-# complicated also by the fact that there are different wiki syntaxes to deal with
+""" 
+We need to parse various wiki formats into useable latex. This module
+provides an abstract base class wikiParser that implements a lot of
+basic functions e.g.,  to extract tables, lists, etc.
+
+This base class has to be subclassed to specialize for specific Wiki
+syntax variants. The subclasses can be fairly slim and mostly specify
+regular expressions to use (e.g., how to recognize headings).
+
+A factory function is called to obtain an instance of such a parser. 
+"""
+
 
 import re
 from pprint import pprint as pp
@@ -12,6 +21,8 @@ import os
 
 
 def wikiParserFactory(config):
+    """Construct an instance of the correct parser class, choice depends on what is
+    selected in settings.cfg."""
     wikitype = config.get ('Wiki', 'wikitype')
 
     if wikitype == "moinmoin" or wikitype=="moinmoin-local":

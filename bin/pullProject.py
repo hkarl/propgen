@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
-# goal: pull all the files pertaining to a project from the wiki
+""" Pull the raw wiki files from wherever is specified in
+settings.cfg. Store the raw wiki syntax in the wikipath directory. """
 
 import pullWiki
 import settings
@@ -63,12 +64,15 @@ def getPartners (masterPage, pullInstance, config, parser, verbose=False):
     
 ############################
 
-def ensureDirectories(c):
-    paths = c.options("PathNames")
+def ensureDirectories(config):
+    """A small helper function that makes sure that all the
+    directories that are mentioned in settings.cfg PathNames section
+    actually exist. This can be useful after a make clean or in case
+    directories have been manually and inadvertently removed. """
+    paths = config.options("PathNames")
     for p in paths:
-        # print p, c.get("PathNames", p)  
-        if not os.access (c.get("PathNames", p), os.F_OK):
-            os.mkdir (c.get("PathNames", p))
+        if not os.access (config.get("PathNames", p), os.F_OK):
+            os.mkdir (config.get("PathNames", p))
     
 ############################
 if __name__ == "__main__":
