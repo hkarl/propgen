@@ -1,0 +1,269 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Source code documentation</title>
+    
+    <link rel="stylesheet" href="_static/epub.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="openissues.html" title="Open Issues"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">PropGen 0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="source-code-documentation">
+<h1>Source code documentation</h1>
+<p>The code described here lists in the bin directory. Some general remarks:</p>
+<ul class="simple">
+<li>The invocation sequence is pullproject -&gt; generateXML -&gt; latexFromWiki -&gt; latexFromXML -&gt; ensureSymbolicLinks</li>
+<li>Details are in the makefile in the main directory</li>
+<li>Many functions get passed a parameter &#8220;config&#8221;. This is the content of settings.cfg, as parsed by the standard python configuration file parser ConfigParser.SafeConfigParser (see python library documentation for details).</li>
+</ul>
+<div class="section" id="module-pullProject">
+<span id="pullproject"></span><h2>pullproject</h2>
+<p>Pull the raw wiki files from wherever is specified in
+settings.cfg. Store the raw wiki syntax in the wikipath directory.</p>
+<dl class="function">
+<dt id="pullProject.ensureDirectories">
+<tt class="descclassname">pullProject.</tt><tt class="descname">ensureDirectories</tt><big>(</big><em>config</em><big>)</big></dt>
+<dd><p>A small helper function that makes sure that all the
+directories that are mentioned in settings.cfg PathNames section
+actually exist. This can be useful after a make clean or in case
+directories have been manually and inadvertently removed.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pullProject.getPartners">
+<tt class="descclassname">pullProject.</tt><tt class="descname">getPartners</tt><big>(</big><em>masterPage</em>, <em>pullInstance</em>, <em>config</em>, <em>parser</em>, <em>verbose=False</em><big>)</big></dt>
+<dd><p>get all the partner description files</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pullProject.getProposalStructure">
+<tt class="descclassname">pullProject.</tt><tt class="descname">getProposalStructure</tt><big>(</big><em>masterPage</em>, <em>pullInstance</em>, <em>config</em>, <em>parser</em>, <em>verbose=False</em><big>)</big></dt>
+<dd><p>Extract all the relevant files for the actual proposal text from the wiki.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pullProject.getWorkpackages">
+<tt class="descclassname">pullProject.</tt><tt class="descname">getWorkpackages</tt><big>(</big><em>masterPage</em>, <em>pullInstance</em>, <em>config</em>, <em>parser</em>, <em>verbose=False</em><big>)</big></dt>
+<dd><p>Identify all the workpackages and download them</p>
+</dd></dl>
+
+</div>
+<div class="section" id="wikiparser">
+<h2>wikiParser</h2>
+<div class="section" id="module-wikiParser">
+<span id="the-wikiparser-module-as-such"></span><h3>The wikiParser module as such</h3>
+<p>We need to parse various wiki formats into useable latex. This module
+provides an abstract base class wikiParser that implements a lot of
+basic functions e.g.,  to extract tables, lists, etc.</p>
+<p>This base class has to be subclassed to specialize for specific Wiki
+syntax variants. The subclasses can be fairly slim and mostly specify
+regular expressions to use (e.g., how to recognize headings).</p>
+<p>A factory function is called to obtain an instance of such a parser.</p>
+<dl class="function">
+<dt id="wikiParser.wikiParserFactory">
+<tt class="descclassname">wikiParser.</tt><tt class="descname">wikiParserFactory</tt><big>(</big><em>config</em><big>)</big></dt>
+<dd><p>Construct an instance of the correct parser class, choice depends on what is
+selected in settings.cfg.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="the-wikiparser-base-class">
+<h3>The wikiParser base class</h3>
+<dl class="class">
+<dt id="wikiParser.wikiParser">
+<em class="property">class </em><tt class="descclassname">wikiParser.</tt><tt class="descname">wikiParser</tt></dt>
+<dd><p>Base class to get the interface for turning wiki syntax into useful stuff</p>
+<dl class="method">
+<dt id="wikiParser.wikiParser.constructLabel">
+<tt class="descname">constructLabel</tt><big>(</big><em>t</em><big>)</big></dt>
+<dd><p>Given a heading, construct a suitable label out of it.
+Remove whitspaces and obvious strange characters.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wikiParser.wikiParser.getLaTeX">
+<tt class="descname">getLaTeX</tt><big>(</big><em>t</em><big>)</big></dt>
+<dd><p>turn all of the wiki into LaTeX</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wikiParser.wikiParser.getList">
+<tt class="descname">getList</tt><big>(</big><em>wiki</em><big>)</big></dt>
+<dd><p>turn the first itemize in the wiki into a list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wikiParser.wikiParser.getListAsDict">
+<tt class="descname">getListAsDict</tt><big>(</big><em>wiki</em>, <em>delimiter=':'</em><big>)</big></dt>
+<dd><p>tmp is an aray of strings, assumed to be key/values delimited by delimited
+split them up, return a proper dictionary for that</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wikiParser.wikiParser.getSection">
+<tt class="descname">getSection</tt><big>(</big><em>wiki</em>, <em>title</em>, <em>level</em><big>)</big></dt>
+<dd><p>extract the section with title at level</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wikiParser.wikiParser.getTable">
+<tt class="descname">getTable</tt><big>(</big><em>wiki</em><big>)</big></dt>
+<dd><p>turn the first table into list of dictionaries, using the first row as
+keys for the dictionaries. Removing boldfacing from the first row entries.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wikiParser.wikiParser.moveCommissionHints">
+<tt class="descname">moveCommissionHints</tt><big>(</big><em>t</em><big>)</big></dt>
+<dd><p>Make sure that commission hints appear after the first heading!</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-moinmoin-parser">
+<h3>The moinmoin parser</h3>
+<dl class="class">
+<dt id="wikiParser.wikiParserMoinmoin">
+<em class="property">class </em><tt class="descclassname">wikiParser.</tt><tt class="descname">wikiParserMoinmoin</tt><big>(</big><em>config</em><big>)</big></dt>
+<dd><p>Specialized for Moinmoin</p>
+<dl class="method">
+<dt id="wikiParser.wikiParserMoinmoin.getSection">
+<tt class="descname">getSection</tt><big>(</big><em>wiki</em>, <em>title</em>, <em>level</em><big>)</big></dt>
+<dd><p>extract the section with title at level</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-twiki-parser">
+<h3>The twiki parser</h3>
+<dl class="class">
+<dt id="wikiParser.wikiParserTwiki">
+<em class="property">class </em><tt class="descclassname">wikiParser.</tt><tt class="descname">wikiParserTwiki</tt><big>(</big><em>config</em><big>)</big></dt>
+<dd><p>Specialized for Twiki</p>
+<dl class="method">
+<dt id="wikiParser.wikiParserTwiki.getSection">
+<tt class="descname">getSection</tt><big>(</big><em>wiki</em>, <em>title</em>, <em>level</em><big>)</big></dt>
+<dd><p>extract the section with title at level</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wikiParser.wikiParserTwiki.localHeading">
+<tt class="descname">localHeading</tt><big>(</big><em>title</em>, <em>level</em><big>)</big></dt>
+<dd><p>How does a heading with the given title, at the given level,
+look in this wiki style? Describe it as a regular expression.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="module-latexFromWiki">
+<span id="latexfromwiki"></span><h2>latexFromWiki</h2>
+<dl class="function">
+<dt id="latexFromWiki.handleFile">
+<tt class="descclassname">latexFromWiki.</tt><tt class="descname">handleFile</tt><big>(</big><em>f</em>, <em>outdir</em>, <em>parser</em>, <em>config</em>, <em>verbose=False</em><big>)</big></dt>
+<dd><p>Translate a wiki file with name f to the corresponding LaTeX file.</p>
+<p>Information where and how to translate are giving in config. Parser is
+a parser object for the correct wiki style.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-latexFromXML">
+<span id="latexfromxml"></span><h2>latexFromXML</h2>
+<p>general docu for latexFromXML</p>
+</div>
+<div class="section" id="module-settings">
+<span id="settings"></span><h2>settings</h2>
+<dl class="function">
+<dt id="settings.getSettings">
+<tt class="descclassname">settings.</tt><tt class="descname">getSettings</tt><big>(</big><em>filename</em><big>)</big></dt>
+<dd><p>Try to find the settings file, turn it into a configParser
+object, and do some first preprocessing on it.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-ensureSymbolicLinks">
+<span id="ensuresymboliclinks"></span><h2>ensureSymbolicLinks</h2>
+<p>Make sure that the symbolic links from the manual to the generated
+subtree exist, unless there is already a real file there.</p>
+<dl class="function">
+<dt id="ensureSymbolicLinks.createLinks">
+<tt class="descclassname">ensureSymbolicLinks.</tt><tt class="descname">createLinks</tt><big>(</big><em>config</em><big>)</big></dt>
+<dd><p>Look into config, in the Paths section, for any directory
+with generated as prefix, and has a corresponding manual directory as peer.
+Put symbolic links there if necessary to all files in generated.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-utils">
+<span id="utils"></span><h2>utils</h2>
+<dl class="function">
+<dt id="utils.roundPie">
+<tt class="descclassname">utils.</tt><tt class="descname">roundPie</tt><big>(</big><em>l</em><big>)</big></dt>
+<dd><p>round the values to 100%, input: list of (name, value) tuples</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="utils.searchListOfDicts">
+<tt class="descclassname">utils.</tt><tt class="descname">searchListOfDicts</tt><big>(</big><em>l</em>, <em>key</em>, <em>value</em>, <em>returnkey</em><big>)</big></dt>
+<dd><p>Search a list l which contains dictionaries for an entry
+where key has value, and return the value of returnkey.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="utils.treeReduce">
+<tt class="descclassname">utils.</tt><tt class="descname">treeReduce</tt><big>(</big><em>l</em>, <em>reducefct</em><big>)</big></dt>
+<dd><p>recursively apply a reduce function to a nested list structure.
+Atomic elements must be boolean values.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="utils.writefile">
+<tt class="descclassname">utils.</tt><tt class="descname">writefile</tt><big>(</big><em>t</em>, <em>f</em><big>)</big></dt>
+<dd><p>Write text t into file f. If flag utf8conversion is set,
+try to run a conversion into UTF-8.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Holger Karl.
+      Last updated on Feb 19, 2012.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+  </body>
+</html>

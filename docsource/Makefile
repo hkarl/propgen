@@ -152,7 +152,7 @@ doctest:
 	@echo "Testing of doctests in the sources finished, look at the " \
 	      "results in $(BUILDDIR)/doctest/output.txt."
 
-install: 
+install: latexpdf html singlehtml epub 
 	rm -rf ../doc/*
 	echo "DO NOT TOUCH FILES IN THIS DIRECTORY, THEY ARE OVERWRITTEN!" > ../doc/README
 	cp $(BUILDDIR)/latex/*pdf ../doc 

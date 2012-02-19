@@ -1,13 +1,7 @@
 \begin{theindex}
 \def\bigletter#1{{\Large\sffamily#1}\nopagebreak\vspace{1mm}}
 
-  \bigletter A
-  \item allWPDicts (in module latexFromXML), \hyperpage{15}
-  \item analyzeTree() (in module latexFromXML), \hyperpage{15}
-
-  \indexspace
   \bigletter C
-  \item computeStatistics() (in module latexFromXML), \hyperpage{15}
   \item constructLabel() (wikiParser.wikiParser method), \hyperpage{14}
   \item createLinks() (in module ensureSymbolicLinks), \hyperpage{15}
 
@@ -15,10 +9,6 @@
   \bigletter E
   \item ensureDirectories() (in module pullProject), \hyperpage{13}
   \item ensureSymbolicLinks (module), \hyperpage{15}
-
-  \indexspace
-  \bigletter F
-  \item fixProducingTask() (in module latexFromXML), \hyperpage{15}
 
   \indexspace
   \bigletter G
@@ -50,12 +40,10 @@
 
   \indexspace
   \bigletter P
-  \item produceUncompressedGantt() (in module latexFromXML), \hyperpage{15}
   \item pullProject (module), \hyperpage{13}
 
   \indexspace
   \bigletter R
-  \item recursiveTemplate (class in latexFromXML), \hyperpage{15}
   \item roundPie() (in module utils), \hyperpage{15}
 
   \indexspace
@@ -65,7 +53,6 @@
 
   \indexspace
   \bigletter T
-  \item titlepageDict (in module latexFromXML), \hyperpage{15}
   \item treeReduce() (in module utils), \hyperpage{15}
 
   \indexspace
@@ -80,6 +67,5 @@
   \item wikiParserMoinmoin (class in wikiParser), \hyperpage{14}
   \item wikiParserTwiki (class in wikiParser), \hyperpage{14}
   \item writefile() (in module utils), \hyperpage{15}
-  \item writeTemplateResult() (in module latexFromXML), \hyperpage{15}
 
 \end{theindex}

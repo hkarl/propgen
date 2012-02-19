@@ -9,6 +9,7 @@ FLAGS = -v
 
 ### extract relevant path names from settings.cfg 
 
+PROJECTNAME  = $(shell grep "projectName " ${SETTINGS} | cut -f 2 -d = )
 BINPATH = $(shell grep "binpath " ${SETTINGS} | cut -f 2 -d = )
 WIKIPATH = $(shell grep "wikipath " ${SETTINGS} | cut -f 2 -d = )
 XMLPATH = $(shell grep "xmlpath " ${SETTINGS} | cut -f 2 -d = )
@@ -56,4 +57,11 @@ clean:
 	cd ${LATEXPATH} ; rm -f main.aux main.lof main.log main.lot main.lox main.out main.toc main.bbl main.blg 
 	for d in ${LATEXLINKS}; do test ! -e $$d && rm $$d ; done  
 
+fullcommit: 
+	make clean 
+	make proposal 
+	make clean 
+	cp ${LATEXPATH}/main.pdf ${PROJECTNAME}.pdf
+	cd docsource ; make install
+	git commit -a -m "a full commit triggered by the makefile" 
 

@@ -24,5 +24,5 @@
 \contentsline {section}{\numberline {6.6}ensureSymbolicLinks}{15}{section.6.6}
 \contentsline {section}{\numberline {6.7}utils}{15}{section.6.7}
 \contentsline {chapter}{\numberline {7}Indices and tables}{17}{chapter.7}
-\contentsline {chapter}{Python Module Index}{19}{section*.36}
-\contentsline {chapter}{Index}{21}{section*.37}
+\contentsline {chapter}{Python Module Index}{19}{section*.28}
+\contentsline {chapter}{Index}{21}{section*.29}

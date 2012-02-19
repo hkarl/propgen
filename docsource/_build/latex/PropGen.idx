@@ -21,14 +21,6 @@
 \indexentry{latexFromWiki (module)|hyperpage}{14}
 \indexentry{handleFile() (in module latexFromWiki)|hyperpage}{14}
 \indexentry{latexFromXML (module)|hyperpage}{15}
-\indexentry{recursiveTemplate (class in latexFromXML)|hyperpage}{15}
-\indexentry{analyzeTree() (in module latexFromXML)|hyperpage}{15}
-\indexentry{computeStatistics() (in module latexFromXML)|hyperpage}{15}
-\indexentry{fixProducingTask() (in module latexFromXML)|hyperpage}{15}
-\indexentry{produceUncompressedGantt() (in module latexFromXML)|hyperpage}{15}
-\indexentry{writeTemplateResult() (in module latexFromXML)|hyperpage}{15}
-\indexentry{allWPDicts (in module latexFromXML)|hyperpage}{15}
-\indexentry{titlepageDict (in module latexFromXML)|hyperpage}{15}
 \indexentry{settings (module)|hyperpage}{15}
 \indexentry{getSettings() (in module settings)|hyperpage}{15}
 \indexentry{ensureSymbolicLinks (module)|hyperpage}{15}

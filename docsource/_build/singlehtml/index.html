@@ -77,7 +77,7 @@
 </div>
 <span id="document-customize"></span><div class="section" id="how-to-customize-propgren">
 <h2>How to customize PropGren<a class="headerlink" href="#how-to-customize-propgren" title="Permalink to this headline">¶</a></h2>
-<p>How to customize</p>
+<p>How to customize the project.</p>
 <div class="section" id="simple-customization">
 <h3>Simple customization<a class="headerlink" href="#simple-customization" title="Permalink to this headline">¶</a></h3>
 <p>Turn on, off certain parts, set colors.</p>
@@ -139,6 +139,10 @@ the wiki. Hard to do for different wiki types
 <ol class="arabic simple" start="5">
 <li>Build support for latexdiff. Possibly triggered
 from wiki as well?</li>
+<li>Better support for figures in both wiki in latex. One idea might be
+to upload a PDF to the wiki and have the Wiki convert it to a PNG
+file. And the pull the PDF file directly from the wiki, without
+need to manually put it in the LaTeX figure directory.</li>
 </ol>
 </div>
 </div>
@@ -307,60 +311,6 @@ a parser object for the correct wiki style.</p>
 <div class="section" id="module-latexFromXML">
 <span id="latexfromxml"></span><h3>latexFromXML<a class="headerlink" href="#module-latexFromXML" title="Permalink to this headline">¶</a></h3>
 <p>general docu for latexFromXML</p>
-<dl class="class">
-<dt id="latexFromXML.recursiveTemplate">
-<em class="property">class </em><tt class="descclassname">latexFromXML.</tt><tt class="descname">recursiveTemplate</tt><big>(</big><em>template</em><big>)</big><a class="headerlink" href="#latexFromXML.recursiveTemplate" title="Permalink to this definition">¶</a></dt>
-<dd><p>try to find recursively occuring patterns and replace them first</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="latexFromXML.analyzeTree">
-<tt class="descclassname">latexFromXML.</tt><tt class="descname">analyzeTree</tt><big>(</big><em>tree</em>, <em>config</em>, <em>verbose=False</em><big>)</big><a class="headerlink" href="#latexFromXML.analyzeTree" title="Permalink to this definition">¶</a></dt>
-<dd><p>Take an XML tree and create all the necessary data structures</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="latexFromXML.computeStatistics">
-<tt class="descclassname">latexFromXML.</tt><tt class="descname">computeStatistics</tt><big>(</big><em>verbose</em><big>)</big><a class="headerlink" href="#latexFromXML.computeStatistics" title="Permalink to this definition">¶</a></dt>
-<dd><p>Embellish the global lists with some additional sums, statistics,
-cross-referencing to IDs, etc. Add whatever seems useful here, makes
-it later to generate the LaTeX strings later on.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="latexFromXML.fixProducingTask">
-<tt class="descclassname">latexFromXML.</tt><tt class="descname">fixProducingTask</tt><big>(</big><em>ll</em><big>)</big><a class="headerlink" href="#latexFromXML.fixProducingTask" title="Permalink to this definition">¶</a></dt>
-<dd><p>Input is a list of milestones or deliverables. We need to
-fix the ProducingtaskString; dictFromXMLWithMains is not
-specific enough for that job. Replace the task label by the task
-IDs and do proper sorting, keeping in mind the ordering of task ids</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="latexFromXML.produceUncompressedGantt">
-<tt class="descclassname">latexFromXML.</tt><tt class="descname">produceUncompressedGantt</tt><big>(</big><em>l</em>, <em>config</em><big>)</big><a class="headerlink" href="#latexFromXML.produceUncompressedGantt" title="Permalink to this definition">¶</a></dt>
-<dd><p>produce a Gantt string for the elements in list, without trying to
-compress that into a complact representation. Each element a separate line.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="latexFromXML.writeTemplateResult">
-<tt class="descclassname">latexFromXML.</tt><tt class="descname">writeTemplateResult</tt><big>(</big><em>expanded</em>, <em>templ</em>, <em>keytouse=None</em><big>)</big><a class="headerlink" href="#latexFromXML.writeTemplateResult" title="Permalink to this definition">¶</a></dt>
-<dd><p>Use the information in templ to check whether it should be written out</p>
-</dd></dl>
-
-<dl class="data">
-<dt id="latexFromXML.allWPDicts">
-<tt class="descclassname">latexFromXML.</tt><tt class="descname">allWPDicts</tt><em class="property"> = []</em><a class="headerlink" href="#latexFromXML.allWPDicts" title="Permalink to this definition">¶</a></dt>
-<dd><p>A list storing one directory per workpackage. Filled from XML file. Fields of this directory are:</p>
-</dd></dl>
-
-<dl class="data">
-<dt id="latexFromXML.titlepageDict">
-<tt class="descclassname">latexFromXML.</tt><tt class="descname">titlepageDict</tt><em class="property"> = {}</em><a class="headerlink" href="#latexFromXML.titlepageDict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Dictionary containing all information about the project in general; mostly it goes on the titlepage.</p>
-</dd></dl>
-
 </div>
 <div class="section" id="module-settings">
 <span id="settings"></span><h3>settings<a class="headerlink" href="#module-settings" title="Permalink to this headline">¶</a></h3>
@@ -488,7 +438,7 @@ try to run a conversion into UTF-8.</p>
     </div>
     <div class="footer">
         &copy; Copyright 2012, Holger Karl.
-      Last updated on Feb 18, 2012.
+      Last updated on Feb 19, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
     </div>
   </body>

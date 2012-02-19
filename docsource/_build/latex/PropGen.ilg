@@ -1,7 +1,7 @@
 This is makeindex, version 2.15 [TeX Live 2011] (kpathsea + Thai support).
 Scanning style file ./python.ist......done (6 attributes redefined, 0 ignored).
-Scanning input file PropGen.idx....done (40 entries accepted, 0 rejected).
-Sorting entries....done (221 comparisons).
-Generating output file PropGen.ind....done (85 lines written, 0 warnings).
+Scanning input file PropGen.idx....done (32 entries accepted, 0 rejected).
+Sorting entries....done (163 comparisons).
+Generating output file PropGen.ind....done (71 lines written, 0 warnings).
 Output written in PropGen.ind.
 Transcript written in PropGen.ilg.

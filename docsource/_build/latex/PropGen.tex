@@ -13,7 +13,7 @@
 
 
 \title{PropGen Documentation}
-\date{February 18, 2012}
+\date{February 19, 2012}
 \release{0}
 \author{Holger Karl}
 \newcommand{\sphinxlogo}{}
@@ -141,16 +141,22 @@ To give one example: a task description for a workpackage looks as described in 
 \centering
 \capstart
 
-\scalebox{0.200000}{\includegraphics{wikiTasks.png}}
+\scalebox{0.500000}{\includegraphics{wikiTasks.png}}
 \caption{Example of a Wiki page, specifying several tasks for a workpackage (the architecture improvement task even has three phases).}\end{figure}
+\begin{figure}[htbp]
+\centering
+\capstart
+
+\scalebox{0.500000}{\includegraphics{WPgantt.png}}
+\caption{Resulting Gantt chart from the example task table (deliverable and milestones shown in this Gantt chart are defined in other Wiki tables)}\end{figure}
 
 Hence, the approach to go from a wiki to latex to PDF, and to submit this PDF file, has worked out nicely. It has produced a workflow that was reasonably easy for everybody, with full version control support without less IT-savy users needing to worry about it.
 
 We felt that such a tool might be beneficial for a wider audience. So here it is - feel free to use it, to modify it, and to write interesting proposals using it. Our hope is that it will free up time from the mundane and boring tasks and enable all of us to concentrate more on the creative aspects of research.
 
-Holger Karl
+\emph{Holger Karl}
 
-PS: When I write ``we'', I refer to the team of colleagues engaged in the writing of said initial integrated research proposal. In particular, Bengt Ahlgren, Dirk Kutscher and B?rje Ohlman deserve my thanks and gratitude for bearing through the rough-shot development of the inital version of this tool. I am indebted to them for constructive criticisms, ideas, and encouragement.
+PS: When I write ``we'', I refer to the team of colleagues engaged in the writing of said initial integrated research proposal. In particular, Bengt Ahlgren, Dirk Kutscher and Börje Ohlman deserve my thanks and gratitude for bearing through the rough-shot development of the inital version of this tool. I am indebted to them for constructive criticisms, ideas, and encouragement.
 
 
 \chapter{Installation}
@@ -165,7 +171,7 @@ What to put on Wiki. How to trigger builds. What should go in which tables. What
 
 \chapter{How to customize PropGren}
 \label{customize:how-to-customize-propgren}\label{customize::doc}
-How to customize
+How to customize the project.
 
 
 \section{Simple customization}
@@ -248,6 +254,12 @@ the wiki. Hard to do for different wiki types
 \item {} 
 Build support for latexdiff. Possibly triggered
 from wiki as well?
+
+\item {} 
+Better support for figures in both wiki in latex. One idea might be
+to upload a PDF to the wiki and have the Wiki convert it to a PNG
+file. And the pull the PDF file directly from the wiki, without
+need to manually put it in the LaTeX figure directory.
 
 \end{enumerate}
 
@@ -468,76 +480,6 @@ a parser object for the correct wiki style.
 \section{latexFromXML}
 \label{sourcecodedoc:latexfromxml}\label{sourcecodedoc:module-latexFromXML}\index{latexFromXML (module)}
 general docu for latexFromXML
-\index{recursiveTemplate (class in latexFromXML)}
-
-\begin{fulllineitems}
-\phantomsection\label{sourcecodedoc:latexFromXML.recursiveTemplate}\pysiglinewithargsret{\strong{class }\code{latexFromXML.}\bfcode{recursiveTemplate}}{\emph{template}}{}
-try to find recursively occuring patterns and replace them first
-
-\end{fulllineitems}
-
-\index{analyzeTree() (in module latexFromXML)}
-
-\begin{fulllineitems}
-\phantomsection\label{sourcecodedoc:latexFromXML.analyzeTree}\pysiglinewithargsret{\code{latexFromXML.}\bfcode{analyzeTree}}{\emph{tree}, \emph{config}, \emph{verbose=False}}{}
-Take an XML tree and create all the necessary data structures
-
-\end{fulllineitems}
-
-\index{computeStatistics() (in module latexFromXML)}
-
-\begin{fulllineitems}
-\phantomsection\label{sourcecodedoc:latexFromXML.computeStatistics}\pysiglinewithargsret{\code{latexFromXML.}\bfcode{computeStatistics}}{\emph{verbose}}{}
-Embellish the global lists with some additional sums, statistics,
-cross-referencing to IDs, etc. Add whatever seems useful here, makes
-it later to generate the LaTeX strings later on.
-
-\end{fulllineitems}
-
-\index{fixProducingTask() (in module latexFromXML)}
-
-\begin{fulllineitems}
-\phantomsection\label{sourcecodedoc:latexFromXML.fixProducingTask}\pysiglinewithargsret{\code{latexFromXML.}\bfcode{fixProducingTask}}{\emph{ll}}{}
-Input is a list of milestones or deliverables. We need to
-fix the ProducingtaskString; dictFromXMLWithMains is not
-specific enough for that job. Replace the task label by the task
-IDs and do proper sorting, keeping in mind the ordering of task ids
-
-\end{fulllineitems}
-
-\index{produceUncompressedGantt() (in module latexFromXML)}
-
-\begin{fulllineitems}
-\phantomsection\label{sourcecodedoc:latexFromXML.produceUncompressedGantt}\pysiglinewithargsret{\code{latexFromXML.}\bfcode{produceUncompressedGantt}}{\emph{l}, \emph{config}}{}
-produce a Gantt string for the elements in list, without trying to
-compress that into a complact representation. Each element a separate line.
-
-\end{fulllineitems}
-
-\index{writeTemplateResult() (in module latexFromXML)}
-
-\begin{fulllineitems}
-\phantomsection\label{sourcecodedoc:latexFromXML.writeTemplateResult}\pysiglinewithargsret{\code{latexFromXML.}\bfcode{writeTemplateResult}}{\emph{expanded}, \emph{templ}, \emph{keytouse=None}}{}
-Use the information in templ to check whether it should be written out
-
-\end{fulllineitems}
-
-\index{allWPDicts (in module latexFromXML)}
-
-\begin{fulllineitems}
-\phantomsection\label{sourcecodedoc:latexFromXML.allWPDicts}\pysigline{\code{latexFromXML.}\bfcode{allWPDicts}\strong{ = {[}{]}}}
-A list storing one directory per workpackage. Filled from XML file. Fields of this directory are:
-
-\end{fulllineitems}
-
-\index{titlepageDict (in module latexFromXML)}
-
-\begin{fulllineitems}
-\phantomsection\label{sourcecodedoc:latexFromXML.titlepageDict}\pysigline{\code{latexFromXML.}\bfcode{titlepageDict}\strong{ = \{\}}}
-Dictionary containing all information about the project in general; mostly it goes on the titlepage.
-
-\end{fulllineitems}
-
 
 
 \section{settings}

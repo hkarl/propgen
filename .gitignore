@@ -1,3 +1,7 @@
 *.pyc
+
 parseTree.py
+olddoc
+settings-moinmoin.cfg
+settings-twiki.cfg
 
