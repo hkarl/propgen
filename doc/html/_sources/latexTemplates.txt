@@ -1,0 +1,1681 @@
+
+.. describe::  ## To get this right: First line must be on the same line as the 
+
+    
+    Default:  ; 
+
+
+titleheader
+===========
+.. program::  titleheader
+
+we build the titlepage in three steps: the header,
+the table rows for the partners, and then the titlepage complete
+out of these two parts. This third part is then written to file 
+
+
+.. describe::  template 
+
+    
+    Default:       \begin{center}
+    {\LARGE  ${instrument}  } \\[.2cm]
+    {\large  ${call}   } \\[.4cm]
+    {\LARGE \textbf{  ${projectname}  }} \\[.3cm]
+    {\LARGE Acronym: \textbf{  ${projectshort}  }} \\[.3cm]
+    \end{center}
+    {\large Date of Preparation: \today }\\[1em]
+    \begin{large}
+    \begin{description}
+    \item[Work program topics  addressed:]  ${topics}
+    \item[Coordinator:] ${coordinatorname}
+    \item[e-mail:] {\url{${coordinatoremail}}} 
+    \item[tel/fax:]   ${coordinatorphone}
+    \end{description}
+    \end{large}
+    \noindent 
+
+.. describe::  dict 
+
+    
+    Default:   titlepageDict 
+
+
+partnerTableRow
+===============
+.. program::  partnerTableRow
+
+rows for partner table on titlepage: 
+
+
+.. describe::  template 
+
+    
+    Default:   ${Number} & ${Name} &  ${Shortname} & ${Nation}
+
+.. describe::  list 
+
+    
+    Default:   partnerList 
+
+.. describe::  joiner 
+
+    
+    Default:   \\ \n
+
+.. describe::  sorter 
+
+    to demonstrate how to sort such a list, let's sort if by number 
+    Note: sorter is optional, but only available in conjunction with joiner attribute
+
+    Default:   lambda x: int(x['Number'])
+
+
+titlepage
+=========
+.. program::  titlepage
+
+some alternative examples (which make no sense here, just to demonstrate): 
+sorter = lambda x: x['Shortname']
+sorter = lambda x: x['Nation']
+and the actual titlepage: 
+
+
+.. describe::  template 
+
+    
+    Default:         ${titleheader}
+    {
+    \begin{tabular}{cp{8cm}ll}
+    \toprule
+    Participant no. & Participant organisation & Short name & Country \\
+    \midrule
+    ${partnerTableRow} \\
+    \bottomrule
+    \end{tabular}
+    }
+
+.. describe::  dict 
+
+    
+    Default:   expanded
+
+.. describe::  file 
+
+    
+    Default:   True 
+
+
+wpSummaryRows
+=============
+.. program::  wpSummaryRows
+
+the wp summary list
+
+
+.. describe::  template 
+
+    
+    Default:   WP ${Number} & ${Name} & ${Type} & ${Leadernumber} & ${Leadership} & ${wpeffort} & ${Start} & ${End}
+
+.. describe::  list 
+
+    
+    Default:   allWPDicts 
+
+.. describe::  joiner 
+
+    
+    Default:   \\ \n
+
+
+wpsummarytable
+==============
+.. program::  wpsummarytable
+
+
+
+.. describe::  template 
+
+    
+    Default:       \begin{table}[bhtp]
+    \caption{Summary table of all work packages}
+    \label{tab:wpsummary}
+    \begin{tabular}{cp{0.25\textwidth}cccrcc}
+    \toprule
+    WP No. & WP name & Type of & Lead & Lead & Person- & Start & End \\
+    & & activity & part. no. & short name & months & month & month \\
+    \midrule
+    ${wpSummaryRows} \\
+    \midrule
+    \multicolumn{2}{l}{Total:} & & & & \totalPM & & \\
+    \bottomrule
+    \end{tabular}
+    \end{table}
+
+.. describe::  dict 
+
+    
+    Default:   expanded
+
+.. describe::  file 
+
+    
+    Default:   True 
+
+.. describe::  dir 
+
+    
+    Default:   tables 
+
+
+ganttPrefix
+===========
+.. program::  ganttPrefix
+
+Gantt charts! 
+First, some building blocks for various Gantt charts
+
+
+.. describe::  template 
+
+    
+    Default:    \begin{tikzpicture}
+    \begin{ganttchart}[vgrid,hgrid,
+    x unit=0.371cm, y unit chart = 0.75cm,
+    title label font={\footnotesize},
+    bar height = 0.55,
+    bar top shift = 0.225,
+    inline, 
+    milestone label font=\color{black}\small, 
+    milestone label inline anchor={right=.1cm}, 
+    bar label inline anchor={anchor=west}, bar label font=\small,
+    link={-latex, rounded corners=1ex, thick}]{${duration}}
+    \gantttitlelist{1,...,${duration}}{1}
+
+.. describe::  dict 
+
+    
+    Default:   titlepageDict
+
+
+ganttPostfix
+============
+.. program::  ganttPostfix
+
+
+
+.. describe::  template 
+
+    
+    Default:   \end{ganttchart} 
+    \end{tikzpicture}
+
+
+WpMilestonesUncompressedShow
+============================
+.. program::  WpMilestonesUncompressedShow
+
+and the actual gantts: first, the wp-specific gantts
+
+
+.. describe::  template 
+
+    
+    Default:   \begin{figure}[htbp]
+    ${ganttPrefix} \\
+    ${milestoneUncompressedGanttString}
+    ${ganttPostfix}
+    \caption{Gantt chart of all milestones of Work package ${Number}}
+    \end{figure}
+
+.. describe::  list 
+
+    
+    Default:   allWPDicts 
+
+.. describe::  dict 
+
+    
+    Default:   expanded
+
+.. describe::  file 
+
+    
+    Default:   True
+
+.. describe::  numerator 
+
+    
+    Default:   value['Shortname']
+
+.. describe::  dir 
+
+    
+    Default:   gantts
+
+
+WpMilestonesShow
+================
+.. program::  WpMilestonesShow
+
+
+
+.. describe::  template 
+
+    
+    Default:   \begin{figure}[htbp]
+    ${ganttPrefix} \\
+    ${milestoneGanttString}
+    ${ganttPostfix}
+    \caption{Gantt chart of all milestones of Work package ${Number}}
+    \end{figure}
+
+.. describe::  list 
+
+    
+    Default:   allWPDicts 
+
+.. describe::  dict 
+
+    
+    Default:   expanded
+
+.. describe::  file 
+
+    
+    Default:   True
+
+.. describe::  numerator 
+
+    
+    Default:   value['Shortname']
+
+.. describe::  dir 
+
+    
+    Default:   gantts
+
+
+WpDeliverablesUncompressedShow
+==============================
+.. program::  WpDeliverablesUncompressedShow
+
+
+
+.. describe::  template 
+
+    
+    Default:   \begin{figure}[htbp]
+    ${ganttPrefix} \\
+    ${deliverableUncompressedGanttString}
+    ${ganttPostfix}
+    \caption{Gantt chart of all deliverables of Work package ${Number}}
+    \end{figure}
+
+.. describe::  list 
+
+    
+    Default:   allWPDicts 
+
+.. describe::  dict 
+
+    
+    Default:   expanded
+
+.. describe::  file 
+
+    
+    Default:   True
+
+.. describe::  numerator 
+
+    
+    Default:   value['Shortname']
+
+.. describe::  dir 
+
+    
+    Default:   gantts
+
+
+WpDeliverablesShow
+==================
+.. program::  WpDeliverablesShow
+
+
+
+.. describe::  template 
+
+    
+    Default:   \begin{figure}[htbp]
+    ${ganttPrefix} \\
+    ${deliverableGanttString}
+    ${ganttPostfix}
+    \caption{Gantt chart of all deliverables of Work package ${Number}}
+    \end{figure}
+
+.. describe::  list 
+
+    
+    Default:   allWPDicts 
+
+.. describe::  dict 
+
+    
+    Default:   expanded
+
+.. describe::  file 
+
+    
+    Default:   True
+
+.. describe::  numerator 
+
+    
+    Default:   value['Shortname']
+
+.. describe::  dir 
+
+    
+    Default:   gantts
+
+
+ganttWP
+=======
+.. program::  ganttWP
+
+
+
+.. describe::  template 
+
+    
+    Default:         \begin{figure}[htbp]
+    \centering{${ganttPrefix}\\
+    \ifthenelse{\boolean{Gantts-ShowWPBar}}{
+    ${groupbar}}{}
+    ${taskGantt}  
+    ${deliverableGanttString} \\
+    ${milestoneGanttString}
+    ${ganttPostfix}}
+    \ifthenelse{\boolean{Gantts-ganttPerWPShowsLegend}}{
+    \ifthenelse{\boolean{Gantts-ganttLegendTwoColumn}}
+    {\begin{multicols}{2}
+    \begin{compactitem}
+    ${deliverableGanttLegend}
+    ${milestoneGanttLegend}
+    \end{compactitem}
+    \end{multicols}
+    }
+    { % single-column legends: 
+    \begin{compactitem}
+    ${deliverableGanttLegend}
+    ${milestoneGanttLegend}
+    \end{compactitem}
+    }
+    }{}
+    \caption{Gantt chart for Work package ${Number}: ${Shortname}}
+    \label{fig:gantt-WP${Number}}
+    \end{figure}
+
+.. describe::  list 
+
+    
+    Default:   allWPDicts 
+
+.. describe::  dict 
+
+    
+    Default:   expanded
+
+.. describe::  numerator 
+
+    do not change the numerator; else, wPInclude.tex will look for the wrong files
+
+    Default:   value['Shortname']
+
+.. describe::  dir 
+
+    
+    Default:   gantts
+
+
+ganttWPLegend
+=============
+.. program::  ganttWPLegend
+
+
+
+.. describe::  template 
+
+    separate legends per WP gantts only make sense if they are not already 
+    included in the 
+
+    Default:   \begin{figure}[htbp]
+    \ifthenelse{\boolean{Gantts-ganttLegendTwoColumn}}
+    {\begin{multicols}{2}
+    \begin{compactitem}
+    ${deliverableGanttLegend}
+    ${milestoneGanttLegend}
+    \end{compactitem}
+    \end{multicols}
+    }
+    {% single-column legends: 
+    \begin{compactitem}
+    ${deliverableGanttLegend}
+    ${milestoneGanttLegend}
+    \end{compactitem}
+    }
+    \caption{Gantt chart of Work package  ${Number}: ${Shortname}}
+    \label{fig:gantt-Legend-WP${Number}}
+    \end{figure}
+
+.. describe::  list 
+
+    
+    Default:   allWPDicts 
+
+.. describe::  dict 
+
+    
+    Default:   expanded
+
+.. describe::  file 
+
+    
+    Default:   False
+
+.. describe::  numerator 
+
+    do not change the numerator; else, wPInclude.tex will look for the wrong files
+
+    Default:   value['Shortname']
+
+.. describe::  dir 
+
+    
+    Default:   gantts
+
+
+allTaskDelMSList
+================
+.. program::  allTaskDelMSList
+
+and prepate the complete Gantt chart for the entire project 
+this happens in several steps 
+
+
+.. describe::  template 
+
+    
+    Default:         \ifthenelse{\boolean{Gantts-ShowWPBar}}{
+    ${groupbar}}{}
+    ${taskGantt}
+    ${deliverableGanttString} \\
+    ${milestoneGanttString}
+
+.. describe::  list 
+
+    
+    Default:   allWPDicts 
+
+.. describe::  dir 
+
+    
+    Default:   gantts
+
+
+allTaskDelMS
+============
+.. program::  allTaskDelMS
+
+the next one is an example with an empty template: it is only used to turn a list into 
+a string
+
+
+.. describe::  template 
+
+    
+    Default:   
+
+.. describe::  list 
+
+    
+    Default:   expanded['allTaskDelMSList']
+
+.. describe::  joiner 
+
+    
+    Default:   \\ \n
+
+
+allDelLegend
+============
+.. program::  allDelLegend
+
+
+
+.. describe::  template 
+
+    
+    Default:   ${ganttLegend}
+
+.. describe::  list 
+
+    
+    Default:   allDeliverables
+
+.. describe::  joiner 
+
+    
+    Default:   \n  
+
+
+allMSLegend
+===========
+.. program::  allMSLegend
+
+
+
+.. describe::  template 
+
+    
+    Default:   ${ganttLegend}
+
+.. describe::  list 
+
+    
+    Default:   allMilestones
+
+.. describe::  joiner 
+
+    
+    Default:    \n
+     
+
+
+CompleteGantt
+=============
+.. program::  CompleteGantt
+
+
+
+.. describe::  template 
+
+    
+    Default:    \begin{figure}[htbp]
+    \centering\maxsizebox{0.95\textwidth}{0.95\textheight}{	
+    ${ganttPrefix} \\
+    ${allTaskDelMS}
+    ${ganttPostfix}
+    } % closes adjustbox
+    \caption[Overall Gantt chart for the entire project, showing all tasks, deliverables, and milestones]{Overall Gantt chart for the entire project, showing all tasks, deliverables, and milestones (legend in Table~\ref{fig:allDelMSLegend})}
+    \label{fig:completeGantt}
+    \end{figure}
+
+.. describe::  dict 
+
+    
+    Default:   expanded
+
+.. describe::  file 
+
+    
+    Default:   True
+
+.. describe::  dir 
+
+    
+    Default:   gantts
+
+
+allLegend
+=========
+.. program::  allLegend
+
+
+
+.. describe::  template 
+
+    
+    Default:   \begin{table}
+    \caption[List of all deliverables and milestones]{List of all deliverables and milestones shown in Figure~\ref{fig:completeGantt}}
+    \label{fig:allDelMSLegend}
+    \begin{multicols}{2}
+    \begin{compactitem}
+    ${allDelLegend}
+    ${allMSLegend}
+    \end{compactitem}
+    \end{multicols}
+    \end{table}
+
+.. describe::  dict 
+
+    
+    Default:   expanded
+
+.. describe::  file 
+
+    
+    Default:   True
+
+.. describe::  dir 
+
+    
+    Default:   gantts
+
+
+CompleteGanttFacingLegend
+=========================
+.. program::  CompleteGanttFacingLegend
+
+
+
+.. describe::  template 
+
+    this is particularly useful for a double-sided printing layout
+    chart is on a left page, Legend on a right page 
+
+    Default:   \cleardoubleevenstandardpage
+    \centering\maxsizebox{0.95\textwidth}{0.95\textheight}{	
+    ${ganttPrefix} \\
+    ${allTaskDelMS}
+    ${ganttPostfix}
+    } % closes adjustbox
+    \captionof{figure}[Overall Gantt chart for the entire project, showing all tasks, deliverables, and milestones]{Overall Gantt chart for the entire project, showing all tasks, deliverables, and milestones (legend in Table~\ref{fig:allDelMSLegend})}
+    \label{fig:completeGantt}
+    \clearpage
+    \captionof{table}[List of all deliverables and milestones]{List of all deliverables and milestones shown in Figure~\ref{fig:completeGantt}}
+    \label{fig:allDelMSLegend}
+    \begin{multicols}{2}
+    \begin{compactitem}
+    ${allDelLegend}
+    ${allMSLegend}
+    \end{compactitem}
+    \end{multicols}
+
+.. describe::  file
+
+    
+    Default:  True 
+
+.. describe::  dict
+
+    
+    Default:  expanded 
+
+.. describe::  dir
+
+    
+    Default:  gantts
+
+
+WpTasks
+=======
+.. program::  WpTasks
+
+and finally: the actual WP files! 
+
+
+.. describe::  template 
+
+    
+    Default:    \labitem{${taskId}}{task:${Label}} ${Name} 
+    \ifthenelse{\boolean{WPTables-tasklistShowsDuration}}{
+    \hfill 
+    (%{ ', '.join([ ('M\,' + str(t['Start']) + ' -- M\,' +
+    str(t['Start'] + t['Duration'] -1)) 
+    for t in allTasks if t['Label'] == '${Label}' ]) %}) 
+    }{}
+    \ifthenelse{\boolean{WPTables-tasklistShowsPartners}}{
+    \\ Contributing partners: 
+    %{ ', '.join([ ((r"\textbf{%s}" % x) if (x == '${Leadpartner}') else x )  
+    for x in sorted([ p['partner']  for p in allEfforts
+    if p['task'] == '${Label}'],
+    key = lambda x: [int(pl['Number']) for pl in partnerList
+    if pl['Shortname'] == x][0]
+    )]) %}
+    }{}
+    \ifthenelse{\boolean{WPTables-tasklistShowsDeliverables}}{
+    %{ (r'\\ Contributing to Deliverables: ' +
+    ', '.join([((r"\textbf{ %s }" % d['id'])
+    if (d['ProducingtaskMain'] == '${Label}')
+    else d['id'])
+    for d in allDeliverables if '${Label}' in d['Producingtask']] )
+    if [d['id'] for d in allDeliverables
+    if '${Label}' in d['Producingtask']]
+    else '') %} 
+    }{}
+    \ifthenelse{\boolean{WPTables-tasklistShowsMilestones}}{
+    %{ (r'\\ Contributing to Milestones: ' +
+    ', '.join([((r"\textbf{ %s }" % d['id'])
+    if (d['ProducingtaskMain'] == '${Label}')
+    else d['id'])
+    for d in allMilestones if '${Label}' in d['Producingtask']] )
+    if [d['id'] for d in allMilestones
+    if '${Label}' in d['Producingtask']]
+    else '')  %}
+    }{}
+
+.. describe::  list = [t for t in allTasks if t['Main']=
+
+    we only show this for the main task, not for all the individual tasks 
+    need to think about the duration, though! 
+
+    Default:  'True']  
+
+.. describe::  groupby 
+
+    
+    Default:   wp
+
+.. describe::  joiner 
+
+    
+    Default:    \n
+
+
+WpTasksDescriptions
+===================
+.. program::  WpTasksDescriptions
+
+
+
+.. describe::  template 
+
+    
+    Default:   \begin{framed}
+    \noindent \textbf{Description of Task ${taskId}: ${Name}} 
+    \ifthenelse{\boolean{WPTables-taskboxShowsLeader}}{(Task leader: ${Leadpartner})}{}
+    \ifthenelse{\boolean{WPTables-taskboxShowsObjectives}}{ ~\\[0.2cm]
+    \textbf{Task objectives:} ${taskobjectives}}{}
+    \ifthenelse{\boolean{WPTables-taskboxShowsDescription}}{~ \\[0.2cm]
+    \textbf{Description of work:} ${taskdescription}}{}
+    \ifthenelse{\boolean{WPTables-taskboxShowsDeliverables}}{ %{ (r"""\\[0.3cm]
+    \noindent {\centering
+    \begin{tabular}{lp{0.7\textwidth}l}
+    \multicolumn{3}{l}{\textbf{Deliverables contributed to by Task ${taskId}:} } \\
+    \toprule 
+    Del.\ no. & Deliverable name & Due \\
+    \midrule %s
+    \\ \bottomrule 
+    \end{tabular} }""" % (  r'\\ '.join([ ( d['id'] + " & " + 
+    d['Title'] + " & M\," + str(d['Monthdue']))
+    for d in allDeliverables if '${Label}' in d['Producingtask']])) 
+    if [d for d in allDeliverables if '${Label}' in d['Producingtask']] else "" )
+    %}
+    }{}
+    \ifthenelse{\boolean{WPTables-taskboxShowsMilestones}}{
+    %{ (r"""\\[0.3cm]
+    \noindent   {\centering
+    \begin{tabular}{lp{0.7\textwidth}l}
+    \multicolumn{3}{l}{\textbf{Milestones contributed to by Task ${taskId}:} } \\
+    \toprule 
+    MS.\ no. & Milestone name & Due \\
+    \midrule %s
+    \\ \bottomrule 
+    \end{tabular} }""" % (  r'\\ '.join([ ( d['id'] + " & " + 
+    d['Title'] + " & M\," + str(d['Monthdue']))
+    for d in allMilestones if '${Label}' in d['Producingtask']])) 
+    if [d for d in allMilestones if '${Label}' in d['Producingtask']] else "" )
+    %}
+    }{}
+    \ifthenelse{\boolean{WPTables-taskboxShowsPartners}}{ 
+    ~ \\[0.2cm] \noindent \textbf{Partners contributing to this task:} 
+    %{ ", ".join([ ( r'\textbf{%s}' % x['partner']  if x['partner'] == '${Leadpartner}'  else x['partner']) 
+    for x  in allEfforts 
+    if x['task'] == '${Label}' and 
+    int(x['resources']) > 0 ])
+    %}
+    }{}
+    \end{framed}	
+
+.. describe::  list = [t for t in allTasks if t['Main']=
+
+    
+    Default:  'True']  
+
+.. describe::  groupby 
+
+    
+    Default:   wp
+
+.. describe::  joiner 
+
+    
+    Default:    \n
+
+
+WpDeliverables
+==============
+.. program::  WpDeliverables
+
+the deliverable and milestone list per WP, along with more detailed description 
+
+
+.. describe::  template 
+
+    
+    Default:   \item \textbf{${id}}: ${Title} 
+    \ifthenelse{\boolean{WPTables-deliverablesWPshowDue}}{
+    \hfill (M\,${Monthdue})}{}
+    \ifthenelse{\boolean{WPTables-deliverablesWPshowTasks}}{
+    \\ Contributing tasks: ${ProducingtaskString}}{}
+    \ifthenelse{\boolean{WPTables-deliverablesWPshowPartners}}{
+    \\ Contributing partners: ${ContributorString}}{}
+    \ifthenelse{\boolean{WPTables-deliverablesWPshowDescription}}{
+    \\ Brief description: ${Description}}{}
+
+.. describe::  list 
+
+    
+    Default:   allDeliverables 
+
+.. describe::  groupby 
+
+    
+    Default:   wp
+
+.. describe::  joiner 
+
+    
+    Default:   \n
+
+
+WpMilestones
+============
+.. program::  WpMilestones
+
+
+
+.. describe::  template 
+
+    
+    Default:   \item \textbf{${id}}: ${Title} 
+    \ifthenelse{\boolean{WPTables-milestonesWPshowDue}}{
+    \hfill (M\,${Monthdue})}{}
+    \ifthenelse{\boolean{WPTables-milestonesWPshowTasks}}{
+    \\ Contributing tasks: ${ProducingtaskString}}{}
+    \ifthenelse{\boolean{WPTables-milestonesWPshowPartners}}{
+    \\ Contributing partners: ${ContributorString}}{}
+    \ifthenelse{\boolean{WPTables-milestonesWPshowDescription}}{
+    \\ Brief description: ${Description}}{}
+
+.. describe::  list 
+
+    
+    Default:   allMilestones 
+
+.. describe::  groupby 
+
+    
+    Default:   wp
+
+.. describe::  joiner 
+
+    
+    Default:   \n
+
+
+Wp
+==
+.. program::  Wp
+
+
+
+.. describe::  template 
+
+    
+    Default:   \newpage 
+    \noindent \addcontentsline{toc}{subsubsection}{WP ${Number}: ${Shortname} }
+    ${tableheader}
+    \begin{framed}
+    \noindent \textbf{Objectives of Workpackage ${Number}:}
+    ${objectives}
+    \end{framed}
+    \begin{framed}
+    \noindent  \textbf{Tasks of Workpackage ${Number}:} 
+    \begin{compactdesc}
+    ${WpTasks_${Number}} 	      
+    \end{compactdesc}
+    {\footnotesize \emph{Lead partners are shown in bold.}}
+    \end{framed}
+    \begin{framed}
+    \noindent \textbf{Description of Workpackage ${Number}:}
+    \ifthenelse{\boolean{WPTables-wpdescriptionShowsLeader}}{(workpackage leader: ${Leadership})}{}
+    ${wpdescription}
+    \end{framed}
+    ${WpTasksDescriptions_${Number}}
+    \begin{framed}
+    \noindent \textbf{Deliverables for Workpackage ${Number}:}
+    \begin{compactdesc}
+    ${WpDeliverables_${Number}}
+    \end{compactdesc}
+    \noindent \textbf{Milestones for Workpackage ${Number}:}
+    \begin{compactdesc}
+    ${WpMilestones_${Number}}
+    \end{compactdesc}
+    \end{framed}
+    % let us pull in the gantt chart for this WP directly here, 
+    % no need to use a separate file: 
+    ${ganttWP_${Shortname}}
+     
+
+.. describe::  list 
+
+    
+    Default:  allWPDicts 
+
+.. describe::  dict 
+
+    
+    Default:   expanded 
+
+.. describe::  numerator 
+
+    
+    Default:   value['Shortname']
+
+.. describe::  file 
+
+    
+    Default:   True 
+
+.. describe::  dir 
+
+    
+    Default:   wp
+
+
+DeliverableTableRows
+====================
+.. program::  DeliverableTableRows
+
+a table to summarize all the deliverables 
+again: two steps: build the rows, and then the table 
+
+
+.. describe::  template 
+
+    
+    Default:   ${id} & ${Title} & ${Monthdue} & ${Nature} & ${Dissemination} & ${ProducingtaskString} 
+
+.. describe::  list 
+
+    
+    Default:   allDeliverables 
+
+.. describe::  joiner 
+
+    
+    Default:   \\ \n
+
+.. describe::  sorter 
+
+    this sorts according to due date, and where the due date is the same, 
+    use deliverable id: 
+
+    Default:   lambda x: '%03d' % x['Monthdue'] + x['id']
+
+
+DeliverableTableShort
+=====================
+.. program::  DeliverableTableShort
+
+if you just want to sort by id, then simply use: 
+sorter = lambda x: x['id']
+
+
+.. describe::  template 
+
+    
+    Default:           \begin{table}[hbtp]
+    \caption{Summary of all deliverables (Nature: O=Other, P=Prototype, R=Report; Dissemination: PU=Public, RE=Restricted, CO=Confidential)}
+    \label{tab:deliverablesummary}
+    \begin{center}
+    \begin{tabular}{l|p{0.4\textwidth}|c|c|c|p{0.1\textwidth}}
+    \toprule
+    Number  & Title & Due date & Nature & Diss. & Contributing task(s)\\
+    \midrule
+    ${DeliverableTableRows} \\
+    \bottomrule
+    \end{tabular}
+    \end{center}
+    \end{table}
+
+.. describe::  dict
+
+    
+    Default:  expanded
+
+
+DeliverableTableLong
+====================
+.. program::  DeliverableTableLong
+
+
+
+.. describe::  template 
+
+    
+    Default:   \topcaption{Summary of all deliverables}
+    \label{tab:deliverablesummary}
+    \tablefirsthead{        \toprule 
+    Number  & Title & Due date & Nature & Diss. & Contributing task(s)\\
+    \midrule
+    }
+    \tablehead{\toprule 
+    \multicolumn{6}{r}{\emph{Table~\ref{tab:deliverablesummary} continues from previous page}} \\
+    \toprule 
+    Number  & Title & Due date & Nature & Diss. & Contributing task(s)\\
+    \midrule
+    }
+    \tabletail{\bottomrule \multicolumn{6}{r}{\emph{Table~\ref{tab:deliverablesummary} continues on next page}} \\ \bottomrule}
+    \tablelasttail{\multicolumn{6}{r}{Table~\ref{tab:deliverablesummary} ends} \\ \bottomrule}
+    \begin{center}
+    \begin{mpxtabular}{l|p{0.4\textwidth}|c|c|c|p{0.1\textwidth}}
+    ${DeliverableTableRows}\\
+    \bottomrule
+    \end{mpxtabular}
+    \end{center}
+
+.. describe::  dict 
+
+    
+    Default:  expanded
+
+
+DeliverableTable
+================
+.. program::  DeliverableTable
+
+
+
+.. describe::  template 
+
+    
+    Default:   \ifthenelse{\boolean{LaTeX-useMultipageDeliverableTable}}{${DeliverableTableLong}}{${DeliverableTableShort}}
+
+.. describe::  dict
+
+    
+    Default:  expanded
+
+.. describe::  file
+
+    
+    Default:  True 
+
+.. describe::  dir 
+
+    
+    Default:   tables
+
+
+MilestoneTableRows
+==================
+.. program::  MilestoneTableRows
+
+and a table for the milestones  - same structure as for the deliverable table 
+
+
+.. describe::  template 
+
+    
+    Default:   ${id} & ${Title} & ${Monthdue} & ${Verificationmeans} & ${ProducingtaskString}
+
+.. describe::  list 
+
+    
+    Default:   allMilestones
+
+.. describe::  joiner 
+
+    
+    Default:   \\ \n
+
+.. describe::  sorter 
+
+    
+    Default:   lambda x: '%03d' % x['Monthdue'] + x['id']
+
+
+MilestoneTableShort
+===================
+.. program::  MilestoneTableShort
+
+
+
+.. describe::  template 
+
+    
+    Default:   \begin{table}[hbtp]
+    \caption{Summary of all milestones}
+    \label{tab:milestonessummary}
+    \begin{center}
+    \begin{tabular}{l|p{0.3\textwidth}|c|p{0.3\textwidth}|p{0.1\textwidth}}
+    \toprule 
+    Number  & Title & Due date   &  Means of verification & Contributing task(s) \\
+    \midrule
+    ${MilestoneTableRows}\\
+    \bottomrule
+    \end{tabular}
+    \end{center}
+    \end{table}
+
+.. describe::  dict 
+
+    
+    Default:  expanded
+
+
+MilestoneTableLong
+==================
+.. program::  MilestoneTableLong
+
+
+
+.. describe::  template 
+
+    
+    Default:   \topcaption{Summary of all milestones}
+    \label{tab:milestonessummary}
+    \tablefirsthead{        \toprule 
+    Number  & Title & Due date   &  Means of verification & Contributing task(s) \\
+    \midrule
+    }
+    \tablehead{\toprule 
+    \multicolumn{5}{r}{\emph{Table~\ref{tab:milestonessummary} continues from previous page}} \\
+    \toprule 
+    Number  & Title & Due date   &  Means of verification & Contributing task(s) \\
+    \midrule
+    }
+    \tabletail{\bottomrule \multicolumn{5}{r}{\emph{Table~\ref{tab:milestonessummary} continues on next page}} \\ \bottomrule}
+    \tablelasttail{\multicolumn{5}{r}{Table~\ref{tab:milestonessummary} ends} \\ \bottomrule}
+    \begin{center}
+    \begin{mpxtabular}{l|p{0.3\textwidth}|c|p{0.3\textwidth}|p{0.1\textwidth}}
+    ${MilestoneTableRows}\\
+    \bottomrule
+    \end{mpxtabular}
+    \end{center}
+
+.. describe::  dict 
+
+    
+    Default:  expanded
+
+
+MilestoneTable
+==============
+.. program::  MilestoneTable
+
+
+
+.. describe::  template 
+
+    
+    Default:   \ifthenelse{\boolean{LaTeX-useMultipageMilestoneTable}}{${MilestoneTableLong}}{${MilestoneTableShort}}
+
+.. describe::  dict 
+
+    
+    Default:  expanded
+
+.. describe::  file
+
+    
+    Default:  True
+
+.. describe::  dir 
+
+    
+    Default:   tables 
+
+
+summaryEffortRows
+=================
+.. program::  summaryEffortRows
+
+
+
+.. describe::  template 
+
+    
+    Default:   ${Shortname} & 
+    %{ ' & '.join([str(x['partnereffort']['${Shortname}']) for x in allWPDicts])
+    %} & 
+    %{ str(sum([x['partnereffort']['${Shortname}'] for x in allWPDicts])) %}
+
+.. describe::  list 
+
+    
+    Default:   partnerList 
+
+.. describe::  joiner 
+
+    
+    Default:   \\ \n
+
+
+summaryEffort
+=============
+.. program::  summaryEffort
+
+
+
+.. describe::  template 
+
+    
+    Default:   \ifthenelse{\boolean{Summaries-showEffortPartnerWPs}}{\begin{table}
+    \caption{Summary of all effort over all partners and workpackages}
+    \label{tab:summaryEffortperWP}
+    \begin{center}
+    \begin{tabular}{l%{'c'*len(allWPDicts)%}r}
+    \toprule
+    Partner &  %{ ' & '.join([ 'WP\,%s' % x['Number'] for x in allWPDicts])  %} & Total
+    \\
+    \midrule
+    ${summaryEffortRows} \\
+    \midrule
+    Total & %{ ' & '.join([x['wpeffort'] for x in allWPDicts]) %} &
+    %{ str(sum([int(x['wpeffort']) for x in allWPDicts ] ))  %} \\
+    \bottomrule 
+    \end{tabular} 
+    \end{center}
+    \end{table}
+    }{}
+
+.. describe::  dict 
+
+    
+    Default:   expanded
+
+.. describe::  file 
+
+    
+    Default:   True 
+
+.. describe::  dir 
+
+    
+    Default:   tables
+
+
+effortPerTaskRows
+=================
+.. program::  effortPerTaskRows
+
+
+
+.. describe::  template 
+
+    
+    Default:   ${taskId}  & ${Name} & 
+    {\cellcolor[gray]{0.9}
+    %{ str(sum([int(e['resources']) for e in allEfforts if e['task'] == '${Label}'])) %}
+    } &
+    %{ ' & '.join([ ((r'\textbf{%s}' % e['resources']) if '${Leadpartner}' == p['Shortname'] 
+    else (e['resources'] if int(e['resources']) > 0 
+    else (r'{\textcolor{%s}0}' % config.get('WPTables','colorInactivePartner'))))
+    for p in partnerList
+    for e in [ee for ee in allEfforts if 
+    ee['task'] == '${Label}' and 
+    ee['partner'] == p['Shortname']] ]
+    )
+    %}
+
+.. describe::  list = [t for t in allTasks if t['Main']=
+
+    
+    Default:  'True']  
+
+.. describe::  groupby 
+
+    
+    Default:   wp 
+
+.. describe::  joiner 
+
+    
+    Default:   \\ \hline \n 
+
+
+effortPerTaskRowsWP
+===================
+.. program::  effortPerTaskRowsWP
+
+
+
+.. describe::  template 
+
+    
+    Default:    ${effortPerTaskRows_${Number}} \\ \hline
+    \rowcolor[gray]{0.9}
+    \multicolumn{2}{l|}{\cellcolor[gray]{0.9} \textbf{WP ${Number}:}} 
+    & %{ str(sum(${partnereffort}.values()))  %} &
+    %{ ' & '.join([ r'\textbf{%s}' % str(${partnereffort}[p['Shortname']]) if p['Shortname']=='${Leadership}'
+    else str(${partnereffort}[p['Shortname']])
+    for p in partnerList]) %}
+
+.. describe::  list 
+
+    
+    Default:   allWPDicts 
+
+.. describe::  joiner 
+
+    
+    Default:   \\ \hline \hline \n
+
+.. describe::  dict 
+
+    
+    Default:   expanded 
+
+
+effortHeader
+============
+.. program::  effortHeader
+
+
+
+.. describe::  template 
+
+    
+    Default:   \hline 
+    Task & Task name & Total PM & %{ ' & '.join([p['Shortname'] for p in partnerList]) %} \\ 
+    \hline 
+
+.. describe::  dict 
+
+    
+    Default:   expanded 
+
+
+effortSum
+=========
+.. program::  effortSum
+
+
+
+.. describe::  template 
+
+    
+    Default:   \rowcolor[gray]{0.8} \multicolumn{2}{l|}{\cellcolor[gray]{0.8} 
+    \textbf{Project total: }} & \textbf{\totalPM} & 
+    %{ ' & '.join([ r'\textbf{%s}' % 
+    str(sum([ int(e['resources']) for e in allEfforts if 
+    e['partner'] == p['Shortname'] ]))
+    for p in partnerList]) %}
+
+.. describe::  dict 
+
+    
+    Default:   expanded
+
+
+effortPerTaskTableShort
+=======================
+.. program::  effortPerTaskTableShort
+
+
+
+.. describe::  template 
+
+    
+    Default:   \ifthenelse{\boolean{LaTeX-effortTableLandscape}}{\begin{landscape}}{}
+    \begin{table}
+    \caption{Effort per tasks and partners for entire project (in personmonths)}
+    \label{tab:effortPerTasks}
+    \begin{center}
+    \small
+    \begin{tabular}{c|p{0.15\textwidth}|c%{' |c' * len(partnerList)%}} 
+    ${effortHeader} 
+    ${effortPerTaskRowsWP}
+    \\ \hline \hline 
+    ${effortSum}
+    \\ \hline \hline 
+    \end{tabular}
+    \end{center}
+    \end{table}
+    \ifthenelse{\boolean{LaTeX-effortTableLandscape}}{\end{landscape}}{}
+
+.. describe::  dict
+
+    
+    Default:  expanded
+
+
+effortPerTaskTableMultipage
+===========================
+.. program::  effortPerTaskTableMultipage
+
+
+
+.. describe::  template 
+
+    
+    Default:   \ifthenelse{\boolean{LaTeX-effortTableLandscape}}{\begin{landscape}}{}
+    \topcaption{Effort per tasks and partners for entire project (in personmonths)}
+    \label{tab:effortPerTasks}
+    \tablefirsthead{ ${effortHeader}  }
+    \tablehead{ \toprule \multicolumn{%{str(3+len(partnerList))%}}{r}{\emph{Table~\ref{tab:effortPerTasks} continues from previous page}} \\ ${effortHeader}}
+    \tabletail{\bottomrule \multicolumn{%{str(3+len(partnerList))%}}{r}{\emph{Table~\ref{tab:effortPerTasks} continues on next page}} \\ \bottomrule}
+    \tablelasttail{  \multicolumn{%{str(3+len(partnerList))%}}{r}{\emph{Table~\ref{tab:effortPerTasks} ends}} \\ \bottomrule}
+    \begin{center}
+    \begin{mpxtabular}{c|p{0.15\textwidth}|c%{' |c' * len(partnerList)%}} 
+    ${effortPerTaskRowsWP}
+    \\ \hline \hline 
+    ${effortSum}
+    \\ \hline \hline 
+    \end{mpxtabular}
+    \end{center}
+    \ifthenelse{\boolean{LaTeX-effortTableLandscape}}{\end{landscape}}{}
+
+.. describe::  dict
+
+    
+    Default:  expanded
+
+
+effortPerTaskTable
+==================
+.. program::  effortPerTaskTable
+
+
+
+.. describe::  template 
+
+    
+    Default:   \ifthenelse{\boolean{Summaries-showEffortPartnerTasks}}
+    {\ifthenelse{\boolean{LaTeX-useMultipageEffortTable}}
+    {${effortPerTaskTableMultipage}}
+    {${effortPerTaskTableShort}}
+    }{}
+
+.. describe::  dict 
+
+    
+    Default:   expanded
+
+.. describe::  file 
+
+    
+    Default:   True
+
+.. describe::  dir 
+
+    
+    Default:   tables 
+
+
+piePMsPartners
+==============
+.. program::  piePMsPartners
+
+pie charts 
+a pie chart showing person months distributed over partners 
+
+
+.. describe::  template 
+
+    
+    Default:   \ifthenelse{\boolean{Summaries-piePMsPartners}}{
+    \begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}
+    \pie[scale font]{ %{ utils.roundPie ([ (x['Shortname'], 
+    sum([int(e['resources']) for e in allEfforts if e['partner']==x['Shortname']])) 
+    for x in partnerList])
+    %}}
+    \end{tikzpicture}
+    \caption{Distribution of person months over partners  (in percent)}
+    \label{fig:pie:pm:partner}
+    \end{figure}
+    }{}
+
+.. describe::  dict 
+
+    
+    Default:   expanded 
+
+.. describe::  file 
+
+    
+    Default:   True 
+
+.. describe::  dir 
+
+    
+    Default:   pies 
+
+
+piePMsWPs
+=========
+.. program::  piePMsWPs
+
+
+
+.. describe::  template 
+
+    
+    Default:   \ifthenelse{\boolean{Summaries-piePMsWPs}}{
+    \begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}
+    \pie[scale font]{ %{ utils.roundPie ([ ('WP\,%s: %s'%(x['Number'], x['Shortname']), 
+    sum(x['partnereffort'].values())) 
+    for x in allWPDicts])
+    %}}
+    \end{tikzpicture}
+    \caption{Distribution of person months over work packages (in percent)}
+    \label{fig:pie:pm:wp}
+    \end{figure}
+    }{}
+
+.. describe::  dict 
+
+    
+    Default:   expanded 
+
+.. describe::  file 
+
+    
+    Default:   True 
+
+.. describe::  dir 
+
+    
+    Default:   pies 
+
+
+piePMsNations
+=============
+.. program::  piePMsNations
+
+pie chart over person months assigned to different nations
+a little bit more complicated: we need to pull out the (Nation/Effort) pairs. 
+those we get from allEfforts, where we look up the nation in the partnerList
+that leaves us with many entries in the list with the same nation 
+we add up those efforts by a mapReduce operation to which we pass 
+a suitable reduce function: adding up two values 
+
+
+.. describe::  template 
+
+    
+    Default:   \ifthenelse{\boolean{Summaries-piePMsNations}}{
+    \begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}
+    \pie[scale font]{ %{ utils.roundPie(utils.mapReduce ([   (utils.searchListOfDicts(partnerList,
+    'Shortname',
+    e['partner'],
+    'Nation'),
+    int(e['resources']))
+    for e in allEfforts],
+    lambda a,b: a+b))
+    %}}
+    \end{tikzpicture}
+    \caption{Distribution of person months over nations (in percent)}
+    \label{fig:pie:pm:nations}
+    \end{figure}
+    }{}
+
+.. describe::  dict 
+
+    
+    Default:   expanded 
+
+.. describe::  file 
+
+    
+    Default:   True 
+
+.. describe::  dir 
+
+    
+    Default:   pies 
+
+
+piePMsPartnerTypes
+==================
+.. program::  piePMsPartnerTypes
+
+same thing that worked for the nation pie charts works for the partner type pie charts as well 
+
+
+.. describe::  template 
+
+    
+    Default:   \ifthenelse{\boolean{Summaries-piePMsPartnerTypes}}{
+    \begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}
+    \pie[scale font]{ %{ utils.roundPie(utils.mapReduce ([   (utils.searchListOfDicts(partnerList,
+    'Shortname',
+    e['partner'],
+    'Type'),
+    int(e['resources']))
+    for e in allEfforts],
+    lambda a,b: a+b))
+    %}}
+    \end{tikzpicture}
+    \caption{Distribution of partner types over nations (in percent)}
+    \label{fig:pie:pm:partnertype}
+    \end{figure}
+    }{}
+
+.. describe::  dict 
+
+    
+    Default:   expanded 
+
+.. describe::  file 
+
+    
+    Default:   True 
+
+.. describe::  dir 
+
+    
+    Default:   pies 

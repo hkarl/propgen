@@ -55,7 +55,397 @@
             
   <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<p>How to install. Explain server vs. client installation. How to integrate with SVN.</p>
+<div class="section" id="quick-and-dirty">
+<h2>Quick and dirty<a class="headerlink" href="#quick-and-dirty" title="Permalink to this headline">¶</a></h2>
+<p>The fastest possible way to get everything set up and
+produce a proposal PDF, assuming you have latex and python set up:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> ~/tmp
+<span class="nv">$ </span>wget --no-check-certificate https://github.com/hkarl/propgen/zipball/master --output-document<span class="o">=</span>propgen.zip
+<span class="nv">$ </span>unzip propgen.zip
+<span class="nv">$ </span><span class="nb">cd </span>hkarl-propgen-7d7fd2d/
+<span class="nv">$ </span><span class="nb">cd </span>moin
+<span class="nv">$ </span>python wikiserver.py &amp;
+<span class="nv">$ </span><span class="nb">cd</span> ..
+<span class="nv">$ </span>make
+</pre></div>
+</div>
+<p>That will leave TestProject.pdf in the current directory. Use your webbrowser to go to <a class="reference external" href="http://127.0.0.1:8080/TestProject">http://127.0.0.1:8080/TestProject</a>, make some changes to this page or to the Wiki pages linked from there, save the changes. Type make again in the shell. Gives an updated PDF file.</p>
+</div>
+<div class="section" id="usage-scenarios">
+<h2>Usage scenarios<a class="headerlink" href="#usage-scenarios" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="external-wiki">
+<h3>External Wiki<a class="headerlink" href="#external-wiki" title="Permalink to this headline">¶</a></h3>
+<p>A typical usage scenario of this PropGen tool is the
+following:</p>
+<ul class="simple">
+<li>A proposal is to be prepared by a group of people.</li>
+<li>One of them runs the wiki, or an external Wiki provider
+is used</li>
+<li>Several people install the PropGen tool (ignoring the
+built-in Wiki) and can then built the PDF file for the
+proposal.</li>
+<li>Not everybody needs to install PropGen. Ideally, a
+version control system like SVN is integrated and
+whoever generates a new PDF file commits it to this
+version control system. Then, everybody has access to
+reasonably up-to-date versions.</li>
+</ul>
+<p>This scenario is fairly straightforward to set up. I
+assume here that you have your external Wiki set up and
+know how to administer it.</p>
+</div>
+<div class="section" id="built-in-wiki">
+<h3>Built-in Wiki<a class="headerlink" href="#built-in-wiki" title="Permalink to this headline">¶</a></h3>
+<p>An alternative is to use the MoinMoin Wiki included in
+the PropGen distribution. Then, one partner has to run
+this wiki. Ideally and typically, the same machine is
+then able to run PropGen and to generate the proposal
+PDF. This can conveniently be triggered via a crontab
+(e.g., do an hourly build) and the result can be put
+into a version control system similar to above.</p>
+<p>If other partners want to setup PropGen as well to
+locally generate the PDF, that is no problem at all.</p>
+<p>Advantage of this approach is that the generation scripts can
+directly talk to the wiki and there is no need to go
+over the network to pull the wiki files. This is
+substantially more reliable, faster, and easier to
+setup (in particular, if there are firewalls or proxies
+in place, which can be real trouble). The disadvantage
+is that often, a Wiki is already in place, people have
+their accounts on it, are accustomed to its syntax and
+quirks, it can have powerful features not present in
+the provided MoinMoin installation (e.g, Twiki has a
+very useful butracker that can be very beneficial
+during proposal writing). The choice is yours!</p>
+</div>
+<div class="section" id="integrating-a-version-control-system">
+<h3>Integrating a version control system<a class="headerlink" href="#integrating-a-version-control-system" title="Permalink to this headline">¶</a></h3>
+<p>As outlined above, it can be extremely useful to
+integrate a version control system like SVN. I would
+recommend to limit this to the latex directory, only
+committing files in this directory.</p>
+<p>Nothing is done automatically here since the variety of
+VCS systems is large. But it should be a simple
+exercise to integrate corresponding commit commands in
+the Makefile.</p>
+<p>However, some care has to be taken in that symbolic
+links from the LaTeX directory to the &#8220;generated&#8221;
+directory are used. The reason is that it can be
+convenient, towards the end of a proposal preparation
+process, to stop pulling some parts of a proposal from
+the Wiki and to rather work on the LaTeX files
+directly. This allows better fine-tuning then working
+via the Wiki. The process is simple: replace the
+symbolic link by the actual file. Then, this file is
+used and it is not touched by the generation process.</p>
+</div>
+</div>
+<div class="section" id="actual-installation">
+<h2>Actual installation<a class="headerlink" href="#actual-installation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="prerequisites">
+<h3>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h3>
+<p>You need the following software installed:</p>
+<dl class="docutils">
+<dt>Python</dt>
+<dd>You will need Python version 2.7.2 or
+later. Python 3 is known not to work at this time,
+Python 2.6 is too old.</dd>
+<dt>Mechanize</dt>
+<dd>If you want to pull in Wiki files over the
+network (e.g., from a remote Twiki), then you need the
+python mechanize module installed. Details can be found
+on the <a class="reference external" href="http://wwwsearch.sourceforge.net/mechanize/">Mechanize webpage</a>.</dd>
+<dt>Tex</dt>
+<dd>An up-to-date LaTeX installation. TexLive 2011 was
+used for development. Non-standard packages or packages
+which needed patches are provided in the distribution.</dd>
+<dt>Make</dt>
+<dd>There is a simple makefile in place. It is not
+absolutely needed and could quite easily be replaced by
+shell scripts or batch files.</dd>
+<dt>Bash</dt>
+<dd>The makefile uses some simple loop and test
+constructs of bash. (See the clean target, e.g.) It
+should not be difficult to do without or provide a
+version for another shell.</dd>
+<dt>Operation system</dt>
+<dd>Development and testing took place on Mac OSX
+Snow Leopard. Normal Linux distributions should pose no
+problems at all. Installation on Window is likely to be
+problematic because of symbolic links, and makefiles,
+bash etc. is likely to require at least cygwin - but I
+have very little clue of Windows and dare not make any
+statements here. Your mileage might vary.</dd>
+<dt>Sphinx</dt>
+<dd>If you should want to generate the documentation for
+the reStructuredText markup (I have no idea why you
+would want to do that), you will also need <a class="reference external" href="http://sphinx.pocoo.org/">Sphinx</a> , at least version 1.1.2.</dd>
+</dl>
+</div>
+<div class="section" id="id1">
+<h3>Installation<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Download the PropGen package and unpack to a folder of
+your choice.<ul>
+<li>From github:<ul>
+<li>Main page: <a class="reference external" href="https://github.com/hkarl/propgen">https://github.com/hkarl/propgen</a></li>
+<li>GIT Read-Only: git://github.com/hkarl/propgen.git</li>
+<li>ZIP file:
+<a class="reference external" href="https://github.com/hkarl/propgen/zipball/master">https://github.com/hkarl/propgen/zipball/master</a></li>
+</ul>
+</li>
+<li>Other sources still to come (possibly even a virtual
+machine)</li>
+</ul>
+</li>
+<li>Decide which Wiki to use and set it up correctly.<ul>
+<li>Internal wiki: See <a class="reference internal" href="#sec-setting-up-moinmoin"><em>Setting up the MoinMoin Wiki included in distribution</em></a></li>
+<li>For both internal and external wiki: simply add
+information to settings.cfg (see
+<a class="reference internal" href="#sec-setting-up-settings-cfg"><em>Setting up wiki in settings.cfg</em></a>)</li>
+</ul>
+</li>
+<li>Add the templates to an external Wiki<ul>
+<li>Example templates for MoinMoin and Twiki are
+included in the templates folder. Ignore the
+directories; they are just to group the wiki files
+a bit. Each file becomes one Wiki page with the
+corresponding filename.</li>
+<li>This step is not necessary when using the internal
+Wiki; it is pre-populated with an example pseudo
+project which should be easy to modify.</li>
+<li>It might make sense to rename the &#8220;TestProject&#8221; page to
+some more specific for your project. (Then, remember to
+also rename the corresponding entry in settings.cfg.)</li>
+</ul>
+</li>
+<li>Once you have setup Wiki access and the Wiki is
+running, try to generate a PDF file. cd into the main
+propgen directory and type make.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="setting-up-the-moinmoin-wiki-included-in-distribution">
+<span id="sec-setting-up-moinmoin"></span><h2>Setting up the MoinMoin Wiki included in distribution<a class="headerlink" href="#setting-up-the-moinmoin-wiki-included-in-distribution" title="Permalink to this headline">¶</a></h2>
+<p>If you want to use an external wiki (e.g., an existing
+Twiki), you can skip this section.</p>
+<p>For more details, check the documentation of the
+MoinMoin Wiki.</p>
+<div class="section" id="preconfigured-account">
+<h3>Preconfigured account<a class="headerlink" href="#preconfigured-account" title="Permalink to this headline">¶</a></h3>
+<p>The distributed version of MoinMoin is setup to support
+accounts, require login to edit or download material,
+and to deny anonymous access.</p>
+<p>It has a preconfigured account ProjectMaster with
+password 123abc. This account ProjectMaster is
+configured as a superuser in MoinMoin. Check the lines</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">acl_rights_default</span> <span class="o">=</span> <span class="s">u&quot;ProjectMaster:read,write,delete,revert,admin Known:read,write,revert,delete&quot;</span>
+</pre></div>
+</div>
+<p>and</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">superuser</span> <span class="o">=</span> <span class="p">[</span><span class="s">u&quot;ProjectMaster&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>in the file moin/wikiconfig.py. It gives admin rights
+to the ProjectMaster account, and usual read, write,
+revert, delete rights to all other known accounts.</p>
+</div>
+<div class="section" id="change-password">
+<h3>Change password<a class="headerlink" href="#change-password" title="Permalink to this headline">¶</a></h3>
+<p>Obviously, you really, really want to change the
+password of this superuser. Log in as the user for
+which you want to change password, go to &#8220;Settings&#8221; (link
+on the very top of the page, to the left), then click
+&#8220;Change password&#8221;.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/MoinMoin-ChangePassword.png"><img alt="_images/MoinMoin-ChangePassword.png" src="_images/MoinMoin-ChangePassword.png" /></a>
+</div>
+<p>Or go directly to
+<a class="reference external" href="http://127.0.0.1:8080/ProjectMaster?action=userprefs&amp;sub=changepass">http://127.0.0.1:8080/ProjectMaster?action=userprefs&amp;sub=changepass</a>
+(and replace &#8220;ProjectMaster&#8221; by the account name for
+which you want to change the password, of course).</p>
+</div>
+<div class="section" id="adding-accounts">
+<h3>Adding accounts<a class="headerlink" href="#adding-accounts" title="Permalink to this headline">¶</a></h3>
+<p>You could stick to the preconfigured account and
+distribute this account name and password to all
+members of your team. However, then it will not be
+possible to track who did which changes.</p>
+<p>Hence, it is usually preferable to assign a dedicated
+username/password to each team member.</p>
+<p>To add a user, you need to login as the superuser
+ProjectMaster. Go to the Wiki page NewUser (e.g., if
+you run it locally on the default port, goto
+<a class="reference external" href="http://127.0.0.1:8080/NewUser">http://127.0.0.1:8080/NewUser</a>), and create as many
+users as you like.</p>
+</div>
+<div class="section" id="rename-the-main-project-page">
+<h3>Rename the main project page<a class="headerlink" href="#rename-the-main-project-page" title="Permalink to this headline">¶</a></h3>
+<p>In case you want a different main page name, simply use
+the &#8220;Rename page&#8221; action of the Wiki. Remember to
+rename the corresponding setting in settings.cfg as
+well!</p>
+</div>
+<div class="section" id="run-the-moinmoin-wiki">
+<h3>Run the MoinMoin Wiki<a class="headerlink" href="#run-the-moinmoin-wiki" title="Permalink to this headline">¶</a></h3>
+<p>Simple:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd </span>moin
+<span class="nv">$ </span>python wikiserver.py &amp;
+</pre></div>
+</div>
+<p>You might want to start this as a daemon, possibly
+start automatically after reboot. Consult your own
+operating system how to do that.</p>
+</div>
+</div>
+<div class="section" id="setting-up-wiki-in-settings-cfg">
+<span id="sec-setting-up-settings-cfg"></span><h2>Setting up wiki in settings.cfg<a class="headerlink" href="#setting-up-wiki-in-settings-cfg" title="Permalink to this headline">¶</a></h2>
+<p>The file settings.cfg contains both basic
+configurations to ensure that the download script talks
+to the right wiki server as well as basic configuration
+options about what kind of information to generate. The
+latter content-customization options are described
+elsewhere. Here, we concentrate on basic connectivity
+settings.</p>
+<div class="section" id="wiki">
+<h3>Wiki<a class="headerlink" href="#wiki" title="Permalink to this headline">¶</a></h3>
+<p>Set up the necessary information to access the  wiki: which type,
+where can it be found, what is the start page, which account and password
+to use to log in.</p>
+<dl class="describe">
+<dt>
+<tt class="descname">projectName</tt></dt>
+<dd><p>This option specificies the root Wiki page where the main project information can
+be found. It also serves as the filename of the file pdf file.</p>
+<p>Default:   TestProject</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">wikitype</tt></dt>
+<dd><p>The wikitype setting selects which type of wiki access is to be
+used. Wikitypes currently supported are: twiki, moinmoin and moinmoin-local</p>
+<p>Option 1: wikitype = moinmoin-local
+This option specifies that the a moinmoin wiki can be accessed in
+the same file system where the generation system executes. This
+option requires to sepcify the moinmoinpath option as well. No user
+and password need to be given, but the files must be accessible for
+reading.</p>
+<p>Option 2: moinmoin</p>
+<p>A moinmoin wiki is used, to be access remotely, using the mechanize
+library. To this end, both the wikiuser and wikipassword option need
+to be specified; they are used for login. Also, the baseURL option
+needs to be specified: it provides a URL where the wiki can be
+accessed, without any concrete page name. Example:</p>
+<p>baseURL = <a class="reference external" href="http://hk-vm.cs.uni-paderborn.de:8080/">http://hk-vm.cs.uni-paderborn.de:8080/</a></p>
+<p>Option 3: twiki</p>
+<p>It needs the same options as moinmoin. The difference is that the
+obtained files are parsed assuming the twiki syntax.
+The distribution&#8217;s configuration file assumes a moinmoin-local</p>
+<p>Default:   moinmoin-local</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">moinmoinpath</tt></dt>
+<dd><p>Specify the moinmoin path in the standard PropGen distribution</p>
+<p>Default:   ../moin/</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">baseURL</tt></dt>
+<dd><p>For remote access to a wiki. It is ignored for the moinmoin-local
+wikitype and only used for other wikitypes.</p>
+<p>Default:   <a class="reference external" href="http://hk-vm.cs.uni-paderborn.de:8080/">http://hk-vm.cs.uni-paderborn.de:8080/</a></p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">wikiuser</tt></dt>
+<dd><p>The wikiuser account name to use to log in. Ignored in the
+moinmoin-local wikitype. The default corresponds to the account name
+preset in the distribution&#8217;s moinmoin wiki. Change this option to
+reflect your own user name.</p>
+<p>Default:   ProjectMaster</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">wikipassword</tt></dt>
+<dd><p>Password used to log in. The default is the one used in the
+distribution&#8217;s example moinmoin wiki. It is ignored in the
+moinmoin-local wikitype and only needed for remote access.</p>
+<p>Default:   123abc</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">loginURL</tt></dt>
+<dd><p>Some remote wikis usually need a special login URL, e.g., Twiki
+wikis. Specify here. This setting is ignored in both the
+moinmoin-local wikitype (where no login is needed at all) and in the
+moinmoin wikitype (were the login URL is constructed directly from
+the baseURL and no separate URL is needed).</p>
+<p>Default:   <a class="reference external" href="https://twiki.sics.se/bin/login">https://twiki.sics.se/bin/login</a></p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">httpProxyIP</tt></dt>
+<dd><p>For remote Wiki access through a proxy: These variables are used by
+the mechanize module, for access via an HTTP or HTTPS proxy. You can
+specify the proxy&#8217;s IP, port number, and user and password, if
+needed. You can do that separately for HTTP and HTTPS access.  But
+this does not always works out well.  Also, this functionality is
+not well tested. Your mileage WILL vary!</p>
+<p>Default:</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">httpProxyport</tt></dt>
+<dd><p>Default:</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">httpProxyuser</tt></dt>
+<dd><p>Default:</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">httpProxypassword</tt></dt>
+<dd><p>Default:</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">httpsProxyIP</tt></dt>
+<dd><p>Default:</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">httpsProxyport</tt></dt>
+<dd><p>Default:</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">httpsProxyuser</tt></dt>
+<dd><p>Default:</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">httpsProxypassword</tt></dt>
+<dd><p>Default:</p>
+</dd></dl>
+
+</div>
+</div>
 </div>
 
 
@@ -64,6 +454,37 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Installation</a><ul>
+<li><a class="reference internal" href="#quick-and-dirty">Quick and dirty</a></li>
+<li><a class="reference internal" href="#usage-scenarios">Usage scenarios</a><ul>
+<li><a class="reference internal" href="#external-wiki">External Wiki</a></li>
+<li><a class="reference internal" href="#built-in-wiki">Built-in Wiki</a></li>
+<li><a class="reference internal" href="#integrating-a-version-control-system">Integrating a version control system</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#actual-installation">Actual installation</a><ul>
+<li><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li><a class="reference internal" href="#id1">Installation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#setting-up-the-moinmoin-wiki-included-in-distribution">Setting up the MoinMoin Wiki included in distribution</a><ul>
+<li><a class="reference internal" href="#preconfigured-account">Preconfigured account</a></li>
+<li><a class="reference internal" href="#change-password">Change password</a></li>
+<li><a class="reference internal" href="#adding-accounts">Adding accounts</a></li>
+<li><a class="reference internal" href="#rename-the-main-project-page">Rename the main project page</a></li>
+<li><a class="reference internal" href="#run-the-moinmoin-wiki">Run the MoinMoin Wiki</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#setting-up-wiki-in-settings-cfg">Setting up wiki in settings.cfg</a><ul>
+<li><a class="reference internal" href="#wiki">Wiki</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="motivation.html"
                         title="previous chapter">Why this tool?</a></p>
@@ -112,7 +533,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2012, Holger Karl.
-      Last updated on Feb 18, 2012.
+      Last updated on Feb 20, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
     </div>
   </body>

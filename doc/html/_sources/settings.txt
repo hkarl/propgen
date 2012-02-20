@@ -1,0 +1,678 @@
+
+
+Wiki
+====
+.. program::  Wiki
+
+Set up the necessary information to access the  wiki: which type, 
+where can it be found, what is the start page, which account and password 
+to use to log in. 
+
+
+.. describe::  projectName 
+
+    This option specificies the root Wiki page where the main project information can 
+    be found. It also serves as the filename of the file pdf file. 
+
+    Default:   TestProject 
+
+.. describe::  wikitype 
+
+    The wikitype setting selects which type of wiki access is to be
+    used. Wikitypes currently supported are: twiki, moinmoin and moinmoin-local
+    
+    Option 1: wikitype = moinmoin-local
+    This option specifies that the a moinmoin wiki can be accessed in
+    the same file system where the generation system executes. This
+    option requires to sepcify the moinmoinpath option as well. No user
+    and password need to be given, but the files must be accessible for
+    reading. 
+    
+    Option 2: moinmoin 
+    
+    A moinmoin wiki is used, to be access remotely, using the mechanize
+    library. To this end, both the wikiuser and wikipassword option need
+    to be specified; they are used for login. Also, the baseURL option
+    needs to be specified: it provides a URL where the wiki can be
+    accessed, without any concrete page name. Example: 
+    
+    baseURL = http://hk-vm.cs.uni-paderborn.de:8080/
+    
+    Option 3: twiki
+    
+    It needs the same options as moinmoin. The difference is that the
+    obtained files are parsed assuming the twiki syntax. 
+    The distribution's configuration file assumes a moinmoin-local 
+
+    Default:   moinmoin-local
+
+.. describe::  moinmoinpath 
+
+    Specify the moinmoin path in the standard PropGen distribution
+
+    Default:   ../moin/
+
+.. describe::  baseURL 
+
+    For remote access to a wiki. It is ignored for the moinmoin-local
+    wikitype and only used for other wikitypes. 
+
+    Default:   http://hk-vm.cs.uni-paderborn.de:8080/
+
+.. describe::  wikiuser 
+
+    The wikiuser account name to use to log in. Ignored in the
+    moinmoin-local wikitype. The default corresponds to the account name
+    preset in the distribution's moinmoin wiki. Change this option to
+    reflect your own user name. 
+
+    Default:   ProjectMaster
+
+.. describe::  wikipassword 
+
+    Password used to log in. The default is the one used in the
+    distribution's example moinmoin wiki. It is ignored in the
+    moinmoin-local wikitype and only needed for remote access. 
+
+    Default:   123abc
+
+.. describe::  loginURL
+
+    Some remote wikis usually need a special login URL, e.g., Twiki
+    wikis. Specify here. This setting is ignored in both the
+    moinmoin-local wikitype (where no login is needed at all) and in the
+    moinmoin wikitype (were the login URL is constructed directly from
+    the baseURL and no separate URL is needed). 
+
+    Default:   https://twiki.sics.se/bin/login
+
+.. describe::  httpProxyIP 
+
+    For remote Wiki access through a proxy: These variables are used by
+    the mechanize module, for access via an HTTP or HTTPS proxy. You can
+    specify the proxy's IP, port number, and user and password, if
+    needed. You can do that separately for HTTP and HTTPS access.  But
+    this does not always works out well.  Also, this functionality is
+    not well tested. Your mileage WILL vary! All the defaults are just
+    empty. 
+
+    Default:   
+
+.. describe::  httpProxyport 
+
+    
+    Default:   
+
+.. describe::  httpProxyuser 
+
+    
+    Default:   
+
+.. describe::  httpProxypassword 
+
+    
+    Default:   
+
+.. describe::  httpsProxyIP 
+
+    
+    Default:   
+
+.. describe::  httpsProxyport 
+
+    
+    Default:   
+
+.. describe::  httpsProxyuser 
+
+    
+    Default:   
+
+.. describe::  httpsProxypassword 
+
+    
+    Default:   
+
+
+PathNames
+=========
+.. program::  PathNames
+
+
+
+.. describe::  binpath 
+
+    Caution: best not to touch these paths!!! You should know what you are doing here! 
+    note: these paths are relative to the main directory
+    where are all the scripts? 
+
+    Default:   bin 
+
+.. describe::  wikipath 
+
+    where should downloaded wiki files be stored? 
+
+    Default:   generated/wiki 
+
+.. describe::  wikiwppath 
+
+    
+    Default:   generated/wiki/wp
+
+.. describe::  wikipartnerpath  
+
+    
+    Default:   generated/wiki/partners
+
+.. describe::  xmlpath 
+
+    where do generated xml files go? 
+
+    Default:   generated/xml
+
+.. describe::  xmlwppath 
+
+    
+    Default:   generated/xml/wp
+
+.. describe::  latexTemplates 
+
+    where is the LaTeX templates file? 
+
+    Default:   template/latexTemplates.cfg
+
+.. describe::  genlatexpath 
+
+    where do generated LaTeX files, wp paths, partner files go? 
+
+    Default:   generated/latex
+
+.. describe::  genlatexfigurespath 
+
+    
+    Default:   generated/latex/figures
+
+.. describe::  genlatexganttspath 
+
+    
+    Default:   generated/latex/gantts
+
+.. describe::  genlatextablespath 
+
+    
+    Default:   generated/latex/tables
+
+.. describe::  genlatexpiespath 
+
+    
+    Default:   generated/latex/pies
+
+.. describe::  genlatexwppath 
+
+    
+    Default:   generated/latex/wp
+
+.. describe::  genlatexpartnerspath 
+
+    
+    Default:   generated/latex/partners
+
+.. describe::  manuallatexpath 
+
+    where are the MANUAL latex files? 
+    usage: in that directory, no files are EVER overwritten 
+    however, it is ensured that for all generated files, 
+    there is either a regular file of the same name in the manual directory
+    (then nothing happens), or a symbolic link is created in the manual directory. 
+    NOTE: no good idea how to replicate that behavior 
+
+    Default:   latex 
+
+.. describe::  manuallatexfigurespath 
+
+    
+    Default:   latex/figures
+
+.. describe::  manuallatexganttspath 
+
+    
+    Default:   latex/figures/gantts
+
+.. describe::  manuallatextablespath 
+
+    
+    Default:   latex/figures/tables
+
+.. describe::  manuallatexpiespath 
+
+    
+    Default:   latex/figures/pies
+
+.. describe::  manuallatexwppath 
+
+    
+    Default:   latex/wp
+
+.. describe::  manuallatexpartnerspath 
+
+    
+    Default:   latex/partners
+
+
+Gantts
+======
+.. program::  Gantts
+
+TODO: excel interface! 
+excelFile = ../Administration/Steam-resources.xls
+control which and how Gantt charts are typeset 
+
+
+.. describe::  WpMilestonesUncompressedShow 
+
+    toggle to turn on/off various figures: 
+    some simple examples - generate various WP-specific Gantt charts for milestones, deliverables 
+
+    Default:   True       	     
+
+.. describe::  WpMilestonesShow 
+
+    
+    Default:   True       	     
+
+.. describe::  WpDeliverablesUncompressedShow 
+
+    
+    Default:   True       	     
+
+.. describe::  ShowWPBar 
+
+    for the full-project milestones/deliverable gantt charts: build a WP bar to separate WPs ? 
+
+    Default:   True 	     
+
+.. describe::  ganttPerWPShowsLegend 
+
+    should the WP-specifc Gantt charts show a legend? 
+
+    Default:   True 
+
+.. describe::  ganttLegendTwoColumn 
+
+    should a Gantt legend be one or two columns? 
+
+    Default:   True
+
+.. describe::  ganttTaskbarsShowTaskname 
+
+    task bars show task names in the gantt chart? 
+    easier to read, but risk of text extending to the right 
+    if not, maybe center the task identifier in the bar? (difficult!) 
+
+    Default:   True 
+
+.. describe::  ganttDistanceBetweenMS 
+
+    More detailed control about looks of Gantt charts: 
+    number of months that a deliverable/milestone marker text occupies (horizontally) 
+
+    Default:   4  
+
+.. describe::  milestoneDecoration = fill=orange, rounded corners
+
+    how should a milestone look like? Put a "decoration string" according to the pdfgantt package here 
+
+    Default:  5pt
+
+.. describe::  milestonesShowCrossWP 
+
+    show cross-WP milestones? 
+
+    Default:   True  
+
+.. describe::  deliverablesShowCrossWP 
+
+    show cross-WP milestones? 
+
+    Default:   True 
+
+.. describe::  milestoneLegendTemplate 
+
+    template to format the milestone captions in the Gantt charts
+
+    Default:   \item \textbf{${id}}: ${Title} 
+
+.. describe::  deliverableLegendTemplate 
+
+    
+    Default:   \item \textbf{${id}}: ${Title}
+
+
+Summaries
+=========
+.. program::  Summaries
+
+a plausible alternative for the legend strings is to use a description 
+environment instead. That requires then a corresponding change in 
+latexTemplates.cfg. Not difficult to do, look for compactitem there. 
+which summary tables, figures  should appear in the document
+
+
+.. describe::  showEffortPartnerWPs 
+
+    one table showing efforts only per partner and workpackage, over all workpackages 
+
+    Default:   True
+
+.. describe::  showEffortPartnerTasks 
+
+    one table showing effort per partner and task, over all tasks 
+
+    Default:   True 
+
+.. describe::  piePMsWPs 
+
+    a pie chart, showing person month summaries for WPs 
+
+    Default:   True
+
+.. describe::  piePMsPartners 
+
+    a pie chart, showing person month summaries for each partner  
+
+    Default:   True 
+
+.. describe::  piePMsPartnerTypes 
+
+    a pie chart, showing person month summaries for each partner type (industry, SME, academic)  
+
+    Default:   True 
+
+.. describe::  piePMsNations 
+
+    a pie chart, showing person month summaries for each nation   
+
+    Default:   True 
+
+
+WPTables
+========
+.. program::  WPTables
+
+the following pie charts are budget-related; makes 
+only sense once the spreadsheet coupling is implemented 
+a pie chart, showing total/contributed budget, per partner 
+pieTotalPerPartner = True 
+pieContribPerPartner = False 
+a piec chart, showing total/contributed budget, per partner TYPE 
+pieTotalPerPartnerType = False 
+pieContribPerPartnerType = False
+a piec chart, showing total/contributed budget, per NATION 
+pieTotalPerNation = False
+pieContribPerNation = False 
+all information that is relevant for workpackage tables 
+
+
+.. describe::  maxPartnersPerRow 
+
+    how many partners should be typeset in one row of the WP tables? 
+    choice depends mostly on how long the partner shortnames are 
+
+    Default:   8			
+
+.. describe::  firstColumnWidth 
+
+    how wide should the first column be? 
+    give it as percent of textwidth! 
+
+    Default:   15
+
+.. describe::  wptablespacing 
+
+    how to influence the spacing of the wp tables? 
+    wptablespacing = @{\hskip 2.8ex}
+
+    Default:   @{\hskip 0ex}
+
+.. describe::  tabularCorrection 
+
+    correction factor to eadjust total width of the WP tabular 
+    (Note: I'd much appreciate help from a LaTeX wizard to ensure a tabular 
+    environment is at most textwidth wide) 
+
+    Default:   0.95 
+
+.. describe::  tasklistShowsDuration 
+
+    what information should the task list include (in the WP table): 
+
+    Default:   True 
+
+.. describe::  tasklistShowsPartners 
+
+    
+    Default:   True 
+
+.. describe::  tasklistShowsDeliverables 
+
+    
+    Default:   True 
+
+.. describe::  tasklistShowsMilestones 
+
+    
+    Default:   True 
+
+.. describe::  wpdescriptionShowsLeader 
+
+    how much details should the workpackage description box report? 
+
+    Default:   True 
+
+.. describe::  taskboxShowsLeader 
+
+    how much details should the individual task boxes report?
+    (the boxes containing the description of each task ) 
+    (this is used in latex-templates.cfg in the WpTasksDescriptions section)
+
+    Default:   True
+
+.. describe::  taskboxShowsObjectives 
+
+    showsLeader: refers to the head of the taskbox, not to the list at the end
+
+    Default:   True
+
+.. describe::  taskboxShowsDescription 
+
+    
+    Default:   True
+
+.. describe::  taskboxShowsDeliverables 
+
+    
+    Default:   True
+
+.. describe::  taskboxShowsMilestones 
+
+    
+    Default:   True
+
+.. describe::  taskboxShowsPartners 
+
+    
+    Default:   True
+
+.. describe::  deliverablesWPshowDue 
+
+    how much details in the deliverables list per WP? 
+    similar to tasklist options 
+
+    Default:   True
+
+.. describe::  deliverablesWPshowTasks 
+
+    
+    Default:   True
+
+.. describe::  deliverablesWPshowPartners 
+
+    
+    Default:   True
+
+.. describe::  deliverablesWPshowDescription 
+
+    
+    Default:   True
+
+.. describe::  milestonesWPshowTasks 
+
+    how much details in the milestones  list per WP? 
+    similar to tasklist options 
+
+    Default:   True
+
+.. describe::  milestonesWPshowPartners 
+
+    
+    Default:   True 
+
+.. describe::  milestonesWPshowDue 
+
+    
+    Default:   True 
+
+.. describe::  milestonesWPshowDescription 
+
+    
+    Default:   True 
+
+.. describe::  colorInactivePartner 
+
+    color highlight for inactive partners? 
+    (color names as defined by the LaTeX xcolor package) 
+    (no highlight: simply use black) 
+
+    Default:   gray 
+
+
+Participants
+============
+.. program::  Participants
+
+Options to control the individual participant descriptions in Section 2.2 
+
+
+.. describe::  newpageAfterEachPartner 
+
+    
+    Default:   True 
+
+
+LaTeX
+=====
+.. program::  LaTeX
+
+Options controlling LaTeX processing 
+produces file setttings.tex, included by frame.tex 
+NOTE: these settings are only processed in the makefile; changing them 
+and directly running pdflatx will have no effect 
+
+
+.. describe::  showCommissionHints 
+
+    should the PDF file include the commission hints text? 
+
+    Default:   True 
+
+.. describe::  useShowkeys 
+
+    should the showkey package be used, highlighting the label, ref and cite commands? 
+
+    Default:   False 
+
+.. describe::  showWarnings 
+
+    should warnings and fixmes be printed? 
+
+    Default:   True 
+
+.. describe::  showListOfTables 
+
+    should the file show list of tables? 
+
+    Default:   True 
+
+.. describe::  showListOfFigures 
+
+    should the file show list of figures? 
+
+    Default:   True 
+
+.. describe::  showAcronymList 
+
+    should there be a list of acronyms? 
+
+    Default:   False 
+
+.. describe::  useMultipageDeliverableTable 
+
+    multipage deliverables/milestone Table? 
+    (defaults False / True only for demonstration of the options, pick what 
+    you prefer...) 
+
+    Default:   False 
+
+.. describe::  useMultipageMilestoneTable 
+
+    
+    Default:   True 
+
+.. describe::  useMultipageEffortTable 
+
+    should the effort table for the entire project be typesetting across multiple pages?
+
+    Default:   True
+
+.. describe::  effortTableLandscape 
+
+    turn the effort table sideways? Can be useful for large consortia
+
+    Default:   True 
+
+
+CustomLaTeX
+===========
+.. program::  CustomLaTeX
+
+custom LaTeX commands 
+Rationale: there might be some things you'd like to include in your proposal that 
+are not fit for making in general, but can be computed based on the numbers contained in files pulled form the wiki 
+E.g., the toal number of person months 
+to this end, this section allows you to write python code that is executed once every thing else is done 
+and assign the result to a LaTeX command. The defining command will end up in settings.tex 
+the command is the option name 
+CAUTION: you can really screw up everything here. It can delete your disk and kill your pet. You are WARNED!
+To make use of this feature, you have to understand the Python code! 
+
+
+.. describe::  totalPM 
+
+    e.g.: total person months should be defined like this: 
+
+    Default:   sum([int(e['resources']) for e in allEfforts])
+
+.. describe::  tocLevel 
+
+    and it will turn into a LaTeX command in settings.tex like this 
+    (where 999 is of course replaced by the result of computing based on actual data): 
+    \newcommand{totalPM}{999}
+    toc level 
+
+    Default:   3
+
+.. describe::  secNumDepth 
+
+    how deeply should headings be numbered? 
+
+    Default:   3  

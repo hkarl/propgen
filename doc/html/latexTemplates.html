@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Source code documentation &mdash; PropGen 0 documentation</title>
+    <title>titleheader &mdash; PropGen 0 documentation</title>
     
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -24,8 +24,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="PropGen 0 documentation" href="index.html" />
-    <link rel="prev" title="Open Issues" href="openissues.html" /> 
+    <link rel="top" title="PropGen 0 documentation" href="index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -37,9 +36,6 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="openissues.html" title="Open Issues"
-             accesskey="P">previous</a> |</li>
         <li><a href="index.html">PropGen 0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -49,970 +45,14 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="source-code-documentation">
-<h1>Source code documentation<a class="headerlink" href="#source-code-documentation" title="Permalink to this headline">¶</a></h1>
-<p>The code described here lists in the bin directory. Some general remarks:</p>
-<ul class="simple">
-<li>The invocation sequence is pullproject -&gt; generateXML -&gt; latexFromWiki -&gt; latexFromXML -&gt; ensureSymbolicLinks</li>
-<li>Details are in the makefile in the main directory</li>
-<li>Many functions get passed a parameter &#8220;config&#8221;. This is the content of settings.cfg, as parsed by the standard python configuration file parser ConfigParser.SafeConfigParser (see python library documentation for details).</li>
-</ul>
-<div class="section" id="module-pullProject">
-<span id="pullproject"></span><h2>pullproject<a class="headerlink" href="#module-pullProject" title="Permalink to this headline">¶</a></h2>
-<p>Pull the raw wiki files from wherever is specified in
-settings.cfg. Store the raw wiki syntax in the wikipath directory.</p>
-<dl class="function">
-<dt id="pullProject.ensureDirectories">
-<tt class="descclassname">pullProject.</tt><tt class="descname">ensureDirectories</tt><big>(</big><em>config</em><big>)</big><a class="headerlink" href="#pullProject.ensureDirectories" title="Permalink to this definition">¶</a></dt>
-<dd><p>A small helper function that makes sure that all the
-directories that are mentioned in settings.cfg PathNames section
-actually exist. This can be useful after a make clean or in case
-directories have been manually and inadvertently removed.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="pullProject.getPartners">
-<tt class="descclassname">pullProject.</tt><tt class="descname">getPartners</tt><big>(</big><em>masterPage</em>, <em>pullInstance</em>, <em>config</em>, <em>parser</em>, <em>verbose=False</em><big>)</big><a class="headerlink" href="#pullProject.getPartners" title="Permalink to this definition">¶</a></dt>
-<dd><p>get all the partner description files</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="pullProject.getProposalStructure">
-<tt class="descclassname">pullProject.</tt><tt class="descname">getProposalStructure</tt><big>(</big><em>masterPage</em>, <em>pullInstance</em>, <em>config</em>, <em>parser</em>, <em>verbose=False</em><big>)</big><a class="headerlink" href="#pullProject.getProposalStructure" title="Permalink to this definition">¶</a></dt>
-<dd><p>Extract all the relevant files for the actual proposal text from the wiki.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="pullProject.getWorkpackages">
-<tt class="descclassname">pullProject.</tt><tt class="descname">getWorkpackages</tt><big>(</big><em>masterPage</em>, <em>pullInstance</em>, <em>config</em>, <em>parser</em>, <em>verbose=False</em><big>)</big><a class="headerlink" href="#pullProject.getWorkpackages" title="Permalink to this definition">¶</a></dt>
-<dd><p>Identify all the workpackages and download them</p>
-</dd></dl>
-
-</div>
-<div class="section" id="wikiparser">
-<h2>wikiParser<a class="headerlink" href="#wikiparser" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="module-wikiParser">
-<span id="the-wikiparser-module-as-such"></span><h3>The wikiParser module as such<a class="headerlink" href="#module-wikiParser" title="Permalink to this headline">¶</a></h3>
-<p>We need to parse various wiki formats into useable latex. This module
-provides an abstract base class wikiParser that implements a lot of
-basic functions e.g.,  to extract tables, lists, etc.</p>
-<p>This base class has to be subclassed to specialize for specific Wiki
-syntax variants. The subclasses can be fairly slim and mostly specify
-regular expressions to use (e.g., how to recognize headings).</p>
-<p>A factory function is called to obtain an instance of such a parser.</p>
-<dl class="function">
-<dt id="wikiParser.wikiParserFactory">
-<tt class="descclassname">wikiParser.</tt><tt class="descname">wikiParserFactory</tt><big>(</big><em>config</em><big>)</big><a class="headerlink" href="#wikiParser.wikiParserFactory" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct an instance of the correct parser class, choice depends on what is
-selected in settings.cfg.</p>
-</dd></dl>
-
-</div>
-<div class="section" id="the-wikiparser-base-class">
-<h3>The wikiParser base class<a class="headerlink" href="#the-wikiparser-base-class" title="Permalink to this headline">¶</a></h3>
-<dl class="class">
-<dt id="wikiParser.wikiParser">
-<em class="property">class </em><tt class="descclassname">wikiParser.</tt><tt class="descname">wikiParser</tt><a class="headerlink" href="#wikiParser.wikiParser" title="Permalink to this definition">¶</a></dt>
-<dd><p>Base class to get the interface for turning wiki syntax into useful stuff</p>
-<dl class="method">
-<dt id="wikiParser.wikiParser.constructLabel">
-<tt class="descname">constructLabel</tt><big>(</big><em>t</em><big>)</big><a class="headerlink" href="#wikiParser.wikiParser.constructLabel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given a heading, construct a suitable label out of it.
-Remove whitspaces and obvious strange characters.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="wikiParser.wikiParser.getLaTeX">
-<tt class="descname">getLaTeX</tt><big>(</big><em>t</em><big>)</big><a class="headerlink" href="#wikiParser.wikiParser.getLaTeX" title="Permalink to this definition">¶</a></dt>
-<dd><p>turn all of the wiki into LaTeX</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="wikiParser.wikiParser.getList">
-<tt class="descname">getList</tt><big>(</big><em>wiki</em><big>)</big><a class="headerlink" href="#wikiParser.wikiParser.getList" title="Permalink to this definition">¶</a></dt>
-<dd><p>turn the first itemize in the wiki into a list</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="wikiParser.wikiParser.getListAsDict">
-<tt class="descname">getListAsDict</tt><big>(</big><em>wiki</em>, <em>delimiter=':'</em><big>)</big><a class="headerlink" href="#wikiParser.wikiParser.getListAsDict" title="Permalink to this definition">¶</a></dt>
-<dd><p>tmp is an aray of strings, assumed to be key/values delimited by delimited
-split them up, return a proper dictionary for that</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="wikiParser.wikiParser.getSection">
-<tt class="descname">getSection</tt><big>(</big><em>wiki</em>, <em>title</em>, <em>level</em><big>)</big><a class="headerlink" href="#wikiParser.wikiParser.getSection" title="Permalink to this definition">¶</a></dt>
-<dd><p>extract the section with title at level</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="wikiParser.wikiParser.getTable">
-<tt class="descname">getTable</tt><big>(</big><em>wiki</em><big>)</big><a class="headerlink" href="#wikiParser.wikiParser.getTable" title="Permalink to this definition">¶</a></dt>
-<dd><p>turn the first table into list of dictionaries, using the first row as
-keys for the dictionaries. Removing boldfacing from the first row entries.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="wikiParser.wikiParser.moveCommissionHints">
-<tt class="descname">moveCommissionHints</tt><big>(</big><em>t</em><big>)</big><a class="headerlink" href="#wikiParser.wikiParser.moveCommissionHints" title="Permalink to this definition">¶</a></dt>
-<dd><p>Make sure that commission hints appear after the first heading!</p>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="the-moinmoin-parser">
-<h3>The moinmoin parser<a class="headerlink" href="#the-moinmoin-parser" title="Permalink to this headline">¶</a></h3>
-<dl class="class">
-<dt id="wikiParser.wikiParserMoinmoin">
-<em class="property">class </em><tt class="descclassname">wikiParser.</tt><tt class="descname">wikiParserMoinmoin</tt><big>(</big><em>config</em><big>)</big><a class="headerlink" href="#wikiParser.wikiParserMoinmoin" title="Permalink to this definition">¶</a></dt>
-<dd><p>Specialized for Moinmoin</p>
-<dl class="method">
-<dt id="wikiParser.wikiParserMoinmoin.getSection">
-<tt class="descname">getSection</tt><big>(</big><em>wiki</em>, <em>title</em>, <em>level</em><big>)</big><a class="headerlink" href="#wikiParser.wikiParserMoinmoin.getSection" title="Permalink to this definition">¶</a></dt>
-<dd><p>extract the section with title at level</p>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="the-twiki-parser">
-<h3>The twiki parser<a class="headerlink" href="#the-twiki-parser" title="Permalink to this headline">¶</a></h3>
-<dl class="class">
-<dt id="wikiParser.wikiParserTwiki">
-<em class="property">class </em><tt class="descclassname">wikiParser.</tt><tt class="descname">wikiParserTwiki</tt><big>(</big><em>config</em><big>)</big><a class="headerlink" href="#wikiParser.wikiParserTwiki" title="Permalink to this definition">¶</a></dt>
-<dd><p>Specialized for Twiki</p>
-<dl class="method">
-<dt id="wikiParser.wikiParserTwiki.getSection">
-<tt class="descname">getSection</tt><big>(</big><em>wiki</em>, <em>title</em>, <em>level</em><big>)</big><a class="headerlink" href="#wikiParser.wikiParserTwiki.getSection" title="Permalink to this definition">¶</a></dt>
-<dd><p>extract the section with title at level</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="wikiParser.wikiParserTwiki.localHeading">
-<tt class="descname">localHeading</tt><big>(</big><em>title</em>, <em>level</em><big>)</big><a class="headerlink" href="#wikiParser.wikiParserTwiki.localHeading" title="Permalink to this definition">¶</a></dt>
-<dd><p>How does a heading with the given title, at the given level,
-look in this wiki style? Describe it as a regular expression.</p>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-</div>
-<div class="section" id="module-latexFromWiki">
-<span id="latexfromwiki"></span><h2>latexFromWiki<a class="headerlink" href="#module-latexFromWiki" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="latexFromWiki.handleFile">
-<tt class="descclassname">latexFromWiki.</tt><tt class="descname">handleFile</tt><big>(</big><em>f</em>, <em>outdir</em>, <em>parser</em>, <em>config</em>, <em>verbose=False</em><big>)</big><a class="headerlink" href="#latexFromWiki.handleFile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Translate a wiki file with name f to the corresponding LaTeX file.</p>
-<p>Information where and how to translate are giving in config. Parser is
-a parser object for the correct wiki style.</p>
-</dd></dl>
-
-</div>
-<div class="section" id="module-latexFromXML">
-<span id="latexfromxml"></span><h2>latexFromXML<a class="headerlink" href="#module-latexFromXML" title="Permalink to this headline">¶</a></h2>
-<p>general docu for latexFromXML</p>
-</div>
-<div class="section" id="module-settings">
-<span id="settings"></span><h2>settings<a class="headerlink" href="#module-settings" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="settings.getSettings">
-<tt class="descclassname">settings.</tt><tt class="descname">getSettings</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#settings.getSettings" title="Permalink to this definition">¶</a></dt>
-<dd><p>Try to find the settings file, turn it into a configParser
-object, and do some first preprocessing on it.</p>
-</dd></dl>
-
-</div>
-<div class="section" id="module-ensureSymbolicLinks">
-<span id="ensuresymboliclinks"></span><h2>ensureSymbolicLinks<a class="headerlink" href="#module-ensureSymbolicLinks" title="Permalink to this headline">¶</a></h2>
-<p>Make sure that the symbolic links from the manual to the generated
-subtree exist, unless there is already a real file there.</p>
-<dl class="function">
-<dt id="ensureSymbolicLinks.createLinks">
-<tt class="descclassname">ensureSymbolicLinks.</tt><tt class="descname">createLinks</tt><big>(</big><em>config</em><big>)</big><a class="headerlink" href="#ensureSymbolicLinks.createLinks" title="Permalink to this definition">¶</a></dt>
-<dd><p>Look into config, in the Paths section, for any directory
-with generated as prefix, and has a corresponding manual directory as peer.
-Put symbolic links there if necessary to all files in generated.</p>
-</dd></dl>
-
-</div>
-<div class="section" id="module-utils">
-<span id="utils"></span><h2>utils<a class="headerlink" href="#module-utils" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="utils.roundPie">
-<tt class="descclassname">utils.</tt><tt class="descname">roundPie</tt><big>(</big><em>l</em><big>)</big><a class="headerlink" href="#utils.roundPie" title="Permalink to this definition">¶</a></dt>
-<dd><p>round the values to 100%, input: list of (name, value) tuples</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="utils.searchListOfDicts">
-<tt class="descclassname">utils.</tt><tt class="descname">searchListOfDicts</tt><big>(</big><em>l</em>, <em>key</em>, <em>value</em>, <em>returnkey</em><big>)</big><a class="headerlink" href="#utils.searchListOfDicts" title="Permalink to this definition">¶</a></dt>
-<dd><p>Search a list l which contains dictionaries for an entry
-where key has value, and return the value of returnkey.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="utils.treeReduce">
-<tt class="descclassname">utils.</tt><tt class="descname">treeReduce</tt><big>(</big><em>l</em>, <em>reducefct</em><big>)</big><a class="headerlink" href="#utils.treeReduce" title="Permalink to this definition">¶</a></dt>
-<dd><p>recursively apply a reduce function to a nested list structure.
-Atomic elements must be boolean values.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="utils.writefile">
-<tt class="descclassname">utils.</tt><tt class="descname">writefile</tt><big>(</big><em>t</em>, <em>f</em><big>)</big><a class="headerlink" href="#utils.writefile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Write text t into file f. If flag utf8conversion is set,
-try to run a conversion into UTF-8.</p>
-</dd></dl>
-
-</div>
-<div class="section" id="settings-cfg">
-<h2>settings.cfg<a class="headerlink" href="#settings-cfg" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="wiki">
-<h3>Wiki<a class="headerlink" href="#wiki" title="Permalink to this headline">¶</a></h3>
-<p>Set up the necessary information to access the  wiki: which type,
-where can it be found, what is the start page, which account and password
-to use to log in.</p>
-<dl class="describe">
-<dt>
-<tt class="descname">projectName</tt></dt>
-<dd><p>This option specificies the root Wiki page where the main project information can
-be found. It also serves as the filename of the file pdf file.</p>
-<p>Default:   TestProject</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">wikitype</tt></dt>
-<dd><p>The wikitype setting selects which type of wiki access is to be
-used. Wikitypes currently supported are: twiki, moinmoin and moinmoin-local</p>
-<p>Option 1: wikitype = moinmoin-local
-This option specifies that the a moinmoin wiki can be accessed in
-the same file system where the generation system executes. This
-option requires to sepcify the moinmoinpath option as well. No user
-and password need to be given, but the files must be accessible for
-reading.</p>
-<p>Option 2: moinmoin</p>
-<p>A moinmoin wiki is used, to be access remotely, using the mechanize
-library. To this end, both the wikiuser and wikipassword option need
-to be specified; they are used for login. Also, the baseURL option
-needs to be specified: it provides a URL where the wiki can be
-accessed, without any concrete page name. Example:</p>
-<p>baseURL = <a class="reference external" href="http://hk-vm.cs.uni-paderborn.de:8080/">http://hk-vm.cs.uni-paderborn.de:8080/</a></p>
-<p>Option 3: twiki</p>
-<p>It needs the same options as moinmoin. The difference is that the
-obtained files are parsed assuming the twiki syntax.
-The distribution&#8217;s configuration file assumes a moinmoin-local</p>
-<p>Default:   moinmoin-local</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">moinmoinpath</tt></dt>
-<dd><p>Specify the moinmoin path in the standard PropGen distribution</p>
-<p>Default:   ../moin/</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">baseURL</tt></dt>
-<dd><p>For remote access to a wiki. It is ignored for the moinmoin-local
-wikitype and only used for other wikitypes.</p>
-<p>Default:   <a class="reference external" href="http://hk-vm.cs.uni-paderborn.de:8080/">http://hk-vm.cs.uni-paderborn.de:8080/</a></p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">wikiuser</tt></dt>
-<dd><p>The wikiuser account name to use to log in. Ignored in the
-moinmoin-local wikitype. The default corresponds to the account name
-preset in the distribution&#8217;s moinmoin wiki. Change this option to
-reflect your own user name.</p>
-<p>Default:   ProjectMaster</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">wikipassword</tt></dt>
-<dd><p>Password used to log in. The default is the one used in the
-distribution&#8217;s example moinmoin wiki. It is ignored in the
-moinmoin-local wikitype and only needed for remote access.</p>
-<p>Default:   123abc</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">loginURL</tt></dt>
-<dd><p>Some remote wikis usually need a special login URL, e.g., Twiki
-wikis. Specify here. This setting is ignored in both the
-moinmoin-local wikitype (where no login is needed at all) and in the
-moinmoin wikitype (were the login URL is constructed directly from
-the baseURL and no separate URL is needed).</p>
-<p>Default:   <a class="reference external" href="https://twiki.sics.se/bin/login">https://twiki.sics.se/bin/login</a></p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">httpProxyIP</tt></dt>
-<dd><p>For remote Wiki access through a proxy: These variables are used by
-the mechanize module, for access via an HTTP or HTTPS proxy. You can
-specify the proxy&#8217;s IP, port number, and user and password, if
-needed. You can do that separately for HTTP and HTTPS access.  But
-this does not always works out well.  Also, this functionality is
-not well tested. Your mileage WILL vary!</p>
-<p>Default:</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">httpProxyport</tt></dt>
-<dd><p>Default:</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">httpProxyuser</tt></dt>
-<dd><p>Default:</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">httpProxypassword</tt></dt>
-<dd><p>Default:</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">httpsProxyIP</tt></dt>
-<dd><p>Default:</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">httpsProxyport</tt></dt>
-<dd><p>Default:</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">httpsProxyuser</tt></dt>
-<dd><p>Default:</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">httpsProxypassword</tt></dt>
-<dd><p>Default:</p>
-</dd></dl>
-
-</div>
-<div class="section" id="pathnames">
-<h3>PathNames<a class="headerlink" href="#pathnames" title="Permalink to this headline">¶</a></h3>
-<dl class="describe">
-<dt>
-<tt class="descname">binpath</tt></dt>
-<dd><p>Caution: best not to touch these paths!!! You should know what you are doing here!
-note: these paths are relative to the main directory
-where are all the scripts?</p>
-<p>Default:   bin</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">wikipath</tt></dt>
-<dd><p>where should downloaded wiki files be stored?</p>
-<p>Default:   generated/wiki</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">wikiwppath</tt></dt>
-<dd><p>Default:   generated/wiki/wp</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">wikipartnerpath</tt></dt>
-<dd><p>Default:   generated/wiki/partners</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">xmlpath</tt></dt>
-<dd><p>where do generated xml files go?</p>
-<p>Default:   generated/xml</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">xmlwppath</tt></dt>
-<dd><p>Default:   generated/xml/wp</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">latexTemplates</tt></dt>
-<dd><p>where is the LaTeX templates file?</p>
-<p>Default:   template/latexTemplates.cfg</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">genlatexpath</tt></dt>
-<dd><p>where do generated LaTeX files, wp paths, partner files go?</p>
-<p>Default:   generated/latex</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">genlatexfigurespath</tt></dt>
-<dd><p>Default:   generated/latex/figures</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">genlatexganttspath</tt></dt>
-<dd><p>Default:   generated/latex/gantts</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">genlatextablespath</tt></dt>
-<dd><p>Default:   generated/latex/tables</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">genlatexpiespath</tt></dt>
-<dd><p>Default:   generated/latex/pies</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">genlatexwppath</tt></dt>
-<dd><p>Default:   generated/latex/wp</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">genlatexpartnerspath</tt></dt>
-<dd><p>Default:   generated/latex/partners</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">manuallatexpath</tt></dt>
-<dd><p>where are the MANUAL latex files?
-usage: in that directory, no files are EVER overwritten
-however, it is ensured that for all generated files,
-there is either a regular file of the same name in the manual directory
-(then nothing happens), or a symbolic link is created in the manual directory.
-NOTE: no good idea how to replicate that behavior</p>
-<p>Default:   latex</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">manuallatexfigurespath</tt></dt>
-<dd><p>Default:   latex/figures</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">manuallatexganttspath</tt></dt>
-<dd><p>Default:   latex/figures/gantts</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">manuallatextablespath</tt></dt>
-<dd><p>Default:   latex/figures/tables</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">manuallatexpiespath</tt></dt>
-<dd><p>Default:   latex/figures/pies</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">manuallatexwppath</tt></dt>
-<dd><p>Default:   latex/wp</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">manuallatexpartnerspath</tt></dt>
-<dd><p>Default:   latex/partners</p>
-</dd></dl>
-
-</div>
-<div class="section" id="gantts">
-<h3>Gantts<a class="headerlink" href="#gantts" title="Permalink to this headline">¶</a></h3>
-<p>TODO: excel interface!
-excelFile = ../Administration/Steam-resources.xls
-control which and how Gantt charts are typeset</p>
-<dl class="describe">
-<dt>
-<tt class="descname">WpMilestonesUncompressedShow</tt></dt>
-<dd><p>toggle to turn on/off various figures:
-some simple examples - generate various WP-specific Gantt charts for milestones, deliverables</p>
-<p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">WpMilestonesShow</tt></dt>
-<dd><p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">WpDeliverablesUncompressedShow</tt></dt>
-<dd><p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">ShowWPBar</tt></dt>
-<dd><p>for the full-project milestones/deliverable gantt charts: build a WP bar to separate WPs ?</p>
-<p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">ganttPerWPShowsLegend</tt></dt>
-<dd><p>should the WP-specifc Gantt charts show a legend?</p>
-<p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">ganttLegendTwoColumn</tt></dt>
-<dd><p>should a Gantt legend be one or two columns?</p>
-<p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">ganttTaskbarsShowTaskname</tt></dt>
-<dd><p>task bars show task names in the gantt chart?
-easier to read, but risk of text extending to the right
-if not, maybe center the task identifier in the bar? (difficult!)</p>
-<p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">ganttDistanceBetweenMS</tt></dt>
-<dd><p>More detailed control about looks of Gantt charts:
-number of months that a deliverable/milestone marker text occupies (horizontally)</p>
-<p>Default:   4</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">milestoneDecoration = fill=orange, rounded corners</tt></dt>
-<dd><p>how should a milestone look like? Put a &#8220;decoration string&#8221; according to the pdfgantt package here</p>
-<p>Default:  5pt</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">milestonesShowCrossWP</tt></dt>
-<dd><p>show cross-WP milestones?</p>
-<p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">deliverablesShowCrossWP</tt></dt>
-<dd><p>show cross-WP milestones?</p>
-<p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">milestoneLegendTemplate</tt></dt>
-<dd><p>template to format the milestone captions in the Gantt charts</p>
-<p>Default:   item textbf{${id}}: ${Title}</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">deliverableLegendTemplate</tt></dt>
-<dd><p>Default:   item textbf{${id}}: ${Title}</p>
-</dd></dl>
-
-</div>
-<div class="section" id="summaries">
-<h3>Summaries<a class="headerlink" href="#summaries" title="Permalink to this headline">¶</a></h3>
-<p>a plausible alternative for the legend strings is to use a description
-environment instead. That requires then a corresponding change in
-latexTemplates.cfg. Not difficult to do, look for compactitem there.
-which summary tables, figures  should appear in the document</p>
-<dl class="describe">
-<dt>
-<tt class="descname">showEffortPartnerWPs</tt></dt>
-<dd><p>one table showing efforts only per partner and workpackage, over all workpackages</p>
-<p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">showEffortPartnerTasks</tt></dt>
-<dd><p>one table showing effort per partner and task, over all tasks</p>
-<p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">piePMsWPs</tt></dt>
-<dd><p>a pie chart, showing person month summaries for WPs</p>
-<p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">piePMsPartners</tt></dt>
-<dd><p>a pie chart, showing person month summaries for each partner</p>
-<p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">piePMsPartnerTypes</tt></dt>
-<dd><p>a pie chart, showing person month summaries for each partner type (industry, SME, academic)</p>
-<p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">piePMsNations</tt></dt>
-<dd><p>a pie chart, showing person month summaries for each nation</p>
-<p>Default:   True</p>
-</dd></dl>
-
-</div>
-<div class="section" id="wptables">
-<h3>WPTables<a class="headerlink" href="#wptables" title="Permalink to this headline">¶</a></h3>
-<p>the following pie charts are budget-related; makes
-only sense once the spreadsheet coupling is implemented
-a pie chart, showing total/contributed budget, per partner
-pieTotalPerPartner = True
-pieContribPerPartner = False
-a piec chart, showing total/contributed budget, per partner TYPE
-pieTotalPerPartnerType = False
-pieContribPerPartnerType = False
-a piec chart, showing total/contributed budget, per NATION
-pieTotalPerNation = False
-pieContribPerNation = False
-all information that is relevant for workpackage tables</p>
-<dl class="describe">
-<dt>
-<tt class="descname">maxPartnersPerRow</tt></dt>
-<dd><p>how many partners should be typeset in one row of the WP tables?
-choice depends mostly on how long the partner shortnames are</p>
-<p>Default:   8</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">firstColumnWidth</tt></dt>
-<dd><p>how wide should the first column be?
-give it as percent of textwidth!</p>
-<p>Default:   15</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">wptablespacing</tt></dt>
-<dd><p>how to influence the spacing of the wp tables?
-wptablespacing = &#64;{hskip 2.8ex}</p>
-<p>Default:   &#64;{hskip 0ex}</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">tabularCorrection</tt></dt>
-<dd><p>correction factor to eadjust total width of the WP tabular
-(Note: I&#8217;d much appreciate help from a LaTeX wizard to ensure a tabular
-environment is at most textwidth wide)</p>
-<p>Default:   0.95</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">tasklistShowsDuration</tt></dt>
-<dd><p>what information should the task list include (in the WP table):</p>
-<p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">tasklistShowsPartners</tt></dt>
-<dd><p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">tasklistShowsDeliverables</tt></dt>
-<dd><p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">tasklistShowsMilestones</tt></dt>
-<dd><p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">wpdescriptionShowsLeader</tt></dt>
-<dd><p>how much details should the workpackage description box report?</p>
-<p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">taskboxShowsLeader</tt></dt>
-<dd><p>how much details should the individual task boxes report?
-(the boxes containing the description of each task )
-(this is used in latex-templates.cfg in the WpTasksDescriptions section)</p>
-<p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">taskboxShowsObjectives</tt></dt>
-<dd><p>showsLeader: refers to the head of the taskbox, not to the list at the end</p>
-<p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">taskboxShowsDescription</tt></dt>
-<dd><p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">taskboxShowsDeliverables</tt></dt>
-<dd><p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">taskboxShowsMilestones</tt></dt>
-<dd><p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">taskboxShowsPartners</tt></dt>
-<dd><p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">deliverablesWPshowDue</tt></dt>
-<dd><p>how much details in the deliverables list per WP?
-similar to tasklist options</p>
-<p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">deliverablesWPshowTasks</tt></dt>
-<dd><p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">deliverablesWPshowPartners</tt></dt>
-<dd><p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">deliverablesWPshowDescription</tt></dt>
-<dd><p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">milestonesWPshowTasks</tt></dt>
-<dd><p>how much details in the milestones  list per WP?
-similar to tasklist options</p>
-<p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">milestonesWPshowPartners</tt></dt>
-<dd><p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">milestonesWPshowDue</tt></dt>
-<dd><p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">milestonesWPshowDescription</tt></dt>
-<dd><p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">colorInactivePartner</tt></dt>
-<dd><p>color highlight for inactive partners?
-(color names as defined by the LaTeX xcolor package)
-(no highlight: simply use black)</p>
-<p>Default:   gray</p>
-</dd></dl>
-
-</div>
-<div class="section" id="participants">
-<h3>Participants<a class="headerlink" href="#participants" title="Permalink to this headline">¶</a></h3>
-<p>Options to control the individual participant descriptions in Section 2.2</p>
-<dl class="describe">
-<dt>
-<tt class="descname">newpageAfterEachPartner</tt></dt>
-<dd><p>Default:   True</p>
-</dd></dl>
-
-</div>
-<div class="section" id="latex">
-<h3>LaTeX<a class="headerlink" href="#latex" title="Permalink to this headline">¶</a></h3>
-<p>Options controlling LaTeX processing
-produces file setttings.tex, included by frame.tex
-NOTE: these settings are only processed in the makefile; changing them
-and directly running pdflatx will have no effect</p>
-<dl class="describe">
-<dt>
-<tt class="descname">showCommissionHints</tt></dt>
-<dd><p>should the PDF file include the commission hints text?</p>
-<p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">useShowkeys</tt></dt>
-<dd><p>should the showkey package be used, highlighting the label, ref and cite commands?</p>
-<p>Default:   False</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">showWarnings</tt></dt>
-<dd><p>should warnings and fixmes be printed?</p>
-<p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">showListOfTables</tt></dt>
-<dd><p>should the file show list of tables?</p>
-<p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">showListOfFigures</tt></dt>
-<dd><p>should the file show list of figures?</p>
-<p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">showAcronymList</tt></dt>
-<dd><p>should there be a list of acronyms?</p>
-<p>Default:   False</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">useMultipageDeliverableTable</tt></dt>
-<dd><p>multipage deliverables/milestone Table?
-(defaults False / True only for demonstration of the options, pick what
-you prefer...)</p>
-<p>Default:   False</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">useMultipageMilestoneTable</tt></dt>
-<dd><p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">useMultipageEffortTable</tt></dt>
-<dd><p>should the effort table for the entire project be typesetting across multiple pages?</p>
-<p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">effortTableLandscape</tt></dt>
-<dd><p>turn the effort table sideways? Can be useful for large consortia</p>
-<p>Default:   True</p>
-</dd></dl>
-
-</div>
-<div class="section" id="customlatex">
-<h3>CustomLaTeX<a class="headerlink" href="#customlatex" title="Permalink to this headline">¶</a></h3>
-<p>custom LaTeX commands
-Rationale: there might be some things you&#8217;d like to include in your proposal that
-are not fit for making in general, but can be computed based on the numbers contained in files pulled form the wiki
-E.g., the toal number of person months
-to this end, this section allows you to write python code that is executed once every thing else is done
-and assign the result to a LaTeX command. The defining command will end up in settings.tex
-the command is the option name
-CAUTION: you can really screw up everything here. It can delete your disk and kill your pet. You are WARNED!
-To make use of this feature, you have to understand the Python code!</p>
-<dl class="describe">
-<dt>
-<tt class="descname">totalPM</tt></dt>
-<dd><p>e.g.: total person months should be defined like this:</p>
-<p>Default:   sum([int(e[&#8216;resources&#8217;]) for e in allEfforts])</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">tocLevel</tt></dt>
-<dd><p>and it will turn into a LaTeX command in settings.tex like this
-(where 999 is of course replaced by the result of computing based on actual data):
-newcommand{totalPM}{999}
-toc level</p>
-<p>Default:   3</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">secNumDepth</tt></dt>
-<dd><p>how deeply should headings be numbered?</p>
-<p>Default:   3</p>
-</dd></dl>
-
-</div>
-</div>
-<div class="section" id="latextemplates-cfg">
-<h2>latexTemplates.cfg<a class="headerlink" href="#latextemplates-cfg" title="Permalink to this headline">¶</a></h2>
-<dl class="describe">
+  <dl class="describe">
 <dt>
 <tt class="descname">## To get this right: First line must be on the same line as the</tt></dt>
 <dd><p>Default:  ;</p>
 </dd></dl>
 
 <div class="section" id="titleheader">
-<h3>titleheader<a class="headerlink" href="#titleheader" title="Permalink to this headline">¶</a></h3>
+<h1>titleheader<a class="headerlink" href="#titleheader" title="Permalink to this headline">¶</a></h1>
 <p>we build the titlepage in three steps: the header,
 the table rows for the partners, and then the titlepage complete
 out of these two parts. This third part is then written to file</p>
@@ -1045,7 +85,7 @@ noindent</p>
 
 </div>
 <div class="section" id="partnertablerow">
-<h3>partnerTableRow<a class="headerlink" href="#partnertablerow" title="Permalink to this headline">¶</a></h3>
+<h1>partnerTableRow<a class="headerlink" href="#partnertablerow" title="Permalink to this headline">¶</a></h1>
 <p>rows for partner table on titlepage:</p>
 <dl class="describe">
 <dt>
@@ -1075,7 +115,7 @@ Note: sorter is optional, but only available in conjunction with joiner attribut
 
 </div>
 <div class="section" id="titlepage">
-<h3>titlepage<a class="headerlink" href="#titlepage" title="Permalink to this headline">¶</a></h3>
+<h1>titlepage<a class="headerlink" href="#titlepage" title="Permalink to this headline">¶</a></h1>
 <p>some alternative examples (which make no sense here, just to demonstrate):
 sorter = lambda x: x[&#8216;Shortname&#8217;]
 sorter = lambda x: x[&#8216;Nation&#8217;]
@@ -1109,7 +149,7 @@ end{tabular}
 
 </div>
 <div class="section" id="wpsummaryrows">
-<h3>wpSummaryRows<a class="headerlink" href="#wpsummaryrows" title="Permalink to this headline">¶</a></h3>
+<h1>wpSummaryRows<a class="headerlink" href="#wpsummaryrows" title="Permalink to this headline">¶</a></h1>
 <p>the wp summary list</p>
 <dl class="describe">
 <dt>
@@ -1131,7 +171,7 @@ end{tabular}
 
 </div>
 <div class="section" id="wpsummarytable">
-<h3>wpsummarytable<a class="headerlink" href="#wpsummarytable" title="Permalink to this headline">¶</a></h3>
+<h1>wpsummarytable<a class="headerlink" href="#wpsummarytable" title="Permalink to this headline">¶</a></h1>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -1171,7 +211,7 @@ end{table}</p>
 
 </div>
 <div class="section" id="ganttprefix">
-<h3>ganttPrefix<a class="headerlink" href="#ganttprefix" title="Permalink to this headline">¶</a></h3>
+<h1>ganttPrefix<a class="headerlink" href="#ganttprefix" title="Permalink to this headline">¶</a></h1>
 <p>Gantt charts!
 First, some building blocks for various Gantt charts</p>
 <dl class="describe">
@@ -1199,7 +239,7 @@ gantttitlelist{1,...,${duration}}{1}</p>
 
 </div>
 <div class="section" id="ganttpostfix">
-<h3>ganttPostfix<a class="headerlink" href="#ganttpostfix" title="Permalink to this headline">¶</a></h3>
+<h1>ganttPostfix<a class="headerlink" href="#ganttpostfix" title="Permalink to this headline">¶</a></h1>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -1209,7 +249,7 @@ end{tikzpicture}</p>
 
 </div>
 <div class="section" id="wpmilestonesuncompressedshow">
-<h3>WpMilestonesUncompressedShow<a class="headerlink" href="#wpmilestonesuncompressedshow" title="Permalink to this headline">¶</a></h3>
+<h1>WpMilestonesUncompressedShow<a class="headerlink" href="#wpmilestonesuncompressedshow" title="Permalink to this headline">¶</a></h1>
 <p>and the actual gantts: first, the wp-specific gantts</p>
 <dl class="describe">
 <dt>
@@ -1254,7 +294,7 @@ end{figure}</p>
 
 </div>
 <div class="section" id="wpmilestonesshow">
-<h3>WpMilestonesShow<a class="headerlink" href="#wpmilestonesshow" title="Permalink to this headline">¶</a></h3>
+<h1>WpMilestonesShow<a class="headerlink" href="#wpmilestonesshow" title="Permalink to this headline">¶</a></h1>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -1298,7 +338,7 @@ end{figure}</p>
 
 </div>
 <div class="section" id="wpdeliverablesuncompressedshow">
-<h3>WpDeliverablesUncompressedShow<a class="headerlink" href="#wpdeliverablesuncompressedshow" title="Permalink to this headline">¶</a></h3>
+<h1>WpDeliverablesUncompressedShow<a class="headerlink" href="#wpdeliverablesuncompressedshow" title="Permalink to this headline">¶</a></h1>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -1342,7 +382,7 @@ end{figure}</p>
 
 </div>
 <div class="section" id="wpdeliverablesshow">
-<h3>WpDeliverablesShow<a class="headerlink" href="#wpdeliverablesshow" title="Permalink to this headline">¶</a></h3>
+<h1>WpDeliverablesShow<a class="headerlink" href="#wpdeliverablesshow" title="Permalink to this headline">¶</a></h1>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -1386,7 +426,7 @@ end{figure}</p>
 
 </div>
 <div class="section" id="ganttwp">
-<h3>ganttWP<a class="headerlink" href="#ganttwp" title="Permalink to this headline">¶</a></h3>
+<h1>ganttWP<a class="headerlink" href="#ganttwp" title="Permalink to this headline">¶</a></h1>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -1446,7 +486,7 @@ end{figure}</p>
 
 </div>
 <div class="section" id="ganttwplegend">
-<h3>ganttWPLegend<a class="headerlink" href="#ganttwplegend" title="Permalink to this headline">¶</a></h3>
+<h1>ganttWPLegend<a class="headerlink" href="#ganttwplegend" title="Permalink to this headline">¶</a></h1>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -1505,7 +545,7 @@ end{figure}</p>
 
 </div>
 <div class="section" id="alltaskdelmslist">
-<h3>allTaskDelMSList<a class="headerlink" href="#alltaskdelmslist" title="Permalink to this headline">¶</a></h3>
+<h1>allTaskDelMSList<a class="headerlink" href="#alltaskdelmslist" title="Permalink to this headline">¶</a></h1>
 <p>and prepate the complete Gantt chart for the entire project
 this happens in several steps</p>
 <dl class="describe">
@@ -1532,7 +572,7 @@ ${milestoneGanttString}</p>
 
 </div>
 <div class="section" id="alltaskdelms">
-<h3>allTaskDelMS<a class="headerlink" href="#alltaskdelms" title="Permalink to this headline">¶</a></h3>
+<h1>allTaskDelMS<a class="headerlink" href="#alltaskdelms" title="Permalink to this headline">¶</a></h1>
 <p>the next one is an example with an empty template: it is only used to turn a list into
 a string</p>
 <dl class="describe">
@@ -1555,7 +595,7 @@ a string</p>
 
 </div>
 <div class="section" id="alldellegend">
-<h3>allDelLegend<a class="headerlink" href="#alldellegend" title="Permalink to this headline">¶</a></h3>
+<h1>allDelLegend<a class="headerlink" href="#alldellegend" title="Permalink to this headline">¶</a></h1>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -1576,7 +616,7 @@ a string</p>
 
 </div>
 <div class="section" id="allmslegend">
-<h3>allMSLegend<a class="headerlink" href="#allmslegend" title="Permalink to this headline">¶</a></h3>
+<h1>allMSLegend<a class="headerlink" href="#allmslegend" title="Permalink to this headline">¶</a></h1>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -1597,7 +637,7 @@ a string</p>
 
 </div>
 <div class="section" id="completegantt">
-<h3>CompleteGantt<a class="headerlink" href="#completegantt" title="Permalink to this headline">¶</a></h3>
+<h1>CompleteGantt<a class="headerlink" href="#completegantt" title="Permalink to this headline">¶</a></h1>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -1632,7 +672,7 @@ end{figure}</p>
 
 </div>
 <div class="section" id="alllegend">
-<h3>allLegend<a class="headerlink" href="#alllegend" title="Permalink to this headline">¶</a></h3>
+<h1>allLegend<a class="headerlink" href="#alllegend" title="Permalink to this headline">¶</a></h1>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -1668,7 +708,7 @@ end{table}</p>
 
 </div>
 <div class="section" id="completeganttfacinglegend">
-<h3>CompleteGanttFacingLegend<a class="headerlink" href="#completeganttfacinglegend" title="Permalink to this headline">¶</a></h3>
+<h1>CompleteGanttFacingLegend<a class="headerlink" href="#completeganttfacinglegend" title="Permalink to this headline">¶</a></h1>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -1713,7 +753,7 @@ end{multicols}</p>
 
 </div>
 <div class="section" id="wptasks">
-<h3>WpTasks<a class="headerlink" href="#wptasks" title="Permalink to this headline">¶</a></h3>
+<h1>WpTasks<a class="headerlink" href="#wptasks" title="Permalink to this headline">¶</a></h1>
 <p>and finally: the actual WP files!</p>
 <dl class="describe">
 <dt>
@@ -1778,7 +818,7 @@ need to think about the duration, though!</p>
 
 </div>
 <div class="section" id="wptasksdescriptions">
-<h3>WpTasksDescriptions<a class="headerlink" href="#wptasksdescriptions" title="Permalink to this headline">¶</a></h3>
+<h1>WpTasksDescriptions<a class="headerlink" href="#wptasksdescriptions" title="Permalink to this headline">¶</a></h1>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -1849,7 +889,7 @@ end{framed}</p>
 
 </div>
 <div class="section" id="wpdeliverables">
-<h3>WpDeliverables<a class="headerlink" href="#wpdeliverables" title="Permalink to this headline">¶</a></h3>
+<h1>WpDeliverables<a class="headerlink" href="#wpdeliverables" title="Permalink to this headline">¶</a></h1>
 <p>the deliverable and milestone list per WP, along with more detailed description</p>
 <dl class="describe">
 <dt>
@@ -1885,7 +925,7 @@ ifthenelse{boolean{WPTables-deliverablesWPshowDescription}}{
 
 </div>
 <div class="section" id="wpmilestones">
-<h3>WpMilestones<a class="headerlink" href="#wpmilestones" title="Permalink to this headline">¶</a></h3>
+<h1>WpMilestones<a class="headerlink" href="#wpmilestones" title="Permalink to this headline">¶</a></h1>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -1920,7 +960,7 @@ ifthenelse{boolean{WPTables-milestonesWPshowDescription}}{
 
 </div>
 <div class="section" id="wp">
-<h3>Wp<a class="headerlink" href="#wp" title="Permalink to this headline">¶</a></h3>
+<h1>Wp<a class="headerlink" href="#wp" title="Permalink to this headline">¶</a></h1>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -1991,7 +1031,7 @@ ${ganttWP_${Shortname}}</p>
 
 </div>
 <div class="section" id="deliverabletablerows">
-<h3>DeliverableTableRows<a class="headerlink" href="#deliverabletablerows" title="Permalink to this headline">¶</a></h3>
+<h1>DeliverableTableRows<a class="headerlink" href="#deliverabletablerows" title="Permalink to this headline">¶</a></h1>
 <p>a table to summarize all the deliverables
 again: two steps: build the rows, and then the table</p>
 <dl class="describe">
@@ -2022,7 +1062,7 @@ use deliverable id:</p>
 
 </div>
 <div class="section" id="deliverabletableshort">
-<h3>DeliverableTableShort<a class="headerlink" href="#deliverabletableshort" title="Permalink to this headline">¶</a></h3>
+<h1>DeliverableTableShort<a class="headerlink" href="#deliverabletableshort" title="Permalink to this headline">¶</a></h1>
 <p>if you just want to sort by id, then simply use:
 sorter = lambda x: x[&#8216;id&#8217;]</p>
 <dl class="describe">
@@ -2051,7 +1091,7 @@ end{table}</p>
 
 </div>
 <div class="section" id="deliverabletablelong">
-<h3>DeliverableTableLong<a class="headerlink" href="#deliverabletablelong" title="Permalink to this headline">¶</a></h3>
+<h1>DeliverableTableLong<a class="headerlink" href="#deliverabletablelong" title="Permalink to this headline">¶</a></h1>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2085,7 +1125,7 @@ end{center}</p>
 
 </div>
 <div class="section" id="deliverabletable">
-<h3>DeliverableTable<a class="headerlink" href="#deliverabletable" title="Permalink to this headline">¶</a></h3>
+<h1>DeliverableTable<a class="headerlink" href="#deliverabletable" title="Permalink to this headline">¶</a></h1>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2112,7 +1152,7 @@ end{center}</p>
 
 </div>
 <div class="section" id="milestonetablerows">
-<h3>MilestoneTableRows<a class="headerlink" href="#milestonetablerows" title="Permalink to this headline">¶</a></h3>
+<h1>MilestoneTableRows<a class="headerlink" href="#milestonetablerows" title="Permalink to this headline">¶</a></h1>
 <p>and a table for the milestones  - same structure as for the deliverable table</p>
 <dl class="describe">
 <dt>
@@ -2140,7 +1180,7 @@ end{center}</p>
 
 </div>
 <div class="section" id="milestonetableshort">
-<h3>MilestoneTableShort<a class="headerlink" href="#milestonetableshort" title="Permalink to this headline">¶</a></h3>
+<h1>MilestoneTableShort<a class="headerlink" href="#milestonetableshort" title="Permalink to this headline">¶</a></h1>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2167,7 +1207,7 @@ end{table}</p>
 
 </div>
 <div class="section" id="milestonetablelong">
-<h3>MilestoneTableLong<a class="headerlink" href="#milestonetablelong" title="Permalink to this headline">¶</a></h3>
+<h1>MilestoneTableLong<a class="headerlink" href="#milestonetablelong" title="Permalink to this headline">¶</a></h1>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2201,7 +1241,7 @@ end{center}</p>
 
 </div>
 <div class="section" id="milestonetable">
-<h3>MilestoneTable<a class="headerlink" href="#milestonetable" title="Permalink to this headline">¶</a></h3>
+<h1>MilestoneTable<a class="headerlink" href="#milestonetable" title="Permalink to this headline">¶</a></h1>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2228,7 +1268,7 @@ end{center}</p>
 
 </div>
 <div class="section" id="summaryeffortrows">
-<h3>summaryEffortRows<a class="headerlink" href="#summaryeffortrows" title="Permalink to this headline">¶</a></h3>
+<h1>summaryEffortRows<a class="headerlink" href="#summaryeffortrows" title="Permalink to this headline">¶</a></h1>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2252,7 +1292,7 @@ end{center}</p>
 
 </div>
 <div class="section" id="summaryeffort">
-<h3>summaryEffort<a class="headerlink" href="#summaryeffort" title="Permalink to this headline">¶</a></h3>
+<h1>summaryEffort<a class="headerlink" href="#summaryeffort" title="Permalink to this headline">¶</a></h1>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2296,7 +1336,7 @@ end{table}
 
 </div>
 <div class="section" id="effortpertaskrows">
-<h3>effortPerTaskRows<a class="headerlink" href="#effortpertaskrows" title="Permalink to this headline">¶</a></h3>
+<h1>effortPerTaskRows<a class="headerlink" href="#effortpertaskrows" title="Permalink to this headline">¶</a></h1>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2335,7 +1375,7 @@ ee[&#8216;partner&#8217;] == p[&#8216;Shortname&#8217;]] ]
 
 </div>
 <div class="section" id="effortpertaskrowswp">
-<h3>effortPerTaskRowsWP<a class="headerlink" href="#effortpertaskrowswp" title="Permalink to this headline">¶</a></h3>
+<h1>effortPerTaskRowsWP<a class="headerlink" href="#effortpertaskrowswp" title="Permalink to this headline">¶</a></h1>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2368,7 +1408,7 @@ for p in partnerList]) %}</p>
 
 </div>
 <div class="section" id="effortheader">
-<h3>effortHeader<a class="headerlink" href="#effortheader" title="Permalink to this headline">¶</a></h3>
+<h1>effortHeader<a class="headerlink" href="#effortheader" title="Permalink to this headline">¶</a></h1>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2385,7 +1425,7 @@ hline</p>
 
 </div>
 <div class="section" id="effortsum">
-<h3>effortSum<a class="headerlink" href="#effortsum" title="Permalink to this headline">¶</a></h3>
+<h1>effortSum<a class="headerlink" href="#effortsum" title="Permalink to this headline">¶</a></h1>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2405,7 +1445,7 @@ for p in partnerList]) %}</p>
 
 </div>
 <div class="section" id="effortpertasktableshort">
-<h3>effortPerTaskTableShort<a class="headerlink" href="#effortpertasktableshort" title="Permalink to this headline">¶</a></h3>
+<h1>effortPerTaskTableShort<a class="headerlink" href="#effortpertasktableshort" title="Permalink to this headline">¶</a></h1>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2435,7 +1475,7 @@ ifthenelse{boolean{LaTeX-effortTableLandscape}}{end{landscape}}{}</p>
 
 </div>
 <div class="section" id="effortpertasktablemultipage">
-<h3>effortPerTaskTableMultipage<a class="headerlink" href="#effortpertasktablemultipage" title="Permalink to this headline">¶</a></h3>
+<h1>effortPerTaskTableMultipage<a class="headerlink" href="#effortpertasktablemultipage" title="Permalink to this headline">¶</a></h1>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2465,7 +1505,7 @@ ifthenelse{boolean{LaTeX-effortTableLandscape}}{end{landscape}}{}</p>
 
 </div>
 <div class="section" id="effortpertasktable">
-<h3>effortPerTaskTable<a class="headerlink" href="#effortpertasktable" title="Permalink to this headline">¶</a></h3>
+<h1>effortPerTaskTable<a class="headerlink" href="#effortpertasktable" title="Permalink to this headline">¶</a></h1>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2496,7 +1536,7 @@ ifthenelse{boolean{LaTeX-effortTableLandscape}}{end{landscape}}{}</p>
 
 </div>
 <div class="section" id="piepmspartners">
-<h3>piePMsPartners<a class="headerlink" href="#piepmspartners" title="Permalink to this headline">¶</a></h3>
+<h1>piePMsPartners<a class="headerlink" href="#piepmspartners" title="Permalink to this headline">¶</a></h1>
 <p>pie charts
 a pie chart showing person months distributed over partners</p>
 <dl class="describe">
@@ -2537,7 +1577,7 @@ end{figure}
 
 </div>
 <div class="section" id="piepmswps">
-<h3>piePMsWPs<a class="headerlink" href="#piepmswps" title="Permalink to this headline">¶</a></h3>
+<h1>piePMsWPs<a class="headerlink" href="#piepmswps" title="Permalink to this headline">¶</a></h1>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2576,7 +1616,7 @@ end{figure}
 
 </div>
 <div class="section" id="piepmsnations">
-<h3>piePMsNations<a class="headerlink" href="#piepmsnations" title="Permalink to this headline">¶</a></h3>
+<h1>piePMsNations<a class="headerlink" href="#piepmsnations" title="Permalink to this headline">¶</a></h1>
 <p>pie chart over person months assigned to different nations
 a little bit more complicated: we need to pull out the (Nation/Effort) pairs.
 those we get from allEfforts, where we look up the nation in the partnerList
@@ -2625,7 +1665,7 @@ end{figure}
 
 </div>
 <div class="section" id="piepmspartnertypes">
-<h3>piePMsPartnerTypes<a class="headerlink" href="#piepmspartnertypes" title="Permalink to this headline">¶</a></h3>
+<h1>piePMsPartnerTypes<a class="headerlink" href="#piepmspartnertypes" title="Permalink to this headline">¶</a></h1>
 <p>same thing that worked for the nation pie charts works for the partner type pie charts as well</p>
 <dl class="describe">
 <dt>
@@ -2668,8 +1708,6 @@ end{figure}
 </dd></dl>
 
 </div>
-</div>
-</div>
 
 
           </div>
@@ -2679,33 +1717,7 @@ end{figure}
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Source code documentation</a><ul>
-<li><a class="reference internal" href="#module-pullProject">pullproject</a></li>
-<li><a class="reference internal" href="#wikiparser">wikiParser</a><ul>
-<li><a class="reference internal" href="#module-wikiParser">The wikiParser module as such</a></li>
-<li><a class="reference internal" href="#the-wikiparser-base-class">The wikiParser base class</a></li>
-<li><a class="reference internal" href="#the-moinmoin-parser">The moinmoin parser</a></li>
-<li><a class="reference internal" href="#the-twiki-parser">The twiki parser</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#module-latexFromWiki">latexFromWiki</a></li>
-<li><a class="reference internal" href="#module-latexFromXML">latexFromXML</a></li>
-<li><a class="reference internal" href="#module-settings">settings</a></li>
-<li><a class="reference internal" href="#module-ensureSymbolicLinks">ensureSymbolicLinks</a></li>
-<li><a class="reference internal" href="#module-utils">utils</a></li>
-<li><a class="reference internal" href="#settings-cfg">settings.cfg</a><ul>
-<li><a class="reference internal" href="#wiki">Wiki</a></li>
-<li><a class="reference internal" href="#pathnames">PathNames</a></li>
-<li><a class="reference internal" href="#gantts">Gantts</a></li>
-<li><a class="reference internal" href="#summaries">Summaries</a></li>
-<li><a class="reference internal" href="#wptables">WPTables</a></li>
-<li><a class="reference internal" href="#participants">Participants</a></li>
-<li><a class="reference internal" href="#latex">LaTeX</a></li>
-<li><a class="reference internal" href="#customlatex">CustomLaTeX</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#latextemplates-cfg">latexTemplates.cfg</a><ul>
-<li><a class="reference internal" href="#titleheader">titleheader</a></li>
+<li><a class="reference internal" href="#">titleheader</a></li>
 <li><a class="reference internal" href="#partnertablerow">partnerTableRow</a></li>
 <li><a class="reference internal" href="#titlepage">titlepage</a></li>
 <li><a class="reference internal" href="#wpsummaryrows">wpSummaryRows</a></li>
@@ -2752,17 +1764,10 @@ end{figure}
 <li><a class="reference internal" href="#piepmsnations">piePMsNations</a></li>
 <li><a class="reference internal" href="#piepmspartnertypes">piePMsPartnerTypes</a></li>
 </ul>
-</li>
-</ul>
-</li>
-</ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="openissues.html"
-                        title="previous chapter">Open Issues</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="_sources/sourcecodedoc.txt"
+    <li><a href="_sources/latexTemplates.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -2791,9 +1796,6 @@ end{figure}
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="openissues.html" title="Open Issues"
-             >previous</a> |</li>
         <li><a href="index.html">PropGen 0 documentation</a> &raquo;</li> 
       </ul>
     </div>

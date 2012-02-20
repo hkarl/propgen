@@ -85,3 +85,14 @@ utils
 .. automodule:: utils
    :members:
 
+==============
+ settings.cfg
+==============
+
+.. include:: settings.rst
+
+==================
+latexTemplates.cfg
+==================
+
+.. include:: latexTemplates.rst 
