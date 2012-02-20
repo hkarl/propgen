@@ -9,13 +9,13 @@ FLAGS = -v
 
 ### extract relevant path names from settings.cfg 
 
-PROJECTNAME  = $(shell grep "projectName " ${SETTINGS} | cut -f 2 -d = )
+PROJECTNAME  = $(strip $(shell grep "projectName " ${SETTINGS} | cut -f 2 -d = ))
 BINPATH = $(shell grep "binpath " ${SETTINGS} | cut -f 2 -d = )
 WIKIPATH = $(shell grep "wikipath " ${SETTINGS} | cut -f 2 -d = )
 XMLPATH = $(shell grep "xmlpath " ${SETTINGS} | cut -f 2 -d = )
-LATEXPATH = $(shell grep "manuallatexpath " ${SETTINGS} | cut -f 2 -d = )
+LATEXPATH = $(strip $(shell grep "manuallatexpath " ${SETTINGS} | cut -f 2 -d = ))
 GENERATEDLATEXPATH = $(shell grep "genlatexpath " ${SETTINGS} | cut -f 2 -d = )
-LATEXLINKS = $(shell find ${LATEXPATH} -type l)	
+LATEXLINKS =  $(shell find ${LATEXPATH} -type l)
 
 ####################################
 .PHONY: proposal pdf clean pullproject xml latexFromWiki latexFromXML ensureSymbolicLinks
