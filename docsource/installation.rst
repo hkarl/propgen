@@ -286,8 +286,8 @@ Rename the main project page
 
 In case you want a different main page name, simply use
 the "Rename page" action of the Wiki. Remember to
-rename the corresponding setting in settings.cfg as
-well!  
+rename the corresponding setting (projectName) in
+settings.cfg as well!
 
 Run the MoinMoin Wiki
 =====================
@@ -316,7 +316,7 @@ configurations to ensure that the download script talks
 to the right wiki server as well as basic configuration
 options about what kind of information to generate. The
 latter content-customization options are described
-elsewhere. Here, we concentrate on basic connectivity
+elsewhere (Section :ref:`sec-settings-cfg`). Here, we concentrate on basic connectivity
 settings. 
 
 .. include:: settings.rst

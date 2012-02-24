@@ -3,11 +3,13 @@
 # read in a config cfg file, produce restructuredText files extracted from the comments
 
 
+import os
 import re
 
 def parseFile (lines, options):
     comment = []
-
+    lastsection = ""
+    
     for l in lines:
         # a comment line? 
         if re.match ('^# ', l):
@@ -17,17 +19,20 @@ def parseFile (lines, options):
         # a new section? 
         m = re.match (r'\[(.*)\]', l)
         if m:
-            print 
-            print options.prechar*len(m.group(1))
-            print m.group(1)
-            print options.postchar*len(m.group(1))
-            print '.. program:: ', m.group(1) 
+            lastsection = m.group(1).strip().lstrip()
+            print
+            print ".. index::"
+            print "   single: ", os.path.basename(options.inputfile), "; ", lastsection
+            print options.prechar*len(lastsection)
+            print lastsection
+            print options.postchar*len(lastsection)
+            print '.. program:: ', lastsection
             print 
             print ''.join(comment)
             comment = []
             continue
 
-        # starting with a whitespace? continuation of an asgginment?
+        # starting with a whitespace? continuation of an assignment?
         m = re.match (r'^\s+(.+)', l)
         if m:
             print '   ', m.group(1)
@@ -37,7 +42,9 @@ def parseFile (lines, options):
         m = re.match (r'^(.*)=(.*)', l)
         if m:
             print 
-            print '.. describe:: ', m.group(1) 
+            print '.. describe:: %s' % (m.group(1).strip())
+            ## print '   :index:`index entries <pair: %s; %s>`' % (lastsection,
+            ##                                                     m.group(1).strip())
             print 
             print '   ', '    '.join(comment)
             print '   ', "Default: ", m.group(2)

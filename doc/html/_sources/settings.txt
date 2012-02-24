@@ -1,4 +1,6 @@
 
+.. index::
+   single:  settings.cfg ;  Wiki
 
 Wiki
 ====
@@ -9,14 +11,14 @@ where can it be found, what is the start page, which account and password
 to use to log in. 
 
 
-.. describe::  projectName 
+.. describe:: projectName
 
     This option specificies the root Wiki page where the main project information can 
     be found. It also serves as the filename of the file pdf file. 
 
     Default:   TestProject 
 
-.. describe::  wikitype 
+.. describe:: wikitype
 
     The wikitype setting selects which type of wiki access is to be
     used. Wikitypes currently supported are: twiki, moinmoin and moinmoin-local
@@ -46,20 +48,20 @@ to use to log in.
 
     Default:   moinmoin-local
 
-.. describe::  moinmoinpath 
+.. describe:: moinmoinpath
 
     Specify the moinmoin path in the standard PropGen distribution
 
     Default:   ../moin/
 
-.. describe::  baseURL 
+.. describe:: baseURL
 
     For remote access to a wiki. It is ignored for the moinmoin-local
     wikitype and only used for other wikitypes. 
 
     Default:   http://hk-vm.cs.uni-paderborn.de:8080/
 
-.. describe::  wikiuser 
+.. describe:: wikiuser
 
     The wikiuser account name to use to log in. Ignored in the
     moinmoin-local wikitype. The default corresponds to the account name
@@ -68,7 +70,7 @@ to use to log in.
 
     Default:   ProjectMaster
 
-.. describe::  wikipassword 
+.. describe:: wikipassword
 
     Password used to log in. The default is the one used in the
     distribution's example moinmoin wiki. It is ignored in the
@@ -76,7 +78,7 @@ to use to log in.
 
     Default:   123abc
 
-.. describe::  loginURL
+.. describe:: loginURL
 
     Some remote wikis usually need a special login URL, e.g., Twiki
     wikis. Specify here. This setting is ignored in both the
@@ -86,7 +88,7 @@ to use to log in.
 
     Default:   https://twiki.sics.se/bin/login
 
-.. describe::  httpProxyIP 
+.. describe:: httpProxyIP
 
     For remote Wiki access through a proxy: These variables are used by
     the mechanize module, for access via an HTTP or HTTPS proxy. You can
@@ -98,41 +100,43 @@ to use to log in.
 
     Default:   
 
-.. describe::  httpProxyport 
+.. describe:: httpProxyport
 
     
     Default:   
 
-.. describe::  httpProxyuser 
+.. describe:: httpProxyuser
 
     
     Default:   
 
-.. describe::  httpProxypassword 
+.. describe:: httpProxypassword
 
     
     Default:   
 
-.. describe::  httpsProxyIP 
+.. describe:: httpsProxyIP
 
     
     Default:   
 
-.. describe::  httpsProxyport 
+.. describe:: httpsProxyport
 
     
     Default:   
 
-.. describe::  httpsProxyuser 
+.. describe:: httpsProxyuser
 
     
     Default:   
 
-.. describe::  httpsProxypassword 
+.. describe:: httpsProxypassword
 
     
     Default:   
 
+.. index::
+   single:  settings.cfg ;  PathNames
 
 PathNames
 =========
@@ -140,7 +144,7 @@ PathNames
 
 
 
-.. describe::  binpath 
+.. describe:: binpath
 
     Caution: best not to touch these paths!!! You should know what you are doing here! 
     note: these paths are relative to the main directory
@@ -148,76 +152,76 @@ PathNames
 
     Default:   bin 
 
-.. describe::  wikipath 
+.. describe:: wikipath
 
     where should downloaded wiki files be stored? 
 
     Default:   generated/wiki 
 
-.. describe::  wikiwppath 
+.. describe:: wikiwppath
 
     
     Default:   generated/wiki/wp
 
-.. describe::  wikipartnerpath  
+.. describe:: wikipartnerpath
 
     
     Default:   generated/wiki/partners
 
-.. describe::  xmlpath 
+.. describe:: xmlpath
 
     where do generated xml files go? 
 
     Default:   generated/xml
 
-.. describe::  xmlwppath 
+.. describe:: xmlwppath
 
     
     Default:   generated/xml/wp
 
-.. describe::  latexTemplates 
+.. describe:: latexTemplates
 
     where is the LaTeX templates file? 
 
     Default:   template/latexTemplates.cfg
 
-.. describe::  genlatexpath 
+.. describe:: genlatexpath
 
     where do generated LaTeX files, wp paths, partner files go? 
 
     Default:   generated/latex
 
-.. describe::  genlatexfigurespath 
+.. describe:: genlatexfigurespath
 
     
     Default:   generated/latex/figures
 
-.. describe::  genlatexganttspath 
+.. describe:: genlatexganttspath
 
     
     Default:   generated/latex/gantts
 
-.. describe::  genlatextablespath 
+.. describe:: genlatextablespath
 
     
     Default:   generated/latex/tables
 
-.. describe::  genlatexpiespath 
+.. describe:: genlatexpiespath
 
     
     Default:   generated/latex/pies
 
-.. describe::  genlatexwppath 
+.. describe:: genlatexwppath
 
     
     Default:   generated/latex/wp
 
-.. describe::  genlatexpartnerspath 
+.. describe:: genlatexpartnerspath
 
     
     Default:   generated/latex/partners
 
-.. describe::  manuallatexpath 
+.. describe:: manuallatexpath
 
     where are the MANUAL latex files? 
     usage: in that directory, no files are EVER overwritten 
@@ -228,36 +232,38 @@ PathNames
 
     Default:   latex 
 
-.. describe::  manuallatexfigurespath 
+.. describe:: manuallatexfigurespath
 
     
     Default:   latex/figures
 
-.. describe::  manuallatexganttspath 
+.. describe:: manuallatexganttspath
 
     
     Default:   latex/figures/gantts
 
-.. describe::  manuallatextablespath 
+.. describe:: manuallatextablespath
 
     
     Default:   latex/figures/tables
 
-.. describe::  manuallatexpiespath 
+.. describe:: manuallatexpiespath
 
     
     Default:   latex/figures/pies
 
-.. describe::  manuallatexwppath 
+.. describe:: manuallatexwppath
 
     
     Default:   latex/wp
 
-.. describe::  manuallatexpartnerspath 
+.. describe:: manuallatexpartnerspath
 
     
     Default:   latex/partners
 
+.. index::
+   single:  settings.cfg ;  Gantts
 
 Gantts
 ======
@@ -268,42 +274,42 @@ excelFile = ../Administration/Steam-resources.xls
 control which and how Gantt charts are typeset 
 
 
-.. describe::  WpMilestonesUncompressedShow 
+.. describe:: WpMilestonesUncompressedShow
 
     toggle to turn on/off various figures: 
     some simple examples - generate various WP-specific Gantt charts for milestones, deliverables 
 
     Default:   True       	     
 
-.. describe::  WpMilestonesShow 
+.. describe:: WpMilestonesShow
 
     
     Default:   True       	     
 
-.. describe::  WpDeliverablesUncompressedShow 
+.. describe:: WpDeliverablesUncompressedShow
 
     
     Default:   True       	     
 
-.. describe::  ShowWPBar 
+.. describe:: ShowWPBar
 
     for the full-project milestones/deliverable gantt charts: build a WP bar to separate WPs ? 
 
     Default:   True 	     
 
-.. describe::  ganttPerWPShowsLegend 
+.. describe:: ganttPerWPShowsLegend
 
     should the WP-specifc Gantt charts show a legend? 
 
     Default:   True 
 
-.. describe::  ganttLegendTwoColumn 
+.. describe:: ganttLegendTwoColumn
 
     should a Gantt legend be one or two columns? 
 
     Default:   True
 
-.. describe::  ganttTaskbarsShowTaskname 
+.. describe:: ganttTaskbarsShowTaskname
 
     task bars show task names in the gantt chart? 
     easier to read, but risk of text extending to the right 
@@ -311,42 +317,44 @@ control which and how Gantt charts are typeset
 
     Default:   True 
 
-.. describe::  ganttDistanceBetweenMS 
+.. describe:: ganttDistanceBetweenMS
 
     More detailed control about looks of Gantt charts: 
     number of months that a deliverable/milestone marker text occupies (horizontally) 
 
     Default:   4  
 
-.. describe::  milestoneDecoration = fill=orange, rounded corners
+.. describe:: milestoneDecoration = fill=orange, rounded corners
 
     how should a milestone look like? Put a "decoration string" according to the pdfgantt package here 
 
     Default:  5pt
 
-.. describe::  milestonesShowCrossWP 
+.. describe:: milestonesShowCrossWP
 
     show cross-WP milestones? 
 
     Default:   True  
 
-.. describe::  deliverablesShowCrossWP 
+.. describe:: deliverablesShowCrossWP
 
     show cross-WP milestones? 
 
     Default:   True 
 
-.. describe::  milestoneLegendTemplate 
+.. describe:: milestoneLegendTemplate
 
     template to format the milestone captions in the Gantt charts
 
     Default:   \item \textbf{${id}}: ${Title} 
 
-.. describe::  deliverableLegendTemplate 
+.. describe:: deliverableLegendTemplate
 
     
     Default:   \item \textbf{${id}}: ${Title}
 
+.. index::
+   single:  settings.cfg ;  Summaries
 
 Summaries
 =========
@@ -358,42 +366,44 @@ latexTemplates.cfg. Not difficult to do, look for compactitem there.
 which summary tables, figures  should appear in the document
 
 
-.. describe::  showEffortPartnerWPs 
+.. describe:: showEffortPartnerWPs
 
     one table showing efforts only per partner and workpackage, over all workpackages 
 
     Default:   True
 
-.. describe::  showEffortPartnerTasks 
+.. describe:: showEffortPartnerTasks
 
     one table showing effort per partner and task, over all tasks 
 
     Default:   True 
 
-.. describe::  piePMsWPs 
+.. describe:: piePMsWPs
 
     a pie chart, showing person month summaries for WPs 
 
     Default:   True
 
-.. describe::  piePMsPartners 
+.. describe:: piePMsPartners
 
     a pie chart, showing person month summaries for each partner  
 
     Default:   True 
 
-.. describe::  piePMsPartnerTypes 
+.. describe:: piePMsPartnerTypes
 
     a pie chart, showing person month summaries for each partner type (industry, SME, academic)  
 
     Default:   True 
 
-.. describe::  piePMsNations 
+.. describe:: piePMsNations
 
     a pie chart, showing person month summaries for each nation   
 
     Default:   True 
 
+.. index::
+   single:  settings.cfg ;  WPTables
 
 WPTables
 ========
@@ -413,28 +423,28 @@ pieContribPerNation = False
 all information that is relevant for workpackage tables 
 
 
-.. describe::  maxPartnersPerRow 
+.. describe:: maxPartnersPerRow
 
     how many partners should be typeset in one row of the WP tables? 
     choice depends mostly on how long the partner shortnames are 
 
     Default:   8			
 
-.. describe::  firstColumnWidth 
+.. describe:: firstColumnWidth
 
     how wide should the first column be? 
     give it as percent of textwidth! 
 
     Default:   15
 
-.. describe::  wptablespacing 
+.. describe:: wptablespacing
 
     how to influence the spacing of the wp tables? 
     wptablespacing = @{\hskip 2.8ex}
 
     Default:   @{\hskip 0ex}
 
-.. describe::  tabularCorrection 
+.. describe:: tabularCorrection
 
     correction factor to eadjust total width of the WP tabular 
     (Note: I'd much appreciate help from a LaTeX wizard to ensure a tabular 
@@ -442,34 +452,34 @@ all information that is relevant for workpackage tables
 
     Default:   0.95 
 
-.. describe::  tasklistShowsDuration 
+.. describe:: tasklistShowsDuration
 
     what information should the task list include (in the WP table): 
 
     Default:   True 
 
-.. describe::  tasklistShowsPartners 
+.. describe:: tasklistShowsPartners
 
     
     Default:   True 
 
-.. describe::  tasklistShowsDeliverables 
+.. describe:: tasklistShowsDeliverables
 
     
     Default:   True 
 
-.. describe::  tasklistShowsMilestones 
+.. describe:: tasklistShowsMilestones
 
     
     Default:   True 
 
-.. describe::  wpdescriptionShowsLeader 
+.. describe:: wpdescriptionShowsLeader
 
     how much details should the workpackage description box report? 
 
     Default:   True 
 
-.. describe::  taskboxShowsLeader 
+.. describe:: taskboxShowsLeader
 
     how much details should the individual task boxes report?
     (the boxes containing the description of each task ) 
@@ -477,77 +487,77 @@ all information that is relevant for workpackage tables
 
     Default:   True
 
-.. describe::  taskboxShowsObjectives 
+.. describe:: taskboxShowsObjectives
 
     showsLeader: refers to the head of the taskbox, not to the list at the end
 
     Default:   True
 
-.. describe::  taskboxShowsDescription 
+.. describe:: taskboxShowsDescription
 
     
     Default:   True
 
-.. describe::  taskboxShowsDeliverables 
+.. describe:: taskboxShowsDeliverables
 
     
     Default:   True
 
-.. describe::  taskboxShowsMilestones 
+.. describe:: taskboxShowsMilestones
 
     
     Default:   True
 
-.. describe::  taskboxShowsPartners 
+.. describe:: taskboxShowsPartners
 
     
     Default:   True
 
-.. describe::  deliverablesWPshowDue 
+.. describe:: deliverablesWPshowDue
 
     how much details in the deliverables list per WP? 
     similar to tasklist options 
 
     Default:   True
 
-.. describe::  deliverablesWPshowTasks 
+.. describe:: deliverablesWPshowTasks
 
     
     Default:   True
 
-.. describe::  deliverablesWPshowPartners 
+.. describe:: deliverablesWPshowPartners
 
     
     Default:   True
 
-.. describe::  deliverablesWPshowDescription 
+.. describe:: deliverablesWPshowDescription
 
     
     Default:   True
 
-.. describe::  milestonesWPshowTasks 
+.. describe:: milestonesWPshowTasks
 
     how much details in the milestones  list per WP? 
     similar to tasklist options 
 
     Default:   True
 
-.. describe::  milestonesWPshowPartners 
+.. describe:: milestonesWPshowPartners
 
     
     Default:   True 
 
-.. describe::  milestonesWPshowDue 
+.. describe:: milestonesWPshowDue
 
     
     Default:   True 
 
-.. describe::  milestonesWPshowDescription 
+.. describe:: milestonesWPshowDescription
 
     
     Default:   True 
 
-.. describe::  colorInactivePartner 
+.. describe:: colorInactivePartner
 
     color highlight for inactive partners? 
     (color names as defined by the LaTeX xcolor package) 
@@ -555,6 +565,8 @@ all information that is relevant for workpackage tables
 
     Default:   gray 
 
+.. index::
+   single:  settings.cfg ;  Participants
 
 Participants
 ============
@@ -563,11 +575,13 @@ Participants
 Options to control the individual participant descriptions in Section 2.2 
 
 
-.. describe::  newpageAfterEachPartner 
+.. describe:: newpageAfterEachPartner
 
     
     Default:   True 
 
+.. index::
+   single:  settings.cfg ;  LaTeX
 
 LaTeX
 =====
@@ -579,43 +593,43 @@ NOTE: these settings are only processed in the makefile; changing them
 and directly running pdflatx will have no effect 
 
 
-.. describe::  showCommissionHints 
+.. describe:: showCommissionHints
 
     should the PDF file include the commission hints text? 
 
     Default:   True 
 
-.. describe::  useShowkeys 
+.. describe:: useShowkeys
 
     should the showkey package be used, highlighting the label, ref and cite commands? 
 
     Default:   False 
 
-.. describe::  showWarnings 
+.. describe:: showWarnings
 
     should warnings and fixmes be printed? 
 
     Default:   True 
 
-.. describe::  showListOfTables 
+.. describe:: showListOfTables
 
     should the file show list of tables? 
 
     Default:   True 
 
-.. describe::  showListOfFigures 
+.. describe:: showListOfFigures
 
     should the file show list of figures? 
 
     Default:   True 
 
-.. describe::  showAcronymList 
+.. describe:: showAcronymList
 
     should there be a list of acronyms? 
 
     Default:   False 
 
-.. describe::  useMultipageDeliverableTable 
+.. describe:: useMultipageDeliverableTable
 
     multipage deliverables/milestone Table? 
     (defaults False / True only for demonstration of the options, pick what 
@@ -623,23 +637,25 @@ and directly running pdflatx will have no effect
 
     Default:   False 
 
-.. describe::  useMultipageMilestoneTable 
+.. describe:: useMultipageMilestoneTable
 
     
     Default:   True 
 
-.. describe::  useMultipageEffortTable 
+.. describe:: useMultipageEffortTable
 
     should the effort table for the entire project be typesetting across multiple pages?
 
     Default:   True
 
-.. describe::  effortTableLandscape 
+.. describe:: effortTableLandscape
 
     turn the effort table sideways? Can be useful for large consortia
 
     Default:   True 
 
+.. index::
+   single:  settings.cfg ;  CustomLaTeX
 
 CustomLaTeX
 ===========
@@ -656,13 +672,13 @@ CAUTION: you can really screw up everything here. It can delete your disk and ki
 To make use of this feature, you have to understand the Python code! 
 
 
-.. describe::  totalPM 
+.. describe:: totalPM
 
     e.g.: total person months should be defined like this: 
 
     Default:   sum([int(e['resources']) for e in allEfforts])
 
-.. describe::  tocLevel 
+.. describe:: tocLevel
 
     and it will turn into a LaTeX command in settings.tex like this 
     (where 999 is of course replaced by the result of computing based on actual data): 
@@ -671,7 +687,7 @@ To make use of this feature, you have to understand the Python code!
 
     Default:   3
 
-.. describe::  secNumDepth 
+.. describe:: secNumDepth
 
     how deeply should headings be numbered? 
 

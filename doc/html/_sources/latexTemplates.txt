@@ -1,9 +1,11 @@
 
-.. describe::  ## To get this right: First line must be on the same line as the 
+.. describe:: ## To get this right: First line must be on the same line as the
 
     
     Default:  ; 
 
+.. index::
+   single:  latexTemplates.cfg ;  titleheader
 
 titleheader
 ===========
@@ -14,7 +16,7 @@ the table rows for the partners, and then the titlepage complete
 out of these two parts. This third part is then written to file 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:       \begin{center}
@@ -34,11 +36,13 @@ out of these two parts. This third part is then written to file
     \end{large}
     \noindent 
 
-.. describe::  dict 
+.. describe:: dict
 
     
     Default:   titlepageDict 
 
+.. index::
+   single:  latexTemplates.cfg ;  partnerTableRow
 
 partnerTableRow
 ===============
@@ -47,28 +51,30 @@ partnerTableRow
 rows for partner table on titlepage: 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   ${Number} & ${Name} &  ${Shortname} & ${Nation}
 
-.. describe::  list 
+.. describe:: list
 
     
     Default:   partnerList 
 
-.. describe::  joiner 
+.. describe:: joiner
 
     
     Default:   \\ \n
 
-.. describe::  sorter 
+.. describe:: sorter
 
     to demonstrate how to sort such a list, let's sort if by number 
     Note: sorter is optional, but only available in conjunction with joiner attribute
 
     Default:   lambda x: int(x['Number'])
 
+.. index::
+   single:  latexTemplates.cfg ;  titlepage
 
 titlepage
 =========
@@ -80,7 +86,7 @@ sorter = lambda x: x['Nation']
 and the actual titlepage: 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:         ${titleheader}
@@ -94,16 +100,18 @@ and the actual titlepage:
     \end{tabular}
     }
 
-.. describe::  dict 
+.. describe:: dict
 
     
     Default:   expanded
 
-.. describe::  file 
+.. describe:: file
 
     
     Default:   True 
 
+.. index::
+   single:  latexTemplates.cfg ;  wpSummaryRows
 
 wpSummaryRows
 =============
@@ -112,21 +120,23 @@ wpSummaryRows
 the wp summary list
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   WP ${Number} & ${Name} & ${Type} & ${Leadernumber} & ${Leadership} & ${wpeffort} & ${Start} & ${End}
 
-.. describe::  list 
+.. describe:: list
 
     
     Default:   allWPDicts 
 
-.. describe::  joiner 
+.. describe:: joiner
 
     
     Default:   \\ \n
 
+.. index::
+   single:  latexTemplates.cfg ;  wpsummarytable
 
 wpsummarytable
 ==============
@@ -134,7 +144,7 @@ wpsummarytable
 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:       \begin{table}[bhtp]
@@ -152,21 +162,23 @@ wpsummarytable
     \end{tabular}
     \end{table}
 
-.. describe::  dict 
+.. describe:: dict
 
     
     Default:   expanded
 
-.. describe::  file 
+.. describe:: file
 
     
     Default:   True 
 
-.. describe::  dir 
+.. describe:: dir
 
     
     Default:   tables 
 
+.. index::
+   single:  latexTemplates.cfg ;  ganttPrefix
 
 ganttPrefix
 ===========
@@ -176,7 +188,7 @@ Gantt charts!
 First, some building blocks for various Gantt charts
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:    \begin{tikzpicture}
@@ -192,11 +204,13 @@ First, some building blocks for various Gantt charts
     link={-latex, rounded corners=1ex, thick}]{${duration}}
     \gantttitlelist{1,...,${duration}}{1}
 
-.. describe::  dict 
+.. describe:: dict
 
     
     Default:   titlepageDict
 
+.. index::
+   single:  latexTemplates.cfg ;  ganttPostfix
 
 ganttPostfix
 ============
@@ -204,12 +218,14 @@ ganttPostfix
 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   \end{ganttchart} 
     \end{tikzpicture}
 
+.. index::
+   single:  latexTemplates.cfg ;  WpMilestonesUncompressedShow
 
 WpMilestonesUncompressedShow
 ============================
@@ -218,7 +234,7 @@ WpMilestonesUncompressedShow
 and the actual gantts: first, the wp-specific gantts
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   \begin{figure}[htbp]
@@ -228,31 +244,33 @@ and the actual gantts: first, the wp-specific gantts
     \caption{Gantt chart of all milestones of Work package ${Number}}
     \end{figure}
 
-.. describe::  list 
+.. describe:: list
 
     
     Default:   allWPDicts 
 
-.. describe::  dict 
+.. describe:: dict
 
     
     Default:   expanded
 
-.. describe::  file 
+.. describe:: file
 
     
     Default:   True
 
-.. describe::  numerator 
+.. describe:: numerator
 
     
     Default:   value['Shortname']
 
-.. describe::  dir 
+.. describe:: dir
 
     
     Default:   gantts
 
+.. index::
+   single:  latexTemplates.cfg ;  WpMilestonesShow
 
 WpMilestonesShow
 ================
@@ -260,7 +278,7 @@ WpMilestonesShow
 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   \begin{figure}[htbp]
@@ -270,31 +288,33 @@ WpMilestonesShow
     \caption{Gantt chart of all milestones of Work package ${Number}}
     \end{figure}
 
-.. describe::  list 
+.. describe:: list
 
     
     Default:   allWPDicts 
 
-.. describe::  dict 
+.. describe:: dict
 
     
     Default:   expanded
 
-.. describe::  file 
+.. describe:: file
 
     
     Default:   True
 
-.. describe::  numerator 
+.. describe:: numerator
 
     
     Default:   value['Shortname']
 
-.. describe::  dir 
+.. describe:: dir
 
     
     Default:   gantts
 
+.. index::
+   single:  latexTemplates.cfg ;  WpDeliverablesUncompressedShow
 
 WpDeliverablesUncompressedShow
 ==============================
@@ -302,7 +322,7 @@ WpDeliverablesUncompressedShow
 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   \begin{figure}[htbp]
@@ -312,31 +332,33 @@ WpDeliverablesUncompressedShow
     \caption{Gantt chart of all deliverables of Work package ${Number}}
     \end{figure}
 
-.. describe::  list 
+.. describe:: list
 
     
     Default:   allWPDicts 
 
-.. describe::  dict 
+.. describe:: dict
 
     
     Default:   expanded
 
-.. describe::  file 
+.. describe:: file
 
     
     Default:   True
 
-.. describe::  numerator 
+.. describe:: numerator
 
     
     Default:   value['Shortname']
 
-.. describe::  dir 
+.. describe:: dir
 
     
     Default:   gantts
 
+.. index::
+   single:  latexTemplates.cfg ;  WpDeliverablesShow
 
 WpDeliverablesShow
 ==================
@@ -344,7 +366,7 @@ WpDeliverablesShow
 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   \begin{figure}[htbp]
@@ -354,31 +376,33 @@ WpDeliverablesShow
     \caption{Gantt chart of all deliverables of Work package ${Number}}
     \end{figure}
 
-.. describe::  list 
+.. describe:: list
 
     
     Default:   allWPDicts 
 
-.. describe::  dict 
+.. describe:: dict
 
     
     Default:   expanded
 
-.. describe::  file 
+.. describe:: file
 
     
     Default:   True
 
-.. describe::  numerator 
+.. describe:: numerator
 
     
     Default:   value['Shortname']
 
-.. describe::  dir 
+.. describe:: dir
 
     
     Default:   gantts
 
+.. index::
+   single:  latexTemplates.cfg ;  ganttWP
 
 ganttWP
 =======
@@ -386,7 +410,7 @@ ganttWP
 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:         \begin{figure}[htbp]
@@ -417,27 +441,29 @@ ganttWP
     \label{fig:gantt-WP${Number}}
     \end{figure}
 
-.. describe::  list 
+.. describe:: list
 
     
     Default:   allWPDicts 
 
-.. describe::  dict 
+.. describe:: dict
 
     
     Default:   expanded
 
-.. describe::  numerator 
+.. describe:: numerator
 
     do not change the numerator; else, wPInclude.tex will look for the wrong files
 
     Default:   value['Shortname']
 
-.. describe::  dir 
+.. describe:: dir
 
     
     Default:   gantts
 
+.. index::
+   single:  latexTemplates.cfg ;  ganttWPLegend
 
 ganttWPLegend
 =============
@@ -445,7 +471,7 @@ ganttWPLegend
 
 
 
-.. describe::  template 
+.. describe:: template
 
     separate legends per WP gantts only make sense if they are not already 
     included in the 
@@ -469,32 +495,34 @@ ganttWPLegend
     \label{fig:gantt-Legend-WP${Number}}
     \end{figure}
 
-.. describe::  list 
+.. describe:: list
 
     
     Default:   allWPDicts 
 
-.. describe::  dict 
+.. describe:: dict
 
     
     Default:   expanded
 
-.. describe::  file 
+.. describe:: file
 
     
     Default:   False
 
-.. describe::  numerator 
+.. describe:: numerator
 
     do not change the numerator; else, wPInclude.tex will look for the wrong files
 
     Default:   value['Shortname']
 
-.. describe::  dir 
+.. describe:: dir
 
     
     Default:   gantts
 
+.. index::
+   single:  latexTemplates.cfg ;  allTaskDelMSList
 
 allTaskDelMSList
 ================
@@ -504,7 +532,7 @@ and prepate the complete Gantt chart for the entire project
 this happens in several steps 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:         \ifthenelse{\boolean{Gantts-ShowWPBar}}{
@@ -513,16 +541,18 @@ this happens in several steps
     ${deliverableGanttString} \\
     ${milestoneGanttString}
 
-.. describe::  list 
+.. describe:: list
 
     
     Default:   allWPDicts 
 
-.. describe::  dir 
+.. describe:: dir
 
     
     Default:   gantts
 
+.. index::
+   single:  latexTemplates.cfg ;  allTaskDelMS
 
 allTaskDelMS
 ============
@@ -532,21 +562,23 @@ the next one is an example with an empty template: it is only used to turn a lis
 a string
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   
 
-.. describe::  list 
+.. describe:: list
 
     
     Default:   expanded['allTaskDelMSList']
 
-.. describe::  joiner 
+.. describe:: joiner
 
     
     Default:   \\ \n
 
+.. index::
+   single:  latexTemplates.cfg ;  allDelLegend
 
 allDelLegend
 ============
@@ -554,21 +586,23 @@ allDelLegend
 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   ${ganttLegend}
 
-.. describe::  list 
+.. describe:: list
 
     
     Default:   allDeliverables
 
-.. describe::  joiner 
+.. describe:: joiner
 
     
     Default:   \n  
 
+.. index::
+   single:  latexTemplates.cfg ;  allMSLegend
 
 allMSLegend
 ===========
@@ -576,22 +610,24 @@ allMSLegend
 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   ${ganttLegend}
 
-.. describe::  list 
+.. describe:: list
 
     
     Default:   allMilestones
 
-.. describe::  joiner 
+.. describe:: joiner
 
     
     Default:    \n
      
 
+.. index::
+   single:  latexTemplates.cfg ;  CompleteGantt
 
 CompleteGantt
 =============
@@ -599,7 +635,7 @@ CompleteGantt
 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:    \begin{figure}[htbp]
@@ -612,21 +648,23 @@ CompleteGantt
     \label{fig:completeGantt}
     \end{figure}
 
-.. describe::  dict 
+.. describe:: dict
 
     
     Default:   expanded
 
-.. describe::  file 
+.. describe:: file
 
     
     Default:   True
 
-.. describe::  dir 
+.. describe:: dir
 
     
     Default:   gantts
 
+.. index::
+   single:  latexTemplates.cfg ;  allLegend
 
 allLegend
 =========
@@ -634,7 +672,7 @@ allLegend
 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   \begin{table}
@@ -648,21 +686,23 @@ allLegend
     \end{multicols}
     \end{table}
 
-.. describe::  dict 
+.. describe:: dict
 
     
     Default:   expanded
 
-.. describe::  file 
+.. describe:: file
 
     
     Default:   True
 
-.. describe::  dir 
+.. describe:: dir
 
     
     Default:   gantts
 
+.. index::
+   single:  latexTemplates.cfg ;  CompleteGanttFacingLegend
 
 CompleteGanttFacingLegend
 =========================
@@ -670,7 +710,7 @@ CompleteGanttFacingLegend
 
 
 
-.. describe::  template 
+.. describe:: template
 
     this is particularly useful for a double-sided printing layout
     chart is on a left page, Legend on a right page 
@@ -693,21 +733,23 @@ CompleteGanttFacingLegend
     \end{compactitem}
     \end{multicols}
 
-.. describe::  file
+.. describe:: file
 
     
     Default:  True 
 
-.. describe::  dict
+.. describe:: dict
 
     
     Default:  expanded 
 
-.. describe::  dir
+.. describe:: dir
 
     
     Default:  gantts
 
+.. index::
+   single:  latexTemplates.cfg ;  WpTasks
 
 WpTasks
 =======
@@ -716,7 +758,7 @@ WpTasks
 and finally: the actual WP files! 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:    \labitem{${taskId}}{task:${Label}} ${Name} 
@@ -756,23 +798,25 @@ and finally: the actual WP files!
     else '')  %}
     }{}
 
-.. describe::  list = [t for t in allTasks if t['Main']=
+.. describe:: list = [t for t in allTasks if t['Main']=
 
     we only show this for the main task, not for all the individual tasks 
     need to think about the duration, though! 
 
     Default:  'True']  
 
-.. describe::  groupby 
+.. describe:: groupby
 
     
     Default:   wp
 
-.. describe::  joiner 
+.. describe:: joiner
 
     
     Default:    \n
 
+.. index::
+   single:  latexTemplates.cfg ;  WpTasksDescriptions
 
 WpTasksDescriptions
 ===================
@@ -780,7 +824,7 @@ WpTasksDescriptions
 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   \begin{framed}
@@ -829,21 +873,23 @@ WpTasksDescriptions
     }{}
     \end{framed}	
 
-.. describe::  list = [t for t in allTasks if t['Main']=
+.. describe:: list = [t for t in allTasks if t['Main']=
 
     
     Default:  'True']  
 
-.. describe::  groupby 
+.. describe:: groupby
 
     
     Default:   wp
 
-.. describe::  joiner 
+.. describe:: joiner
 
     
     Default:    \n
 
+.. index::
+   single:  latexTemplates.cfg ;  WpDeliverables
 
 WpDeliverables
 ==============
@@ -852,7 +898,7 @@ WpDeliverables
 the deliverable and milestone list per WP, along with more detailed description 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   \item \textbf{${id}}: ${Title} 
@@ -865,21 +911,23 @@ the deliverable and milestone list per WP, along with more detailed description
     \ifthenelse{\boolean{WPTables-deliverablesWPshowDescription}}{
     \\ Brief description: ${Description}}{}
 
-.. describe::  list 
+.. describe:: list
 
     
     Default:   allDeliverables 
 
-.. describe::  groupby 
+.. describe:: groupby
 
     
     Default:   wp
 
-.. describe::  joiner 
+.. describe:: joiner
 
     
     Default:   \n
 
+.. index::
+   single:  latexTemplates.cfg ;  WpMilestones
 
 WpMilestones
 ============
@@ -887,7 +935,7 @@ WpMilestones
 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   \item \textbf{${id}}: ${Title} 
@@ -900,21 +948,23 @@ WpMilestones
     \ifthenelse{\boolean{WPTables-milestonesWPshowDescription}}{
     \\ Brief description: ${Description}}{}
 
-.. describe::  list 
+.. describe:: list
 
     
     Default:   allMilestones 
 
-.. describe::  groupby 
+.. describe:: groupby
 
     
     Default:   wp
 
-.. describe::  joiner 
+.. describe:: joiner
 
     
     Default:   \n
 
+.. index::
+   single:  latexTemplates.cfg ;  Wp
 
 Wp
 ==
@@ -922,7 +972,7 @@ Wp
 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   \newpage 
@@ -960,31 +1010,33 @@ Wp
     ${ganttWP_${Shortname}}
      
 
-.. describe::  list 
+.. describe:: list
 
     
     Default:  allWPDicts 
 
-.. describe::  dict 
+.. describe:: dict
 
     
     Default:   expanded 
 
-.. describe::  numerator 
+.. describe:: numerator
 
     
     Default:   value['Shortname']
 
-.. describe::  file 
+.. describe:: file
 
     
     Default:   True 
 
-.. describe::  dir 
+.. describe:: dir
 
     
     Default:   wp
 
+.. index::
+   single:  latexTemplates.cfg ;  DeliverableTableRows
 
 DeliverableTableRows
 ====================
@@ -994,28 +1046,30 @@ a table to summarize all the deliverables
 again: two steps: build the rows, and then the table 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   ${id} & ${Title} & ${Monthdue} & ${Nature} & ${Dissemination} & ${ProducingtaskString} 
 
-.. describe::  list 
+.. describe:: list
 
     
     Default:   allDeliverables 
 
-.. describe::  joiner 
+.. describe:: joiner
 
     
     Default:   \\ \n
 
-.. describe::  sorter 
+.. describe:: sorter
 
     this sorts according to due date, and where the due date is the same, 
     use deliverable id: 
 
     Default:   lambda x: '%03d' % x['Monthdue'] + x['id']
 
+.. index::
+   single:  latexTemplates.cfg ;  DeliverableTableShort
 
 DeliverableTableShort
 =====================
@@ -1025,7 +1079,7 @@ if you just want to sort by id, then simply use:
 sorter = lambda x: x['id']
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:           \begin{table}[hbtp]
@@ -1042,11 +1096,13 @@ sorter = lambda x: x['id']
     \end{center}
     \end{table}
 
-.. describe::  dict
+.. describe:: dict
 
     
     Default:  expanded
 
+.. index::
+   single:  latexTemplates.cfg ;  DeliverableTableLong
 
 DeliverableTableLong
 ====================
@@ -1054,7 +1110,7 @@ DeliverableTableLong
 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   \topcaption{Summary of all deliverables}
@@ -1078,11 +1134,13 @@ DeliverableTableLong
     \end{mpxtabular}
     \end{center}
 
-.. describe::  dict 
+.. describe:: dict
 
     
     Default:  expanded
 
+.. index::
+   single:  latexTemplates.cfg ;  DeliverableTable
 
 DeliverableTable
 ================
@@ -1090,26 +1148,28 @@ DeliverableTable
 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   \ifthenelse{\boolean{LaTeX-useMultipageDeliverableTable}}{${DeliverableTableLong}}{${DeliverableTableShort}}
 
-.. describe::  dict
+.. describe:: dict
 
     
     Default:  expanded
 
-.. describe::  file
+.. describe:: file
 
     
     Default:  True 
 
-.. describe::  dir 
+.. describe:: dir
 
     
     Default:   tables
 
+.. index::
+   single:  latexTemplates.cfg ;  MilestoneTableRows
 
 MilestoneTableRows
 ==================
@@ -1118,26 +1178,28 @@ MilestoneTableRows
 and a table for the milestones  - same structure as for the deliverable table 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   ${id} & ${Title} & ${Monthdue} & ${Verificationmeans} & ${ProducingtaskString}
 
-.. describe::  list 
+.. describe:: list
 
     
     Default:   allMilestones
 
-.. describe::  joiner 
+.. describe:: joiner
 
     
     Default:   \\ \n
 
-.. describe::  sorter 
+.. describe:: sorter
 
     
     Default:   lambda x: '%03d' % x['Monthdue'] + x['id']
 
+.. index::
+   single:  latexTemplates.cfg ;  MilestoneTableShort
 
 MilestoneTableShort
 ===================
@@ -1145,7 +1207,7 @@ MilestoneTableShort
 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   \begin{table}[hbtp]
@@ -1162,11 +1224,13 @@ MilestoneTableShort
     \end{center}
     \end{table}
 
-.. describe::  dict 
+.. describe:: dict
 
     
     Default:  expanded
 
+.. index::
+   single:  latexTemplates.cfg ;  MilestoneTableLong
 
 MilestoneTableLong
 ==================
@@ -1174,7 +1238,7 @@ MilestoneTableLong
 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   \topcaption{Summary of all milestones}
@@ -1198,11 +1262,13 @@ MilestoneTableLong
     \end{mpxtabular}
     \end{center}
 
-.. describe::  dict 
+.. describe:: dict
 
     
     Default:  expanded
 
+.. index::
+   single:  latexTemplates.cfg ;  MilestoneTable
 
 MilestoneTable
 ==============
@@ -1210,26 +1276,28 @@ MilestoneTable
 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   \ifthenelse{\boolean{LaTeX-useMultipageMilestoneTable}}{${MilestoneTableLong}}{${MilestoneTableShort}}
 
-.. describe::  dict 
+.. describe:: dict
 
     
     Default:  expanded
 
-.. describe::  file
+.. describe:: file
 
     
     Default:  True
 
-.. describe::  dir 
+.. describe:: dir
 
     
     Default:   tables 
 
+.. index::
+   single:  latexTemplates.cfg ;  summaryEffortRows
 
 summaryEffortRows
 =================
@@ -1237,7 +1305,7 @@ summaryEffortRows
 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   ${Shortname} & 
@@ -1245,16 +1313,18 @@ summaryEffortRows
     %} & 
     %{ str(sum([x['partnereffort']['${Shortname}'] for x in allWPDicts])) %}
 
-.. describe::  list 
+.. describe:: list
 
     
     Default:   partnerList 
 
-.. describe::  joiner 
+.. describe:: joiner
 
     
     Default:   \\ \n
 
+.. index::
+   single:  latexTemplates.cfg ;  summaryEffort
 
 summaryEffort
 =============
@@ -1262,7 +1332,7 @@ summaryEffort
 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   \ifthenelse{\boolean{Summaries-showEffortPartnerWPs}}{\begin{table}
@@ -1284,21 +1354,23 @@ summaryEffort
     \end{table}
     }{}
 
-.. describe::  dict 
+.. describe:: dict
 
     
     Default:   expanded
 
-.. describe::  file 
+.. describe:: file
 
     
     Default:   True 
 
-.. describe::  dir 
+.. describe:: dir
 
     
     Default:   tables
 
+.. index::
+   single:  latexTemplates.cfg ;  effortPerTaskRows
 
 effortPerTaskRows
 =================
@@ -1306,7 +1378,7 @@ effortPerTaskRows
 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   ${taskId}  & ${Name} & 
@@ -1323,21 +1395,23 @@ effortPerTaskRows
     )
     %}
 
-.. describe::  list = [t for t in allTasks if t['Main']=
+.. describe:: list = [t for t in allTasks if t['Main']=
 
     
     Default:  'True']  
 
-.. describe::  groupby 
+.. describe:: groupby
 
     
     Default:   wp 
 
-.. describe::  joiner 
+.. describe:: joiner
 
     
     Default:   \\ \hline \n 
 
+.. index::
+   single:  latexTemplates.cfg ;  effortPerTaskRowsWP
 
 effortPerTaskRowsWP
 ===================
@@ -1345,7 +1419,7 @@ effortPerTaskRowsWP
 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:    ${effortPerTaskRows_${Number}} \\ \hline
@@ -1356,21 +1430,23 @@ effortPerTaskRowsWP
     else str(${partnereffort}[p['Shortname']])
     for p in partnerList]) %}
 
-.. describe::  list 
+.. describe:: list
 
     
     Default:   allWPDicts 
 
-.. describe::  joiner 
+.. describe:: joiner
 
     
     Default:   \\ \hline \hline \n
 
-.. describe::  dict 
+.. describe:: dict
 
     
     Default:   expanded 
 
+.. index::
+   single:  latexTemplates.cfg ;  effortHeader
 
 effortHeader
 ============
@@ -1378,18 +1454,20 @@ effortHeader
 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   \hline 
     Task & Task name & Total PM & %{ ' & '.join([p['Shortname'] for p in partnerList]) %} \\ 
     \hline 
 
-.. describe::  dict 
+.. describe:: dict
 
     
     Default:   expanded 
 
+.. index::
+   single:  latexTemplates.cfg ;  effortSum
 
 effortSum
 =========
@@ -1397,7 +1475,7 @@ effortSum
 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   \rowcolor[gray]{0.8} \multicolumn{2}{l|}{\cellcolor[gray]{0.8} 
@@ -1407,11 +1485,13 @@ effortSum
     e['partner'] == p['Shortname'] ]))
     for p in partnerList]) %}
 
-.. describe::  dict 
+.. describe:: dict
 
     
     Default:   expanded
 
+.. index::
+   single:  latexTemplates.cfg ;  effortPerTaskTableShort
 
 effortPerTaskTableShort
 =======================
@@ -1419,7 +1499,7 @@ effortPerTaskTableShort
 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   \ifthenelse{\boolean{LaTeX-effortTableLandscape}}{\begin{landscape}}{}
@@ -1439,11 +1519,13 @@ effortPerTaskTableShort
     \end{table}
     \ifthenelse{\boolean{LaTeX-effortTableLandscape}}{\end{landscape}}{}
 
-.. describe::  dict
+.. describe:: dict
 
     
     Default:  expanded
 
+.. index::
+   single:  latexTemplates.cfg ;  effortPerTaskTableMultipage
 
 effortPerTaskTableMultipage
 ===========================
@@ -1451,7 +1533,7 @@ effortPerTaskTableMultipage
 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   \ifthenelse{\boolean{LaTeX-effortTableLandscape}}{\begin{landscape}}{}
@@ -1471,11 +1553,13 @@ effortPerTaskTableMultipage
     \end{center}
     \ifthenelse{\boolean{LaTeX-effortTableLandscape}}{\end{landscape}}{}
 
-.. describe::  dict
+.. describe:: dict
 
     
     Default:  expanded
 
+.. index::
+   single:  latexTemplates.cfg ;  effortPerTaskTable
 
 effortPerTaskTable
 ==================
@@ -1483,7 +1567,7 @@ effortPerTaskTable
 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   \ifthenelse{\boolean{Summaries-showEffortPartnerTasks}}
@@ -1492,21 +1576,23 @@ effortPerTaskTable
     {${effortPerTaskTableShort}}
     }{}
 
-.. describe::  dict 
+.. describe:: dict
 
     
     Default:   expanded
 
-.. describe::  file 
+.. describe:: file
 
     
     Default:   True
 
-.. describe::  dir 
+.. describe:: dir
 
     
     Default:   tables 
 
+.. index::
+   single:  latexTemplates.cfg ;  piePMsPartners
 
 piePMsPartners
 ==============
@@ -1516,7 +1602,7 @@ pie charts
 a pie chart showing person months distributed over partners 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   \ifthenelse{\boolean{Summaries-piePMsPartners}}{
@@ -1533,21 +1619,23 @@ a pie chart showing person months distributed over partners
     \end{figure}
     }{}
 
-.. describe::  dict 
+.. describe:: dict
 
     
     Default:   expanded 
 
-.. describe::  file 
+.. describe:: file
 
     
     Default:   True 
 
-.. describe::  dir 
+.. describe:: dir
 
     
     Default:   pies 
 
+.. index::
+   single:  latexTemplates.cfg ;  piePMsWPs
 
 piePMsWPs
 =========
@@ -1555,7 +1643,7 @@ piePMsWPs
 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   \ifthenelse{\boolean{Summaries-piePMsWPs}}{
@@ -1572,21 +1660,23 @@ piePMsWPs
     \end{figure}
     }{}
 
-.. describe::  dict 
+.. describe:: dict
 
     
     Default:   expanded 
 
-.. describe::  file 
+.. describe:: file
 
     
     Default:   True 
 
-.. describe::  dir 
+.. describe:: dir
 
     
     Default:   pies 
 
+.. index::
+   single:  latexTemplates.cfg ;  piePMsNations
 
 piePMsNations
 =============
@@ -1600,7 +1690,7 @@ we add up those efforts by a mapReduce operation to which we pass
 a suitable reduce function: adding up two values 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   \ifthenelse{\boolean{Summaries-piePMsNations}}{
@@ -1621,21 +1711,23 @@ a suitable reduce function: adding up two values
     \end{figure}
     }{}
 
-.. describe::  dict 
+.. describe:: dict
 
     
     Default:   expanded 
 
-.. describe::  file 
+.. describe:: file
 
     
     Default:   True 
 
-.. describe::  dir 
+.. describe:: dir
 
     
     Default:   pies 
 
+.. index::
+   single:  latexTemplates.cfg ;  piePMsPartnerTypes
 
 piePMsPartnerTypes
 ==================
@@ -1644,7 +1736,7 @@ piePMsPartnerTypes
 same thing that worked for the nation pie charts works for the partner type pie charts as well 
 
 
-.. describe::  template 
+.. describe:: template
 
     
     Default:   \ifthenelse{\boolean{Summaries-piePMsPartnerTypes}}{
@@ -1665,17 +1757,17 @@ same thing that worked for the nation pie charts works for the partner type pie 
     \end{figure}
     }{}
 
-.. describe::  dict 
+.. describe:: dict
 
     
     Default:   expanded 
 
-.. describe::  file 
+.. describe:: file
 
     
     Default:   True 
 
-.. describe::  dir 
+.. describe:: dir
 
     
     Default:   pies 

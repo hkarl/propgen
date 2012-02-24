@@ -154,12 +154,12 @@ doctest: generatedfiles
 	@echo "Testing of doctests in the sources finished, look at the " \
 	      "results in $(BUILDDIR)/doctest/output.txt."
 
-generatedfiles: settings.rst latexTemplates.rst parseCFG.py
+generatedfiles: settings.rst latexTemplates.rst 
 
-settings.rst: ../settings.cfg 
+settings.rst: ../settings.cfg parseCFG.py
 	python parseCFG.py -i ../settings.cfg -a =  > settings.rst
 
-latexTemplates.rst: ../template/latexTemplates.cfg
+latexTemplates.rst: ../template/latexTemplates.cfg parseCFG.py
 	python parseCFG.py -i ../template/latexTemplates.cfg  -a =  > latexTemplates.rst
 
 

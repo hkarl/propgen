@@ -18,7 +18,7 @@ GENERATEDLATEXPATH = $(shell grep "genlatexpath " ${SETTINGS} | cut -f 2 -d = )
 LATEXLINKS =  $(shell find ${LATEXPATH} -type l)
 
 ####################################
-.PHONY: proposal pdf clean pullproject xml latexFromWiki latexFromXML ensureSymbolicLinks
+.PHONY: proposal pdf clean pullproject xml latexFromWiki latexFromXML ensureSymbolicLinks fullcommit
 ####################################
 
 

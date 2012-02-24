@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>PropGen 0 documentation</title>
+    <title>PropGen 0.1 documentation</title>
     
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0',
+        VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -30,7 +30,7 @@
     <div class="related">
       <h3>Navigation</h3>
       <ul>
-        <li><a href="#">PropGen 0 documentation</a> &raquo;</li> 
+        <li><a href="#">PropGen 0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -297,8 +297,8 @@ users as you like.</p>
 <h4>Rename the main project page<a class="headerlink" href="#rename-the-main-project-page" title="Permalink to this headline">¶</a></h4>
 <p>In case you want a different main page name, simply use
 the &#8220;Rename page&#8221; action of the Wiki. Remember to
-rename the corresponding setting in settings.cfg as
-well!</p>
+rename the corresponding setting (projectName) in
+settings.cfg as well!</p>
 </div>
 <div class="section" id="run-the-moinmoin-wiki">
 <h4>Run the MoinMoin Wiki<a class="headerlink" href="#run-the-moinmoin-wiki" title="Permalink to this headline">¶</a></h4>
@@ -319,10 +319,10 @@ configurations to ensure that the download script talks
 to the right wiki server as well as basic configuration
 options about what kind of information to generate. The
 latter content-customization options are described
-elsewhere. Here, we concentrate on basic connectivity
+elsewhere (Section <a class="reference internal" href="index.html#sec-settings-cfg"><em>settings.cfg</em></a>). Here, we concentrate on basic connectivity
 settings.</p>
 <div class="section" id="wiki">
-<h4>Wiki<a class="headerlink" href="#wiki" title="Permalink to this headline">¶</a></h4>
+<span id="index-0"></span><h4>Wiki<a class="headerlink" href="#wiki" title="Permalink to this headline">¶</a></h4>
 <p>Set up the necessary information to access the  wiki: which type,
 where can it be found, what is the start page, which account and password
 to use to log in.</p>
@@ -459,12 +459,350 @@ empty.</p>
 <dd><p>Default:</p>
 </dd></dl>
 
+<span class="target" id="index-1"></span></div>
+</div>
+</div>
+<span id="document-usage"></span><div class="section" id="how-to-use-propgen-what-to-put-on-wiki-building-a-pdf-file">
+<h2>How to use PropGen, what to put on Wiki, building a PDF file<a class="headerlink" href="#how-to-use-propgen-what-to-put-on-wiki-building-a-pdf-file" title="Permalink to this headline">¶</a></h2>
+<p>This section describes how to work with the Wiki to enter actual project information. There are three main types of pages: the main project page, a generic text page to hold free text, and the structured work package pages that contain specific information about tasks in a work package, effort distribution, deliverables and milestones, as well as text describing the actual work to be done in a work package.</p>
+<div class="section" id="the-main-project-page">
+<h3>The main project page<a class="headerlink" href="#the-main-project-page" title="Permalink to this headline">¶</a></h3>
+<p>The main project page (the Wiki page which you configured under projectName in settings.cfg) collects are the general information about the project and it links to further details providing detailed information. Only pages linked from this page are considered in building the proposal text.</p>
+<p>It has four sections: Proposal structure, main data, workpackages, and partner data, described next. It is <strong>important</strong> to keep the structure of this page fixed, else it will not be possible to find relevant information. Sections are recognized by their headings; feel free to move around such sections on the page but do <strong>not</strong> change heading titles or the structure of the individual sections.</p>
+<div class="section" id="proposal-structure">
+<h4>Proposal structure<a class="headerlink" href="#proposal-structure" title="Permalink to this headline">¶</a></h4>
+<p>This section has a bullet list, each just having the name of a Wiki page. Each of these Wiki pages will get downloaded from the Wiki and turned into LaTeX code; each such file is treated as a generic text page (see below for details).  The file name of these LaTeX files will be the same as the Wiki name. The main.tex file can then include these files.</p>
+<div class="figure">
+<img alt="_images/ProposalStructure.png" src="_images/ProposalStructure.png" />
+<p class="caption">Screenshot of the example ProposalStructure section of the main page</p>
+</div>
+<p>The order of the bullets in this list does not matter. The example setup has all the usual sections of a typical EU FP7 proposal and the example main.tex file is already set up to include these files in the appropiate order.</p>
+<p>To add further pages, just add a bullet and put the Wiki name in the line. Add an include command in the right place in main.tex. to get rid of a file, simply remove it from the bullet list and remove the corresponding input command from main.tex.</p>
+</div>
+<div class="section" id="main-data">
+<h4>Main data<a class="headerlink" href="#main-data" title="Permalink to this headline">¶</a></h4>
+<p>The main data section specifies basic data about the project as a whole.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/MainData.png"><img alt="_images/MainData.png" src="_images/MainData.png" /></a>
+<p class="caption">Screenshot of main data section</p>
+</div>
+<p>Similar to the proposal structure section, it is a bullet list with individual items. Here, however, each line is a key/value combination, with the format &#8220;key: value&#8221;. Most lines should be self-explanatory. Duration is the duration of the project in months; do not specify a unit, just the number.</p>
+</div>
+<div class="section" id="workpackages">
+<h4>Workpackages<a class="headerlink" href="#workpackages" title="Permalink to this headline">¶</a></h4>
+<p>The third part is a list of Wiki pages where a workpackage is described. Same syntax as in the proposal structure section, but the treatment of these pages is different. Unlike above, files here are not just downloaded and converted to LaTeX. Instead, a workpackage page needs to follow a certain structure to specify semantics of a workpackage. Details described below.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/WorkpackagesList.png"><img alt="_images/WorkpackagesList.png" src="_images/WorkpackagesList.png" /></a>
+<p class="caption">Screenshot of workpackage list section</p>
+</div>
+</div>
+<div class="section" id="partner-data">
+<h4>Partner data<a class="headerlink" href="#partner-data" title="Permalink to this headline">¶</a></h4>
+<p>The partner data has more semantic structure. The important part is a table with four columns:</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/PartnerData.png"><img alt="_images/PartnerData.png" src="_images/PartnerData.png" /></a>
+<p class="caption">Screenshot of the partner data section</p>
+</div>
+<dl class="docutils">
+<dt>Number</dt>
+<dd>Each partner organization needs a number, mostly used for sorting.
+The lead partner MUST be number 1.</dd>
+<dt>Shortname</dt>
+<dd>The acronym to be used for this partner. It shows up in tables, lists,
+etc.</dd>
+<dt>Name</dt>
+<dd>The full, official name of a partner.</dd>
+<dt>Nation</dt>
+<dd>Stanard ISO abbreviation of the partner&#8217;s legal nation.</dd>
+<dt>Type</dt>
+<dd>Type of partners: academic, research institute, industry, ...</dd>
+<dt>Wiki</dt>
+<dd>The name of the Wiki page where this partner&#8217;s profile can be found.
+This wiki page is converted to LaTeX and can be included (put into
+the partner directory).</dd>
+</dl>
+<p>The order of the rows is irrelevant.</p>
+</div>
+</div>
+<div class="section" id="a-generic-text-page">
+<h3>A generic text page<a class="headerlink" href="#a-generic-text-page" title="Permalink to this headline">¶</a></h3>
+<p>A generic text page is converted to LaTeX using the wikiParser class
+(Section <a class="reference internal" href="index.html#sec-wiki-parser"><em>wikiParser</em></a>). It can convert a couple of the
+standard Wiki markup syntax into LaTeX code. The source code
+description provides more details.</p>
+<p>In addition, there is a specific form of markup geared towards the
+generation of EU proposals: Whenever there is a pair of level-5 headings of
+&#8220;Start commission hints&#8221; and &#8220;End commission hints&#8221;, the text between
+these headings is typeset AFTER the first real heading of the page
+(the text is moved accordingly). The example MoinMoin Wiki as well as
+the wiki templates contain the corresponding hints given by the
+commission in the official template. Whether this text is typeset in
+the final PDF can be controlled via the control setting
+&#8220;showCommissionHints&#8221; in settings.cfg. Obviously, before submitting a
+proposal, this setting should be set to False.</p>
+<p>Any Wiki page may have, at the beginning, a line:</p>
+<p>## Start of text ##</p>
+<p>and at the end, a corresponding line:</p>
+<p>## End of text ##</p>
+<p>These lines need not be present, but if so, text before the start or
+after the end is ignored. It is still visible on the wiki, though - so
+it might be a useful place to put instructions for partners, kept
+discussions about the content of a page on the very page itself, etc.
+Note that these markers are available on all kinds of pages, also on
+the main page and the workpackage pages.</p>
+</div>
+<div class="section" id="a-workpackage-page">
+<h3>A workpackage page<a class="headerlink" href="#a-workpackage-page" title="Permalink to this headline">¶</a></h3>
+<p>A workpackage page is by far the most complex page, it also has a
+rather rigid structure. It consists of four sections, one for the
+workpackage&#8217;s overview description, one for the task descriptions, one
+for adminstrative information about the WP as such, and one last
+section for adminstrative information on task level.</p>
+<p>A level-1 heading can give the name of the WP; it is not analyzed.</p>
+<div class="section" id="work-package-description">
+<h4>Work package description<a class="headerlink" href="#work-package-description" title="Permalink to this headline">¶</a></h4>
+<p>There must be a <em>level-2 heading</em> &#8220;Objectives&#8221;. All the text after this
+headline, up to the following level-2 heading, it used to typeset the
+objectives of a work package.</p>
+<p>Then, another <em>level-2 heading</em> &#8220;WP Description&#8221; is needed. Text after
+this heading, up to the next level-2 heading, is used to typeset a
+description of the WP in the WP forms.</p>
+</div>
+<div class="section" id="tasks-descriptions">
+<h4>Tasks descriptions<a class="headerlink" href="#tasks-descriptions" title="Permalink to this headline">¶</a></h4>
+<p>After that, the tasks inside a work package are described. The
+assumption is that a workpackage consists of a reasonable number of
+tasks (even only one, if so desired); it is not possible to do without
+tasks and only use workpackages. (Not without considerably reworking a
+lot of the templates, at least.) This part is started by a <em>level-2
+heading</em> &#8220;Tasks&#8221;.</p>
+<p>Inside this section, there can be any number of
+<em>level-3 headings</em>, starting with &#8220;Task Description: &#8221;, and then
+the <strong>symbolic label</strong> of each task: Each task is assigned a label,
+typically a short word or phrase (no spaces!) via which information
+about this task at various places in this page can be cross-linked.</p>
+<p>Then, there should be, per task, <em>two level-4 headings</em> &#8220;Objectives&#8221; and
+&#8220;Description of work&#8221;. The purpose is similar to the WP descriptions,
+but they are specifically linked to the particular task.</p>
+</div>
+<div class="section" id="adminstrative-information">
+<h4>Adminstrative information<a class="headerlink" href="#adminstrative-information" title="Permalink to this headline">¶</a></h4>
+<p>The fourth <em>level-2 heading</em> is &#8220;Adminstrative information&#8221;. It is
+follwed by the formal information about the workpackage. It is
+formatted as a bullet list with key/value pairs to provide
+information about the workpackage.</p>
+<div class="figure">
+<img alt="_images/WPAdminstration.png" src="_images/WPAdminstration.png" />
+<p class="caption">A bullet list of key/value pairs to provide adminstrative information
+about the workpackage.</p>
+</div>
+<p>The keys are as follows:</p>
+<dl class="docutils">
+<dt>Name</dt>
+<dd>Full name of the workpackage, as shown in tables and titles.</dd>
+<dt>Shortname</dt>
+<dd>Abbreviatiation, used in spaced-limited situations.</dd>
+<dt>Leadership</dt>
+<dd>Shortname of the partner organization which leads this workpackage.</dd>
+<dt>Start</dt>
+<dd>Month on which the workpackage starts (on the first day of this
+month); only put the number there, no &#8220;M1&#8221; or similar.</dd>
+<dt>Duration</dt>
+<dd>Number of months the WP lasts. A WP starting in month 5 and last for 2
+months, for example, will start on the first day of the fifth month of
+the project and ends on the last day of the <em>sixth</em> month.</dd>
+<dt>Type</dt>
+<dd>Type designation of the WP according to the EU commission
+classification (e.g., RTD: Research and Development, MGMT: Management,
+DEMO: Demonstration).</dd>
+</dl>
+</div>
+<div class="section" id="adminstrative-information-about-tasks">
+<h4>Adminstrative information about Tasks<a class="headerlink" href="#adminstrative-information-about-tasks" title="Permalink to this headline">¶</a></h4>
+<p>The <em>level-3 heading</em> &#8220;Tasks&#8221; (note the different levels for the &#8220;Tasks&#8221;
+headlines!) announces a table, immediately after the Tasks heading. It specifies the following information
+in columns:</p>
+<div class="figure">
+<img alt="_images/TasksTable.png" src="_images/TasksTable.png" />
+<p class="caption">A table listing all the tasks for the particular workpackage.</p>
+</div>
+<dl class="docutils">
+<dt>Label</dt>
+<dd>The symbolic label of the task (the same as used above)</dd>
+<dt>Start</dt>
+<dd>Month of the start of the task. It is assumed to start on the first
+day of the month.</dd>
+<dt>Duration</dt>
+<dd>How long does the task last, in months? For example, a task with Start
+month 1 and Duration 1 month starts on the very first day of the
+project and ends at the end of the first month.</dd>
+<dt>Name</dt>
+<dd>The full name of the task, e.g., used in tables and Gantt charts</dd>
+<dt>Lead partner</dt>
+<dd>Shortname of the partner leading the particular task.</dd>
+</dl>
+<p>In general, there is a single row per task. A generalization is a task
+that consists of multiple <em>phases</em>: It is the task, but is interrupted
+and resumed. This can be realized by using one row per phase and using
+the <em>same</em> task Label in each row. In the second, third, ... row of a
+task, only the Start and Duration fields are considered. (It is
+currently not possible to specify different names or task leaders for
+different phases of a task; these should be treated as separate
+tasks!) Such a multi-phase task shows up in the Gantt charts; see the
+example of the &#8220;Improvment of the Architecture&#8221; task.</p>
+<p>In this as in all following tables, the first row <em>MUST</em> be present
+and have the right labels. The labels are used to find out which
+column contains which information; missing labels and incorrectly
+formatted labels will result in errors.</p>
+</div>
+<div class="section" id="task-efforts">
+<h4>Task efforts<a class="headerlink" href="#task-efforts" title="Permalink to this headline">¶</a></h4>
+<p>Next, there is a <em>level-3</em> heading Effort. It is also followed by
+table with the following structure. The first colum - Partner -
+contains partner shortnames for partners active in this task. The
+following columns have one column per task in this workpackage
+(multiple phases are not mentioned separately).</p>
+<div class="figure">
+<img alt="_images/TaskEffort.png" src="_images/TaskEffort.png" />
+<p class="caption">Table to specify effort of partners in each task</p>
+</div>
+<p>Each row shows the participation of a partner in the corresponding
+tasks. Put person months in a field. No floating point numbers can be
+used, only integer numbers of months.</p>
+<p>Partners not participating in a WP at all need not be mentioned.</p>
+</div>
+<div class="section" id="milestones">
+<h4>Milestones<a class="headerlink" href="#milestones" title="Permalink to this headline">¶</a></h4>
+<p>The <em>level-3 heading</em> Milestones announces the milestone table for the
+workpackage. Its structure follows the guidelines of the EU proposals.
+Specify the following columns:</p>
+<dl class="docutils">
+<dt>Label</dt>
+<dd>A symbolic label for the milestone, used to refer to it.</dd>
+<dt>Month due</dt>
+<dd>When must the milestone be achieved? Just the number of the month,
+no &#8220;M&#8221; or similar.</dd>
+<dt>Title</dt>
+<dd>A full name for the milestone.</dd>
+<dt>Contributors</dt>
+<dd>A comma-separated list of partner shortname, showing which partners
+will make contributions to this milestone. In case you want to
+specify a lead partner for a milestone (and similarly for a
+deliverable, see below), simply set it in boldface (using the Wiki&#8217;s
+specifc markup syntax).</dd>
+<dt>Description</dt>
+<dd>A brief description text. (Leave empty if not desired.) It is
+(typically) typeset in the milestone list per workpackage.</dd>
+<dt>Producing task(s)</dt>
+<dd>Which tasks contribute to this milestone? Put a comma-separated list
+of <em>task labels</em> here. Task labels can also come from different
+workpackages; not restricted to the current one. Producing tasks can
+be marked as boldface (similar to contributors); however, this</dd>
+<dt>Verification means</dt>
+<dd>Explain how the project will verify that it has achieved the
+milestone. (Required by standard commission template.)</dd>
+</dl>
+<p>Obviously, one row per milestone.</p>
+<div class="figure">
+<img alt="_images/MilestoneTable.png" src="_images/MilestoneTable.png" />
+<p class="caption">Table specifying milestones</p>
+</div>
+</div>
+<div class="section" id="deliverables">
+<h4>Deliverables<a class="headerlink" href="#deliverables" title="Permalink to this headline">¶</a></h4>
+<p>Finally, the last <em>level-3 heading</em> Deliverables announces the table
+listing all the deliverables of this workpackage. It has a similar
+structure to the milestone table. The only difference is that
+&#8220;Verification means&#8221; is replaced by &#8220;Nature&#8221; (report, demonstration,
+software, ... -checkcommissiontemplate) and &#8220;Dissemination&#8221;
+(restricted RE, public PU, ... - check commission template for details).</p>
+<div class="figure">
+<img alt="_images/DeliverableTable.png" src="_images/DeliverableTable.png" />
+<p class="caption">Table specifying deliverables</p>
 </div>
 </div>
 </div>
-<span id="document-usage"></span><div class="section" id="how-to-use-propgen">
-<h2>How to use PropGen<a class="headerlink" href="#how-to-use-propgen" title="Permalink to this headline">¶</a></h2>
-<p>What to put on Wiki. How to trigger builds. What should go in which tables. What to watch out for when editing.</p>
+<div class="section" id="recognized-wiki-markup">
+<h3>Recognized Wiki markup<a class="headerlink" href="#recognized-wiki-markup" title="Permalink to this headline">¶</a></h3>
+<p>Only a limited set of Wiki markup syntax is actually recognized and
+translated into LaTeX commands. The following list summarizes the
+recognized features (see Section <a class="reference internal" href="index.html#sec-wiki-parser"><em>wikiParser</em></a> for details):</p>
+<ul>
+<li><p class="first">Headings are recognized. A level 1 heading is turned into a section,
+level 2 headings become subsections, etc.</p>
+</li>
+<li><p class="first">Bullet lists and enumeration lists are recognized and turned into
+itemize and enumerate environments. More precisely, compactitem and
+compactenum environments are used for compacter layouting. These</p>
+</li>
+<li><p class="first">There is some support for figure inclusion. The basic idea is
+recognize a figure tag of the form &lt;img key=value, key=value&gt;. The
+following keys are recognized:</p>
+<blockquote>
+<div><p>file</p>
+<blockquote>
+<div><p>Its value is assumed to give the filename of a PDF file in the
+latex/figure directory.</p>
+</div></blockquote>
+<p>label</p>
+<blockquote>
+<div><p>Value will become the label in the LaTeX figure environment, for
+cross-referencing.</p>
+</div></blockquote>
+<p>caption</p>
+<blockquote>
+<div><p>The caption text to be used in the figure environment</p>
+</div></blockquote>
+<p>latexwidth</p>
+<blockquote>
+<div><p>The value is used to scale the figure proportionally to
+textwidth. It should be a value between 0 and 1. The default, if
+this key is not present, is to scale the figure to 0.8 of
+textwidth.</p>
+</div></blockquote>
+</div></blockquote>
+<p>Obviously, this is inspired by the twiki way of doing figures. In
+fact, the key/value pairs can be included in the twiki commands for
+figure inclusion. Moinmoin is much less amenable to extending its own
+syntax. It is indeed a bit cumbersome to include a figure in moinmoin,
+necessitating effectively two include commands: one to have the figure
+appear on the wiki, one to refer to the PDF file and trigger the
+generation of the LaTeX figure environment. Any goods ideas here are
+much appreciated.</p>
+</li>
+<li><p class="first">Tables are turned into tabular commands. Columns are equally wide,
+spaced to 80% of the textwidth. To fine-tuning the looks of these
+columns, you can specify the column layout: Write e.g.</p>
+<blockquote>
+<div><p>## TABULAR: c|p{0.2textwidth}|r #</p>
+</div></blockquote>
+<p>on a separate line, immediately before the actual table in the wiki
+markup. Anything between TABULAR: and the closing # will be turned
+into the argument of the tabular environment in the LaTeX markup. No
+table environment is generated, if you want that, you can simply
+enclose the Wiki table with the corresponding LaTeX commands, they are
+passed through unhindered.</p>
+</li>
+<li><p class="first">Some attempts are made to maintain special characters. In particular:</p>
+<ul class="simple">
+<li>Boldface markup is recognized</li>
+<li>Italics markup as well</li>
+<li>Line breaks specified by &lt;BR&gt; turn into newline commands</li>
+<li>Commands of the form: #TODO: some text # are turned into fxwarning
+commands of the fixme package (and appear in warnings.tex)</li>
+<li>Some attempts are made to provide correct left and right quotation
+marks; guessing is based on spaces before or after a quotation mark &#8221;.</li>
+<li>Pure hash marks # are protected by turning them in #.</li>
+<li>So are ampersand marks &amp;.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="building-a-pdf-file">
+<h3>Building a PDF file<a class="headerlink" href="#building-a-pdf-file" title="Permalink to this headline">¶</a></h3>
+<p>When everything is setup correctly, doing an actual build is trivial:
+On a command line, go into the main project directory and type make!</p>
+</div>
 </div>
 <span id="document-customize"></span><div class="section" id="how-to-customize-propgren">
 <h2>How to customize PropGren<a class="headerlink" href="#how-to-customize-propgren" title="Permalink to this headline">¶</a></h2>
@@ -480,6 +818,157 @@ empty.</p>
 <div class="section" id="complex-customization">
 <h3>Complex customization<a class="headerlink" href="#complex-customization" title="Permalink to this headline">¶</a></h3>
 <p>When you really have to work with the pyton code...</p>
+</div>
+</div>
+<span id="document-directorylayout"></span><div class="section" id="directory-layout-and-major-files">
+<h2>Directory layout and major files<a class="headerlink" href="#directory-layout-and-major-files" title="Permalink to this headline">¶</a></h2>
+<p>This section summarizes the directory layout as used in the standard
+distribution setup. It is possible to widely reconfigure this (via the
+PathNames section in settings.cfg); however, unless there are concrete
+reasons to change it, it seems reasonable not to modify this.</p>
+<div class="section" id="directory-structure">
+<h3>Directory structure<a class="headerlink" href="#directory-structure" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt>bin</dt>
+<dd>All the Python scripts necessary to generate the proposal PDF are
+here.</dd>
+<dt>doc</dt>
+<dd>The documentation in various formats.</dd>
+<dt>docsource</dt>
+<dd>The sources for the documentation, in reStructuredText, based on
+Sphinx.</dd>
+<dt>generated</dt>
+<dd><p class="first">This directory contains all intermediately downloaded or generated
+files. It has several subdirectories:</p>
+<dl class="last docutils">
+<dt>latex</dt>
+<dd><p class="first">All the generated LaTeX files go in here. Files in the directory
+as such are direct transliterations of the corresponding Wiki
+files. There are a few subdirectories:</p>
+<dl class="last docutils">
+<dt>figures</dt>
+<dd>All <em>generated</em> tables,
+gantts, and pie charts go in here (in respective
+subdirectories).</dd>
+<dt>partners</dt>
+<dd>Files pertaining to the description of partners.</dd>
+<dt>wp</dt>
+<dd>Files pertaining to individual workpackages. One file per
+workpackage, containing all relevant information.</dd>
+</dl>
+</dd>
+<dt>wiki</dt>
+<dd><p class="first">The raw download of the wiki sources. Very useful for error
+checking, in case some of the download fails, problems with
+special characters (e.g., Umlaute) appear, etc. Files in here
+should be verbatim copies of all the Wiki pages pertaining to
+the project. In particular, there are two further
+subdirectories:</p>
+<dl class="last docutils">
+<dt>partners</dt>
+<dd>All the partner description files, as linked from the Partner
+Description part of the main project page.</dd>
+<dt>wp</dt>
+<dd>All the workpackage wiki pages, as linked from the
+workpackage description part of the main page.</dd>
+</dl>
+</dd>
+<dt>xml</dt>
+<dd><p class="first">A directory containing all intermediately generated XML
+files. Workpackage-specific information goes into the
+subdirectory wp. One file per workpackage. All the partner
+descriptions go in one LaTeX file.</p>
+<p class="last">The purpose of the intermediate XML representation is to give
+secondary tools a standard way to hook in (and it is a legacy of
+an older version of the program).</p>
+</dd>
+</dl>
+</dd>
+<dt>latex</dt>
+<dd><p class="first">This directory contains all the manually added LaTeX files, as well
+as the root main.tex file invoked by pdflatex. Feel free to add any
+files you like in here.</p>
+<p>It has a few subdirectories:</p>
+<dl class="docutils">
+<dt>figures</dt>
+<dd>By convention, all figures necessary for the proposal go in
+here. In addition, there are subdirectories gantts, pies, tables
+pointing to generated material.</dd>
+<dt>partners</dt>
+<dd>Same purpose as above.</dd>
+<dt>styles</dt>
+<dd>All specific, non-standard, unusual or modified style files are
+collected here.</dd>
+<dt>wp</dt>
+<dd>Same purpose as above.</dd>
+</dl>
+<p class="last">In addition, there are symbolic links pointing from this directory
+to the directory generated, to each of the automatically generated
+files. This is done by the script ensureSymbolicLinks.py. The idea
+is to keep files on the Wiki as long as possible. But if, at some
+point in time, a file should be maintained only manually, remove
+the symbolic link, copy the generated file to the this directory,
+and the generation scripts will no longer overwrite this file; all
+manual changes are preserved. (Obviously, you should make it clear
+on the wiki that the wiki version is out of date.)</p>
+</dd>
+<dt>moin</dt>
+<dd>A distribution of the MoinMoin wiki, adapted to the needs of a
+project proposal. In particular, restricted login and a
+pre-configured superuser.</dd>
+<dt>template</dt>
+<dd>All template files. It contains, for each supported wiki type, an
+example setup of the example project, separated by
+subdirectory. Currently, moinmoin and twiki.
+See also below for latexTemplates.cfg.</dd>
+</dl>
+</div>
+<div class="section" id="relevant-files">
+<h3>Relevant files<a class="headerlink" href="#relevant-files" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt>settings.cfg</dt>
+<dd>This file contains main configuration options: where to find the
+Wiki, which information to include, some basic settings about the
+look of the PDF file. See <a class="reference internal" href="index.html#sec-settings-cfg"><em>settings.cfg</em></a> for the actual
+source code and detailed documentation.</dd>
+<dt>template/latexTemplates.cfg</dt>
+<dd>In here, all the templates used to produce actual LaTeX code are
+maintained. Changes here allow a fine-grained customization of the
+result. See <a class="reference internal" href="index.html#sec-latextemplates-cfg"><em>latexTemplates.cfg</em></a> for the actual source
+code and detailed documentation.</dd>
+<dt>latex/main.tex</dt>
+<dd>The main LaTeX file; from here, all other LaTeX files are
+included. You can change a lot of the behavior here, e.g., include
+other style files. This file is never manipulated automatically,
+feel free to make manual adjustments here. See <a class="reference internal" href="index.html#sec-mainlatex"><em>main.tex</em></a> for details.</dd>
+<dt>latex/warnings.tex</dt>
+<dd>All warning generated during the production of XML or LaTeX code
+are collected here and can be typeset directly. The showWarnings
+flag in settings.cfg controls whether these warnings are included
+in the PDF output.</dd>
+<dt>latex/settings.tex</dt>
+<dd>This file is produced from settings.cfg by turning all the
+True/False flags in this file into a corresponding LaTeX variable
+(which can be queried via the ifthenelse command). It also contains
+the <em>results</em> of executing all the  commands in  the CustomLaTeX
+section of settings.cfg, made accessible via a corresponding LaTeX
+variable.</dd>
+<dt>latex/partners/partnersIncluder.tex</dt>
+<dd>A small file, generated to make sure that all downloaded partner
+descriptions are included. No need to change anything manually when
+a new partner is added.</dd>
+<dt>latex/wp/wpIncluder.tex</dt>
+<dd>Similarly, a file to include all workpackage description files.</dd>
+<dt>Makefile</dt>
+<dd>A standard Makefile guiding the generation process. It is fairly
+straightforward, simply running the consecutive steps of a build
+process after each other for the main target <em>pdf</em>. See
+<a class="reference internal" href="index.html#sec-makefile"><em>Makefile</em></a> for details.</dd>
+<dt>projectname.pdf</dt>
+<dd>The ultimate PDF file. &#8220;projectname&#8221; is replaced by the value you
+gave in settings.cfg&#8217;s projectName option. In the example setup, it
+will be called TestProject.pdf.</dd>
+</dl>
 </div>
 </div>
 <span id="document-openissues"></span><div class="section" id="open-issues">
@@ -578,7 +1067,7 @@ directories have been manually and inadvertently removed.</p>
 
 </div>
 <div class="section" id="wikiparser">
-<h3>wikiParser<a class="headerlink" href="#wikiparser" title="Permalink to this headline">¶</a></h3>
+<span id="sec-wiki-parser"></span><h3>wikiParser<a class="headerlink" href="#wikiparser" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="module-wikiParser">
 <span id="the-wikiparser-module-as-such"></span><h4>The wikiParser module as such<a class="headerlink" href="#module-wikiParser" title="Permalink to this headline">¶</a></h4>
 <p>We need to parse various wiki formats into useable latex. This module
@@ -729,6 +1218,13 @@ Put symbolic links there if necessary to all files in generated.</p>
 <div class="section" id="module-utils">
 <span id="utils"></span><h3>utils<a class="headerlink" href="#module-utils" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
+<dt id="utils.dictAsRest">
+<tt class="descclassname">utils.</tt><tt class="descname">dictAsRest</tt><big>(</big><em>d</em><big>)</big><a class="headerlink" href="#utils.dictAsRest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a dictionary, print key/values as a description list in
+reStructuredText syntax.</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="utils.roundPie">
 <tt class="descclassname">utils.</tt><tt class="descname">roundPie</tt><big>(</big><em>l</em><big>)</big><a class="headerlink" href="#utils.roundPie" title="Permalink to this definition">¶</a></dt>
 <dd><p>round the values to 100%, input: list of (name, value) tuples</p>
@@ -757,9 +1253,9 @@ try to run a conversion into UTF-8.</p>
 
 </div>
 <div class="section" id="settings-cfg">
-<h3>settings.cfg<a class="headerlink" href="#settings-cfg" title="Permalink to this headline">¶</a></h3>
+<span id="sec-settings-cfg"></span><h3>settings.cfg<a class="headerlink" href="#settings-cfg" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="wiki">
-<h4>Wiki<a class="headerlink" href="#wiki" title="Permalink to this headline">¶</a></h4>
+<span id="index-0"></span><h4>Wiki<a class="headerlink" href="#wiki" title="Permalink to this headline">¶</a></h4>
 <p>Set up the necessary information to access the  wiki: which type,
 where can it be found, what is the start page, which account and password
 to use to log in.</p>
@@ -898,7 +1394,7 @@ empty.</p>
 
 </div>
 <div class="section" id="pathnames">
-<h4>PathNames<a class="headerlink" href="#pathnames" title="Permalink to this headline">¶</a></h4>
+<span id="index-1"></span><h4>PathNames<a class="headerlink" href="#pathnames" title="Permalink to this headline">¶</a></h4>
 <dl class="describe">
 <dt>
 <tt class="descname">binpath</tt></dt>
@@ -1040,7 +1536,7 @@ NOTE: no good idea how to replicate that behavior</p>
 
 </div>
 <div class="section" id="gantts">
-<h4>Gantts<a class="headerlink" href="#gantts" title="Permalink to this headline">¶</a></h4>
+<span id="index-2"></span><h4>Gantts<a class="headerlink" href="#gantts" title="Permalink to this headline">¶</a></h4>
 <p>TODO: excel interface!
 excelFile = ../Administration/Steam-resources.xls
 control which and how Gantt charts are typeset</p>
@@ -1138,7 +1634,7 @@ number of months that a deliverable/milestone marker text occupies (horizontally
 
 </div>
 <div class="section" id="summaries">
-<h4>Summaries<a class="headerlink" href="#summaries" title="Permalink to this headline">¶</a></h4>
+<span id="index-3"></span><h4>Summaries<a class="headerlink" href="#summaries" title="Permalink to this headline">¶</a></h4>
 <p>a plausible alternative for the legend strings is to use a description
 environment instead. That requires then a corresponding change in
 latexTemplates.cfg. Not difficult to do, look for compactitem there.
@@ -1187,7 +1683,7 @@ which summary tables, figures  should appear in the document</p>
 
 </div>
 <div class="section" id="wptables">
-<h4>WPTables<a class="headerlink" href="#wptables" title="Permalink to this headline">¶</a></h4>
+<span id="index-4"></span><h4>WPTables<a class="headerlink" href="#wptables" title="Permalink to this headline">¶</a></h4>
 <p>the following pie charts are budget-related; makes
 only sense once the spreadsheet coupling is implemented
 a pie chart, showing total/contributed budget, per partner
@@ -1368,7 +1864,7 @@ similar to tasklist options</p>
 
 </div>
 <div class="section" id="participants">
-<h4>Participants<a class="headerlink" href="#participants" title="Permalink to this headline">¶</a></h4>
+<span id="index-5"></span><h4>Participants<a class="headerlink" href="#participants" title="Permalink to this headline">¶</a></h4>
 <p>Options to control the individual participant descriptions in Section 2.2</p>
 <dl class="describe">
 <dt>
@@ -1378,7 +1874,7 @@ similar to tasklist options</p>
 
 </div>
 <div class="section" id="latex">
-<h4>LaTeX<a class="headerlink" href="#latex" title="Permalink to this headline">¶</a></h4>
+<span id="index-6"></span><h4>LaTeX<a class="headerlink" href="#latex" title="Permalink to this headline">¶</a></h4>
 <p>Options controlling LaTeX processing
 produces file setttings.tex, included by frame.tex
 NOTE: these settings are only processed in the makefile; changing them
@@ -1456,7 +1952,7 @@ you prefer...)</p>
 
 </div>
 <div class="section" id="customlatex">
-<h4>CustomLaTeX<a class="headerlink" href="#customlatex" title="Permalink to this headline">¶</a></h4>
+<span id="index-7"></span><h4>CustomLaTeX<a class="headerlink" href="#customlatex" title="Permalink to this headline">¶</a></h4>
 <p>custom LaTeX commands
 Rationale: there might be some things you&#8217;d like to include in your proposal that
 are not fit for making in general, but can be computed based on the numbers contained in files pulled form the wiki
@@ -1493,7 +1989,7 @@ toc level</p>
 </div>
 </div>
 <div class="section" id="latextemplates-cfg">
-<h3>latexTemplates.cfg<a class="headerlink" href="#latextemplates-cfg" title="Permalink to this headline">¶</a></h3>
+<span id="sec-latextemplates-cfg"></span><h3>latexTemplates.cfg<a class="headerlink" href="#latextemplates-cfg" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">## To get this right: First line must be on the same line as the</tt></dt>
@@ -1501,7 +1997,7 @@ toc level</p>
 </dd></dl>
 
 <div class="section" id="titleheader">
-<h4>titleheader<a class="headerlink" href="#titleheader" title="Permalink to this headline">¶</a></h4>
+<span id="index-8"></span><h4>titleheader<a class="headerlink" href="#titleheader" title="Permalink to this headline">¶</a></h4>
 <p>we build the titlepage in three steps: the header,
 the table rows for the partners, and then the titlepage complete
 out of these two parts. This third part is then written to file</p>
@@ -1534,7 +2030,7 @@ noindent</p>
 
 </div>
 <div class="section" id="partnertablerow">
-<h4>partnerTableRow<a class="headerlink" href="#partnertablerow" title="Permalink to this headline">¶</a></h4>
+<span id="index-9"></span><h4>partnerTableRow<a class="headerlink" href="#partnertablerow" title="Permalink to this headline">¶</a></h4>
 <p>rows for partner table on titlepage:</p>
 <dl class="describe">
 <dt>
@@ -1564,7 +2060,7 @@ Note: sorter is optional, but only available in conjunction with joiner attribut
 
 </div>
 <div class="section" id="titlepage">
-<h4>titlepage<a class="headerlink" href="#titlepage" title="Permalink to this headline">¶</a></h4>
+<span id="index-10"></span><h4>titlepage<a class="headerlink" href="#titlepage" title="Permalink to this headline">¶</a></h4>
 <p>some alternative examples (which make no sense here, just to demonstrate):
 sorter = lambda x: x[&#8216;Shortname&#8217;]
 sorter = lambda x: x[&#8216;Nation&#8217;]
@@ -1598,7 +2094,7 @@ end{tabular}
 
 </div>
 <div class="section" id="wpsummaryrows">
-<h4>wpSummaryRows<a class="headerlink" href="#wpsummaryrows" title="Permalink to this headline">¶</a></h4>
+<span id="index-11"></span><h4>wpSummaryRows<a class="headerlink" href="#wpsummaryrows" title="Permalink to this headline">¶</a></h4>
 <p>the wp summary list</p>
 <dl class="describe">
 <dt>
@@ -1620,7 +2116,7 @@ end{tabular}
 
 </div>
 <div class="section" id="wpsummarytable">
-<h4>wpsummarytable<a class="headerlink" href="#wpsummarytable" title="Permalink to this headline">¶</a></h4>
+<span id="index-12"></span><h4>wpsummarytable<a class="headerlink" href="#wpsummarytable" title="Permalink to this headline">¶</a></h4>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -1660,7 +2156,7 @@ end{table}</p>
 
 </div>
 <div class="section" id="ganttprefix">
-<h4>ganttPrefix<a class="headerlink" href="#ganttprefix" title="Permalink to this headline">¶</a></h4>
+<span id="index-13"></span><h4>ganttPrefix<a class="headerlink" href="#ganttprefix" title="Permalink to this headline">¶</a></h4>
 <p>Gantt charts!
 First, some building blocks for various Gantt charts</p>
 <dl class="describe">
@@ -1688,7 +2184,7 @@ gantttitlelist{1,...,${duration}}{1}</p>
 
 </div>
 <div class="section" id="ganttpostfix">
-<h4>ganttPostfix<a class="headerlink" href="#ganttpostfix" title="Permalink to this headline">¶</a></h4>
+<span id="index-14"></span><h4>ganttPostfix<a class="headerlink" href="#ganttpostfix" title="Permalink to this headline">¶</a></h4>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -1698,7 +2194,7 @@ end{tikzpicture}</p>
 
 </div>
 <div class="section" id="wpmilestonesuncompressedshow">
-<h4>WpMilestonesUncompressedShow<a class="headerlink" href="#wpmilestonesuncompressedshow" title="Permalink to this headline">¶</a></h4>
+<span id="index-15"></span><h4>WpMilestonesUncompressedShow<a class="headerlink" href="#wpmilestonesuncompressedshow" title="Permalink to this headline">¶</a></h4>
 <p>and the actual gantts: first, the wp-specific gantts</p>
 <dl class="describe">
 <dt>
@@ -1743,7 +2239,7 @@ end{figure}</p>
 
 </div>
 <div class="section" id="wpmilestonesshow">
-<h4>WpMilestonesShow<a class="headerlink" href="#wpmilestonesshow" title="Permalink to this headline">¶</a></h4>
+<span id="index-16"></span><h4>WpMilestonesShow<a class="headerlink" href="#wpmilestonesshow" title="Permalink to this headline">¶</a></h4>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -1787,7 +2283,7 @@ end{figure}</p>
 
 </div>
 <div class="section" id="wpdeliverablesuncompressedshow">
-<h4>WpDeliverablesUncompressedShow<a class="headerlink" href="#wpdeliverablesuncompressedshow" title="Permalink to this headline">¶</a></h4>
+<span id="index-17"></span><h4>WpDeliverablesUncompressedShow<a class="headerlink" href="#wpdeliverablesuncompressedshow" title="Permalink to this headline">¶</a></h4>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -1831,7 +2327,7 @@ end{figure}</p>
 
 </div>
 <div class="section" id="wpdeliverablesshow">
-<h4>WpDeliverablesShow<a class="headerlink" href="#wpdeliverablesshow" title="Permalink to this headline">¶</a></h4>
+<span id="index-18"></span><h4>WpDeliverablesShow<a class="headerlink" href="#wpdeliverablesshow" title="Permalink to this headline">¶</a></h4>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -1875,7 +2371,7 @@ end{figure}</p>
 
 </div>
 <div class="section" id="ganttwp">
-<h4>ganttWP<a class="headerlink" href="#ganttwp" title="Permalink to this headline">¶</a></h4>
+<span id="index-19"></span><h4>ganttWP<a class="headerlink" href="#ganttwp" title="Permalink to this headline">¶</a></h4>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -1935,7 +2431,7 @@ end{figure}</p>
 
 </div>
 <div class="section" id="ganttwplegend">
-<h4>ganttWPLegend<a class="headerlink" href="#ganttwplegend" title="Permalink to this headline">¶</a></h4>
+<span id="index-20"></span><h4>ganttWPLegend<a class="headerlink" href="#ganttwplegend" title="Permalink to this headline">¶</a></h4>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -1994,7 +2490,7 @@ end{figure}</p>
 
 </div>
 <div class="section" id="alltaskdelmslist">
-<h4>allTaskDelMSList<a class="headerlink" href="#alltaskdelmslist" title="Permalink to this headline">¶</a></h4>
+<span id="index-21"></span><h4>allTaskDelMSList<a class="headerlink" href="#alltaskdelmslist" title="Permalink to this headline">¶</a></h4>
 <p>and prepate the complete Gantt chart for the entire project
 this happens in several steps</p>
 <dl class="describe">
@@ -2021,7 +2517,7 @@ ${milestoneGanttString}</p>
 
 </div>
 <div class="section" id="alltaskdelms">
-<h4>allTaskDelMS<a class="headerlink" href="#alltaskdelms" title="Permalink to this headline">¶</a></h4>
+<span id="index-22"></span><h4>allTaskDelMS<a class="headerlink" href="#alltaskdelms" title="Permalink to this headline">¶</a></h4>
 <p>the next one is an example with an empty template: it is only used to turn a list into
 a string</p>
 <dl class="describe">
@@ -2044,7 +2540,7 @@ a string</p>
 
 </div>
 <div class="section" id="alldellegend">
-<h4>allDelLegend<a class="headerlink" href="#alldellegend" title="Permalink to this headline">¶</a></h4>
+<span id="index-23"></span><h4>allDelLegend<a class="headerlink" href="#alldellegend" title="Permalink to this headline">¶</a></h4>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2065,7 +2561,7 @@ a string</p>
 
 </div>
 <div class="section" id="allmslegend">
-<h4>allMSLegend<a class="headerlink" href="#allmslegend" title="Permalink to this headline">¶</a></h4>
+<span id="index-24"></span><h4>allMSLegend<a class="headerlink" href="#allmslegend" title="Permalink to this headline">¶</a></h4>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2086,7 +2582,7 @@ a string</p>
 
 </div>
 <div class="section" id="completegantt">
-<h4>CompleteGantt<a class="headerlink" href="#completegantt" title="Permalink to this headline">¶</a></h4>
+<span id="index-25"></span><h4>CompleteGantt<a class="headerlink" href="#completegantt" title="Permalink to this headline">¶</a></h4>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2121,7 +2617,7 @@ end{figure}</p>
 
 </div>
 <div class="section" id="alllegend">
-<h4>allLegend<a class="headerlink" href="#alllegend" title="Permalink to this headline">¶</a></h4>
+<span id="index-26"></span><h4>allLegend<a class="headerlink" href="#alllegend" title="Permalink to this headline">¶</a></h4>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2157,7 +2653,7 @@ end{table}</p>
 
 </div>
 <div class="section" id="completeganttfacinglegend">
-<h4>CompleteGanttFacingLegend<a class="headerlink" href="#completeganttfacinglegend" title="Permalink to this headline">¶</a></h4>
+<span id="index-27"></span><h4>CompleteGanttFacingLegend<a class="headerlink" href="#completeganttfacinglegend" title="Permalink to this headline">¶</a></h4>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2202,7 +2698,7 @@ end{multicols}</p>
 
 </div>
 <div class="section" id="wptasks">
-<h4>WpTasks<a class="headerlink" href="#wptasks" title="Permalink to this headline">¶</a></h4>
+<span id="index-28"></span><h4>WpTasks<a class="headerlink" href="#wptasks" title="Permalink to this headline">¶</a></h4>
 <p>and finally: the actual WP files!</p>
 <dl class="describe">
 <dt>
@@ -2267,7 +2763,7 @@ need to think about the duration, though!</p>
 
 </div>
 <div class="section" id="wptasksdescriptions">
-<h4>WpTasksDescriptions<a class="headerlink" href="#wptasksdescriptions" title="Permalink to this headline">¶</a></h4>
+<span id="index-29"></span><h4>WpTasksDescriptions<a class="headerlink" href="#wptasksdescriptions" title="Permalink to this headline">¶</a></h4>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2338,7 +2834,7 @@ end{framed}</p>
 
 </div>
 <div class="section" id="wpdeliverables">
-<h4>WpDeliverables<a class="headerlink" href="#wpdeliverables" title="Permalink to this headline">¶</a></h4>
+<span id="index-30"></span><h4>WpDeliverables<a class="headerlink" href="#wpdeliverables" title="Permalink to this headline">¶</a></h4>
 <p>the deliverable and milestone list per WP, along with more detailed description</p>
 <dl class="describe">
 <dt>
@@ -2374,7 +2870,7 @@ ifthenelse{boolean{WPTables-deliverablesWPshowDescription}}{
 
 </div>
 <div class="section" id="wpmilestones">
-<h4>WpMilestones<a class="headerlink" href="#wpmilestones" title="Permalink to this headline">¶</a></h4>
+<span id="index-31"></span><h4>WpMilestones<a class="headerlink" href="#wpmilestones" title="Permalink to this headline">¶</a></h4>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2409,7 +2905,7 @@ ifthenelse{boolean{WPTables-milestonesWPshowDescription}}{
 
 </div>
 <div class="section" id="wp">
-<h4>Wp<a class="headerlink" href="#wp" title="Permalink to this headline">¶</a></h4>
+<span id="index-32"></span><h4>Wp<a class="headerlink" href="#wp" title="Permalink to this headline">¶</a></h4>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2480,7 +2976,7 @@ ${ganttWP_${Shortname}}</p>
 
 </div>
 <div class="section" id="deliverabletablerows">
-<h4>DeliverableTableRows<a class="headerlink" href="#deliverabletablerows" title="Permalink to this headline">¶</a></h4>
+<span id="index-33"></span><h4>DeliverableTableRows<a class="headerlink" href="#deliverabletablerows" title="Permalink to this headline">¶</a></h4>
 <p>a table to summarize all the deliverables
 again: two steps: build the rows, and then the table</p>
 <dl class="describe">
@@ -2511,7 +3007,7 @@ use deliverable id:</p>
 
 </div>
 <div class="section" id="deliverabletableshort">
-<h4>DeliverableTableShort<a class="headerlink" href="#deliverabletableshort" title="Permalink to this headline">¶</a></h4>
+<span id="index-34"></span><h4>DeliverableTableShort<a class="headerlink" href="#deliverabletableshort" title="Permalink to this headline">¶</a></h4>
 <p>if you just want to sort by id, then simply use:
 sorter = lambda x: x[&#8216;id&#8217;]</p>
 <dl class="describe">
@@ -2540,7 +3036,7 @@ end{table}</p>
 
 </div>
 <div class="section" id="deliverabletablelong">
-<h4>DeliverableTableLong<a class="headerlink" href="#deliverabletablelong" title="Permalink to this headline">¶</a></h4>
+<span id="index-35"></span><h4>DeliverableTableLong<a class="headerlink" href="#deliverabletablelong" title="Permalink to this headline">¶</a></h4>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2574,7 +3070,7 @@ end{center}</p>
 
 </div>
 <div class="section" id="deliverabletable">
-<h4>DeliverableTable<a class="headerlink" href="#deliverabletable" title="Permalink to this headline">¶</a></h4>
+<span id="index-36"></span><h4>DeliverableTable<a class="headerlink" href="#deliverabletable" title="Permalink to this headline">¶</a></h4>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2601,7 +3097,7 @@ end{center}</p>
 
 </div>
 <div class="section" id="milestonetablerows">
-<h4>MilestoneTableRows<a class="headerlink" href="#milestonetablerows" title="Permalink to this headline">¶</a></h4>
+<span id="index-37"></span><h4>MilestoneTableRows<a class="headerlink" href="#milestonetablerows" title="Permalink to this headline">¶</a></h4>
 <p>and a table for the milestones  - same structure as for the deliverable table</p>
 <dl class="describe">
 <dt>
@@ -2629,7 +3125,7 @@ end{center}</p>
 
 </div>
 <div class="section" id="milestonetableshort">
-<h4>MilestoneTableShort<a class="headerlink" href="#milestonetableshort" title="Permalink to this headline">¶</a></h4>
+<span id="index-38"></span><h4>MilestoneTableShort<a class="headerlink" href="#milestonetableshort" title="Permalink to this headline">¶</a></h4>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2656,7 +3152,7 @@ end{table}</p>
 
 </div>
 <div class="section" id="milestonetablelong">
-<h4>MilestoneTableLong<a class="headerlink" href="#milestonetablelong" title="Permalink to this headline">¶</a></h4>
+<span id="index-39"></span><h4>MilestoneTableLong<a class="headerlink" href="#milestonetablelong" title="Permalink to this headline">¶</a></h4>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2690,7 +3186,7 @@ end{center}</p>
 
 </div>
 <div class="section" id="milestonetable">
-<h4>MilestoneTable<a class="headerlink" href="#milestonetable" title="Permalink to this headline">¶</a></h4>
+<span id="index-40"></span><h4>MilestoneTable<a class="headerlink" href="#milestonetable" title="Permalink to this headline">¶</a></h4>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2717,7 +3213,7 @@ end{center}</p>
 
 </div>
 <div class="section" id="summaryeffortrows">
-<h4>summaryEffortRows<a class="headerlink" href="#summaryeffortrows" title="Permalink to this headline">¶</a></h4>
+<span id="index-41"></span><h4>summaryEffortRows<a class="headerlink" href="#summaryeffortrows" title="Permalink to this headline">¶</a></h4>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2741,7 +3237,7 @@ end{center}</p>
 
 </div>
 <div class="section" id="summaryeffort">
-<h4>summaryEffort<a class="headerlink" href="#summaryeffort" title="Permalink to this headline">¶</a></h4>
+<span id="index-42"></span><h4>summaryEffort<a class="headerlink" href="#summaryeffort" title="Permalink to this headline">¶</a></h4>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2785,7 +3281,7 @@ end{table}
 
 </div>
 <div class="section" id="effortpertaskrows">
-<h4>effortPerTaskRows<a class="headerlink" href="#effortpertaskrows" title="Permalink to this headline">¶</a></h4>
+<span id="index-43"></span><h4>effortPerTaskRows<a class="headerlink" href="#effortpertaskrows" title="Permalink to this headline">¶</a></h4>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2824,7 +3320,7 @@ ee[&#8216;partner&#8217;] == p[&#8216;Shortname&#8217;]] ]
 
 </div>
 <div class="section" id="effortpertaskrowswp">
-<h4>effortPerTaskRowsWP<a class="headerlink" href="#effortpertaskrowswp" title="Permalink to this headline">¶</a></h4>
+<span id="index-44"></span><h4>effortPerTaskRowsWP<a class="headerlink" href="#effortpertaskrowswp" title="Permalink to this headline">¶</a></h4>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2857,7 +3353,7 @@ for p in partnerList]) %}</p>
 
 </div>
 <div class="section" id="effortheader">
-<h4>effortHeader<a class="headerlink" href="#effortheader" title="Permalink to this headline">¶</a></h4>
+<span id="index-45"></span><h4>effortHeader<a class="headerlink" href="#effortheader" title="Permalink to this headline">¶</a></h4>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2874,7 +3370,7 @@ hline</p>
 
 </div>
 <div class="section" id="effortsum">
-<h4>effortSum<a class="headerlink" href="#effortsum" title="Permalink to this headline">¶</a></h4>
+<span id="index-46"></span><h4>effortSum<a class="headerlink" href="#effortsum" title="Permalink to this headline">¶</a></h4>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2894,7 +3390,7 @@ for p in partnerList]) %}</p>
 
 </div>
 <div class="section" id="effortpertasktableshort">
-<h4>effortPerTaskTableShort<a class="headerlink" href="#effortpertasktableshort" title="Permalink to this headline">¶</a></h4>
+<span id="index-47"></span><h4>effortPerTaskTableShort<a class="headerlink" href="#effortpertasktableshort" title="Permalink to this headline">¶</a></h4>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2924,7 +3420,7 @@ ifthenelse{boolean{LaTeX-effortTableLandscape}}{end{landscape}}{}</p>
 
 </div>
 <div class="section" id="effortpertasktablemultipage">
-<h4>effortPerTaskTableMultipage<a class="headerlink" href="#effortpertasktablemultipage" title="Permalink to this headline">¶</a></h4>
+<span id="index-48"></span><h4>effortPerTaskTableMultipage<a class="headerlink" href="#effortpertasktablemultipage" title="Permalink to this headline">¶</a></h4>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2954,7 +3450,7 @@ ifthenelse{boolean{LaTeX-effortTableLandscape}}{end{landscape}}{}</p>
 
 </div>
 <div class="section" id="effortpertasktable">
-<h4>effortPerTaskTable<a class="headerlink" href="#effortpertasktable" title="Permalink to this headline">¶</a></h4>
+<span id="index-49"></span><h4>effortPerTaskTable<a class="headerlink" href="#effortpertasktable" title="Permalink to this headline">¶</a></h4>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2985,7 +3481,7 @@ ifthenelse{boolean{LaTeX-effortTableLandscape}}{end{landscape}}{}</p>
 
 </div>
 <div class="section" id="piepmspartners">
-<h4>piePMsPartners<a class="headerlink" href="#piepmspartners" title="Permalink to this headline">¶</a></h4>
+<span id="index-50"></span><h4>piePMsPartners<a class="headerlink" href="#piepmspartners" title="Permalink to this headline">¶</a></h4>
 <p>pie charts
 a pie chart showing person months distributed over partners</p>
 <dl class="describe">
@@ -3026,7 +3522,7 @@ end{figure}
 
 </div>
 <div class="section" id="piepmswps">
-<h4>piePMsWPs<a class="headerlink" href="#piepmswps" title="Permalink to this headline">¶</a></h4>
+<span id="index-51"></span><h4>piePMsWPs<a class="headerlink" href="#piepmswps" title="Permalink to this headline">¶</a></h4>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3065,7 +3561,7 @@ end{figure}
 
 </div>
 <div class="section" id="piepmsnations">
-<h4>piePMsNations<a class="headerlink" href="#piepmsnations" title="Permalink to this headline">¶</a></h4>
+<span id="index-52"></span><h4>piePMsNations<a class="headerlink" href="#piepmsnations" title="Permalink to this headline">¶</a></h4>
 <p>pie chart over person months assigned to different nations
 a little bit more complicated: we need to pull out the (Nation/Effort) pairs.
 those we get from allEfforts, where we look up the nation in the partnerList
@@ -3114,7 +3610,7 @@ end{figure}
 
 </div>
 <div class="section" id="piepmspartnertypes">
-<h4>piePMsPartnerTypes<a class="headerlink" href="#piepmspartnertypes" title="Permalink to this headline">¶</a></h4>
+<span id="index-53"></span><h4>piePMsPartnerTypes<a class="headerlink" href="#piepmspartnertypes" title="Permalink to this headline">¶</a></h4>
 <p>same thing that worked for the nation pie charts works for the partner type pie charts as well</p>
 <dl class="describe">
 <dt>
@@ -3158,6 +3654,467 @@ end{figure}
 
 </div>
 </div>
+<div class="section" id="makefile">
+<span id="sec-makefile"></span><h3>Makefile<a class="headerlink" href="#makefile" title="Permalink to this headline">¶</a></h3>
+<p># .. code-block:: make</p>
+<div class="highlight-make"><div class="highlight"><pre><span class="c"># where is the settings file? </span>
+<span class="nv">SETTINGS</span> <span class="o">=</span> settings.cfg
+
+<span class="c"># which flags to use? -v is verbose for all scripts </span>
+<span class="nv">FLAGS</span> <span class="o">=</span> -v 
+
+
+<span class="c">### extract relevant path names from settings.cfg </span>
+
+<span class="nv">PROJECTNAME</span>  <span class="o">=</span> <span class="k">$(</span>strip <span class="k">$(</span>shell grep <span class="s2">&quot;projectName &quot;</span> <span class="k">${</span><span class="nv">SETTINGS</span><span class="k">}</span> | cut -f 2 -d <span class="o">=</span> <span class="k">))</span>
+<span class="nv">BINPATH</span> <span class="o">=</span> <span class="k">$(</span>shell grep <span class="s2">&quot;binpath &quot;</span> <span class="k">${</span><span class="nv">SETTINGS</span><span class="k">}</span> | cut -f 2 -d <span class="o">=</span> <span class="k">)</span>
+<span class="nv">WIKIPATH</span> <span class="o">=</span> <span class="k">$(</span>shell grep <span class="s2">&quot;wikipath &quot;</span> <span class="k">${</span><span class="nv">SETTINGS</span><span class="k">}</span> | cut -f 2 -d <span class="o">=</span> <span class="k">)</span>
+<span class="nv">XMLPATH</span> <span class="o">=</span> <span class="k">$(</span>shell grep <span class="s2">&quot;xmlpath &quot;</span> <span class="k">${</span><span class="nv">SETTINGS</span><span class="k">}</span> | cut -f 2 -d <span class="o">=</span> <span class="k">)</span>
+<span class="nv">LATEXPATH</span> <span class="o">=</span> <span class="k">$(</span>strip <span class="k">$(</span>shell grep <span class="s2">&quot;manuallatexpath &quot;</span> <span class="k">${</span><span class="nv">SETTINGS</span><span class="k">}</span> | cut -f 2 -d <span class="o">=</span> <span class="k">))</span>
+<span class="nv">GENERATEDLATEXPATH</span> <span class="o">=</span> <span class="k">$(</span>shell grep <span class="s2">&quot;genlatexpath &quot;</span> <span class="k">${</span><span class="nv">SETTINGS</span><span class="k">}</span> | cut -f 2 -d <span class="o">=</span> <span class="k">)</span>
+<span class="nv">LATEXLINKS</span> <span class="o">=</span>  <span class="k">$(</span>shell find <span class="k">${</span><span class="nv">LATEXPATH</span><span class="k">}</span> -type l<span class="k">)</span>
+
+<span class="c">####################################</span>
+.PHONY: proposal pdf clean pullproject xml latexFromWiki latexFromXML ensureSymbolicLinks fullcommit
+<span class="c">####################################</span>
+
+
+proposal: 
+	make pullproject
+	make xml 
+	make latexFromWiki
+	make latexFromXML
+	make ensureSymbolicLinks 
+	make pdf 
+
+pullproject: 
+	<span class="nb">cd</span> <span class="k">${</span><span class="nv">BINPATH</span><span class="k">}</span> ; python pullProject.py -s ../<span class="k">$(</span>SETTINGS<span class="k">)</span> <span class="k">$(</span>FLAGS<span class="k">)</span> 
+
+xml:
+	<span class="nb">cd</span> <span class="k">${</span><span class="nv">BINPATH</span><span class="k">}</span> ; python generateXML.py -s ../<span class="k">$(</span>SETTINGS<span class="k">)</span> <span class="k">$(</span>FLAGS<span class="k">)</span> 
+
+latexFromWiki:
+	<span class="nb">cd</span> <span class="k">${</span><span class="nv">BINPATH</span><span class="k">}</span> ; python latexFromWiki.py -s ../<span class="k">$(</span>SETTINGS<span class="k">)</span> <span class="k">$(</span>FLAGS<span class="k">)</span> 
+
+latexFromXML:
+	<span class="nb">cd</span> <span class="k">${</span><span class="nv">BINPATH</span><span class="k">}</span> ; python latexFromXML.py  -s ../<span class="k">$(</span>SETTINGS<span class="k">)</span> <span class="k">$(</span>FLAGS<span class="k">)</span> 
+
+ensureSymbolicLinks:
+	<span class="nb">cd</span> <span class="k">${</span><span class="nv">BINPATH</span><span class="k">}</span> ; python ensureSymbolicLinks.py   -s ../<span class="k">$(</span>SETTINGS<span class="k">)</span> <span class="k">$(</span>FLAGS<span class="k">)</span> 
+
+pdf: 
+	<span class="nb">cd</span> <span class="k">${</span><span class="nv">LATEXPATH</span><span class="k">}</span>; pdflatex main; bibtex main; pdflatex main; pdflatex main 
+	cp <span class="k">${</span><span class="nv">LATEXPATH</span><span class="k">}</span>/main.pdf <span class="k">${</span><span class="nv">PROJECTNAME</span><span class="k">}</span>.pdf
+
+
+clean:
+	find <span class="k">${</span><span class="nv">WIKIPATH</span><span class="k">}</span> -type f -print | grep -v README | xargs rm 
+	find <span class="k">${</span><span class="nv">XMLPATH</span><span class="k">}</span> -type f -print | grep -v README | xargs rm 
+	find <span class="k">${</span><span class="nv">GENERATEDLATEXPATH</span><span class="k">}</span> -type f -print | grep -v README | xargs rm 
+<span class="c">	# remove empty symbolic links from latex path - this is debatable! </span>
+	<span class="nb">cd</span> <span class="k">${</span><span class="nv">LATEXPATH</span><span class="k">}</span> ; rm -f main.aux main.lof main.log main.lot main.lox main.out main.toc main.bbl main.blg 
+	<span class="k">for </span>d in <span class="k">${</span><span class="nv">LATEXLINKS</span><span class="k">}</span>; <span class="k">do </span><span class="nb">test</span> ! -e <span class="nv">$$</span>d <span class="o">&amp;&amp;</span> rm <span class="nv">$$</span>d ; <span class="k">done  </span>
+
+fullcommit: 
+	make clean 
+	make proposal 
+	make clean 
+	<span class="nb">cd </span>docsource ; make install
+	git commit -a -m <span class="s2">&quot;a full commit triggered by the makefile&quot;</span> 
+</pre></div>
+</div>
+</div>
+<div class="section" id="main-tex">
+<span id="sec-mainlatex"></span><h3>main.tex<a class="headerlink" href="#main-tex" title="Permalink to this headline">¶</a></h3>
+<p>TODO</p>
+<div class="highlight-latex"><div class="highlight"><pre><span class="k">\documentclass</span><span class="na">[a4paper,11pt,twoside]</span><span class="nb">{</span>scrreprt<span class="nb">}</span>
+
+
+<span class="c">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+<span class="c">% packages were the user might want to configure a few things: </span>
+
+
+<span class="c">% should there be space for page headings in the page layout? </span>
+<span class="k">\usepackage</span><span class="nb">{</span>fullpage<span class="nb">}</span>
+<span class="c">% \usepackage[headings]{fullpage}</span>
+
+<span class="c">%% KOMA Options (for details and further options, look into the KOMA </span>
+<span class="c">%% documentation) </span>
+<span class="c">% should there be horizontal lines in header and footer? </span>
+<span class="c">% \KOMAoptions{headsepline=true,footsepline=true}</span>
+
+<span class="c">% should there be standard headings? </span>
+<span class="c">%\KOMAoptions{headings=normal}</span>
+
+
+<span class="c">% how should fixme&#39;s be displayed? </span>
+<span class="k">\usepackage</span><span class="na">[inline,nomargin,draft]</span><span class="nb">{</span>fixme<span class="nb">}</span>
+
+<span class="c">% to display the commission hints: </span>
+<span class="k">\newcommand</span><span class="nb">{</span><span class="k">\commissionhints</span><span class="nb">}</span>[1]<span class="nb">{</span><span class="k">\small</span> <span class="k">\textit</span><span class="nb">{</span>#1<span class="nb">}}</span>
+
+
+
+
+<span class="c">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+<span class="c">% packages that are needed or highly advisable, </span>
+<span class="c">% but which should not needed any configuration </span>
+
+<span class="k">\usepackage</span><span class="na">[utf8]</span><span class="nb">{</span>inputenc<span class="nb">}</span>
+
+<span class="k">\usepackage</span><span class="nb">{</span>checkend<span class="nb">}</span>
+<span class="k">\usepackage</span><span class="nb">{</span>varioref<span class="nb">}</span>
+<span class="k">\usepackage</span><span class="nb">{</span>subfigure<span class="nb">}</span>
+<span class="k">\usepackage</span><span class="nb">{</span>hyperref<span class="nb">}</span>
+<span class="k">\usepackage</span><span class="nb">{</span>booktabs<span class="nb">}</span>
+<span class="k">\usepackage</span><span class="nb">{</span>xtab<span class="nb">}</span>
+<span class="k">\usepackage</span><span class="nb">{</span>tabularx<span class="nb">}</span>
+<span class="k">\usepackage</span><span class="nb">{</span>adjustbox<span class="nb">}</span>
+<span class="k">\usepackage</span><span class="nb">{</span>capt-of<span class="nb">}</span>
+<span class="k">\usepackage</span><span class="nb">{</span>acronym<span class="nb">}</span>
+
+<span class="k">\usepackage</span><span class="nb">{</span>pdflscape<span class="nb">}</span>
+<span class="k">\newlength\landscapewidth</span>
+<span class="k">\newlength\landscapeheight</span>
+
+<span class="k">\usepackage</span><span class="nb">{</span>multicol<span class="nb">}</span>
+
+<span class="k">\usepackage</span><span class="na">[table]</span><span class="nb">{</span>xcolor<span class="nb">}</span>
+<span class="k">\usepackage</span><span class="na">[alwaysadjust]</span><span class="nb">{</span>paralist<span class="nb">}</span>
+<span class="k">\usepackage</span><span class="nb">{</span>url<span class="nb">}</span>
+<span class="k">\usepackage</span><span class="nb">{</span>calc<span class="nb">}</span>
+<span class="k">\usepackage</span><span class="nb">{</span>ifthen<span class="nb">}</span>
+<span class="k">\usepackage</span><span class="nb">{</span>tikz<span class="nb">}</span>
+<span class="k">\usepackage</span><span class="nb">{</span>styles/pgf-pie<span class="nb">}</span>
+
+<span class="k">\usepackage</span><span class="nb">{</span>framed<span class="nb">}</span>
+<span class="k">\usepackage</span><span class="nb">{</span>comment<span class="nb">}</span>
+
+<span class="k">\usepackage</span><span class="nb">{</span>mathptmx<span class="nb">}</span>
+<span class="k">\usepackage</span><span class="na">[scaled=.90]</span><span class="nb">{</span>helvet<span class="nb">}</span>
+<span class="k">\usepackage</span><span class="nb">{</span>courier<span class="nb">}</span>
+
+
+<span class="k">\usepackage</span><span class="nb">{</span>textcomp<span class="nb">}</span>           <span class="c">%for euro symbol</span>
+
+<span class="k">\usepackage</span><span class="nb">{</span>graphicx<span class="nb">}</span>
+<span class="k">\graphicspath</span><span class="nb">{{</span>Figures/<span class="nb">}{</span>figures/<span class="nb">}}</span>
+
+<span class="c">%%% make sure to use the pgfgantt file from the SVN! </span>
+<span class="k">\usepackage</span><span class="nb">{</span>styles/pgfgantt<span class="nb">}</span>
+
+<span class="c">%%% Needed to redefine bibliography environment to get rid of the</span>
+<span class="c">%%% chapter heading </span>
+<span class="k">\usepackage</span><span class="nb">{</span>styles/bibhack<span class="nb">}</span>
+
+
+
+<span class="c">%%%% to get references to WPs and tasks </span>
+<span class="k">\newcounter</span><span class="nb">{</span>wpcounter<span class="nb">}</span>
+<span class="k">\newcounter</span><span class="nb">{</span>taskcounter<span class="nb">}</span>[wpcounter]
+
+
+<span class="c">%%%% to get references to the deliverables </span>
+<span class="k">\makeatletter</span>
+<span class="k">\newcommand</span><span class="nb">{</span><span class="k">\labitem</span><span class="nb">}</span>[2]<span class="nb">{</span><span class="c">%</span>
+<span class="k">\def\@</span>itemlabel<span class="nb">{</span><span class="k">\textbf</span><span class="nb">{</span>#1<span class="nb">}</span>:<span class="nb">}</span>
+<span class="k">\item</span>
+<span class="k">\def\@</span>currentlabel<span class="nb">{</span>#1<span class="nb">}</span><span class="k">\label</span><span class="nb">{</span>#2<span class="nb">}}</span>
+<span class="k">\makeatother</span>
+
+
+
+<span class="c">% compact bibliography: </span>
+<span class="k">\let\oldbibliography\thebibliography</span>
+<span class="k">\renewcommand</span><span class="nb">{</span><span class="k">\thebibliography</span><span class="nb">}</span>[1]<span class="nb">{</span><span class="c">%</span>
+  <span class="k">\oldbibliography</span><span class="nb">{</span>#1<span class="nb">}</span><span class="c">%</span>
+  <span class="k">\setlength</span><span class="nb">{</span><span class="k">\itemsep</span><span class="nb">}{</span>0pt<span class="nb">}</span><span class="c">%</span>
+<span class="nb">}</span>
+
+
+<span class="c">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+<span class="c">%%%% import all the settings that result from switches in settings.cfg </span>
+<span class="k">\input</span><span class="nb">{</span>settings<span class="nb">}</span>
+
+<span class="c">% how deeply should headings be numbered? </span>
+<span class="k">\setcounter</span><span class="nb">{</span>secnumdepth<span class="nb">}{</span><span class="k">\secNumDepth</span><span class="nb">}</span>
+
+<span class="c">% to what level should the table of content display sections? </span>
+<span class="k">\setcounter</span><span class="nb">{</span>tocdepth<span class="nb">}{</span><span class="k">\tocLevel</span><span class="nb">}</span>
+
+<span class="c">%%%%%</span>
+<span class="c">% compact lists options </span>
+<span class="c">% TODO: check whether this works before loading the package? </span>
+<span class="k">\setlength</span><span class="nb">{</span><span class="k">\pltopsep</span><span class="nb">}{</span>0.5ex<span class="nb">}</span>
+<span class="k">\setlength</span><span class="nb">{</span><span class="k">\plitemsep</span><span class="nb">}{</span>0.25ex<span class="nb">}</span>
+
+
+<span class="k">\begin</span><span class="nb">{</span>document<span class="nb">}</span>
+
+<span class="k">\setlength\landscapewidth</span><span class="nb">{</span><span class="k">\textheight</span><span class="nb">}</span>
+<span class="k">\setlength\landscapeheight</span><span class="nb">{</span><span class="k">\textwidth</span>+2<span class="k">\headsep</span><span class="nb">}</span>
+
+
+
+<span class="k">\pagenumbering</span><span class="nb">{</span>roman<span class="nb">}</span>
+<span class="k">\thispagestyle</span><span class="nb">{</span>empty<span class="nb">}</span>
+<span class="k">\input</span><span class="nb">{</span>titlepage<span class="nb">}</span>
+
+
+<span class="k">\newpage</span>
+<span class="k">\noindent</span> <span class="k">\textbf</span><span class="nb">{</span>Proposal Abstract<span class="nb">}</span>
+<span class="k">\addcontentsline</span><span class="nb">{</span>toc<span class="nb">}{</span>chapter<span class="nb">}{</span><span class="k">\numberline</span><span class="nb">{}</span>Abstract<span class="nb">}</span>
+<span class="k">\par\medskip\noindent</span>
+<span class="k">\input</span><span class="nb">{</span>../generated/latex/ProposalAbstract<span class="nb">}</span>
+
+
+<span class="nb">{</span><span class="k">\small\tableofcontents</span>
+<span class="k">\ifthenelse</span><span class="nb">{</span><span class="k">\boolean</span><span class="nb">{</span>LaTeX-showListOfTables<span class="nb">}}{</span>
+  <span class="k">\listoftables</span>
+  <span class="k">\addcontentsline</span><span class="nb">{</span>toc<span class="nb">}{</span>chapter<span class="nb">}{</span><span class="k">\numberline</span><span class="nb">{}</span>List of Tables<span class="nb">}</span>
+<span class="nb">}{}</span>
+<span class="k">\ifthenelse</span><span class="nb">{</span><span class="k">\boolean</span><span class="nb">{</span>LaTeX-showListOfFigures<span class="nb">}}{</span>
+  <span class="k">\listoffigures</span>
+  <span class="k">\addcontentsline</span><span class="nb">{</span>toc<span class="nb">}{</span>chapter<span class="nb">}{</span><span class="k">\numberline</span><span class="nb">{}</span>List of Figures<span class="nb">}</span>
+<span class="nb">}{}</span>
+<span class="k">\ifthenelse</span><span class="nb">{</span><span class="k">\boolean</span><span class="nb">{</span>LaTeX-showAcronymList<span class="nb">}}{</span>
+  <span class="k">\input</span><span class="nb">{</span>AcronymsList<span class="nb">}}{}</span>
+<span class="nb">}</span>
+
+
+<span class="k">\ifthenelse</span><span class="nb">{</span><span class="k">\boolean</span><span class="nb">{</span>LaTeX-showWarnings<span class="nb">}}{</span>
+<span class="k">\listoffixmes</span>
+<span class="k">\IfFileExists</span><span class="nb">{</span>warnings.tex<span class="nb">}{</span>
+  <span class="k">\begin</span><span class="nb">{</span>compactitem<span class="nb">}</span>
+    <span class="k">\input</span><span class="nb">{</span>warnings<span class="nb">}</span>
+  <span class="k">\end</span><span class="nb">{</span>compactitem<span class="nb">}}{</span>No warnings found!<span class="nb">}</span>
+<span class="nb">}{</span><span class="k">\renewcommand</span><span class="nb">{</span><span class="k">\fxnote</span><span class="nb">}</span>[1]<span class="nb">{}</span>
+<span class="k">\renewcommand</span><span class="nb">{</span><span class="k">\fxwarning</span><span class="nb">}</span>[1]<span class="nb">{}</span>
+<span class="k">\renewcommand</span><span class="nb">{</span><span class="k">\fxerror</span><span class="nb">}</span>[1]<span class="nb">{}</span>
+<span class="k">\renewcommand</span><span class="nb">{</span><span class="k">\fxfatal</span><span class="nb">}</span>[1]<span class="nb">{}</span>
+<span class="nb">}</span>
+
+
+<span class="k">\cleardoublepage</span>
+<span class="k">\setcounter</span><span class="nb">{</span>part<span class="nb">}{</span>2<span class="nb">}</span><span class="c">% part B</span>
+
+<span class="k">\chapter</span><span class="nb">{</span>Scientific and Technical Quality<span class="nb">}</span>
+<span class="k">\label</span><span class="nb">{</span>chap:quality<span class="nb">}</span>
+<span class="k">\pagenumbering</span><span class="nb">{</span>arabic<span class="nb">}</span>
+<span class="k">\commissionhints</span><span class="nb">{</span>MAximum length for the whole of Section 1 
+--  twenty pages, not including the tables in Section 1.3<span class="nb">}</span>
+
+<span class="k">\input</span><span class="nb">{</span>ConceptAndObjectives<span class="nb">}</span>
+
+<span class="k">\input</span><span class="nb">{</span>ProgressBeyondStateoftheArt<span class="nb">}</span>
+
+
+<span class="k">\input</span><span class="nb">{</span>MethodologyWorkplan<span class="nb">}</span>
+
+
+<span class="k">\input</span><span class="nb">{</span>WorkPlanning<span class="nb">}</span>
+
+
+
+<span class="k">\input</span><span class="nb">{</span>figures/tables/wpsummarytable<span class="nb">}</span>
+
+<span class="c">%%% a little demo to include all gantt charts, likely not useful! </span>
+<span class="c">% \input{figures/gantts/demoGantts}</span>
+
+<span class="c">% long Gantt charts might be best put on two pages, left the chart,</span>
+<span class="c">% right the legend: </span>
+<span class="c">%\input{figures/gantts/CompleteGanttFacingLegend}</span>
+
+<span class="c">% smaller Gantt chart and legend might be nicely put in</span>
+<span class="c">% standard floating environments</span>
+<span class="k">\input</span><span class="nb">{</span>figures/gantts/CompleteGantt<span class="nb">}</span>
+<span class="k">\input</span><span class="nb">{</span>figures/gantts/allLegend<span class="nb">}</span>
+
+<span class="c">% %%%</span>
+
+<span class="k">\input</span><span class="nb">{</span>DeliverableList<span class="nb">}</span>
+
+
+<span class="c">% \input{tables/alldeliverableTable}</span>
+
+
+<span class="k">\subsection</span><span class="nb">{</span>Work Packages<span class="nb">}</span>
+<span class="k">\label</span><span class="nb">{</span>sec:workpackages<span class="nb">}</span>
+<span class="k">\input</span><span class="nb">{</span>wp/wpIncluder<span class="nb">}</span>
+
+<span class="k">\clearpage</span> 
+<span class="k">\input</span><span class="nb">{</span>figures/tables/summaryEffort<span class="nb">}</span>
+<span class="k">\input</span><span class="nb">{</span>figures/tables/effortPerTaskTable<span class="nb">}</span>
+
+
+
+
+
+<span class="k">\chapter</span><span class="nb">{</span>Implementation<span class="nb">}</span>
+<span class="k">\label</span><span class="nb">{</span>chap:implementation<span class="nb">}</span>
+
+
+<span class="k">\input</span><span class="nb">{</span>ManagementStructureAndProcedures<span class="nb">}</span>
+
+
+
+<span class="k">\section</span><span class="nb">{</span>Individual Participants<span class="nb">}</span>
+<span class="k">\label</span><span class="nb">{</span>sec:partners<span class="nb">}</span>
+<span class="k">\commissionhints</span><span class="nb">{</span>  For each participant in the proposed project, provide a brief description of the
+  organisation, the main tasks they have been attributed, and the previous experience
+  relevant to those tasks. Provide also a short profile of the staff members who will be
+  undertaking the work.
+  <span class="k">\\</span>
+Maximum length for Section 2.2: one page per participant. However, where two or more departments within an organisation have quite distinct roles within the proposal, one page per department is acceptable. 
+The maximum length applying to a legal entity composed of several members, each of which is a separate legal entity (for example an EEIG), is one page per member, provided that the members have quite distinct roles within the proposal.
+<span class="nb">}</span>
+
+<span class="k">\input</span><span class="nb">{</span>partners/partnersIncluder<span class="nb">}</span>
+
+
+
+<span class="k">\input</span><span class="nb">{</span>ConsortiumAsaWhole<span class="nb">}</span>
+
+
+
+<span class="k">\input</span><span class="nb">{</span>SubContracting<span class="nb">}</span>
+
+<span class="k">\input</span><span class="nb">{</span>OtherCountries<span class="nb">}</span>
+
+<span class="k">\input</span><span class="nb">{</span>AdditionalPartners<span class="nb">}</span>
+
+<span class="k">\input</span><span class="nb">{</span>ResourcesToBeCommitted<span class="nb">}</span>
+
+
+<span class="c">%%%%%%%%</span>
+
+<span class="k">\input</span><span class="nb">{</span>figures/pies/piePMsWPs<span class="nb">}</span>
+<span class="k">\input</span><span class="nb">{</span>figures/pies/piePMsPartners<span class="nb">}</span>
+<span class="k">\input</span><span class="nb">{</span>figures/pies/piePMsNations<span class="nb">}</span>
+<span class="k">\input</span><span class="nb">{</span>figures/pies/piePMsPartnerTypes<span class="nb">}</span>
+
+<span class="c">% can&#39;t do contribs yet, needs spreadsheet input</span>
+<span class="c">% \ifthenelse{\boolean{Summaries-pieContribPerPartner}}{</span>
+<span class="c">% \begin{figure}[htbp]</span>
+<span class="c">%   \centering</span>
+<span class="c">%   \input{wp/contribPartner}</span>
+<span class="c">%   \caption{Distribution of EU contribution over partners  (in percent)}</span>
+<span class="c">%   \label{fig:contrib:pie:partner}</span>
+<span class="c">% \end{figure}</span>
+<span class="c">% }{}</span>
+
+
+<span class="c">% \ifthenelse{\boolean{Summaries-pieContribPerPartnerType}}{</span>
+<span class="c">% \begin{figure}[htbp]</span>
+<span class="c">%   \centering</span>
+<span class="c">%   \input{wp/contribType}</span>
+<span class="c">%   \caption{Distribution of EU contribution over partner kinds (in percent)}</span>
+<span class="c">%   \label{fig:contrib:pie:kind}</span>
+<span class="c">% \end{figure}</span>
+<span class="c">% }{}</span>
+
+
+
+<span class="c">% \ifthenelse{\boolean{Summaries-pieContribPerNation}}{</span>
+<span class="c">% \begin{figure}[htbp]</span>
+<span class="c">%   \centering</span>
+<span class="c">%   \input{wp/contribNation}</span>
+<span class="c">%   \caption{Distribution of EU contribution over partner nations  (in percent)}</span>
+<span class="c">%   \label{fig:contrib:pie:nation}</span>
+<span class="c">% \end{figure}</span>
+<span class="c">% }{}</span>
+
+
+<span class="k">\chapter</span><span class="nb">{</span>Impact<span class="nb">}</span><span class="k">\label</span><span class="nb">{</span>chap:impact<span class="nb">}</span>
+<span class="k">\commissionhints</span><span class="nb">{</span>Recommended length for the whole of Section 3 --- ten
+  pages<span class="nb">}</span>
+
+
+<span class="k">\input</span><span class="nb">{</span>ExpectedImpact<span class="nb">}</span>
+
+<span class="k">\input</span><span class="nb">{</span>DisseminationExploitation<span class="nb">}</span>
+
+
+<span class="k">\chapter</span><span class="nb">{</span>Ethical Issues<span class="nb">}</span><span class="k">\label</span><span class="nb">{</span>chap:ethical<span class="nb">}</span>
+<span class="k">\commissionhints</span><span class="nb">{</span> <span class="c">%</span>
+  Describe any ethical issues that may arise in the project. In particular, you should
+  explain the benefit and burden of the experiments and the effects it may have on the
+  research subject. Identify the countries where research will be undertaken and which
+  ethical committees and regulatory organisations will need to be approached during the
+  life of the project.
+<span class="k">\\</span>
+  Include the Ethical issues table below.  If you indicate YES to any issue, please
+  identify the pages in the proposal where this ethical issue is described. Answering
+  &#39;YES&#39; to some of these boxes does not automatically lead to an ethical review1.  It
+  enables the independent experts to decide if an ethical review is required. If you are
+  sure that none of the issues apply to your proposal, simply tick the YES box in the last
+  row.
+<span class="k">\\</span>
+In particular: Data protection issues: Avoid the unnecessary collection and use of
+personal data. Identify the source of the data, describing whether it
+is collected as part of the research or is previously collected data
+being used. Consider issues of informed consent for any data being
+used. Describe how personal identify of the data is protected. Data
+protection issues require authorisation from the national data
+protection authorities. 
+<span class="nb">}</span>
+
+<span class="k">\begin</span><span class="nb">{</span>small<span class="nb">}</span>
+<span class="k">\begin</span><span class="nb">{</span>tabular<span class="nb">}{</span>|p<span class="nb">{</span>1em<span class="nb">}</span>p<span class="nb">{</span>11cm<span class="nb">}</span>|l|l|<span class="nb">}</span><span class="k">\hline</span>
+<span class="c">%   \multicolumn{2}{|l|}{\cellcolor{lightgray}{\strut}} &amp; </span>
+  <span class="k">\multicolumn</span><span class="nb">{</span>2<span class="nb">}{</span>|l|<span class="nb">}{{</span><span class="k">\strut</span><span class="nb">}}</span> <span class="nb">&amp;</span> 
+ <span class="nb">{</span>YES<span class="nb">}</span> <span class="nb">&amp;</span> 
+<span class="c">%   \cellcolor{lightgray}{PAGE}\\\hline </span>
+  <span class="nb">{</span>PAGE<span class="nb">}</span><span class="k">\\\hline</span> 
+ <span class="k">\multicolumn</span><span class="nb">{</span>2<span class="nb">}{</span>|l|<span class="nb">}{</span><span class="k">\bf</span><span class="nb">{</span>Informed Consent<span class="nb">}}</span> <span class="nb">&amp;</span> <span class="nb">&amp;</span> <span class="k">\\\hline</span>
+  <span class="nb">&amp;</span> Does the proposal involve children?  <span class="nb">&amp;</span> <span class="nb">&amp;</span> <span class="k">\\\hline</span>
+  <span class="nb">&amp;</span> Does the proposal involve patients or persons not able to give consent? <span class="nb">&amp;</span> <span class="nb">&amp;</span> <span class="k">\\\hline</span>
+  <span class="nb">&amp;</span> Does the proposal involve adult healthy volunteers? <span class="nb">&amp;</span> <span class="nb">&amp;</span> <span class="k">\\\hline</span>
+  <span class="nb">&amp;</span> Does the proposal involve Human Genetic Material? <span class="nb">&amp;</span> <span class="nb">&amp;</span> <span class="k">\\\hline</span>
+  <span class="nb">&amp;</span> Does the proposal involve Human biological samples? <span class="nb">&amp;</span> <span class="nb">&amp;</span> <span class="k">\\\hline</span>
+  <span class="nb">&amp;</span> Does the proposal involve Human data collection? <span class="nb">&amp;</span> <span class="nb">&amp;</span> <span class="k">\\\hline</span>
+  <span class="k">\multicolumn</span><span class="nb">{</span>2<span class="nb">}{</span>|l|<span class="nb">}{</span><span class="k">\bf</span><span class="nb">{</span>Research on Human embryo/foetus<span class="nb">}}</span>  <span class="nb">&amp;</span> <span class="nb">&amp;</span> <span class="k">\\\hline</span>
+  <span class="nb">&amp;</span> Does the proposal involve Human Embryos? <span class="nb">&amp;</span> <span class="nb">&amp;</span> <span class="k">\\\hline</span>
+  <span class="nb">&amp;</span> Does the proposal involve Human Foetal Tissue / Cells? <span class="nb">&amp;</span> <span class="nb">&amp;</span> <span class="k">\\\hline</span>
+  <span class="nb">&amp;</span> Does the proposal involve Human Embryonic Stem Cells? <span class="nb">&amp;</span> <span class="nb">&amp;</span> <span class="k">\\\hline</span>
+  <span class="k">\multicolumn</span><span class="nb">{</span>2<span class="nb">}{</span>|l|<span class="nb">}{</span><span class="k">\bf</span><span class="nb">{</span>Privacy<span class="nb">}}</span> <span class="nb">&amp;</span> <span class="nb">&amp;</span> <span class="k">\\\hline</span>
+  <span class="nb">&amp;</span> Does the proposal involve processing of genetic information 
+         or personal data (eg. health, sexual lifestyle, ethnicity, 
+         political opinion, religious or philosophical conviction)  <span class="nb">&amp;</span> <span class="nb">&amp;</span> <span class="k">\\\hline</span> 
+  <span class="nb">&amp;</span> Does the proposal involve tracking the location or observation 
+         of people? <span class="nb">&amp;</span> <span class="nb">&amp;</span> <span class="k">\\\hline</span> 
+  <span class="k">\multicolumn</span><span class="nb">{</span>2<span class="nb">}{</span>|l|<span class="nb">}{</span><span class="k">\bf</span><span class="nb">{</span>Research on Animals<span class="nb">}}</span> <span class="nb">&amp;</span> <span class="nb">&amp;</span> <span class="k">\\\hline</span> 
+  <span class="nb">&amp;</span> Does the proposal involve research on animals? <span class="nb">&amp;</span> <span class="nb">&amp;</span> <span class="k">\\\hline</span> 
+  <span class="nb">&amp;</span> Are those animals transgenic small laboratory animals? <span class="nb">&amp;</span> <span class="nb">&amp;</span> <span class="k">\\\hline</span> 
+  <span class="nb">&amp;</span> Are those animals transgenic farm animals? <span class="nb">&amp;</span> <span class="nb">&amp;</span> <span class="k">\\\hline</span> 
+  <span class="nb">&amp;</span> Are those animals cloned farm animals? <span class="nb">&amp;</span> <span class="nb">&amp;</span> <span class="k">\\\hline</span> 
+  <span class="nb">&amp;</span> Are those animals non-human primates?  <span class="nb">&amp;</span> <span class="nb">&amp;</span> <span class="k">\\\hline</span> 
+  <span class="k">\multicolumn</span><span class="nb">{</span>2<span class="nb">}{</span>|l|<span class="nb">}{</span><span class="k">\bf</span><span class="nb">{</span>Research Involving Developing Countries<span class="nb">}}</span> <span class="nb">&amp;</span> <span class="nb">&amp;</span> <span class="k">\\\hline</span> 
+  <span class="nb">&amp;</span> Use of local resources (genetic, animal, plant etc) <span class="nb">&amp;</span> <span class="nb">&amp;</span> <span class="k">\\\hline</span> 
+  <span class="nb">&amp;</span> Benefit to local community (capacity building 
+         i.e. access to healthcare, education etc) <span class="nb">&amp;</span> <span class="nb">&amp;</span> <span class="k">\\\hline</span> 
+  <span class="k">\multicolumn</span><span class="nb">{</span>2<span class="nb">}{</span>|l|<span class="nb">}{</span><span class="k">\bf</span><span class="nb">{</span>Dual Use<span class="nb">}}</span> <span class="nb">&amp;</span> <span class="nb">&amp;</span> <span class="k">\\\hline</span> 
+  <span class="nb">&amp;</span> Research having direct military application  <span class="nb">&amp;</span> <span class="nb">&amp;</span> <span class="k">\\\hline</span> 
+  <span class="nb">&amp;</span> Research having the potential for terrorist abuse <span class="nb">&amp;</span> <span class="nb">&amp;</span> <span class="k">\\\hline</span> 
+  <span class="k">\multicolumn</span><span class="nb">{</span>2<span class="nb">}{</span>|l|<span class="nb">}{</span><span class="k">\bf</span><span class="nb">{</span>ICT Implants<span class="nb">}}</span> <span class="nb">&amp;</span> <span class="nb">&amp;</span> <span class="k">\\\hline</span> 
+  <span class="nb">&amp;</span> Does the proposal involve clinical trials of ICT implants?  <span class="nb">&amp;</span> <span class="nb">&amp;</span> <span class="k">\\\hline</span> 
+  <span class="k">\multicolumn</span><span class="nb">{</span>2<span class="nb">}{</span>|l|<span class="nb">}{</span><span class="k">\bf\footnotesize</span><span class="nb">{</span>I CONFIRM THAT NONE OF THE ABOVE ISSUES APPLY TO MY PROPOSAL<span class="nb">}}</span> 
+      <span class="nb">&amp;</span>  <span class="k">\textbf</span><span class="nb">{</span>X<span class="nb">}</span> <span class="nb">&amp;</span><span class="k">\\\hline</span> 
+<span class="k">\end</span><span class="nb">{</span>tabular<span class="nb">}</span>
+<span class="k">\end</span><span class="nb">{</span>small<span class="nb">}</span>
+
+<span class="k">\appendix</span> 
+<span class="k">\chapter</span><span class="nb">{</span>References<span class="nb">}</span>
+
+<span class="k">\begin</span><span class="nb">{</span>footnotesize<span class="nb">}</span>
+  <span class="k">\bibliographystyle</span><span class="nb">{</span>savetrees<span class="nb">}</span>
+  <span class="k">\bibliography</span><span class="nb">{</span>bibinfo<span class="nb">}</span>
+<span class="k">\end</span><span class="nb">{</span>footnotesize<span class="nb">}</span>
+
+<span class="k">\end</span><span class="nb">{</span>document<span class="nb">}</span>
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -3187,11 +4144,23 @@ end{figure}
 <li class="toctree-l2"><a class="reference internal" href="index.html#setting-up-wiki-in-settings-cfg">Setting up wiki in settings.cfg</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="index.html#document-usage">How to use PropGen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-usage">How to use PropGen, what to put on Wiki, building a PDF file</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="index.html#the-main-project-page">The main project page</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#a-generic-text-page">A generic text page</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#a-workpackage-page">A workpackage page</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#recognized-wiki-markup">Recognized Wiki markup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#building-a-pdf-file">Building a PDF file</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="index.html#document-customize">How to customize PropGren</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="index.html#simple-customization">Simple customization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#customize-latex-templates">Customize LaTeX templates</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#complex-customization">Complex customization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-directorylayout">Directory layout and major files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="index.html#directory-structure">Directory structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#relevant-files">Relevant files</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="index.html#document-openissues">Open Issues</a><ul>
@@ -3211,6 +4180,8 @@ end{figure}
 <li class="toctree-l2"><a class="reference internal" href="index.html#module-utils">utils</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#settings-cfg">settings.cfg</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#latextemplates-cfg">latexTemplates.cfg</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#makefile">Makefile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#main-tex">main.tex</a></li>
 </ul>
 </li>
 </ul>
@@ -3235,12 +4206,12 @@ end{figure}
     <div class="related">
       <h3>Navigation</h3>
       <ul>
-        <li><a href="#">PropGen 0 documentation</a> &raquo;</li> 
+        <li><a href="#">PropGen 0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2012, Holger Karl.
-      Last updated on Feb 20, 2012.
+      Last updated on Feb 24, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
     </div>
   </body>

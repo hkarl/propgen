@@ -9,12 +9,15 @@
     <dc:publisher>Holger Karl</dc:publisher>
     <dc:rights>2012, Holger Karl</dc:rights>
     <dc:identifier id="unknown" opf:scheme="unknown">unknown</dc:identifier>
-    <dc:date>2012-02-20</dc:date>
+    <dc:date>2012-02-24</dc:date>
   </metadata>
   <manifest>
     <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml" />
     <item id="customize.html"
           href="customize.html"
+          media-type="application/xhtml+xml" />
+    <item id="directorylayout.html"
+          href="directorylayout.html"
           media-type="application/xhtml+xml" />
     <item id="genindex.html"
           href="genindex.html"
@@ -49,11 +52,38 @@
     <item id="usage.html"
           href="usage.html"
           media-type="application/xhtml+xml" />
+    <item id="_images_DeliverableTable.png"
+          href="_images/DeliverableTable.png"
+          media-type="image/png" />
+    <item id="_images_MainData.png"
+          href="_images/MainData.png"
+          media-type="image/png" />
+    <item id="_images_MilestoneTable.png"
+          href="_images/MilestoneTable.png"
+          media-type="image/png" />
     <item id="_images_MoinMoin-ChangePassword.png"
           href="_images/MoinMoin-ChangePassword.png"
           media-type="image/png" />
+    <item id="_images_PartnerData.png"
+          href="_images/PartnerData.png"
+          media-type="image/png" />
+    <item id="_images_ProposalStructure.png"
+          href="_images/ProposalStructure.png"
+          media-type="image/png" />
+    <item id="_images_TaskEffort.png"
+          href="_images/TaskEffort.png"
+          media-type="image/png" />
+    <item id="_images_TasksTable.png"
+          href="_images/TasksTable.png"
+          media-type="image/png" />
     <item id="_images_wikiTasks.png"
           href="_images/wikiTasks.png"
+          media-type="image/png" />
+    <item id="_images_WorkpackagesList.png"
+          href="_images/WorkpackagesList.png"
+          media-type="image/png" />
+    <item id="_images_WPAdminstration.png"
+          href="_images/WPAdminstration.png"
           media-type="image/png" />
     <item id="_images_WPgantt.png"
           href="_images/WPgantt.png"
@@ -107,6 +137,7 @@
     <itemref idref="installation.html" />
     <itemref idref="usage.html" />
     <itemref idref="customize.html" />
+    <itemref idref="directorylayout.html" />
     <itemref idref="openissues.html" />
     <itemref idref="sourcecodedoc.html" />
     <itemref idref="py-modindex.html" />

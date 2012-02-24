@@ -141,3 +141,12 @@ def roundPie  (l):
 
 
         
+
+def dictAsRest (d):
+    """Given a dictionary, print key/values as a description list in
+    reStructuredText syntax."""
+
+    for k,v in d.iteritems():
+        print k, type(k)
+        print "   ", v
+        print 

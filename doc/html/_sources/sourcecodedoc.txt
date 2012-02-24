@@ -21,6 +21,9 @@ The code described here lists in the bin directory. Some general remarks:
 .. automodule:: pullProject
    :members:
 
+
+.. _sec-wiki-parser:
+
 ============
  wikiParser
 ============
@@ -85,14 +88,46 @@ utils
 .. automodule:: utils
    :members:
 
+.. _sec-settings-cfg:
+
 ==============
  settings.cfg
 ==============
 
 .. include:: settings.rst
 
+.. _sec-latexTemplates-cfg:
+
+
 ==================
 latexTemplates.cfg
 ==================
 
 .. include:: latexTemplates.rst 
+
+
+
+.. _sec-Makefile:
+
+
+==========
+ Makefile
+==========
+
+# .. code-block:: make
+ 
+.. literalinclude:: ../Makefile 
+   :language: make 
+
+
+.. _sec-mainLaTeX:
+
+==========
+ main.tex
+==========
+
+TODO 
+
+.. literalinclude:: ../latex/main.tex
+   :language: latex 
+

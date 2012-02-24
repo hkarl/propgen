@@ -818,11 +818,5 @@ if __name__ == '__main__':
         pp (expanded) 
 
 
-## pp( utils.roundPie(utils.mapReduce ([   (utils.searchListOfDicts(partnerList,
-##                                                                  'Shortname',
-##                                                                  e['partner'],
-##                                                                  'Nation'),
-##                                          int(e['resources']))
-##                                         for e in allEfforts],
-##                                     lambda a,b: a+b))
-##     )
+    ## just to help producing the documentation easier:
+    utils.dictAsRest (titlepageDict)
