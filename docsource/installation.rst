@@ -20,6 +20,10 @@ produce a proposal PDF, assuming you have latex and python set up:
    $ cd ..
    $ make 
 
+Note: the directory name of hkarl-propgen-XXXX will
+depend on the fingerprint of the current version in
+github. It will vary. 
+
 That will leave TestProject.pdf in the current directory. Use your webbrowser to go to http://127.0.0.1:8080/TestProject, make some changes to this page or to the Wiki pages linked from there, save the changes. Type make again in the shell. Gives an updated PDF file. 
 
 
