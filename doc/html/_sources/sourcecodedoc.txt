@@ -12,6 +12,75 @@ The code described here lists in the bin directory. Some general remarks:
 - Many functions get passed a parameter "config". This is the content of settings.cfg, as parsed by the standard python configuration file parser ConfigParser.SafeConfigParser (see python library documentation for details). 
 
 
+.. aafig::
+   :aspect: 60
+   :scale: 150
+   :proportional:
+   :textual:
+
+
+			      +------------+
+			      | pullProject|
+			      +-----+------+
+				    |
+				    |
+				    v
+			    +-----------------+
+	   +----------------+  generated wiki |
+	   | 	            +--------+--------+
+	   |	                     |	     
+	   |	                     |	     
+	   |	                     v	     
+	   |	               +------------+ 
+	   |	               | generateXML| 
+	   |	               +-----+------+ 
+	   |	                     |	     
+	   |	                     |	     
+	   |	                     v	     
+	   |	             +---------------+
+	   |	             | generated xml |
+	   |	             +--------+------+
+	   |	                      |
+	   |	                      |
+	   |	                      |                 
+	   |	                      |                 
+	   v	                      v                 
+      +-------------+           +------------+                
+      +latexFromWiki|           |latexFromXML|         	 
+      +----+--------+           +-----+------+         	 
+	   |	                      |                
+	   +--------------------------+-----------------------+
+	   |                          |                       |
+	   |                          |                       |
+	   v                          v                       v
+   +-----------------+    +--------------------+  +--------------------------+
+   | generated latex |    | generated latex wp |  | generated latex partners |
+   +-------+---------+    +-----------+--------+  +-----------+--------------+
+	   |                          |                       |
+	   |                          |                       |
+	   +--------------------------+-----------------------+
+				      |
+				      |
+				      v
+			  +-----------+--------+
+			  | ensureSymbolicLinks|
+			  +-----------+--------+
+				      |
+	  +---------------------------+----------------------------+
+	  |                           |                            |
+	  v                           v                            v
+     +-------+                   +----------+            +----------------+
+     | latex |                   | latex wp |            | latex partners |
+     +-------+                   +----------+            +----------------+
+
+
+
+
+
+
+
+
+
 
 =============
  pullproject
@@ -65,6 +134,13 @@ latexFromXML
 ==============
 
 .. automodule:: latexFromXML
+   :members:
+
+=========================================================
+ latexFromXML - key/value pairs used in global variables
+=========================================================
+
+.. include:: latexfromXMLKeyValue.rst 
 
 
 ============

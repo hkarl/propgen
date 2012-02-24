@@ -155,7 +155,12 @@ Sphinx
   If you should want to generate the documentation for
   the reStructuredText markup (I have no idea why you
   would want to do that), you will also need `Sphinx
-  <http://sphinx.pocoo.org/>`_ , at least version 1.1.2. 
+  <http://sphinx.pocoo.org/>`_ , at least version
+  1.1.2. In particular, you will also need the aafigure
+  extension (see
+  http://packages.python.org/sphinxcontrib-aafig/ ) to
+  be installed and added to conf.py; affigure also
+  needs a dependency repotlab. 
 
 Installation
 ============

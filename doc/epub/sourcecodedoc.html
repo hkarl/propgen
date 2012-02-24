@@ -42,7 +42,7 @@
 <li>Details are in the makefile in the main directory</li>
 <li>Many functions get passed a parameter &#8220;config&#8221;. This is the content of settings.cfg, as parsed by the standard python configuration file parser ConfigParser.SafeConfigParser (see python library documentation for details).</li>
 </ul>
-<div class="section" id="module-pullProject">
+<img height="1134.0" src="_images/aafig-015e5106e1ae8114c85c853cc5d6267403820959.svg" width="957.6" /><div class="section" id="module-pullProject">
 <span id="pullproject"></span><h2>pullproject</h2>
 <p>Pull the raw wiki files from wherever is specified in
 settings.cfg. Store the raw wiki syntax in the wikipath directory.</p>
@@ -199,6 +199,504 @@ a parser object for the correct wiki style.</p>
 <div class="section" id="module-latexFromXML">
 <span id="latexfromxml"></span><h2>latexFromXML</h2>
 <p>general docu for latexFromXML</p>
+<dl class="class">
+<dt id="latexFromXML.recursiveTemplate">
+<em class="property">class </em><tt class="descclassname">latexFromXML.</tt><tt class="descname">recursiveTemplate</tt><big>(</big><em>template</em><big>)</big></dt>
+<dd><p>try to find recursively occuring patterns and replace them first</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="latexFromXML.analyzeTree">
+<tt class="descclassname">latexFromXML.</tt><tt class="descname">analyzeTree</tt><big>(</big><em>tree</em>, <em>config</em>, <em>verbose=False</em><big>)</big></dt>
+<dd><p>Take an XML tree and create all the necessary data structures</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="latexFromXML.computeStatistics">
+<tt class="descclassname">latexFromXML.</tt><tt class="descname">computeStatistics</tt><big>(</big><em>verbose</em><big>)</big></dt>
+<dd><p>Embellish the global lists with some additional sums, statistics,
+cross-referencing to IDs, etc. Add whatever seems useful here, makes
+it later to generate the LaTeX strings later on.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="latexFromXML.fixProducingTask">
+<tt class="descclassname">latexFromXML.</tt><tt class="descname">fixProducingTask</tt><big>(</big><em>ll</em><big>)</big></dt>
+<dd><p>Input is a list of milestones or deliverables. We need to
+fix the ProducingtaskString; dictFromXMLWithMains is not
+specific enough for that job. Replace the task label by the task
+IDs and do proper sorting, keeping in mind the ordering of task ids</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="latexFromXML.produceUncompressedGantt">
+<tt class="descclassname">latexFromXML.</tt><tt class="descname">produceUncompressedGantt</tt><big>(</big><em>l</em>, <em>config</em><big>)</big></dt>
+<dd><p>produce a Gantt string for the elements in list, without trying to
+compress that into a complact representation. Each element a separate line.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="latexFromXML.writeTemplateResult">
+<tt class="descclassname">latexFromXML.</tt><tt class="descname">writeTemplateResult</tt><big>(</big><em>expanded</em>, <em>templ</em>, <em>keytouse=None</em><big>)</big></dt>
+<dd><p>Use the information in templ to check whether it should be written out</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="latexFromXML.allWPDicts">
+<tt class="descclassname">latexFromXML.</tt><tt class="descname">allWPDicts</tt><em class="property"> = []</em></dt>
+<dd><p>A list storing one dictionary per workpackage. Filled from XML file.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="latexFromXML.titlepageDict">
+<tt class="descclassname">latexFromXML.</tt><tt class="descname">titlepageDict</tt><em class="property"> = {}</em></dt>
+<dd><p>Dictionary containing all information about the project in general; mostly it goes on the titlepage.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="latexfromxml-key-value-pairs-used-in-global-variables">
+<h2>latexFromXML - key/value pairs used in global variables</h2>
+<div class="section" id="titlepagedict">
+<h3>titlepageDict</h3>
+<dl class="docutils">
+<dt>call</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">ICT FP7-ICT-2012-8</p>
+</dd>
+<dt>coordinatoremail</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last"><a class="reference external" href="mailto:peter&#46;pan&#37;&#52;&#48;neverland&#46;org">peter<span>&#46;</span>pan<span>&#64;</span>neverland<span>&#46;</span>org</a></p>
+</dd>
+<dt>coordinatorname</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">Peter Pan</p>
+</dd>
+<dt>coordinatorphone</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">+12 345 5678</p>
+</dd>
+<dt>duration</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">24</p>
+</dd>
+<dt>instrument</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">Integrated Project</p>
+</dd>
+<dt>projectname</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">Investigating really important research topics</p>
+</dd>
+<dt>projectshort</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">IRIR</p>
+</dd>
+<dt>topics</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">Objective ICT-2011.1.1 Future Networks</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="allwpdicts">
+<h3>allWPDicts</h3>
+<dl class="docutils">
+<dt>Duration</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">24</p>
+</dd>
+<dt>End</dt>
+<dd><p class="first">&lt;type &#8216;int&#8217;&gt;</p>
+<p class="last">24</p>
+</dd>
+<dt>Leadernumber</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">2</p>
+</dd>
+<dt>Leadership</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">ISC</p>
+</dd>
+<dt>Name</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">Project Management</p>
+</dd>
+<dt>Number</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">1</p>
+</dd>
+<dt>Shortname</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">Management</p>
+</dd>
+<dt>Start</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">1</p>
+</dd>
+<dt>Type</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">MGMT</p>
+</dd>
+<dt>deliverableGanttLegend</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">\item \textbf{D\,1.1}: A research plan description
+\item \textbf{D\,2.1}: Initial architecture description</p>
+</dd>
+<dt>deliverableGanttString</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">\ganttmilestone{D\,2.1}{3}
+\ganttmilestone{D\,1.1}{12}</p>
+</dd>
+<dt>deliverableInGantt</dt>
+<dd><p class="first">&lt;type &#8216;list&#8217;&gt;</p>
+<p class="last">[&#8216;reserachplan&#8217;, &#8216;initialArch&#8217;]</p>
+</dd>
+<dt>deliverableUncompressedGanttString</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">\ganttmilestone{D\,1.1}{12}\\
+\ganttmilestone{D\,2.1}{3}</p>
+</dd>
+<dt>groupbar</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">\ganttgroup{}{1}{24} \\</p>
+</dd>
+<dt>milestoneGanttLegend</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">\item \textbf{M\,1.1}: Website goes public
+\item \textbf{M\,2.1}: Architcture description format chosen</p>
+</dd>
+<dt>milestoneGanttString</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">\ganttmilestone[milestone={fill=orange, rounded corners=5pt}]{M\,2.1}{2}
+\ganttmilestone[milestone={fill=orange, rounded corners=5pt}]{M\,1.1}{7}</p>
+</dd>
+<dt>milestoneInGantt</dt>
+<dd><p class="first">&lt;type &#8216;list&#8217;&gt;</p>
+<p class="last">[&#8216;website&#8217;, &#8216;archDescrFormat&#8217;]</p>
+</dd>
+<dt>milestoneUncompressedGanttString</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">\ganttmilestone[milestone={fill=orange, rounded corners=5pt}]{M\,1.1}{7}\\
+\ganttmilestone[milestone={fill=orange, rounded corners=5pt}]{M\,2.1}{2}</p>
+</dd>
+<dt>objectives</dt>
+<dd><p class="first">&lt;type &#8216;unicode&#8217;&gt;</p>
+<p>The objectives of this workpage are Lorem ipsum dolor sit amet,
+consectetuer adipiscing elit. Nulla urna. Maecenas interdum nunc in
+augue. Mauris quis massa in ante tincidunt mollis. Proin
+imperdiet. Donec porttitor pede id est. Sed in ante. Integer id
+arcu. Nam lectus nisl, posuere sit amet, imperdiet ut, tristique ac,
+lorem. In erat. In commodo enim.  Phasellus libero ipsum, tempor a,
+pharetra consequat, pellentesque sit amet, sem. Praesent ut augue
+luctus elit adipiscing ultricies.  Vestibulum suscipit cursus
+leo. Nullam molestie justo.</p>
+<p class="last">Umlaut test: äöü é è ß</p>
+</dd>
+<dt>partnereffort</dt>
+<dd><p class="first">&lt;type &#8216;dict&#8217;&gt;</p>
+<p class="last">{&#8216;UE&#8217;: 10, &#8216;ISC&#8217;: 0, &#8216;ABC&#8217;: 15}</p>
+</dd>
+<dt>tableheader</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">\begin{tabular}{<a href="#id7"><span class="problematic" id="id8">|p{0.15\\textwidth}|&#64;{\\hskip 0ex}p{0.100937\\textwidth}&#64;{\\hskip 0ex}|&#64;{\\hskip 0ex}p{0.100937\\textwidth}&#64;{\\hskip 0ex}|&#64;{\\hskip 0ex}p{0.100937\\textwidth}&#64;{\\hskip 0ex}|&#64;{\\hskip 0ex}p{0.100937\\textwidth}&#64;{\\hskip 0ex}|&#64;{\\hskip 0ex}p{0.100937\\textwidth}&#64;{\\hskip 0ex}|&#64;{\\hskip 0ex}p{0.100937\\textwidth}&#64;{\\hskip 0ex}|&#64;{\\hskip 0ex}p{0.100937\\textwidth}&#64;{\\hskip 0ex}|&#64;{\\hskip 0ex}p{0.100937\\textwidth}&#64;{\\hskip 0ex}|</span></a>}
+\hline\textbf{Workpackage no.} &amp; \multicolumn{1}{c|}{1} &amp; \multicolumn{7}{l|}{\textbf{Start date:} M 1} \\ \hline
+\textbf{Title} &amp; \multicolumn{8}{l|}{Project Management} \\ \hline\textbf{Activity type} &amp; \multicolumn{8}{l|}{MGMT \hfill} \\ \hline
+Part.\ no.\  &amp; \centering{1} &amp; \centering{\textbf{\textcolor{gray}{2}}} &amp; \centering{3} &amp;  &amp;  &amp;  &amp;  &amp; \\ \hline
+Short name  &amp; \centering{ABC} &amp; \centering{\textbf{\textcolor{gray}{ISC}}} &amp; \centering{UE} &amp;  &amp;  &amp;  &amp;  &amp; \\ \hline
+Effort  &amp; \centering{15} &amp; \centering{\textbf{\textcolor{gray}{0}}} &amp; \centering{10} &amp;  &amp;  &amp;  &amp;  &amp; \\ \hline
+\end{tabular}</p>
+</dd>
+<dt>taskGantt</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">\ganttbar[name=T1-1-0]{T\,1.1: Research preparation}{1}{24} \\
+\ganttbar[name=T1-2-0]{T\,1.2: Research execution}{5}{7} \\</p>
+</dd>
+<dt>taskeffort</dt>
+<dd><p class="first">&lt;type &#8216;dict&#8217;&gt;</p>
+<p class="last">{&#8216;otherTask&#8217;: 12, &#8216;plan&#8217;: 13}</p>
+</dd>
+<dt>wpdescription</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla
+urna. Maecenas interdum nunc in augue. Mauris quis massa in ante
+tincidunt mollis. Proin imperdiet. Donec porttitor pede id est. Sed
+in ante. Integer id arcu. Nam lectus nisl, posuere sit amet,
+imperdiet ut, tristique ac, lorem. In erat. In commodo enim.
+Phasellus libero ipsum, tempor a, pharetra consequat, pellentesque
+sit amet, sem. Praesent ut augue luctus elit adipiscing ultricies.
+Vestibulum suscipit cursus leo. Nullam molestie justo.</p>
+</dd>
+<dt>wpeffort</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">25</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="alltasks">
+<h3>allTasks</h3>
+<dl class="docutils">
+<dt>Duration</dt>
+<dd><p class="first">&lt;type &#8216;int&#8217;&gt;</p>
+<p class="last">24</p>
+</dd>
+<dt>Label</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">plan</p>
+</dd>
+<dt>Leadpartner</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">UE</p>
+</dd>
+<dt>Main</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">True</p>
+</dd>
+<dt>Name</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">Research preparation</p>
+</dd>
+<dt>Start</dt>
+<dd><p class="first">&lt;type &#8216;int&#8217;&gt;</p>
+<p class="last">1</p>
+</dd>
+<dt>contributedDeliverables</dt>
+<dd><p class="first">&lt;type &#8216;list&#8217;&gt;</p>
+<p class="last">[&#8216;reserachplan&#8217;, &#8216;initialArch&#8217;]</p>
+</dd>
+<dt>ganttid</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">T1-1</p>
+</dd>
+<dt>taskId</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">T\,1.1</p>
+</dd>
+<dt>taskdescription</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla
+urna. Maecenas interdum nunc in augue. Mauris quis massa in ante
+tincidunt mollis. Proin imperdiet. Donec porttitor pede id est. Sed
+in ante. Integer id arcu. Nam lectus nisl, posuere sit amet,
+imperdiet ut, tristique ac, lorem. In erat. In commodo enim.
+Phasellus libero ipsum, tempor a, pharetra consequat, pellentesque
+sit amet, sem. Praesent ut augue luctus elit adipiscing ultricies.
+Vestibulum suscipit cursus leo. Nullam molestie justo.</p>
+<p>Morbi dui. Morbi convallis mi sed sem. Nulla convallis lacus vitae
+risus. Phasellus adipiscing. Nullam tortor. Sed laoreet aliquam
+ante. Vestibulum diam. Pellentesque nec leo. Pellentesque velit.
+Praesent congue mi eu ipsum cursus fringilla. Etiam leo erat,
+tristique et, pharetra eget, mollis vitae, velit. In hac habitasse
+platea dictumst. In quam nibh, facilisis et, laoreet non, facilisis
+tempus, justo.</p>
+<p class="last">Donec nulla lectus, faucibus sit amet, auctor non, consectetuer
+quis, pede. Nullam dictum. Nullam suscipit, ligula in scelerisque
+posuere, sapien purus rutrum magna, vitae pharetra leo quam vel
+tortor. Donec eleifend condimentum sapien. Etiam sed orci. Aliquam
+tempor. Pellentesque egestas tortor id eros. Donec mauris justo,
+commodo id, pellentesque id, eleifend non, mi. Duis venenatis
+sagittis metus.</p>
+</dd>
+<dt>tasknumber</dt>
+<dd><p class="first">&lt;type &#8216;int&#8217;&gt;</p>
+<p class="last">1</p>
+</dd>
+<dt>taskobjectives</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla
+urna. Maecenas interdum nunc in augue. Mauris quis massa in ante
+tincidunt mollis. Proin imperdiet. Donec porttitor pede id est. Sed
+in ante. Integer id arcu. Nam lectus nisl, posuere sit amet,
+imperdiet ut, tristique ac, lorem. In erat. In commodo enim.
+Phasellus libero ipsum, tempor a, pharetra consequat, pellentesque
+sit amet, sem. Praesent ut augue luctus elit adipiscing ultricies.
+Vestibulum suscipit cursus leo. Nullam molestie justo.</p>
+<p class="last">\begin{compactitem}
+\item Objective one for a task
+\item Objective two for a task
+\item Objective three for a task
+\end{compactitem}</p>
+</dd>
+<dt>wp</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">1</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="allmilestones">
+<h3>allMilestones</h3>
+<dl class="docutils">
+<dt>Contributor</dt>
+<dd><p class="first">&lt;type &#8216;list&#8217;&gt;</p>
+<p class="last">[&#8216;ABC&#8217;]</p>
+</dd>
+<dt>ContributorMain</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">ABC</p>
+</dd>
+<dt>ContributorString</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">\textbf{ABC}</p>
+</dd>
+<dt>Description</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">Website for the project is ready</p>
+</dd>
+<dt>Label</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">website</p>
+</dd>
+<dt>Monthdue</dt>
+<dd><p class="first">&lt;type &#8216;int&#8217;&gt;</p>
+<p class="last">7</p>
+</dd>
+<dt>Producingtask</dt>
+<dd><p class="first">&lt;type &#8216;list&#8217;&gt;</p>
+<p class="last">[&#8216;otherTask&#8217;]</p>
+</dd>
+<dt>ProducingtaskString</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">T\,1.2</p>
+</dd>
+<dt>Title</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">Website goes public</p>
+</dd>
+<dt>Verificationmeans</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">Website can be accessed</p>
+</dd>
+<dt>deco</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">[milestone={fill=orange, rounded corners=5pt}]</p>
+</dd>
+<dt>ganttLegend</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">\item \textbf{M\,1.1}: Website goes public</p>
+</dd>
+<dt>id</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">M\,1.1</p>
+</dd>
+<dt>wp</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">1</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="alldeliverables">
+<h3>allDeliverables</h3>
+<dl class="docutils">
+<dt>Contributor</dt>
+<dd><p class="first">&lt;type &#8216;list&#8217;&gt;</p>
+<p class="last">[&#8216;UE&#8217;, &#8216;ABC&#8217;, &#8216;ISC&#8217;]</p>
+</dd>
+<dt>ContributorMain</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">ISC</p>
+</dd>
+<dt>ContributorString</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">ABC, \textbf{ISC}, UE</p>
+</dd>
+<dt>Description</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">A complete research plan to be followed for the remained of the project is described.</p>
+</dd>
+<dt>Dissemination</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">PU</p>
+</dd>
+<dt>Label</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">reserachplan</p>
+</dd>
+<dt>Monthdue</dt>
+<dd><p class="first">&lt;type &#8216;int&#8217;&gt;</p>
+<p class="last">12</p>
+</dd>
+<dt>Nature</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">R</p>
+</dd>
+<dt>Producingtask</dt>
+<dd><p class="first">&lt;type &#8216;list&#8217;&gt;</p>
+<p class="last">[&#8216;plan&#8217;, &#8216;otherTask&#8217;]</p>
+</dd>
+<dt>ProducingtaskMain</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">otherTask</p>
+</dd>
+<dt>ProducingtaskString</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">T\,1.1, \textbf{T\,1.2}</p>
+</dd>
+<dt>Title</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">A research plan description</p>
+</dd>
+<dt>ganttLegend</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">\item \textbf{D\,1.1}: A research plan description</p>
+</dd>
+<dt>id</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">D\,1.1</p>
+</dd>
+<dt>wp</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">1</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="allefforts">
+<h3>allEfforts</h3>
+<dl class="docutils">
+<dt>partner</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">ABC</p>
+</dd>
+<dt>resources</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">5</p>
+</dd>
+<dt>task</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">otherTask</p>
+</dd>
+<dt>wp</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">1</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="partnerlist">
+<h3>partnerList</h3>
+<dl class="docutils">
+<dt>Name</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">A Broad Company</p>
+</dd>
+<dt>Nation</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">FR</p>
+</dd>
+<dt>Number</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">1</p>
+</dd>
+<dt>Shortname</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">ABC</p>
+</dd>
+<dt>Type</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">IN</p>
+</dd>
+<dt>Wiki</dt>
+<dd><p class="first">&lt;type &#8216;str&#8217;&gt;</p>
+<p class="last">PartnerAbc</p>
+</dd>
+</dl>
+</div>
 </div>
 <div class="section" id="module-settings">
 <span id="settings"></span><h2>settings</h2>
@@ -227,9 +725,16 @@ Put symbolic links there if necessary to all files in generated.</p>
 <span id="utils"></span><h2>utils</h2>
 <dl class="function">
 <dt id="utils.dictAsRest">
-<tt class="descclassname">utils.</tt><tt class="descname">dictAsRest</tt><big>(</big><em>d</em><big>)</big></dt>
+<tt class="descclassname">utils.</tt><tt class="descname">dictAsRest</tt><big>(</big><em>d</em>, <em>fp</em><big>)</big></dt>
 <dd><p>Given a dictionary, print key/values as a description list in
 reStructuredText syntax.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="utils.docuDict">
+<tt class="descclassname">utils.</tt><tt class="descname">docuDict</tt><big>(</big><em>s</em>, <em>d</em>, <em>fp</em><big>)</big></dt>
+<dd><p>For documentation purposes: print a rest header using s, and
+then print the dictionary as a description list.</p>
 </dd></dl>
 
 <dl class="function">

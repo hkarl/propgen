@@ -28,6 +28,9 @@
     <item id="installation.html"
           href="installation.html"
           media-type="application/xhtml+xml" />
+    <item id="latexfromXMLKeyValue.html"
+          href="latexfromXMLKeyValue.html"
+          media-type="application/xhtml+xml" />
     <item id="latexTemplates.html"
           href="latexTemplates.html"
           media-type="application/xhtml+xml" />
@@ -52,6 +55,9 @@
     <item id="usage.html"
           href="usage.html"
           media-type="application/xhtml+xml" />
+    <item id="_images_aafig-015e5106e1ae8114c85c853cc5d6267403820959.svg"
+          href="_images/aafig-015e5106e1ae8114c85c853cc5d6267403820959.svg"
+          media-type="image/svg+xml" />
     <item id="_images_DeliverableTable.png"
           href="_images/DeliverableTable.png"
           media-type="image/png" />
