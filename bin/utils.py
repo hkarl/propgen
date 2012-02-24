@@ -142,11 +142,41 @@ def roundPie  (l):
 
         
 
-def dictAsRest (d):
+def docuDict (s, d, fp):
+    """For documentation purposes: print a rest header using s, and
+    then print the dictionary as a description list."""
+    
+
+    fp.write ( ''*len(s) + "\n")
+    fp.write ( s + "\n" )
+    fp.write ( '='*len(s) + "\n") 
+    fp.write ('\n')
+
+    dictAsRest (d, fp)
+    
+def dictAsRest (d, fp):
     """Given a dictionary, print key/values as a description list in
     reStructuredText syntax."""
 
-    for k,v in d.iteritems():
-        print k, type(k)
-        print "   ", v
-        print 
+    import re 
+    for k in sorted(d.keys()):
+        v = d[k]
+        if v: 
+            fp.write ( k + "\n") 
+            fp.write ( "   " + str(type(v)) + "\n")
+            fp.write ( "\n")
+
+            ## print '--------------------'
+            ## print k
+            ## print type(v)
+            ## print v
+
+            if isinstance (v, str) or isinstance(v, unicode):
+                # duplicating backslashes is necessary to convince
+                # sphinx to typeset them correctly in outpu
+                tmp = re.sub('\\\\', '\\\\\\\\', v)
+                fp.write ( '   ' + '\n   '.join(map(lambda x: x.strip(), tmp.lstrip().split('\n'))) + "\n")
+            else:
+                # print v
+                fp.write ( "   "+ str(v) + "\n")
+            fp.write ( "\n")

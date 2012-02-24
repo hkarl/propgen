@@ -65,6 +65,13 @@ latexFromXML
 ==============
 
 .. automodule:: latexFromXML
+   :members:
+
+=========================================================
+ latexFromXML - key/value pairs used in global variables
+=========================================================
+
+.. include:: latexfromXMLKeyValue.rst 
 
 
 ============

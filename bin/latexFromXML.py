@@ -18,7 +18,7 @@ from xml.etree.ElementTree import ElementTree, dump
 
 # global variables, to store all the state of the proposal 
 allWPDicts= []
-"""A list storing one directory per workpackage. Filled from XML file. Fields of this directory are:
+"""A list storing one dictionary per workpackage. Filled from XML file.
 """
 
 allMilestones = []
@@ -27,7 +27,8 @@ allTasks = []
 allEfforts = []
 partnerList = []
 titlepageDict = {}
-""" Dictionary containing all information about the project in general; mostly it goes on the titlepage."""
+""" Dictionary containing all information about the project in general; mostly it goes on the titlepage.
+"""
 
 expanded = {}
 
@@ -758,6 +759,9 @@ if __name__ == '__main__':
     parser = OptionParser("Read the project XML files and produce LaTeX, figures, etc.")
     parser.add_option ("-s", "--settings", dest="settingsfile",
                        help="the settings file")
+    parser.add_option ("-d", "--docu", dest="docu",
+                       help="print documentation output for the main global variables",
+                       action="store_true", default=False)
     parser.add_option ("-v", "--verbose", dest="verbose",
                        help="print lot's of debugging information",
                        action="store_true", default=False)
@@ -819,4 +823,15 @@ if __name__ == '__main__':
 
 
     ## just to help producing the documentation easier:
-    utils.dictAsRest (titlepageDict)
+    if options.docu:
+        fp = codecs.open ("../docsource/latexfromXMLKeyValue.rst",
+                          'w', encoding='utf-8')
+        utils.docuDict ('titlepageDict', titlepageDict, fp)
+        utils.docuDict ('allWPDicts', allWPDicts[0], fp)
+        utils.docuDict ('allTasks', allTasks[0], fp)
+        utils.docuDict ('allMilestones', allMilestones[0], fp)
+        utils.docuDict ('allDeliverables', allDeliverables[0], fp)
+        utils.docuDict ('allEfforts', allEfforts[0], fp)
+        utils.docuDict ('partnerList', partnerList[0], fp)
+
+        fp.close()
