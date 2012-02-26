@@ -1,5 +1,8 @@
-# Makefile for Sphinx documentation
+
 #
+# Makefile for Sphinx-based documentation
+#
+# See LICENCE file in main directory for licencing inforamtion 
 
 # You can set these variables from the command line.
 SPHINXOPTS    =
@@ -154,7 +157,7 @@ doctest: generatedfiles
 	@echo "Testing of doctests in the sources finished, look at the " \
 	      "results in $(BUILDDIR)/doctest/output.txt."
 
-generatedfiles: settings.rst latexTemplates.rst 
+generatedfiles: settings.rst latexTemplates.rst  latexfromXMLKeyValue.rst 
 
 settings.rst: ../settings.cfg parseCFG.py
 	python parseCFG.py -i ../settings.cfg -a =  > settings.rst
@@ -162,6 +165,8 @@ settings.rst: ../settings.cfg parseCFG.py
 latexTemplates.rst: ../template/latexTemplates.cfg parseCFG.py
 	python parseCFG.py -i ../template/latexTemplates.cfg  -a =  > latexTemplates.rst
 
+latexfromXMLKeyValue.rst: 
+	-cd ..; python latexFromXML.py -d 
 
 install: latexpdf html singlehtml epub 
 	rm -rf ../doc/*

@@ -1,13 +1,15 @@
+# See LICENCE file for licencing information 
 
-
-# where is the settings file? 
+# Where is the settings file? PAth is relative to the main directory (same as this Makefile) 
 SETTINGS = settings.cfg
 
-# which flags to use? -v is verbose for all scripts 
-FLAGS = -v 
+# Which flags to use? -v is verbose for all scripts; 
+# in production use, -v is usually not necessary
+# FLAGS = -v 
+FLAGS = 
 
 
-### extract relevant path names from settings.cfg 
+# Relevant path names. They are extracted from settings.cfg 
 
 PROJECTNAME  = $(strip $(shell grep "projectName " ${SETTINGS} | cut -f 2 -d = ))
 BINPATH = $(shell grep "binpath " ${SETTINGS} | cut -f 2 -d = )
