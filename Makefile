@@ -63,7 +63,7 @@ clean:
 fullcommit: 
 	make clean 
 	make proposal 
-	make clean 
 	cd docsource ; make install
+	make clean 
 	git commit -a -m "a full commit triggered by the makefile" 
 

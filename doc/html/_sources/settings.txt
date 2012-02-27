@@ -6,6 +6,7 @@ Wiki
 ====
 .. program::  Wiki
 
+See LICENCE file for licencing information! 
 Set up the necessary information to access the  wiki: which type, 
 where can it be found, what is the start page, which account and password 
 to use to log in. 
@@ -14,7 +15,7 @@ to use to log in.
 .. describe:: projectName
 
     This option specificies the root Wiki page where the main project information can 
-    be found. It also serves as the filename of the file pdf file. 
+    be found. It also serves as the filename of the final pdf file. 
 
     Default:   TestProject 
 
@@ -23,7 +24,7 @@ to use to log in.
     The wikitype setting selects which type of wiki access is to be
     used. Wikitypes currently supported are: twiki, moinmoin and moinmoin-local
     
-    Option 1: wikitype = moinmoin-local
+    Option 1: moinmoin-local
     This option specifies that the a moinmoin wiki can be accessed in
     the same file system where the generation system executes. This
     option requires to sepcify the moinmoinpath option as well. No user
@@ -32,7 +33,7 @@ to use to log in.
     
     Option 2: moinmoin 
     
-    A moinmoin wiki is used, to be access remotely, using the mechanize
+    A moinmoin wiki is used and accessed remotely, using the mechanize
     library. To this end, both the wikiuser and wikipassword option need
     to be specified; they are used for login. Also, the baseURL option
     needs to be specified: it provides a URL where the wiki can be
@@ -42,21 +43,26 @@ to use to log in.
     
     Option 3: twiki
     
-    It needs the same options as moinmoin. The difference is that the
-    obtained files are parsed assuming the twiki syntax. 
-    The distribution's configuration file assumes a moinmoin-local 
+    It needs the same options as moinmoin as well as the loginURL
+    setting. The difference is that the obtained files are parsed
+    assuming the twiki syntax and the login process to a Twiki is
+    slightly different from a moinmoin wiki.
+    The distribution's configuration file example assumes a moinmoin-local 
 
     Default:   moinmoin-local
 
 .. describe:: moinmoinpath
 
-    Specify the moinmoin path in the standard PropGen distribution
+    Specify the moinmoin path in the standard PropGen distribution. This
+    option is only relevant if wikitype = moinmoin-local and can be left
+    out for other wiki types. 
 
     Default:   ../moin/
 
 .. describe:: baseURL
 
-    For remote access to a wiki. It is ignored for the moinmoin-local
+    For remote access to a wiki. It specifies the "root" URL where the
+    wiki can be accessed, without any particular page name. It is ignored for the moinmoin-local
     wikitype and only used for other wikitypes. 
 
     Default:   http://hk-vm.cs.uni-paderborn.de:8080/
@@ -73,7 +79,8 @@ to use to log in.
 .. describe:: wikipassword
 
     Password used to log in. The default is the one used in the
-    distribution's example moinmoin wiki. It is ignored in the
+    distribution's example moinmoin wiki. You definitely want to change
+    the password on the wiki and then reflect this change here. It is ignored in the
     moinmoin-local wikitype and only needed for remote access. 
 
     Default:   123abc
@@ -142,19 +149,22 @@ PathNames
 =========
 .. program::  PathNames
 
+The section PathNames gives fine-grained controled over the
+dictionaries where intermediate files are stored. 
+Caution: best not to touch these paths!!! You should know what you
+are doing here! 
+Note: these paths are relative to the main directory
 
 
 .. describe:: binpath
 
-    Caution: best not to touch these paths!!! You should know what you are doing here! 
-    note: these paths are relative to the main directory
-    where are all the scripts? 
+    Where are all the scripts for the actual generation? 
 
     Default:   bin 
 
 .. describe:: wikipath
 
-    where should downloaded wiki files be stored? 
+    Where should downloaded wiki files be stored? 
 
     Default:   generated/wiki 
 
@@ -170,7 +180,7 @@ PathNames
 
 .. describe:: xmlpath
 
-    where do generated xml files go? 
+    Where do generated xml files go? 
 
     Default:   generated/xml
 
@@ -181,13 +191,13 @@ PathNames
 
 .. describe:: latexTemplates
 
-    where is the LaTeX templates file? 
+    Where is the LaTeX templates file? 
 
     Default:   template/latexTemplates.cfg
 
 .. describe:: genlatexpath
 
-    where do generated LaTeX files, wp paths, partner files go? 
+    Where do generated LaTeX files, wp paths, partner files go? 
 
     Default:   generated/latex
 
@@ -223,12 +233,14 @@ PathNames
 
 .. describe:: manuallatexpath
 
-    where are the MANUAL latex files? 
-    usage: in that directory, no files are EVER overwritten 
-    however, it is ensured that for all generated files, 
+    Where are the MANUAL latex files? 
+    Usage: in that directory, no files are EVER overwritten (as opposed
+    to the genlatex directory tree, where all files are routinely
+    overwritten). 
+    However, it is ensured that for all generated files, 
     there is either a regular file of the same name in the manual directory
     (then nothing happens), or a symbolic link is created in the manual directory. 
-    NOTE: no good idea how to replicate that behavior 
+    NOTE: no good idea how to replicate that behavior in Windows
 
     Default:   latex 
 
@@ -269,15 +281,19 @@ Gantts
 ======
 .. program::  Gantts
 
-TODO: excel interface! 
-excelFile = ../Administration/Steam-resources.xls
-control which and how Gantt charts are typeset 
+Control which and how Gantt charts are typeset. This section has a
+few True/False toggles to include/exclude some features in the
+charts. It also has a few parameters detailing layout options. 
+For fine-grained control, see the latexTemplates.cfg file; in
+particular, the GanttPrefix section. Also, the true/false settings
+here can be easily used (via the LaTeX ifthenelse command) to
+control behavior in latexTemplates.cfg.  
 
 
 .. describe:: WpMilestonesUncompressedShow
 
-    toggle to turn on/off various figures: 
-    some simple examples - generate various WP-specific Gantt charts for milestones, deliverables 
+    Some simple examples - generate various WP-specific Gantt charts for
+    milestones, deliverables. 
 
     Default:   True       	     
 
@@ -293,7 +309,7 @@ control which and how Gantt charts are typeset
 
 .. describe:: ShowWPBar
 
-    for the full-project milestones/deliverable gantt charts: build a WP bar to separate WPs ? 
+    For the full-project milestones/deliverable gantt charts: build a WP bar to separate WPs ? 
 
     Default:   True 	     
 
@@ -305,52 +321,77 @@ control which and how Gantt charts are typeset
 
 .. describe:: ganttLegendTwoColumn
 
-    should a Gantt legend be one or two columns? 
+    Should a Gantt legend be one or two columns? (A one-column legend
+    will consume a lot of space) 
 
     Default:   True
 
 .. describe:: ganttTaskbarsShowTaskname
 
-    task bars show task names in the gantt chart? 
-    easier to read, but risk of text extending to the right 
-    if not, maybe center the task identifier in the bar? (difficult!) 
+    Task bars show task names in the gantt chart? 
+    If True, the Gantt chart is likely easier to read, but the task name
+    will typically extend outside of the taskbar. If False, the taskname
+    should probably appear in the legend of a Gantt chart, else hard to
+    figure out just from the task ID (Gantt chart taskbar will show task
+    ID like T 1.2, using the standard templates). 
 
     Default:   True 
 
 .. describe:: ganttDistanceBetweenMS
 
-    More detailed control about looks of Gantt charts: 
-    number of months that a deliverable/milestone marker text occupies (horizontally) 
+    A compact layout of a Gantt chart requires that deliverables and
+    milestones are set on the same line (else, every
+    milestone/deliverable marker on separate line will create very long
+    Gantt charts). This setting controls how many month a marker
+    "occupies", how much space it needs before another marker can be set
+    on the same line. Minimum value is 1, for the marker itself. Set it
+    to a larger value to have each marker on its own line. 
 
     Default:   4  
 
 .. describe:: milestoneDecoration = fill=orange, rounded corners
 
-    how should a milestone look like? Put a "decoration string" according to the pdfgantt package here 
+    How should a milestone look like? Put a "decoration string"
+    according to the pdfgantt package here. (Use the GanttPrefix if you
+    want to change the look of a deliverable marker). 
 
     Default:  5pt
 
 .. describe:: milestonesShowCrossWP
 
-    show cross-WP milestones? 
+    Show cross-WP milestones? That means: Each milestone has a "home"
+    workpackage where it is defined. But it can have contributing tasks
+    from other WPs as well (called a "cross-WP" milestone). Should the
+    milestone appear also in those "contributing WP"'s Gantt charts? (it
+    will always appear in its home WP's Gantt chart)
 
     Default:   True  
 
 .. describe:: deliverablesShowCrossWP
 
-    show cross-WP milestones? 
+    Same thing: show cross-WP deliverables? 
 
     Default:   True 
 
 .. describe:: milestoneLegendTemplate
 
-    template to format the milestone captions in the Gantt charts
+    Template to format the milestone legends in the Gantt charts. The
+    useful when the legends are typeset using a itemize-like list. This
+    setting will generate the milestoneGanttLegend (or
+    deliverableGanttLegend); it is more a convenience function and could
+    also be done in latexTemplates, but would be a little cumbersome
+    there). 
+    
+    A plausible alternative for the legend strings is to use a description 
+    environment instead. That requires then a corresponding change in 
+    latexTemplates.cfg. Not difficult to do, look for compactitem there. 
 
     Default:   \item \textbf{${id}}: ${Title} 
 
 .. describe:: deliverableLegendTemplate
 
-    
+    See milestoneLegendTemplate for details. 
+
     Default:   \item \textbf{${id}}: ${Title}
 
 .. index::
@@ -360,45 +401,43 @@ Summaries
 =========
 .. program::  Summaries
 
-a plausible alternative for the legend strings is to use a description 
-environment instead. That requires then a corresponding change in 
-latexTemplates.cfg. Not difficult to do, look for compactitem there. 
-which summary tables, figures  should appear in the document
+Which summary tables, figures  should appear in the document? Mostly
+True/False switches. 
 
 
 .. describe:: showEffortPartnerWPs
 
-    one table showing efforts only per partner and workpackage, over all workpackages 
+    One table showing efforts only per partner and workpackage, over all workpackages 
 
     Default:   True
 
 .. describe:: showEffortPartnerTasks
 
-    one table showing effort per partner and task, over all tasks 
+    One table showing effort per partner and task, over all tasks 
 
     Default:   True 
 
 .. describe:: piePMsWPs
 
-    a pie chart, showing person month summaries for WPs 
+    A pie chart, showing person month summaries for WPs 
 
     Default:   True
 
 .. describe:: piePMsPartners
 
-    a pie chart, showing person month summaries for each partner  
+    A pie chart, showing person month summaries for each partner  
 
     Default:   True 
 
 .. describe:: piePMsPartnerTypes
 
-    a pie chart, showing person month summaries for each partner type (industry, SME, academic)  
+    A pie chart, showing person month summaries for each partner type (industry, SME, academic)  
 
     Default:   True 
 
 .. describe:: piePMsNations
 
-    a pie chart, showing person month summaries for each nation   
+    A pie chart, showing person month summaries for each nation   
 
     Default:   True 
 
@@ -409,136 +448,153 @@ WPTables
 ========
 .. program::  WPTables
 
-the following pie charts are budget-related; makes 
-only sense once the spreadsheet coupling is implemented 
-a pie chart, showing total/contributed budget, per partner 
-pieTotalPerPartner = True 
-pieContribPerPartner = False 
-a piec chart, showing total/contributed budget, per partner TYPE 
-pieTotalPerPartnerType = False 
-pieContribPerPartnerType = False
-a piec chart, showing total/contributed budget, per NATION 
-pieTotalPerNation = False
-pieContribPerNation = False 
-all information that is relevant for workpackage tables 
+This section collexts all information that is relevant for the
+actual workpackage tables. 
 
 
 .. describe:: maxPartnersPerRow
 
-    how many partners should be typeset in one row of the WP tables? 
-    choice depends mostly on how long the partner shortnames are 
+    How many partners should be typeset in one row of the WP tables? 
+    The choice depends mostly on how long the partner shortnames are; 8
+    seems to be a good compromise between readability and space
+    effiency.  
 
     Default:   8			
 
 .. describe:: firstColumnWidth
 
-    how wide should the first column be? 
-    give it as percent of textwidth! 
+    How wide should the first column be? 
+    Give the value as percent of textwidth! 
 
     Default:   15
 
 .. describe:: wptablespacing
 
-    how to influence the spacing of the wp tables? 
-    wptablespacing = @{\hskip 2.8ex}
+    How to influence the spacing of the wp tables? 
 
     Default:   @{\hskip 0ex}
 
 .. describe:: tabularCorrection
 
-    correction factor to eadjust total width of the WP tabular 
+    Correction factor to eadjust total width of the WP tabular. This
+    does require some fiddling if any of the above values is changed.  
     (Note: I'd much appreciate help from a LaTeX wizard to ensure a tabular 
-    environment is at most textwidth wide) 
+    environment is EXACTLY textwidth wide) 
 
     Default:   0.95 
 
 .. describe:: tasklistShowsDuration
 
-    what information should the task list include (in the WP table): 
+    The WP forms has a section with a list of all the tasks. Should
+    this list show the duration of a task?  (Details can be fixed in
+    latexTemplates.cfg, section WpTasks 
 
     Default:   True 
 
 .. describe:: tasklistShowsPartners
 
-    
+    Should it show which partners contribute to the task? 
+
     Default:   True 
 
 .. describe:: tasklistShowsDeliverables
 
-    
+    Should it show the deliverables to which this task contributes? 
+
     Default:   True 
 
 .. describe:: tasklistShowsMilestones
 
-    
+    And the milestones? 
+
     Default:   True 
 
 .. describe:: wpdescriptionShowsLeader
 
-    how much details should the workpackage description box report? 
+    The box "Description of Workpackage" - should it show the WP Leader? 
 
     Default:   True 
 
 .. describe:: taskboxShowsLeader
 
-    how much details should the individual task boxes report?
-    (the boxes containing the description of each task ) 
-    (this is used in latex-templates.cfg in the WpTasksDescriptions section)
+    Apart from the WP description, each task has an invidual box. 
+    How much details should they report? 
+    (this is used in latexTemplates.cfg in the WpTasksDescriptions
+    section)
+    Should it show the Leader of the particular task? 
 
     Default:   True
 
 .. describe:: taskboxShowsObjectives
 
-    showsLeader: refers to the head of the taskbox, not to the list at the end
+    Should it show the objectives of the task? (If this is False, this
+    information does not appear anywhere.) 
 
     Default:   True
 
 .. describe:: taskboxShowsDescription
 
-    
+    Should it show the description of the task? (If this is False, this
+    information does not appear anywhere.) 
+
     Default:   True
 
 .. describe:: taskboxShowsDeliverables
 
-    
+    Should it list the Deliverables contributed by each task? The
+    standard template typesets this as a table at the end of each
+    taskbox; easy to change in the WpTasksDescriptions section of
+    latexTemplates.cfg 
+
     Default:   True
 
 .. describe:: taskboxShowsMilestones
 
-    
+    And correspondingly the milestones? 
+
     Default:   True
 
 .. describe:: taskboxShowsPartners
 
-    
+    And that taskbox can show the partners active in this task. 
+
     Default:   True
 
 .. describe:: deliverablesWPshowDue
 
-    how much details in the deliverables list per WP? 
-    similar to tasklist options 
+    Each workpackage has a list of deliverables it produces (only the
+    "own" deliverables are relevant here). This list can contain several
+    information; here, the Due date can be turned on or off. These
+    settings are used in WpDeliverables in latexTemplates.cfg. 
 
     Default:   True
 
 .. describe:: deliverablesWPshowTasks
 
-    
+    Should the deliverable list show which tasks contribute to a
+    particular deliverable. 
+
     Default:   True
 
 .. describe:: deliverablesWPshowPartners
 
-    
+    Similarly, which partners contribute to the deliverable? 
+
     Default:   True
 
 .. describe:: deliverablesWPshowDescription
 
-    
+    And finally, a deliverable can have a description. Should it be
+    shown? (If this option is False, the deliverable description does
+    not appear anywhere, when using the standard templates). 
+
     Default:   True
 
 .. describe:: milestonesWPshowTasks
 
-    how much details in the milestones  list per WP? 
-    similar to tasklist options 
+    Similar to the deliverables, a list of milestones per WP can be
+    controlled. See the WpMilestones section in latexTemplates.cfg for
+    details. 
 
     Default:   True
 
@@ -559,9 +615,9 @@ all information that is relevant for workpackage tables
 
 .. describe:: colorInactivePartner
 
-    color highlight for inactive partners? 
-    (color names as defined by the LaTeX xcolor package) 
-    (no highlight: simply use black) 
+    Should an inactive partner (zero effort in a given workpackage)= be
+    shown in a separate color? (color names as defined by the LaTeX
+    xcolor package) (No highlight: simply use black)
 
     Default:   gray 
 
@@ -577,7 +633,9 @@ Options to control the individual participant descriptions in Section 2.2
 
 .. describe:: newpageAfterEachPartner
 
-    
+    Should there be a newpage inserted after each partner description?
+    To ensure that each partner description starts on an empty page? 
+
     Default:   True 
 
 .. index::
