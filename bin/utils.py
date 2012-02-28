@@ -141,6 +141,33 @@ def roundPie  (l):
 
 
         
+##############################################
+
+class documentedDict(dict):
+    """A slightly extended dict class. It has a property
+    docstring. Assigning a string to this property stroes a docstring
+    for the most recently assigned key in a class dictionary. Reading
+    this property returns a dictionary of these docstrings."""
+    
+    docstrings = dict()
+
+    def __init__ (self, *args, **kwargs):
+        self.lastkey = ""
+        self.update(*args, **kwargs)
+
+    def __setitem__ (self, key, value):
+        super(documentedDict, self).__setitem__ (key,value)
+        self.lastkey = key
+
+    @property
+    def docstring(self):
+        return documentedDict.docstrings
+
+    @docstring.setter
+    def docstring(self, v):
+        documentedDict.docstrings[self.lastkey] = v 
+
+
 
 def docuDict (s, d, fp):
     """For documentation purposes: print a rest header using s, and
@@ -180,3 +207,5 @@ def dictAsRest (d, fp):
                 # print v
                 fp.write ( "   "+ str(v) + "\n")
             fp.write ( "\n")
+
+

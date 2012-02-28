@@ -53,7 +53,7 @@ by writing them down in Wiki text.</p>
 <h2>Customize LaTeX templates</h2>
 <p>More powerful customization is available via the LaTeX templates in the file latexTemplate.cfg. Essentially, this give a small templating engine where LaTeX code can be put into variables, and the LaTex code can contain variable names to be replaced before the actual LaTeX is generated.</p>
 <p>Almost all of the generated LaTeX code (ending up in generated/latex in the end) is controlled by this file. There are a few exceptions - notably, the headers of the workpackage is too complex to do via the templating engine; the files including the individual partner files and WP files are also generated  automatically since they are fairly straightforward.</p>
-<p>Details are explained in <a class="reference internal" href="sourcecodedoc.html#sec-latextemplates-cfg"><em>latexTemplates.cfg</em></a>.</p>
+<p>Details are explained in <a class="reference internal" href="sourcecodedoc.html#sec-latextemplates-cfg"><em>latexTemplates.cfg</em></a>; how to use the various options in this file is described in detail in the function generateTemplates in the source code of the latexFromXML.py module <a class="reference internal" href="sourcecodedoc.html#seclatexfromxml"><em>latexFromXML</em></a>.</p>
 </div>
 <div class="section" id="complex-customization">
 <h2>Complex customization</h2>

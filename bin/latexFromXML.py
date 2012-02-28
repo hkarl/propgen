@@ -1,6 +1,27 @@
 #!/usr/bin/python
 
-"""general docu for latexFromXML"""
+"""This script reads in the XML files describing the project and
+generates the LaTeX output. To this end, it uses a couple of steps:
+
+   1. Analze the entire XML tree and put the content into the global
+   variables allWPDicts, allMilestones, allDeliverables, allTasks,
+   allEfforts, partnerList and titlepageDict. This is triggered by the
+   analyzeTree function. 
+
+   2. Statistics are computed - computeStatistics
+   
+   3. The tables for the WP are generated - computeWPTable 
+
+   4. The partner descriptions are generated - generatePartnerDescriptions
+
+   5. The templates from latexTemplates.cfg are processed; this is the
+      main step for all the details of LaTeX producting - generateTemplates
+
+   6. Finally, LaTeX options in settings.cfg - processLaTeX
+
+Details from where files are read and where files are put are
+controlled by settings.cfg. 
+"""
 
 import settings
 import wikiParser
@@ -32,7 +53,14 @@ titlepageDict = {}
 
 expanded = {}
 
+
+
 def dictFromXML (tree):
+    """Given an XML node (obtained via the xml.etree.ElementTree
+    libary, build a dictionary where the keys are the tag of a child
+    node and the text attribute of the child node is the value. Return
+    this dictionary."""
+    
     return dict ([(x.tag.strip(), x.text.strip()) for x in tree.getchildren()])
 
 def dictFromXMLWithMains (tree):
@@ -604,6 +632,86 @@ def generateTemplatesBuildListResult (templ, listtoworkon,
     return expandedresults 
 
 def generateTemplates(config, verbose):
+    """ This function processes the
+    latexTemplates.cfg file. It goes over each section, expands the
+    template option, considering the other options. The expansion of
+    the template option is based on Python's string.Template
+    expansion, with a few extras added in.
+
+    The expanded version of the template string is stored in a special
+    dictionary expanded, using the section name as the key. It can be
+    used like the other dictionaries; hence, complex entries can be
+    constructed over multiple sections using the expanded dictionary
+    as the dict from which the expansion strings are pulled. This is
+    common practice e.g. for complex tables, where first individual
+    lines are built and the the full table is constructued. 
+
+    The following options are understood:
+
+    template
+    
+       The actual template string. Write plain LaTeX code here. Add
+       ${NAME} commands; these are expanded during processing just
+       like the standard template class does; see below for
+       details. In addition, it is possible to use %{ PYTHONCODE
+       %}. This string is replaced by the evaluation result of the
+       PYTHONCODE string. 
+
+    dict
+       Specify a dictionary in which the ${NAME} are looked up as
+       keys; the value of that key then replaces the ${NAME} string in
+       template. Either dict or list must be given.
+
+    list
+       A list option must be followed by list variable (or other
+       iterable). Then, the template is evaluated over each element of
+       the list; the elements must be dictionaries where the ${NAME}s
+       exist as keys.
+
+       A dict option can be given as well, then ${NAME}s are looked up
+       both in the list elements as well as in the given dictionary.
+
+       Without any further options, a list of expanded template
+       strings is put into expanded dictionary, under the sectionname
+       as key. 
+       
+    numerator
+       When a list option is given, it can be useful or desirable not
+       to put a list into the expanded dictionary, but rather a
+       separate entry under a separate key for each list element can
+       be useful. The numerator option triggers this and specifies the
+       suffix to be placed after the section name in the expanded
+       dictionary. numerator can be a an expression like
+       value['Shortname'], which is then evaluated over the dictionray
+       in the provided list (in this example, this is evaluated over
+       the list allWPDicts, Shortname is the WP shortname; then,
+       sectionname-WPShortname can be used later on). 
+
+    joiner
+       If a list is given, but ony a single string entry in the
+       expanded dictionary is desired (instead of a a list entry or a
+       separate entries), then a string to be used with the
+       string.join method can be given here. 
+
+    sorter
+       Specifies a Python expression to sort the list before being
+       expaned. Typically, this should be a lambda function, evaluated
+       over the list elements in the usual way the Python sorted
+       built-in function's key option is used.  Mostly makes sense in
+       combination with the joiner option.
+
+    file
+       Normally, results of the template expansion are only placed in
+       the expanded dictionary. Giving file=True optino also writes
+       the expansion result into a file called
+       SECTIONNAME.tex. Directory is the genlatexpath value in
+       settings.cfg. 
+
+    dir
+       Only relevant when file=True: this option specifies the
+       directory (relative to the genlatexpath option). 
+
+    """
 
     global titlepageDict, partnerList, expanded 
     global allWPDicts, allMilestones, allDeliverables, allTasks, allEfforts

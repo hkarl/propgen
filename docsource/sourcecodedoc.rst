@@ -136,8 +136,12 @@ latexFromWiki
 latexFromXML
 ==============
 
+(Note: key/value pairs for the main global variables in this module are described in :ref:`seclatexFromXMLkeyvalue`.) 
+
 .. automodule:: latexFromXML
    :members:
+
+.. _seclatexFromXMLkeyvalue:
 
 =========================================================
  latexFromXML - key/value pairs used in global variables

@@ -211,9 +211,27 @@ a parser object for the correct wiki style.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-latexFromXML">
-<span id="latexfromxml"></span><span id="seclatexfromxml"></span><h2>latexFromXML<a class="headerlink" href="#module-latexFromXML" title="Permalink to this headline">¶</a></h2>
-<p>general docu for latexFromXML</p>
+<div class="section" id="latexfromxml">
+<span id="seclatexfromxml"></span><h2>latexFromXML<a class="headerlink" href="#latexfromxml" title="Permalink to this headline">¶</a></h2>
+<p>(Note: key/value pairs for the main global variables in this module are described in <a class="reference internal" href="#seclatexfromxmlkeyvalue"><em>latexFromXML - key/value pairs used in global variables</em></a>.)</p>
+<span class="target" id="module-latexFromXML"></span><p>This script reads in the XML files describing the project and
+generates the LaTeX output. To this end, it uses a couple of steps:</p>
+<blockquote>
+<div><p>1. Analze the entire XML tree and put the content into the global
+variables allWPDicts, allMilestones, allDeliverables, allTasks,
+allEfforts, partnerList and titlepageDict. This is triggered by the
+analyzeTree function.</p>
+<ol class="arabic simple" start="2">
+<li>Statistics are computed - computeStatistics</li>
+<li>The tables for the WP are generated - computeWPTable</li>
+<li>The partner descriptions are generated - generatePartnerDescriptions</li>
+<li>The templates from latexTemplates.cfg are processed; this is the
+main step for all the details of LaTeX producting - generateTemplates</li>
+<li>Finally, LaTeX options in settings.cfg - processLaTeX</li>
+</ol>
+</div></blockquote>
+<p>Details from where files are read and where files are put are
+controlled by settings.cfg.</p>
 <dl class="class">
 <dt id="latexFromXML.recursiveTemplate">
 <em class="property">class </em><tt class="descclassname">latexFromXML.</tt><tt class="descname">recursiveTemplate</tt><big>(</big><em>template</em><big>)</big><a class="headerlink" href="#latexFromXML.recursiveTemplate" title="Permalink to this definition">¶</a></dt>
@@ -235,12 +253,95 @@ it later to generate the LaTeX strings later on.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="latexFromXML.dictFromXML">
+<tt class="descclassname">latexFromXML.</tt><tt class="descname">dictFromXML</tt><big>(</big><em>tree</em><big>)</big><a class="headerlink" href="#latexFromXML.dictFromXML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given an XML node (obtained via the xml.etree.ElementTree
+libary, build a dictionary where the keys are the tag of a child
+node and the text attribute of the child node is the value. Return
+this dictionary.</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="latexFromXML.fixProducingTask">
 <tt class="descclassname">latexFromXML.</tt><tt class="descname">fixProducingTask</tt><big>(</big><em>ll</em><big>)</big><a class="headerlink" href="#latexFromXML.fixProducingTask" title="Permalink to this definition">¶</a></dt>
 <dd><p>Input is a list of milestones or deliverables. We need to
 fix the ProducingtaskString; dictFromXMLWithMains is not
 specific enough for that job. Replace the task label by the task
 IDs and do proper sorting, keeping in mind the ordering of task ids</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="latexFromXML.generateTemplates">
+<tt class="descclassname">latexFromXML.</tt><tt class="descname">generateTemplates</tt><big>(</big><em>config</em>, <em>verbose</em><big>)</big><a class="headerlink" href="#latexFromXML.generateTemplates" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function processes the
+latexTemplates.cfg file. It goes over each section, expands the
+template option, considering the other options. The expansion of
+the template option is based on Python&#8217;s string.Template
+expansion, with a few extras added in.</p>
+<p>The expanded version of the template string is stored in a special
+dictionary expanded, using the section name as the key. It can be
+used like the other dictionaries; hence, complex entries can be
+constructed over multiple sections using the expanded dictionary
+as the dict from which the expansion strings are pulled. This is
+common practice e.g. for complex tables, where first individual
+lines are built and the the full table is constructued.</p>
+<p>The following options are understood:</p>
+<p>template</p>
+<blockquote>
+<div>The actual template string. Write plain LaTeX code here. Add
+${NAME} commands; these are expanded during processing just
+like the standard template class does; see below for
+details. In addition, it is possible to use %{ PYTHONCODE
+%}. This string is replaced by the evaluation result of the
+PYTHONCODE string.</div></blockquote>
+<dl class="docutils">
+<dt>dict</dt>
+<dd>Specify a dictionary in which the ${NAME} are looked up as
+keys; the value of that key then replaces the ${NAME} string in
+template. Either dict or list must be given.</dd>
+<dt>list</dt>
+<dd><p class="first">A list option must be followed by list variable (or other
+iterable). Then, the template is evaluated over each element of
+the list; the elements must be dictionaries where the ${NAME}s
+exist as keys.</p>
+<p>A dict option can be given as well, then ${NAME}s are looked up
+both in the list elements as well as in the given dictionary.</p>
+<p class="last">Without any further options, a list of expanded template
+strings is put into expanded dictionary, under the sectionname
+as key.</p>
+</dd>
+<dt>numerator</dt>
+<dd>When a list option is given, it can be useful or desirable not
+to put a list into the expanded dictionary, but rather a
+separate entry under a separate key for each list element can
+be useful. The numerator option triggers this and specifies the
+suffix to be placed after the section name in the expanded
+dictionary. numerator can be a an expression like
+value[&#8216;Shortname&#8217;], which is then evaluated over the dictionray
+in the provided list (in this example, this is evaluated over
+the list allWPDicts, Shortname is the WP shortname; then,
+sectionname-WPShortname can be used later on).</dd>
+<dt>joiner</dt>
+<dd>If a list is given, but ony a single string entry in the
+expanded dictionary is desired (instead of a a list entry or a
+separate entries), then a string to be used with the
+string.join method can be given here.</dd>
+<dt>sorter</dt>
+<dd>Specifies a Python expression to sort the list before being
+expaned. Typically, this should be a lambda function, evaluated
+over the list elements in the usual way the Python sorted
+built-in function&#8217;s key option is used.  Mostly makes sense in
+combination with the joiner option.</dd>
+<dt>file</dt>
+<dd>Normally, results of the template expansion are only placed in
+the expanded dictionary. Giving file=True optino also writes
+the expansion result into a file called
+SECTIONNAME.tex. Directory is the genlatexpath value in
+settings.cfg.</dd>
+<dt>dir</dt>
+<dd>Only relevant when file=True: this option specifies the
+directory (relative to the genlatexpath option).</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
@@ -270,7 +371,7 @@ compress that into a complact representation. Each element a separate line.</p>
 
 </div>
 <div class="section" id="latexfromxml-key-value-pairs-used-in-global-variables">
-<h2>latexFromXML - key/value pairs used in global variables<a class="headerlink" href="#latexfromxml-key-value-pairs-used-in-global-variables" title="Permalink to this headline">¶</a></h2>
+<span id="seclatexfromxmlkeyvalue"></span><h2>latexFromXML - key/value pairs used in global variables<a class="headerlink" href="#latexfromxml-key-value-pairs-used-in-global-variables" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="titlepagedict">
 <h3>titlepageDict<a class="headerlink" href="#titlepagedict" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
@@ -738,6 +839,15 @@ Put symbolic links there if necessary to all files in generated.</p>
 </div>
 <div class="section" id="module-utils">
 <span id="utils"></span><h2>utils<a class="headerlink" href="#module-utils" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="utils.documentedDict">
+<em class="property">class </em><tt class="descclassname">utils.</tt><tt class="descname">documentedDict</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#utils.documentedDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>A slightly extended dict class. It has a property
+docstring. Assigning a string to this property stroes a docstring
+for the most recently assigned key in a class dictionary. Reading
+this property returns a dictionary of these docstrings.</p>
+</dd></dl>
+
 <dl class="function">
 <dt id="utils.dictAsRest">
 <tt class="descclassname">utils.</tt><tt class="descname">dictAsRest</tt><big>(</big><em>d</em>, <em>fp</em><big>)</big><a class="headerlink" href="#utils.dictAsRest" title="Permalink to this definition">¶</a></dt>
@@ -3749,7 +3859,7 @@ protection authorities.
 </ul>
 </li>
 <li><a class="reference internal" href="#module-latexFromWiki">latexFromWiki</a></li>
-<li><a class="reference internal" href="#module-latexFromXML">latexFromXML</a></li>
+<li><a class="reference internal" href="#latexfromxml">latexFromXML</a></li>
 <li><a class="reference internal" href="#latexfromxml-key-value-pairs-used-in-global-variables">latexFromXML - key/value pairs used in global variables</a><ul>
 <li><a class="reference internal" href="#titlepagedict">titlepageDict</a></li>
 <li><a class="reference internal" href="#allwpdicts">allWPDicts</a></li>

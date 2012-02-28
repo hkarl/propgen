@@ -427,7 +427,7 @@
         <navLabel>
           <text>latexFromXML</text>
         </navLabel>
-        <content src="sourcecodedoc.html#module-latexFromXML" />
+        <content src="sourcecodedoc.html#latexfromxml" />
       </navPoint>
       <navPoint id="navPoint58" playOrder="58">
         <navLabel>

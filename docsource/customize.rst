@@ -27,8 +27,7 @@ More powerful customization is available via the LaTeX templates in the file lat
 
 Almost all of the generated LaTeX code (ending up in generated/latex in the end) is controlled by this file. There are a few exceptions - notably, the headers of the workpackage is too complex to do via the templating engine; the files including the individual partner files and WP files are also generated  automatically since they are fairly straightforward. 
 
-Details are explained in :ref:`sec-latexTemplates-cfg`. 
-
+Details are explained in :ref:`sec-latexTemplates-cfg`; how to use the various options in this file is described in detail in the function generateTemplates in the source code of the latexFromXML.py module :ref:`seclatexFromXML`. 
 
 
 ========================== 
