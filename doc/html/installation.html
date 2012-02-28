@@ -317,14 +317,15 @@ elsewhere (Section <a class="reference internal" href="sourcecodedoc.html#sec-se
 settings.</p>
 <div class="section" id="wiki">
 <span id="index-0"></span><h3>Wiki<a class="headerlink" href="#wiki" title="Permalink to this headline">¶</a></h3>
-<p>Set up the necessary information to access the  wiki: which type,
+<p>See LICENCE file for licencing information!
+Set up the necessary information to access the  wiki: which type,
 where can it be found, what is the start page, which account and password
 to use to log in.</p>
 <dl class="describe">
 <dt>
 <tt class="descname">projectName</tt></dt>
 <dd><p>This option specificies the root Wiki page where the main project information can
-be found. It also serves as the filename of the file pdf file.</p>
+be found. It also serves as the filename of the final pdf file.</p>
 <p>Default:   TestProject</p>
 </dd></dl>
 
@@ -333,37 +334,42 @@ be found. It also serves as the filename of the file pdf file.</p>
 <tt class="descname">wikitype</tt></dt>
 <dd><p>The wikitype setting selects which type of wiki access is to be
 used. Wikitypes currently supported are: twiki, moinmoin and moinmoin-local</p>
-<p>Option 1: wikitype = moinmoin-local
+<p>Option 1: moinmoin-local
 This option specifies that the a moinmoin wiki can be accessed in
 the same file system where the generation system executes. This
 option requires to sepcify the moinmoinpath option as well. No user
 and password need to be given, but the files must be accessible for
 reading.</p>
 <p>Option 2: moinmoin</p>
-<p>A moinmoin wiki is used, to be access remotely, using the mechanize
+<p>A moinmoin wiki is used and accessed remotely, using the mechanize
 library. To this end, both the wikiuser and wikipassword option need
 to be specified; they are used for login. Also, the baseURL option
 needs to be specified: it provides a URL where the wiki can be
 accessed, without any concrete page name. Example:</p>
 <p>baseURL = <a class="reference external" href="http://hk-vm.cs.uni-paderborn.de:8080/">http://hk-vm.cs.uni-paderborn.de:8080/</a></p>
 <p>Option 3: twiki</p>
-<p>It needs the same options as moinmoin. The difference is that the
-obtained files are parsed assuming the twiki syntax.
-The distribution&#8217;s configuration file assumes a moinmoin-local</p>
+<p>It needs the same options as moinmoin as well as the loginURL
+setting. The difference is that the obtained files are parsed
+assuming the twiki syntax and the login process to a Twiki is
+slightly different from a moinmoin wiki.
+The distribution&#8217;s configuration file example assumes a moinmoin-local</p>
 <p>Default:   moinmoin-local</p>
 </dd></dl>
 
 <dl class="describe">
 <dt>
 <tt class="descname">moinmoinpath</tt></dt>
-<dd><p>Specify the moinmoin path in the standard PropGen distribution</p>
+<dd><p>Specify the moinmoin path in the standard PropGen distribution. This
+option is only relevant if wikitype = moinmoin-local and can be left
+out for other wiki types.</p>
 <p>Default:   ../moin/</p>
 </dd></dl>
 
 <dl class="describe">
 <dt>
 <tt class="descname">baseURL</tt></dt>
-<dd><p>For remote access to a wiki. It is ignored for the moinmoin-local
+<dd><p>For remote access to a wiki. It specifies the &#8220;root&#8221; URL where the
+wiki can be accessed, without any particular page name. It is ignored for the moinmoin-local
 wikitype and only used for other wikitypes.</p>
 <p>Default:   <a class="reference external" href="http://hk-vm.cs.uni-paderborn.de:8080/">http://hk-vm.cs.uni-paderborn.de:8080/</a></p>
 </dd></dl>
@@ -382,7 +388,8 @@ reflect your own user name.</p>
 <dt>
 <tt class="descname">wikipassword</tt></dt>
 <dd><p>Password used to log in. The default is the one used in the
-distribution&#8217;s example moinmoin wiki. It is ignored in the
+distribution&#8217;s example moinmoin wiki. You definitely want to change
+the password on the wiki and then reflect this change here. It is ignored in the
 moinmoin-local wikitype and only needed for remote access.</p>
 <p>Default:   123abc</p>
 </dd></dl>
@@ -542,7 +549,7 @@ empty.</p>
     </div>
     <div class="footer">
         &copy; Copyright 2012, Holger Karl.
-      Last updated on Feb 24, 2012.
+      Last updated on Feb 27, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
     </div>
   </body>

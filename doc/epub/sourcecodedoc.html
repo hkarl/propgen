@@ -42,7 +42,7 @@
 <li>Details are in the makefile in the main directory</li>
 <li>Many functions get passed a parameter &#8220;config&#8221;. This is the content of settings.cfg, as parsed by the standard python configuration file parser ConfigParser.SafeConfigParser (see python library documentation for details).</li>
 </ul>
-<img height="1134.0" src="_images/aafig-015e5106e1ae8114c85c853cc5d6267403820959.svg" width="957.6" /><div class="section" id="module-pullProject">
+<img height="1134.0" src="_images/aafig-a342080786e55ba77fb31f5b23353f3ea2fe5be2.svg" width="957.6" /><div class="section" id="module-pullProject">
 <span id="pullproject"></span><h2>pullproject</h2>
 <p>Pull the raw wiki files from wherever is specified in
 settings.cfg. Store the raw wiki syntax in the wikipath directory.</p>
@@ -197,7 +197,7 @@ a parser object for the correct wiki style.</p>
 
 </div>
 <div class="section" id="module-latexFromXML">
-<span id="latexfromxml"></span><h2>latexFromXML</h2>
+<span id="latexfromxml"></span><span id="seclatexfromxml"></span><h2>latexFromXML</h2>
 <p>general docu for latexFromXML</p>
 <dl class="class">
 <dt id="latexFromXML.recursiveTemplate">
@@ -1445,57 +1445,73 @@ To ensure that each partner description starts on an empty page?</p>
 </div>
 <div class="section" id="latex">
 <span id="index-6"></span><h3>LaTeX</h3>
-<p>Options controlling LaTeX processing
-produces file setttings.tex, included by frame.tex
+<p>The LaTeX section coleects options controlling LaTeX
+processing. These are simle True/False flags to turn on/off various
+parts of the proposal.
 NOTE: these settings are only processed in the makefile; changing them
-and directly running pdflatx will have no effect</p>
+and directly running pdflatx will have no effect.</p>
 <dl class="describe">
 <dt>
 <tt class="descname">showCommissionHints</tt></dt>
-<dd><p>should the PDF file include the commission hints text?</p>
+<dd><p>Should the PDF file include the commission hints text? (as defined
+on the wiki by the commissionhint level 5 headings on the wiki
+pages). It is HIGHLY recommended to turn this off before producing
+the final version of the proposal.</p>
 <p>Default:   True</p>
 </dd></dl>
 
 <dl class="describe">
 <dt>
 <tt class="descname">useShowkeys</tt></dt>
-<dd><p>should the showkey package be used, highlighting the label, ref and cite commands?</p>
+<dd><p>Should the showkey package be used, highlighting the label, ref and
+cite commands?  This can be useful to have an idea which labels
+exist for cross-referencing and looking for errors. Turn this off
+for the final version.</p>
 <p>Default:   False</p>
 </dd></dl>
 
 <dl class="describe">
 <dt>
 <tt class="descname">showWarnings</tt></dt>
-<dd><p>should warnings and fixmes be printed?</p>
+<dd><p>Should warnings and fixmes be printed? This includes the list in
+warnings.tex. Turn this off for the final version.</p>
 <p>Default:   True</p>
 </dd></dl>
 
 <dl class="describe">
 <dt>
 <tt class="descname">showListOfTables</tt></dt>
-<dd><p>should the file show list of tables?</p>
+<dd><p>Should the table of content show list of tables?</p>
 <p>Default:   True</p>
 </dd></dl>
 
 <dl class="describe">
 <dt>
 <tt class="descname">showListOfFigures</tt></dt>
-<dd><p>should the file show list of figures?</p>
+<dd><p>Shoudl the table of content show list of figures?</p>
 <p>Default:   True</p>
 </dd></dl>
 
 <dl class="describe">
 <dt>
 <tt class="descname">showAcronymList</tt></dt>
-<dd><p>should there be a list of acronyms?</p>
+<dd><p>Should there be a list of acronyms? main.tex include a file
+AcronymsList.tex. Your choice how to fill this list. NOTE:
+AcronymsList.tex is not included in the default distribution. Just
+setting this flag to True will result in an error.</p>
 <p>Default:   False</p>
 </dd></dl>
 
 <dl class="describe">
 <dt>
 <tt class="descname">useMultipageDeliverableTable</tt></dt>
-<dd><p>multipage deliverables/milestone Table?
-(defaults False / True only for demonstration of the options, pick what
+<dd><p>Should the deliverable and milestone collection table be typeset
+using a standard tabular environment or a multipage tabularx
+environment? Short lists will look better in singlepage mode, but
+obviously long lists have to be split up over multiple pages. See
+latexTemplates.cfg, sections DeliverableTable and MilestoneTable for
+details.
+(the defaults False / True only for demonstration of the options, pick what
 you prefer...)</p>
 <p>Default:   False</p>
 </dd></dl>
@@ -1509,50 +1525,58 @@ you prefer...)</p>
 <dl class="describe">
 <dt>
 <tt class="descname">useMultipageEffortTable</tt></dt>
-<dd><p>should the effort table for the entire project be typesetting across multiple pages?</p>
+<dd><p>Should the effort table for the entire project be typesetting across
+multiple pages? (Similar to above, see latextemplates.cfg, SEction
+effortPerTaskTable).</p>
 <p>Default:   True</p>
 </dd></dl>
 
 <dl class="describe">
 <dt>
 <tt class="descname">effortTableLandscape</tt></dt>
-<dd><p>turn the effort table sideways? Can be useful for large consortia</p>
+<dd><p>Turn the effort table sideways? Can be useful for large
+consortia. Details are in effortPerTaskTableShort and
+effortPerTaskTableMultipage sections of latexTemplates.cfg.</p>
 <p>Default:   True</p>
 </dd></dl>
 
 </div>
 <div class="section" id="customlatex">
 <span id="index-7"></span><h3>CustomLaTeX</h3>
-<p>custom LaTeX commands
-Rationale: there might be some things you&#8217;d like to include in your proposal that
-are not fit for making in general, but can be computed based on the numbers contained in files pulled form the wiki
-E.g., the toal number of person months
-to this end, this section allows you to write python code that is executed once every thing else is done
-and assign the result to a LaTeX command. The defining command will end up in settings.tex
-the command is the option name
-CAUTION: you can really screw up everything here. It can delete your disk and kill your pet. You are WARNED!
-To make use of this feature, you have to understand the Python code!</p>
+<p>A section for custom LaTeX commands.  Rationale: there might be some
+things you&#8217;d like to include in your proposal that are not fit for
+making them general, but can be computed based on the numbers
+contained in files pulled form the wiki. E.g., the toal number of
+person months to this end, this section allows you to write python
+code that is executed once every thing else is done and assign the
+result to a LaTeX command. The defining command will end up in
+settings.tex; the option name will be used as the LaTeX command, to
+be replaced by the result of evaluating the python code here. In
+particular, you have access to the variables described in section
+<a class="reference internal" href="#seclatexfromxml"><em>latexFromXML</em></a>.</p>
+<p>CAUTION: you can really screw up everything here. It can delete your
+disk, insult for boss, and kill your pet. You are WARNED!  To make
+use of this feature, you have to understand the Python code!</p>
 <dl class="describe">
 <dt>
 <tt class="descname">totalPM</tt></dt>
-<dd><p>e.g.: total person months should be defined like this:</p>
+<dd><p>As an example: total person months should be defined like this. This
+command is actually used.</p>
 <p>Default:   sum([int(e[&#8216;resources&#8217;]) for e in allEfforts])</p>
 </dd></dl>
 
 <dl class="describe">
 <dt>
 <tt class="descname">tocLevel</tt></dt>
-<dd><p>and it will turn into a LaTeX command in settings.tex like this
-(where 999 is of course replaced by the result of computing based on actual data):
-newcommand{totalPM}{999}
-toc level</p>
+<dd><p>Set the toc level for LaTeX; easier than to manipulate the main.tex
+file.</p>
 <p>Default:   3</p>
 </dd></dl>
 
 <dl class="describe">
 <dt>
 <tt class="descname">secNumDepth</tt></dt>
-<dd><p>how deeply should headings be numbered?</p>
+<dd><p>How deeply should headings be numbered?</p>
 <p>Default:   3</p>
 </dd></dl>
 
@@ -1560,6 +1584,7 @@ toc level</p>
 </div>
 <div class="section" id="latextemplates-cfg">
 <span id="sec-latextemplates-cfg"></span><h2>latexTemplates.cfg</h2>
+<p>This file contains the input for a little templating engine.</p>
 <dl class="describe">
 <dt>
 <tt class="descname">## To get this right: First line must be on the same line as the</tt></dt>
@@ -3698,7 +3723,7 @@ protection authorities.
     </div>
     <div class="footer">
         &copy; Copyright 2012, Holger Karl.
-      Last updated on Feb 27, 2012.
+      Last updated on Feb 28, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
     </div>
   </body>

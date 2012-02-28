@@ -9,7 +9,7 @@
     <dc:publisher>Holger Karl</dc:publisher>
     <dc:rights>2012, Holger Karl</dc:rights>
     <dc:identifier id="unknown" opf:scheme="unknown">unknown</dc:identifier>
-    <dc:date>2012-02-27</dc:date>
+    <dc:date>2012-02-28</dc:date>
   </metadata>
   <manifest>
     <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml" />
@@ -57,6 +57,9 @@
           media-type="application/xhtml+xml" />
     <item id="_images_aafig-015e5106e1ae8114c85c853cc5d6267403820959.svg"
           href="_images/aafig-015e5106e1ae8114c85c853cc5d6267403820959.svg"
+          media-type="image/svg+xml" />
+    <item id="_images_aafig-a342080786e55ba77fb31f5b23353f3ea2fe5be2.svg"
+          href="_images/aafig-a342080786e55ba77fb31f5b23353f3ea2fe5be2.svg"
           media-type="image/svg+xml" />
     <item id="_images_DeliverableTable.png"
           href="_images/DeliverableTable.png"

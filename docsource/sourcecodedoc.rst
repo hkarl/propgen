@@ -49,10 +49,10 @@ The code described here lists in the bin directory. Some general remarks:
       +latexFromWiki|           |latexFromXML|         	 
       +----+--------+           +-----+------+         	 
 	   |	                      |                
-	   +--------------------------+-----------------------+
-	   |                          |                       |
-	   |                          |                       |
-	   v                          v                       v
+	   |    +---------------------+-----------------------+
+	   |    |                     |                       |
+	   |    |                     |                       |
+	   v    v                     v                       v
    +-----------------+    +--------------------+  +--------------------------+
    | generated latex |    | generated latex wp |  | generated latex partners |
    +-------+---------+    +-----------+--------+  +-----------+--------------+
@@ -129,6 +129,9 @@ latexFromWiki
 .. automodule:: latexFromWiki
    :members:
 
+
+.. _seclatexFromXML:
+
 ============== 
 latexFromXML
 ==============
@@ -178,6 +181,8 @@ utils
 ==================
 latexTemplates.cfg
 ==================
+
+This file contains the input for a little templating engine. 
 
 .. include:: latexTemplates.rst 
 
