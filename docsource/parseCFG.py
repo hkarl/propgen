@@ -35,7 +35,7 @@ def parseFile (lines, options):
         # starting with a whitespace? continuation of an assignment?
         m = re.match (r'^\s+(.+)', l)
         if m:
-            print '   ', m.group(1)
+            print '   ', re.sub('\\\\', '\\\\\\\\', m.group(1))
             continue 
 
         # an assignment? 
@@ -47,7 +47,7 @@ def parseFile (lines, options):
             ##                                                     m.group(1).strip())
             print 
             print '   ', '    '.join(comment)
-            print '   ', "Default: ", m.group(2)
+            print '   ', "Default: ", re.sub('\\\\', '\\\\\\\\', m.group(2), re.MULTILINE)
             comment = []
             continue
 

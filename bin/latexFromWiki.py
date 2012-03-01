@@ -1,14 +1,5 @@
 #!/usr/bin/python
 
-
-import wikiParser
-import glob
-import os 
-import codecs
-import utils
-
-from pprint import pprint as pp
-
 """
 Generate LaTeX code from all the plain wiki files.
 
@@ -18,7 +9,19 @@ Generate LaTeX code from all the plain wiki files.
 
 * XML files are not treated here; that is more complicated.
 
+Essentially, this script just creates a WikiParser object via the
+libaray and applies it to the corresponding files. 
+
 """
+
+import wikiParser
+import glob
+import os 
+import codecs
+import utils
+
+from pprint import pprint as pp
+
 
 def handleFile (f, outdir, parser, config, verbose=False):
     """Translate a wiki file with name f to the corresponding LaTeX file.

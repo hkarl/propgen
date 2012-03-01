@@ -17,7 +17,7 @@ import re
 from pprint import pprint as pp
 import utils
 import os 
-
+import string
 
 def wikiParserFactory(config):
     """Construct an instance of the correct parser class, choice depends on what is
@@ -36,13 +36,14 @@ class wikiParser:
     """Base class to get the interface for turning wiki syntax into useful stuff"""
 
     def getSection (self, wiki, title, level):
-        """extract the section with title at level """
+        """Extract the section with title at level from the text in the wiki parameter """
         return None
 
     def getList (self, wiki):
-        """turn the first itemize in the wiki into a list"""
-        # note: this seems to be identical for all known wiki syntax variations
-        # overwrite this in subclass if necessary 
+        """Turn the first itemize in the wiki into a list.
+        
+        Note: this seems to be identical for all known wiki syntax variations
+        overwrite this in subclass if necessary """
         lines = wiki.splitlines()
         res = []
         found = False
@@ -60,8 +61,8 @@ class wikiParser:
         return res 
 
     def getListAsDict (self, wiki, delimiter = ":"):
-        """tmp is an aray of strings, assumed to be key/values delimited by delimited
-        split them up, return a proper dictionary for that"""
+        """Take the next enumeration from the wiki content. Assume it is a list with key/value delimited by delimiter. 
+        Split them up, return a proper dictionary for that"""
         tmp = self.getList(wiki)
         tmp = [x.split(':') for x in tmp]
         tmp = [(x[0].strip(), x[1].strip()) for x in tmp]
@@ -69,7 +70,7 @@ class wikiParser:
         
     def getTable (self, wiki):
         """turn the first table into list of dictionaries, using the first row as
-        keys for the dictionaries. Removing boldfacing from the first row entries."""
+        keys for the dictionaries. Remove boldfacing from the first row entries if present."""
 
         lines = wiki.splitlines()
         found = False
@@ -103,6 +104,8 @@ class wikiParser:
         return rows
 
     def getSectionRe (self, wiki, startre, endre):
+        """Use the text in the wiki parameter, extract the next
+        section matching the start and end regular expressions."""
         try:
             t = re.split (startre, wiki)[1]
         except:
@@ -117,6 +120,10 @@ class wikiParser:
         
 
     def buildHeadings (self, latex):
+        """Turn all the wiki headings in the latex parameter into the
+        proper LaTeX heading commands, along with a label command as
+        well. Uses the classes headingReplacements attribute where
+        proper regular expressions are defined.  """
         for rep in self.headingReplacements:
             latex = re.sub (rep[0],
                             lambda m: '\\' + rep[1] + '{' + m.group(1) + '}' +
@@ -126,6 +133,8 @@ class wikiParser:
         return latex
 
     def buildLists (self, latex):
+        """Turn all the Wiki lists in the latex text into proper LaTeX
+        lists. Take care to handle nested lists correctly."""
         indentLevel = 0
         enumerateLevel = 0 
 
@@ -205,6 +214,8 @@ class wikiParser:
 
 
     def buildFigure (self, t):
+        """An attempt to allow direct figure inclusion. See
+        documentation for details on synatx and limitations."""
         import glob
         lines = t.split('\n')
         latex = ""
@@ -309,8 +320,10 @@ class wikiParser:
 
 
     def buildTable (self, t):
+        """Turn wiki tables into LaTeX tabular environments. Interpret
+        #TABULAR commands to set the tabular header. """
 
-        import string
+
         
         inTable = False
         tabularHeader = "" 
@@ -337,7 +350,7 @@ class wikiParser:
                 # print cols 
                 colstring = 'p{' + str(0.8/cols) + '\\textwidth}'
                 # print colstring 
-                ll = re.sub (self.tableColumnsRE, r'&', ll)
+                ll = re.sub (re.escape(self.tableColumns), r'&', ll)
 
                 if inTable==False:
 
@@ -363,7 +376,9 @@ class wikiParser:
         return latex
 
     def handleCharacters (self, latex):
-        import string 
+        """Replace any special characters that might appear from
+        attempts at manual HTML markup."""
+
         latex = string.replace (latex, '&lt;br&gt;', '\\newline')
         latex = string.replace (latex, '&lt;BR&gt;', '\\newline')
         latex = string.replace (latex, '%BR%', '\\newline')
@@ -384,7 +399,9 @@ class wikiParser:
         return latex
     
     def applyLaTeXFunctions (self, latex):
-        import string 
+        """Apply all the LaTeX conversions functions step by
+        step. Note that the order is important!"""
+
         # before we do anything, let's get rid of "lonely" & characters
         # later on, we build them back into \& for LaTeX processing
         latex  = string.replace (latex, '& ', '&amp;')
@@ -487,14 +504,16 @@ class wikiParser:
                        
     
 class wikiParserMoinmoin(wikiParser):
-    """Specialized for Moinmoin"""
+    """Specialized for Moinmoin. Especially the order of the heading
+    replacement regular expressions is tricky for moinmoin."""
 
     def __init__ (self, config):
         self.config = config 
         self.boldfaceDelimiter = "'''"
         self.tableColumns = "||"
-        self.tableColumnsRE = "\|\|"
+        # self.tableColumnsRE = "\|\|"
         self.tableRows = r"^\|\|"
+
         self.headingReplacements = [(r'^===== (.*) =====$', 'subparagraph'),
                                     (r'^==== (.*) ====$', 'paragraph'),
                                     (r'^=== (.*) ===$', 'subsubsection'),
@@ -507,23 +526,21 @@ class wikiParserMoinmoin(wikiParser):
         self.figureKeys = r'([^ =]+) *= *("(.*?)"|[^ ]*)'
 
     def buildFigure (self, t):
-        # moinmoin syntax gets in out way - kick out the attachment syntax
-        # and rely on the twik iway of doing it - this needs fixing! TODO
+        """For building a figure, the moinmoin syntax gets in out way
+        - kick out the attachment syntax and rely on the twik iway of
+        doing it - this needs fixing!  TODO"""
+        
         t = re.sub (r"{{attachment:.*?}}", "", t)
         return (wikiParser.buildFigure (self, t))
         
     def getSection (self, wiki, title, level):
-        """extract the section with title at level """
+        """Extract the section with title at level """
 
         startre = self.localHeading (title, level)
         endre = r'\n=' + '=?'*(level-1) + ' '
         
         # print "start, end re: >>" + startre + "<< >>" + endre +  "<<"
         return self.getSectionRe (wiki, startre, endre)
-
-    ## def getTable (self, wiki):
-    ##     """turn the first table at the beginning of wiki text into a dictionary"""
-    ##     return self.getTableDelimiter (wiki, '||', r"^\|\|")
 
     def handleCharacters (self, latex):
 
@@ -552,7 +569,7 @@ class wikiParserTwiki(wikiParser):
         self.config = config 
         self.boldfaceDelimiter = "*"
         self.tableColumns = "|"
-        self.tableColumnsRE = "\|"
+        # self.tableColumnsRE = "\|"
         self.tableRows = r"^\|"
         self.figureRE = r'&lt;img (.*)/&gt;'
         self.figureKeys = r'([^ =]+) *= *(&quot;(.*?)&quot;|[^ ]*)'
@@ -568,10 +585,6 @@ class wikiParserTwiki(wikiParser):
         endre = r'---' + r'\+?'*(level-1) + r' '
 
         return self.getSectionRe (wiki, startre, endre)
-
-    ## def getTable (self, wiki):
-    ##     """turn the first table at the beginning of wiki text into a dictionary"""
-    ##     return self.getTableDelimiter (wiki, '|', )
 
     def handleCharacters (self, latex):
 

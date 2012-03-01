@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+"""A module with assorted helper and ultility functions and classes."""
+
 
 import sys
 import os
@@ -11,8 +13,9 @@ import ConfigParser
 # write file to right outfile
 
 def writefile (t, f):
-    """Write text t into file f. If flag utf8conversion is set,
-    try to run a conversion into UTF-8."""
+    """Write text t into file f. Main point: use utf-8 encoding for
+    output. Just a shorthand. And empty t parameter causes the file to
+    be overwritten with an empty file!"""
 
     if not t:
         t = ""
@@ -37,7 +40,8 @@ def writefile (t, f):
 # warning
 
 def warning (w):
-
+    """Append the warning text w to warnings.tex"""
+    
     config = getSettings ("")
     f = open (os.path.join(config.get ("PathNames", 'genlatexpath'),
                            "warnings.tex"), 'a')
@@ -53,6 +57,9 @@ def warning (w):
 # resolve include commands:
 
 def deepExpandInclude (prefix, infile):
+    """Recursively expaned #include commands in XML files. Make sure
+    UTF-8 is used for writing."""
+
     fin = codecs.open (os.path.join(prefix, infile),
                        'r', 'utf-8')
     tout = []
@@ -71,7 +78,8 @@ def deepExpandInclude (prefix, infile):
     return ' '.join(tout)
     
 def expandInclude (prefix, infile, outfile):
-
+    """Expand an xML file, make sure UTF-8 is used for reading."""
+    
     prefOut = os.path.join (prefix, outfile)
     
     fout = codecs.open (prefOut, 'w', 'utf-8')
@@ -86,6 +94,13 @@ def expandInclude (prefix, infile, outfile):
 # mapReduce a la google
 
 def mapReduce (l, reducefct):
+    """Perform a map reduce operation on a list of (key, value)
+    pairs. Apply the reducefct in the reduce step.
+
+    This is mostly used for building pie charts but might be generally
+    useful.
+    """
+    
     return [reduce ( lambda a,b: (a[0], reducefct(a[1], b[1])), ll) \
            for ll in [filter (lambda x: x[0]==nn, l) \
                       for nn in set([ll[0] for ll in l])] \
@@ -95,8 +110,9 @@ def mapReduce (l, reducefct):
 # treeReduce: 
 
 def treeReduce (l, reducefct):
-    """recursively apply a reduce function to a nested list structure.
+    """Recursively apply a reduce function to a nested list structure.
     Atomic elements must be boolean values."""
+    
     if isinstance(l, bool):
         return l
     else:
@@ -164,14 +180,13 @@ class documentedDict(dict):
 
     @keydoc.setter
     def keydoc(self, v):
-        # print self.lastkey, v
         documentedDict.keydocs[self.lastkey] = v 
 
 
 
 def docuDict (s, d, fp):
     """For documentation purposes: print a rest header using s, and
-    then print the dictionary as a description list."""
+    then print the dictionary as a description list via dictAsRest()."""
     
 
     fp.write ( ''*len(s) + "\n")
@@ -183,12 +198,15 @@ def docuDict (s, d, fp):
     
 def dictAsRest (d, fp):
     """Given a dictionary, print key/values as a description list in
-    reStructuredText syntax."""
+    reStructuredText syntax. Checks if the dictionary is a
+    documentedDict and then pulls the corresponding keydoc and prints
+    it as documentation of the key/value example. """
 
     import re 
     for k in sorted(d.keys()):
         v = d[k]
-        if v: 
+        if v:
+            # v = re.sub('\\\\', '\\\\\\\\', v)
             fp.write ( "**"+ k + "**\n") 
             fp.write ( "   **Type**: " + str(type(v)) + "\n")
             fp.write ( "\n")

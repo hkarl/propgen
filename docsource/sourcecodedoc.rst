@@ -150,13 +150,6 @@ latexFromXML
 .. include:: latexfromXMLKeyValue.rst 
 
 
-============
-settings 
-============
-
-.. automodule:: settings
-   :members:
-
 ===================
 ensureSymbolicLinks
 ===================
