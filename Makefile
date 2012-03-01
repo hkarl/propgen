@@ -59,6 +59,7 @@ clean:
 	# remove empty symbolic links from latex path - this is debatable! 
 	cd ${LATEXPATH} ; rm -f main.aux main.lof main.log main.lot main.lox main.out main.toc main.bbl main.blg 
 	for d in ${LATEXLINKS}; do test ! -e $$d && rm $$d ; done  
+	find doc -type f -print | grep -v README | xargs rm 
 
 fullcommit: 
 	make clean 
