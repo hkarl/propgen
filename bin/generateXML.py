@@ -7,7 +7,6 @@
 
 from pprint import pprint as pp
 import wikiParser
-import settings
 import os 
 from xml.etree.ElementTree import ElementTree, dump, SubElement, Element
 from string import Template
@@ -57,6 +56,7 @@ def dictAsXML (d, parser=None, specialFields=[]):
     for k0, v in d.iteritems():
         k = k0.strip()
         if k in specialFields:
+            # print ">>" + v 
             kk = re.sub('\s', '', k)
             kk= kk.strip('s')
             kk= kk.strip('(s)') 
@@ -69,9 +69,12 @@ def dictAsXML (d, parser=None, specialFields=[]):
                 vvv = vvv.strip(parser.boldfaceDelimiter)
                 vvv = vvv.strip()
                 # print vvv
-                if vv==vvv:
+                # if vv==vvv:
+                if not re.search(parser.boldfaceDelimiter, vv):
+                    # print "false"
                     t += "<" + kk + ' main="False">' + str(vvv) + "</" + kk + ">\n"
                 else:
+                    # print "main"
                     t += "<" + kk + ' main="True">' + str(vvv) + "</" + kk + ">\n"
         else:
             k = re.sub ('\s', '', k) 
@@ -91,7 +94,7 @@ def singleWorkpackageXML (wp, wpwiki, parser, wpcount):
 
     #### get the deliverables
     wpDelXML = ""
-    for deliv in parser.getTable(parser.getSection (wpwiki, "Deliverables", 3)): 
+    for deliv in parser.getTable(parser.getSection (wpwiki, "Deliverables", 3)):
         wpDelXML += '<deliverable id="' + deliv["Label"] +'">\n'  + \
                     dictAsXML(deliv, parser, ["Contributors", "Producing task(s)"]) + \
                     "</deliverable>\n"
@@ -108,7 +111,7 @@ def singleWorkpackageXML (wp, wpwiki, parser, wpcount):
     newTasks = set([])
     for task in parser.getTable(parser.getSection (wpwiki, "Tasks", 3)): 
         if task['Label'] not in newTasks:
-            print task['Label']
+            # print task['Label']
             newTasks.add(task['Label'])
             task['Main'] =True
             # plug out corresponding description
@@ -116,8 +119,8 @@ def singleWorkpackageXML (wp, wpwiki, parser, wpcount):
             td = parser.getSection (wpwiki, "Task [dD]escription: " + task['Label'].strip(), 3)
             obj = parser.getSection (td, "Objectives", 4)
             descr = parser.getSection (td, "Description of work", 4)
-            print "Objectives: ", obj
-            print "Descr: ", descr
+            # print "Objectives: ", obj
+            # print "Descr: ", descr
             task['taskobjectives'] = obj
             task['taskdescription'] = descr
         else:
@@ -237,7 +240,7 @@ if __name__ == "__main__":
                        action="store_true", default=False)
     (options, args) = parser.parse_args()
 
-    config = settings.getSettings(options.settingsfile)
+    config = utils.getSettings(options.settingsfile)
 
     # read in the main project wiki file
     projectWiki = codecs.open(os.path.join(config.get('PathNames', 'wikipath'),

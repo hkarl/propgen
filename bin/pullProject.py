@@ -4,7 +4,6 @@
 settings.cfg. Store the raw wiki syntax in the wikipath directory. """
 
 import pullWiki
-import settings
 import os 
 from optparse import OptionParser
 import wikiParser 
@@ -87,7 +86,7 @@ if __name__ == "__main__":
     (options, args) = parser.parse_args()
     
 
-    config = settings.getSettings(options.settingsfile) 
+    config = utils.getSettings(options.settingsfile) 
 
     projectname = config.get('Wiki','projectName')
         

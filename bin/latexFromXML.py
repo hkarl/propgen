@@ -23,7 +23,6 @@ Details from where files are read and where files are put are
 controlled by settings.cfg. 
 """
 
-import settings
 import wikiParser
 import glob
 import os 
@@ -37,22 +36,45 @@ from pprint import pprint as pp
 from xml.etree.ElementTree import ElementTree, dump
 
 
-# global variables, to store all the state of the proposal 
+# global variables, to store all the state of the proposal
+
 allWPDicts= []
-"""A list storing one dictionary per workpackage. Filled from XML file.
+"""A list storing one dictionary per workpackage. Filled from XML
+file. Some additions computed. 
 """
 
 allMilestones = []
+"""A list storing one dictionary per milestone. Filled in from XML
+file, with some additions. """
+
 allDeliverables = []
+"""A list storing one dictionary per deliverable. Filled in from XML
+file, with some additions. """
+
 allTasks = []
+"""A list storing one dictionary per task. Collected from all the
+tasks in all the workpackage pages. Some additions computed. """
+
 allEfforts = []
+"""A list containing a dictionary per task/partner
+combination. Extracted from the effort tables on the Wiki."""
+
 partnerList = []
-titlepageDict = {}
-""" Dictionary containing all information about the project in general; mostly it goes on the titlepage.
+"""A list storing one dictionary per partner."""
+
+titlepageDict = utils.documentedDict()
+""" Dictionary containing all information about the project in
+general; mostly it goes on the titlepage. It directly obtains its
+content from the main project wiki page, without any additions
+computed here. 
 """
 
-expanded = {}
-
+expanded = utils.documentedDict()
+"""This dictionary collects all the expansions of templates from
+latexTemplate.cfg. Like all the other ones, it can be used as an
+argument to the dict option therein, allowing to build templates that
+use the expansions of simpler templates as variables. 
+"""
 
 
 def dictFromXML (tree):
@@ -61,10 +83,25 @@ def dictFromXML (tree):
     node and the text attribute of the child node is the value. Return
     this dictionary."""
     
-    return dict ([(x.tag.strip(), x.text.strip()) for x in tree.getchildren()])
+    return utils.documentedDict ([(x.tag.strip(), x.text.strip()) for x in tree.getchildren()])
 
 def dictFromXMLWithMains (tree):
-    d = {}
+    """Similar to dictFromXML, but this function in addition
+    understands an XML-attribute main. This is used to differentiate,
+    e.g., between lead contributor and non-lead contributors of a
+    task; or to differentiate between a main producing task for a
+    deliverable and an ordinary task. This XML attributes are
+    generated based on boldface markup in generateXML; see function
+    singleWorkpackageXML in generateXML.py. If such a key is found in
+    the XML atribute, a corresponding entry is put into the dictionary
+    that is to be generated from this XML subtree.
+
+    Example: Milestone dicts have a key Contributor, which has a list
+    of partner shortnames. A milestone also *might* have a key
+    ContributorMain, which is a partner shortname string, specifying
+    a potential lead partner for this milestone. 
+    """
+    d = utils.documentedDict()
     ll = [(x.tag.strip(), x.text.strip(), x.attrib) for x in tree.getchildren()]
 
     for l in ll:
@@ -73,7 +110,7 @@ def dictFromXMLWithMains (tree):
         attrib = l[2]
         hasMain = False
         
-        if d.has_key(tag):
+        if tag in d:
             # need to think about the arrays
             if attrib.has_key("main"):
                 d[tag].append(val)
@@ -92,6 +129,7 @@ def dictFromXMLWithMains (tree):
             # note: only support for a SINGLE main entity ! 
             if attrib["main"] == "True":
                 d[tag+"Main"] = val
+                d.keydoc  = "A main key for the acutal key " + tag
             else:
                 d[tag+"Main"] = ""
 
@@ -99,14 +137,23 @@ def dictFromXMLWithMains (tree):
             # TODO: add sorting order here
             # it doesnt make a lot of sense for all things, but useful nonetheless
             d[tag+"String"] = ", ".join([ "\\textbf{" + x + "}" if x == d[tag+"Main"]
-                                          else x
-                                          for x in sorted(d[tag])])
+                                          else x for x in sorted(d[tag])])
+            # print "adding " + tag + " to dictionary"
+            d.keydoc = """Since key %s has a main attribute, we
+            add here a key that contains a string
+            concatening the list of individual entries, marking the
+            main entry in boldface."""  % tag
     return d
 
 
 ###############
 # produce the LaTeX options 
 def processLaTeX (config):
+    """Process the LaTeX-relevant sections of settings.cfg, turn the options
+    therein into LaTeX commands. Some of them need specific processing
+    (like showCommissionHints), others evaluate a LaTeX expression,
+    others simply generate a boolean variable for the switches in settings.cfg. 
+    """
     t = ""
     if config.getboolean('LaTeX', 'showCommissionHints'):
         t += "% commissionHints command unchanged to have them included\n"
@@ -151,6 +198,8 @@ def processLaTeX (config):
 ##############################################################
 
 def analyzePartners (tree):
+    """Produce the partnerList dictionaries, containing all partner
+    descriptions, from the correspndng part of the XML tree."""
     
     global partnerList
     for p in tree.getchildren():
@@ -173,7 +222,7 @@ def fixProducingTask (ll):
     # print "taskmap"
     # pp(taskmap)
     for md in ll:
-        if md.has_key("Producingtask"):
+        if "Producingtask" in md:
             tmp = sorted([taskmap[x] for x in md["Producingtask"]])
             # print tmp
             tmp2 = ", ".join([ "\\textbf{" + x + "}"
@@ -181,9 +230,15 @@ def fixProducingTask (ll):
                                else x for x in tmp])
             # print tmp2
             md["ProducingtaskString"] = tmp2
-        
+            # print "adding producingtaskString" 
+            md.keydoc = """A string that contains all the tasks
+            producing this milestone or deliverable; with a possible
+            main contributor set in boldface."""
+            
 def analyzeWPs (tree, verbose=False):
-
+    """Given an XML tree pointing to a WP, extract all the information
+    from it and build the global variables describing this WP. """
+    
     global allWPDicts, allMilestones, allDeliverables, allTasks, allEfforts
 
     
@@ -215,9 +270,16 @@ def analyzeWPs (tree, verbose=False):
             else:
                 tasknumberssofar[taskDict["Label"]] = tasknumber
                 taskDict["tasknumber"] = tasknumber
+                taskDict.keydoc = """Constructed tasknumber, makes
+                sure that a multiple phase task only gets one number,
+                consequetively increasing in a WP, ordered in the same
+                order as the tasks appear on the WP's wiki page. If
+                you want something like T 1.1, use taskId instead. """
                 tasknumber += 1 
 
             taskDict["taskId"] = "T\," + str(taskDict["wp"]) + "." + str(taskDict["tasknumber"])
+            taskDict.keydoc = """Based on the tasknumber, construct a
+            readbable number for this task. """
             
             # make some as integer:
             taskDict["Duration"] = int(taskDict["Duration"])
@@ -232,12 +294,27 @@ def analyzeWPs (tree, verbose=False):
             partnerId = p.attrib['id']
             # print partnerId
             for task in p.findall("taskeffort"):
-                # print task.find("task").text
-                # print task.find("resources").text
+                d = utils.documentedDict()
 
-                allEfforts.append({"partner": partnerId, "task": task.find("task").text.strip(),
-                                   "resources": task.find("resources").text.strip(),
-                                   "wp": wpDict["Number"]})
+                d["partner"] = partnerId
+                d.keydoc = """The partner shortname of the partner
+                organization the effort of which is described here. """
+                
+                d["task"] = task.find("task").text.strip()
+                d.keydoc = """The task label which identifies this
+                task."""
+                
+                d["resources"] = task.find("resources").text.strip()
+                d.keydoc = """The resources which this partner has in
+                this task."""
+                
+                d["wp"] = wpDict["Number"]
+                d.keydoc = """For simplicity, this field describes the
+                number of the workpackage in which this task is
+                hosted. Not strictly necessary, but makes a number of
+                tests simpler later on."""
+
+                allEfforts.append(d)
             
 
         # analyze milestones
@@ -248,6 +325,9 @@ def analyzeWPs (tree, verbose=False):
 
             # make some as integer:
             thisdict["Monthdue"] = int(thisdict["Monthdue"])
+            thisdict.keydoc = """Due dates are interpreted as being at
+            the END of the given month. Relevant for correct placement
+            of the markers in the Gantt charts."""
             allMilestones.append(thisdict)
 
         # create milestone ids
@@ -257,6 +337,7 @@ def analyzeWPs (tree, verbose=False):
                 currentWP = m['wp']
                 count = 1
             m['id'] = 'M\,' + currentWP +"." + str(count)
+            m.keydoc = """Unique shortname for the milestone."""
             count += 1 
 
         # analyze deliverables
@@ -287,8 +368,15 @@ def analyzeWPs (tree, verbose=False):
     # put any additional information into the task strings
 
     for t in allTasks:
-        t['contributedDeliverables'] = [d['Label'] for d in allDeliverables if t['Label'] in d['Producingtask'] ]
+        t['contributedDeliverables'] = [d['Label'] for d in
+                                        allDeliverables if t['Label'] in d['Producingtask'] ]
+        t.keydoc = """All the deliverables this task contributes to,
+        using the label of the deliverable. A
+        list; can be turned into a string by proper join operation. """
         t['contributedMilestones'] = [d['Label'] for d in allMilestones if t['Label'] in d['Producingtask'] ]
+        t.keydoc = """All the milestones this task contributes to,
+        using the label of the milestone. A
+        list; can be turned into a string by proper join operation. """
 
     # make sure all tasks and all partners show up in allEfforts:
     for t in allTasks:
@@ -315,10 +403,14 @@ def produceUncompressedGantt (l, config):
                            + str(e['Monthdue']) + "}" for e in l    ])
     
 def produceCompressedGantt (l, config):
-    # sort by date first:
-    # note: a bit complex, let's assure that when there are several ones on the same date, they appear
-    # in order of their id. Irrespective of whether they belong to the same WP (TODO: should this be made
-    # an option to choose that "own" items come first? -- Makes little sense 
+    """Produce a Gantt chart where milestones and deliverables are
+    packed in as few lines as possible, with horizontal separation
+    being controlled by the corresponding setting in
+    settings.cfg. Milestones/deliverables are sorted by their due
+    date! If they should appear in some other order, change the first
+    line in this function (computation of inputList). TODO: Thinky
+    about making this a configurable option. """
+
     inputlist = sorted(l, key=lambda x: int(x['Monthdue']))
 
     maxNumLines = len(inputlist)
@@ -347,21 +439,21 @@ def produceCompressedGantt (l, config):
 
     
 def computeGanttStrings (config):
+    """Determine the actual gantt chart, spearately for task bars, the
+    deliverables, and the milestones. This function computes various
+    extensions for the main global variables (see key documentation). 
+    Also a combined deliverables/milestones string 
+    enables easy mix and match 
+
+    construct the relevant milestone, deliverable list
+    question is whether to incorporate also the cross-WP
+    milestones/deliverables; this is configurable option"""
+
     global titlepageDict, partnerList, expanded 
     global allWPDicts, allMilestones, allDeliverables, allTasks, allEfforts
 
     for wp in allWPDicts:
 
-        # print "WP: ", wp['Number']
-        # the actual gantt chart, spearately for task bars, the deliverables, and the milestones.
-        # also a combined deliverables/milestones string 
-        # enables easy mix and match 
-
-        # construct the relevant milestone, deliverable list
-        # question is whether to incorporate also the cross-WP
-        # milestones/deliverables; this is configurable option
-
-        # print "milestones WITH cross-WP milestones, as arrays:"
         milestoneList = [x for x in allMilestones
                          if x['wp'] == wp['Number'] or
                          ( config.getboolean ("Gantts", "milestonesShowCrossWP") and 
@@ -370,12 +462,37 @@ def computeGanttStrings (config):
                                              lambda a, b: a or b)
                            )]
         for m in milestoneList:
-            m["deco"] = "[milestone={" + config.get ("Gantts", "milestoneDecoration") + "}]" 
+            m["deco"] = "[milestone={" + config.get ("Gantts",
+                         "milestoneDecoration") + "}]"
+            m.keydoc = """A string to be passed to the pgfgantt
+                         package, to make the milestones look
+                         differently from the deliverables
+                         markers. Controlled by the
+                         milestoneDecoration option in settings.cfg."""
             
         wp["milestoneGanttString"] = produceCompressedGantt (milestoneList, config)
+        wp.keydoc = """A LaTeX command string containing the
+        commands to typeset the milestones of a particular WP (use
+        pgfgantt commands). It is
+        in compressed version, i.e., it tries to put milestones on
+        as few lines as possible.""" 
+
         wp["milestoneUncompressedGanttString"] = produceUncompressedGantt (milestoneList, config)
+        wp.keydoc = """A LaTeX command string containing the commands to typeset the
+        milestones of a particular WP. This is in uncompressed form,
+        i.e., each miilestone goes on a separate line."""
+        
         wp["milestoneInGantt"] = [m["Label"] for m in milestoneList]
+        wp.keydoc = """Which milestones (symbolic labels) appear in
+        the Gantt chart of this WP? (This is NOT the same thing as the
+        milestones hosted in a WP because of cross-WP milestones; this
+        list might contain milestones of other WPs as well in case a
+        task of this WP contributes to the milestone."""
+        
         wp["milestoneGanttLegend"] = "\n".join([Template(config.get("Gantts","milestoneLegendTemplate")).substitute(x) for x in milestoneList])
+        wp.keydoc = """The part of the Gantt legend pertaining to the
+        milestones. Its look is controlled by the
+        milestoneLegendTemplate in settings.cfg."""
         
         deliverableList = [x for x in allDeliverables
                            if x['wp'] == wp['Number'] or
@@ -389,15 +506,24 @@ def computeGanttStrings (config):
             d["deco"] = ""
             
         wp["deliverableGanttString"] = produceCompressedGantt (deliverableList, config)
+        wp.keydoc = "Compare the same corresponding key for milestones."
+
         wp["deliverableUncompressedGanttString"] = produceUncompressedGantt (deliverableList, config)
+        wp.keydoc = "Compare the same corresponding key for milestones."
+
         wp["deliverableInGantt"] = [d["Label"] for d in deliverableList]
+        wp.keydoc = "Compare the same corresponding key for milestones."
+
         wp["deliverableGanttLegend"] = "\n".join([Template(config.get("Gantts","deliverableLegendTemplate")).substitute(x) for x in deliverableList])
+        wp.keydoc = "Compare the same corresponding key for milestones."
 
         
         ########################
         # the groupbar for a WP is fairly simple:
         wp["groupbar"] = r"\ganttgroup{}{" + wp['Start'] +  "}{" \
                          + str(int(wp["Start"]) + int(wp['Duration']) - 1) + r"} \\"
+        wp.keydoc = """In a horizontal bar is desired to separate WPs;
+        this is a command for the pgfgantt package. """
         
         ########################
         # compute the taskbar gantt part
@@ -420,6 +546,9 @@ def computeGanttStrings (config):
                 taskganttid = "T" + t["wp"] + "-" + str(t["tasknumber"])
                 # print taskganttid
                 t["ganttid"] = taskganttid
+                t.keydoc = """The string to typeset in the Gantt box
+                of this task."""
+                
                 if i==0:
                     thistaskgantt = "\\ganttbar[name="+ taskganttid  + "-" + str(i) + \
                                          "]{" + t['taskId'] + \
@@ -440,6 +569,10 @@ def computeGanttStrings (config):
             # print thistaskgantt
             wp["taskGantt"] += thistaskgantt
         wp["taskGantt"] = wp["taskGantt"].strip("\n")
+        wp.keydoc = """A command for pgfgantt to set the task part of
+            the WP's Gantt chart. This is in principle
+            straightforward, but the requirement for multi-phase tasks
+            makes it a bit complicated. """ 
 
 
     #####
@@ -448,13 +581,25 @@ def computeGanttStrings (config):
     for d in allDeliverables:
         d['ganttLegend'] = Template(config.get("Gantts",
                                                "deliverableLegendTemplate")).substitute(d)
+        d.keydoc = """The string to be put into the legend of a Gantt
+        chart for this deliverable. Controlled by the
+        deliverableLegendTemplate option in settings.cfg. """
+
     for ms in allMilestones:
         ms['ganttLegend'] = Template(config.get("Gantts","milestoneLegendTemplate")).substitute(ms)
+        ms.keydoc = """The string to be put into the legend of a Gantt
+        chart for this milestone. Controlled by the
+        deliverableLegendTemplate option in settings.cfg. """
 
     return 
 
 ################################################
 def computeWPTable (config):
+    """For each WP in allWPDicts, compute the LaTeX string for the
+    header of the workpackage table. The table header
+    is fairly complex to stitch together and is done here instead of
+    in the latexTemplates.cfg. 
+    """
     global titlepageDict, partnerList, expanded 
     global allWPDicts, allMilestones, allDeliverables, allTasks, allEfforts
 
@@ -523,12 +668,16 @@ def computeWPTable (config):
 
         t += r'\end{tabular}'
         wp['tableheader'] = t
-        # pp(wp)
+        wp.keydoc = """The WP table header block, with effort lines
+        per partner. It is a complete tabular environment, ready to be
+        used in a template section of latexTemplates.cfg."""
+
 
 ###############################################
 
 def analyzeTree(tree, config, verbose=False):
-    """Take an XML tree and create all the necessary data structures"""
+    """Take an XML tree and create all the necessary data structures;
+    just invokes various analyses functions."""
     global titlepageDict
     global partnerList 
 
@@ -551,7 +700,7 @@ def analyzeTree(tree, config, verbose=False):
 ## use the templates to generate latex text 
 
 class recursiveTemplate(Template):
-    """ try to find recursively occuring patterns and replace them first"""
+    """Try to find recursively occuring patterns and replace them first"""
     def substitute (self, d):
         # print "REC"
         tmp = self.template
@@ -580,7 +729,9 @@ class recursiveTemplate(Template):
 
 def generateTemplatesBuildListResult (templ, listtoworkon, 
                                       keytosave, expandedresults):
-
+    """Helper function to deal with lists in the template substition
+    process. 
+    """
         
     if templ.has_key ("dict"):
         dicttouse = eval(templ["dict"])
@@ -719,7 +870,7 @@ def generateTemplates(config, verbose):
 
     # pp(templates)
 
-    templateParser = settings.getSettings(config.get("PathNames",
+    templateParser = utils.getSettings(config.get("PathNames",
                                                      "latexTemplates"))
 
 
@@ -768,7 +919,8 @@ def generateTemplates(config, verbose):
 
 
 def writeTemplateResult (expanded, templ, keytouse = None):
-    """Use the information in templ to check whether it should be written out"""
+    """Use the information in templ to check whether it should be
+    written out and write the particular template to disk."""
 
     if not keytouse:
         keytouse = templ["label"]
@@ -823,10 +975,16 @@ def computeStatistics (verbose):
     for wp in allWPDicts:
         wp['wpeffort'] = str(sum([int(e['resources'])
                                   for e in allEfforts if e['wp'] == wp['Number']]))
+        wp.keydoc = """The total effort of this WP (as string, not
+        sure why?)."""
+
         taskset = set([task['Label'] for task in allTasks if task['wp'] == wp['Number']])
         wp['taskeffort'] = dict([ (t, sum([int(te['resources'])
                                            for te in allEfforts if te['task'] == t]))
                                   for t in taskset ] )
+        wp.keydoc = """A dictionary, mapping the symbolic label of
+        each task of this WP to the total effort it consumes (as
+        integer)."""
         
         partnerset = set([te['partner'] for te in allEfforts if te['wp'] == wp['Number'] and int(te['resources']) > 0])
         wp['partnereffort'] = dict([ (p, sum([int(te['resources'])
@@ -834,6 +992,9 @@ def computeStatistics (verbose):
                                               if te['partner'] == p and
                                               te['wp'] == wp['Number'] and int(te['resources']) > 0]))
                                      for p in partnerset ] )
+        wp.keydoc = """A dictionary mapping the shortname of each
+        partner with positive effort in this WP to the effort (as integer)."""
+        
         # make sure that every partner is mentioned in partnereffort, with 0 if no effort
         for p in partnerList:
             if not wp['partnereffort'].has_key(p['Shortname']):
@@ -847,6 +1008,11 @@ def computeStatistics (verbose):
 
 
 def generatePartnerDescriptions(config, verbose):
+    """Generate the LaTeX code to describe a partner, including
+    subsection heading and labels. Produces the partnersIncluder.tex
+    file. 
+    """
+    
     t = ""
     for p in partnerList:
         # print p
@@ -875,7 +1041,7 @@ if __name__ == '__main__':
                        action="store_true", default=False)
     (options, args) = parser.parse_args()
 
-    config = settings.getSettings(options.settingsfile)
+    config = utils.getSettings(options.settingsfile)
 
     parser = wikiParser.wikiParserFactory (config)
 
@@ -943,3 +1109,4 @@ if __name__ == '__main__':
         utils.docuDict ('partnerList', partnerList[0], fp)
 
         fp.close()
+

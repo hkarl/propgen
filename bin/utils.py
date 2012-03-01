@@ -1,10 +1,10 @@
 #!/usr/bin/python
 
 
-import settings
 import sys
 import os
 import codecs
+import ConfigParser
 
 #############################
 #
@@ -29,7 +29,6 @@ def writefile (t, f):
     ## else:
     ##     t = unicode (t, "utf-8")
 
-    
     fp.write(t)
     fp.close 
 
@@ -39,7 +38,7 @@ def writefile (t, f):
 
 def warning (w):
 
-    config = settings.getSettings ("")
+    config = getSettings ("")
     f = open (os.path.join(config.get ("PathNames", 'genlatexpath'),
                            "warnings.tex"), 'a')
     out =  ("Warning: " + w).strip()
@@ -145,11 +144,11 @@ def roundPie  (l):
 
 class documentedDict(dict):
     """A slightly extended dict class. It has a property
-    docstring. Assigning a string to this property stroes a docstring
+    keydoc. Assigning a string to this property stroes a keydoc
     for the most recently assigned key in a class dictionary. Reading
-    this property returns a dictionary of these docstrings."""
+    this property returns a dictionary of these keydocs."""
     
-    docstrings = dict()
+    keydocs = dict()
 
     def __init__ (self, *args, **kwargs):
         self.lastkey = ""
@@ -160,12 +159,13 @@ class documentedDict(dict):
         self.lastkey = key
 
     @property
-    def docstring(self):
-        return documentedDict.docstrings
+    def keydoc(self):
+        return documentedDict.keydocs
 
-    @docstring.setter
-    def docstring(self, v):
-        documentedDict.docstrings[self.lastkey] = v 
+    @keydoc.setter
+    def keydoc(self, v):
+        # print self.lastkey, v
+        documentedDict.keydocs[self.lastkey] = v 
 
 
 
@@ -189,8 +189,8 @@ def dictAsRest (d, fp):
     for k in sorted(d.keys()):
         v = d[k]
         if v: 
-            fp.write ( k + "\n") 
-            fp.write ( "   " + str(type(v)) + "\n")
+            fp.write ( "**"+ k + "**\n") 
+            fp.write ( "   **Type**: " + str(type(v)) + "\n")
             fp.write ( "\n")
 
             ## print '--------------------'
@@ -198,14 +198,51 @@ def dictAsRest (d, fp):
             ## print type(v)
             ## print v
 
+            if isinstance (d, documentedDict):
+                if k in d.keydoc:
+                    # print "documentedDict with key " + k 
+                    tmp = re.sub('\\\\', '\\\\\\\\', d.keydoc[k])
+                    fp.write ( '   **Documentation**: ' +
+                               '\n   '.join(map(lambda x: x.strip(),
+                                                tmp.lstrip().split('\n'))) + "\n\n")
+
             if isinstance (v, str) or isinstance(v, unicode):
                 # duplicating backslashes is necessary to convince
                 # sphinx to typeset them correctly in outpu
                 tmp = re.sub('\\\\', '\\\\\\\\', v)
-                fp.write ( '   ' + '\n   '.join(map(lambda x: x.strip(), tmp.lstrip().split('\n'))) + "\n")
+                fp.write ( '   **Example**: ' +
+                           '\n   '.join(map(lambda x: x.strip(),
+                                            tmp.lstrip().split('\n'))) + "\n")
             else:
                 # print v
-                fp.write ( "   "+ str(v) + "\n")
+                fp.write ( "   **Example**: "+ str(v) + "\n")
             fp.write ( "\n")
 
 
+
+#########################
+
+def getSettings(filename):
+    """Try to find the settings file, turn it into a configParser
+    object, and do some first preprocessing on it."""
+
+    if not filename:
+        filename = "../settings.cfg"
+
+    c = ConfigParser.SafeConfigParser()
+    c.optionxform = str  # to make option names case sensitive! 
+
+    if not c.read(filename):
+        print "Settings file not found, was looking at: " + filename
+        print "Serious problem - giving up"
+        exit
+
+    # add a .. prefix if pathNames appear
+    if c.has_section('PathNames'):
+        for o in c.options('PathNames'):
+            if not o == 'bindir':
+                c.set ('PathNames', o, os.path.join ('..', c.get('PathNames', o)))
+                # print o, c.get('PathNames', o)
+
+
+    return c 

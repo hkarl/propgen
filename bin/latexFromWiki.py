@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
 
-import settings
 import wikiParser
 import glob
 import os 
@@ -57,7 +56,7 @@ if __name__ == '__main__':
                        action="store_true", default=False)
     (options, args) = parser.parse_args()
 
-    config = settings.getSettings(options.settingsfile)
+    config = utils.getSettings(options.settingsfile)
 
     parser = wikiParser.wikiParserFactory (config)
 

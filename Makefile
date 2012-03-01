@@ -30,7 +30,7 @@ proposal:
 	make latexFromWiki
 	make latexFromXML
 	make ensureSymbolicLinks 
-	make pdf 
+	# make pdf 
 
 pullproject: 
 	cd ${BINPATH} ; python pullProject.py -s ../$(SETTINGS) $(FLAGS) 

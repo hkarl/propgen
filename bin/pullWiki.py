@@ -2,6 +2,8 @@
 
 import sys 
 import re
+import utils
+
 
 ###########################################
 
@@ -300,9 +302,7 @@ if __name__ == "__main__":
 
 
     ### try to read the settings file:
-    import settings 
-
-    config = settings.getSettings(options.settingsfile)
+    config = utils.getSettings(options.settingsfile)
     if options.verbose:
         print config
     

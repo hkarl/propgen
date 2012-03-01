@@ -15,7 +15,6 @@ A factory function is called to obtain an instance of such a parser.
 
 import re
 from pprint import pprint as pp
-import settings
 import utils
 import os 
 
@@ -611,7 +610,7 @@ if __name__ == '__main__':
                        action="store_true", default=False)
     (options, args) = parser.parse_args()
 
-    config = settings.getSettings(options.settingsfile)
+    config = utils.getSettings(options.settingsfile)
     
     parser = wikiParserFactory (config)
 
