@@ -30,7 +30,7 @@ proposal:
 	make latexFromWiki
 	make latexFromXML
 	make ensureSymbolicLinks 
-	# make pdf 
+
 
 pullproject: 
 	cd ${BINPATH} ; python pullProject.py -s ../$(SETTINGS) $(FLAGS) 
@@ -64,6 +64,7 @@ clean:
 fullcommit: 
 	make clean 
 	make proposal 
+	make pdf 
 	cd docsource ; make install
 	make clean 
 	git commit -a -m "a full commit triggered by the makefile" 
