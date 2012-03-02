@@ -3786,6 +3786,13 @@ clean:
 	<span class="nb">cd</span> <span class="k">${</span><span class="nv">LATEXPATH</span><span class="k">}</span> ; rm -f main.aux main.lof main.log main.lot main.lox main.out main.toc main.bbl main.blg 
 	<span class="k">for </span>d in <span class="k">${</span><span class="nv">LATEXLINKS</span><span class="k">}</span>; <span class="k">do </span><span class="nb">test</span> ! -e <span class="nv">$$</span>d <span class="o">&amp;&amp;</span> rm <span class="nv">$$</span>d ; <span class="k">done  </span>
 
+moinpdf:
+	-rm logfile
+	make clean
+	make proposal &gt; logfile
+	make pdf  &gt;&gt; logfile 
+	cp <span class="k">${</span><span class="nv">PROJECTNAME</span><span class="k">}</span>.pdf <span class="s2">&quot;moin/wiki/data/pages/${PROJECTNAME}/attachments/&quot;</span>
+	cp logfile <span class="s2">&quot;moin/wiki/data/pages/${PROJECTNAME}/attachments/logfile.txt&quot;</span>
 doc:
 	<span class="nb">cd </span>docsource ; make install 
 doclean:

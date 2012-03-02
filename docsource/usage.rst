@@ -407,7 +407,7 @@ recognized features (see Section :ref:`sec-wiki-parser` for details):
   - Some attempts are made to provide correct left and right quotation
     marks; guessing is based on spaces before or after a quotation mark ". 
 
-  - Pure hash marks # are protected by turning them in \#. 
+  - Pure hash marks # are protected by turning them into \\#. 
 
   - So are ampersand marks &. 
 
@@ -420,4 +420,14 @@ recognized features (see Section :ref:`sec-wiki-parser` for details):
 
 When everything is setup correctly, doing an actual build is trivial:
 On a command line, go into the main project directory and type make! 
+
+In case you are using the included Moinmoin wiki, you have a more
+direct option as well: This wiki has a preconfigured option
+"CreatePDF". Invoking this action triggers the makefile-based build
+process and an updated version of the final PDF file is attached to
+the main project Wiki page (along with a file logfile.txt that
+contains standard output and standard error of the build process). The
+example Wiki page TestProject has links to the corresponding
+attachments at the very top for easy access. (Change the attachment
+link to TestProject.pdf if you rename the main page.) 
 

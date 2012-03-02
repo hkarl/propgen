@@ -60,6 +60,13 @@ clean:
 	cd ${LATEXPATH} ; rm -f main.aux main.lof main.log main.lot main.lox main.out main.toc main.bbl main.blg 
 	for d in ${LATEXLINKS}; do test ! -e $$d && rm $$d ; done  
 
+moinpdf:
+	-rm logfile
+	make clean
+	make proposal > logfile
+	make pdf  >> logfile 
+	cp ${PROJECTNAME}.pdf "moin/wiki/data/pages/${PROJECTNAME}/attachments/"
+	cp logfile "moin/wiki/data/pages/${PROJECTNAME}/attachments/logfile.txt"
 doc:
 	cd docsource ; make install 
 doclean:
