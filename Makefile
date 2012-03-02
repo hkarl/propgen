@@ -20,7 +20,7 @@ GENERATEDLATEXPATH = $(shell grep "genlatexpath " ${SETTINGS} | cut -f 2 -d = )
 LATEXLINKS =  $(shell find ${LATEXPATH} -type l)
 
 ####################################
-.PHONY: proposal pdf clean pullproject xml latexFromWiki latexFromXML ensureSymbolicLinks fullcommit
+.PHONY: proposal pdf clean pullproject xml latexFromWiki latexFromXML ensureSymbolicLinks fullcommit docclean
 ####################################
 
 
@@ -59,6 +59,8 @@ clean:
 	# remove empty symbolic links from latex path - this is debatable! 
 	cd ${LATEXPATH} ; rm -f main.aux main.lof main.log main.lot main.lox main.out main.toc main.bbl main.blg 
 	for d in ${LATEXLINKS}; do test ! -e $$d && rm $$d ; done  
+
+doclean:
 	find doc -type f -print | grep -v README | xargs rm 
 
 fullcommit: 
