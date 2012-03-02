@@ -1,0 +1,1810 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>titleheader &mdash; PropGen 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="PropGen 0.1 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">PropGen 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="titleheader">
+<span id="index-0"></span><h1>titleheader<a class="headerlink" href="#titleheader" title="Permalink to this headline">¶</a></h1>
+<p>Put all the templates to be used for LaTeX configuration here.
+this file works in concert with the settings.cfg file;
+some changes there have to be reflected here (see comments).
+Note on syntax: LaTeX template strings will often be multi-line.
+To get this right: First line must be on the same line as the =;
+contiunation lines must start with a whitespace character!
+See python library under ConfigParser or RFC 822, section 3.1.1
+we build the titlepage in three steps: the header,
+the table rows for the partners, and then the titlepage complete
+out of these two parts. This third part is then written to file</p>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:       \begin{center}
+{\LARGE  ${instrument}  } \\[.2cm]
+{\large  ${call}   } \\[.4cm]
+{\LARGE \textbf{  ${projectname}  }} \\[.3cm]
+{\LARGE Acronym: \textbf{  ${projectshort}  }} \\[.3cm]
+\end{center}
+{\large Date of Preparation: \today }\\[1em]
+\begin{large}
+\begin{description}
+\item[Work program topics  addressed:]  ${topics}
+\item[Coordinator:] ${coordinatorname}
+\item[e-mail:] {\url{${coordinatoremail}}}
+\item[tel/fax:]   ${coordinatorphone}
+\end{description}
+\end{large}
+\noindent</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   titlepageDict</p>
+</dd></dl>
+
+</div>
+<div class="section" id="partnertablerow">
+<span id="index-1"></span><h1>partnerTableRow<a class="headerlink" href="#partnertablerow" title="Permalink to this headline">¶</a></h1>
+<p>Rows for partner table on titlepage:</p>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   ${Number} &amp; ${Name} &amp;  ${Shortname} &amp; ${Nation}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">list</tt></dt>
+<dd><p>Default:   partnerList</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">joiner</tt></dt>
+<dd><p>Default:   \\ \n</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">sorter</tt></dt>
+<dd><p>To demonstrate how to sort such a list, let&#8217;s sort if by number
+Note: sorter is optional, but only available in conjunction with joiner attribute
+some alternative examples (which make no sense here, just to demonstrate):
+sorter = lambda x: x[&#8216;Shortname&#8217;]
+sorter = lambda x: x[&#8216;Nation&#8217;]</p>
+<p>Default:   lambda x: int(x[&#8216;Number&#8217;])</p>
+</dd></dl>
+
+</div>
+<div class="section" id="titlepage">
+<span id="index-2"></span><h1>titlepage<a class="headerlink" href="#titlepage" title="Permalink to this headline">¶</a></h1>
+<p>And the actual titlepage:</p>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:         ${titleheader}
+{
+\begin{tabular}{cp{8cm}ll}
+\toprule
+Participant no. &amp; Participant organisation &amp; Short name &amp; Country \\
+\midrule
+${partnerTableRow} \\
+\bottomrule
+\end{tabular}
+}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+</div>
+<div class="section" id="wpsummaryrows">
+<span id="index-3"></span><h1>wpSummaryRows<a class="headerlink" href="#wpsummaryrows" title="Permalink to this headline">¶</a></h1>
+<p>The wp summary table; first the individual rows, one per WP:</p>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   WP ${Number} &amp; ${Name} &amp; ${Type} &amp; ${Leadernumber} &amp; ${Leadership} &amp; ${wpeffort} &amp; ${Start} &amp; ${End}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">list</tt></dt>
+<dd><p>Default:   allWPDicts</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">joiner</tt></dt>
+<dd><p>Default:   \\ \n</p>
+</dd></dl>
+
+</div>
+<div class="section" id="wpsummarytable">
+<span id="index-4"></span><h1>wpsummarytable<a class="headerlink" href="#wpsummarytable" title="Permalink to this headline">¶</a></h1>
+<p>Then build the complete WP summary table.</p>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:       \begin{table}[bhtp]
+\caption{Summary table of all work packages}
+\label{tab:wpsummary}
+\begin{tabular}{cp{0.25\textwidth}cccrcc}
+\toprule
+WP No. &amp; WP name &amp; Type of &amp; Lead &amp; Lead &amp; Person- &amp; Start &amp; End \\
+&amp; &amp; activity &amp; part. no. &amp; short name &amp; months &amp; month &amp; month \\
+\midrule
+${wpSummaryRows} \\
+\midrule
+\multicolumn{2}{l}{Total:} &amp; &amp; &amp; &amp; \totalPM &amp; &amp; \\
+\bottomrule
+\end{tabular}
+\end{table}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   tables</p>
+</dd></dl>
+
+</div>
+<div class="section" id="ganttprefix">
+<span id="index-5"></span><h1>ganttPrefix<a class="headerlink" href="#ganttprefix" title="Permalink to this headline">¶</a></h1>
+<p>Gantt charts start here!
+First, some building blocks for various Gantt charts</p>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:    \begin{tikzpicture}
+\begin{ganttchart}[vgrid,hgrid,
+x unit=0.371cm, y unit chart = 0.75cm,
+title label font={\footnotesize},
+bar height = 0.55,
+bar top shift = 0.225,
+inline,
+milestone label font=\color{black}\small,
+milestone label inline anchor={right=.1cm},
+bar label inline anchor={anchor=west}, bar label font=\small,
+link={-latex, rounded corners=1ex, thick}]{${duration}}
+\gantttitlelist{1,...,${duration}}{1}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   titlepageDict</p>
+</dd></dl>
+
+</div>
+<div class="section" id="ganttpostfix">
+<span id="index-6"></span><h1>ganttPostfix<a class="headerlink" href="#ganttpostfix" title="Permalink to this headline">¶</a></h1>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \end{ganttchart}
+\end{tikzpicture}</p>
+</dd></dl>
+
+</div>
+<div class="section" id="wpmilestonesuncompressedshow">
+<span id="index-7"></span><h1>WpMilestonesUncompressedShow<a class="headerlink" href="#wpmilestonesuncompressedshow" title="Permalink to this headline">¶</a></h1>
+<p>and the actual gantts: first, the wp-specific gantts</p>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \begin{figure}[htbp]
+${ganttPrefix} \\
+${milestoneUncompressedGanttString}
+${ganttPostfix}
+\caption{Gantt chart of all milestones of Work package ${Number}}
+\end{figure}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">list</tt></dt>
+<dd><p>Default:   allWPDicts</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">numerator</tt></dt>
+<dd><p>Default:   value[&#8216;Shortname&#8217;]</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   gantts</p>
+</dd></dl>
+
+</div>
+<div class="section" id="wpmilestonesshow">
+<span id="index-8"></span><h1>WpMilestonesShow<a class="headerlink" href="#wpmilestonesshow" title="Permalink to this headline">¶</a></h1>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \begin{figure}[htbp]
+${ganttPrefix} \\
+${milestoneGanttString}
+${ganttPostfix}
+\caption{Gantt chart of all milestones of Work package ${Number}}
+\end{figure}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">list</tt></dt>
+<dd><p>Default:   allWPDicts</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">numerator</tt></dt>
+<dd><p>Default:   value[&#8216;Shortname&#8217;]</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   gantts</p>
+</dd></dl>
+
+</div>
+<div class="section" id="wpdeliverablesuncompressedshow">
+<span id="index-9"></span><h1>WpDeliverablesUncompressedShow<a class="headerlink" href="#wpdeliverablesuncompressedshow" title="Permalink to this headline">¶</a></h1>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \begin{figure}[htbp]
+${ganttPrefix} \\
+${deliverableUncompressedGanttString}
+${ganttPostfix}
+\caption{Gantt chart of all deliverables of Work package ${Number}}
+\end{figure}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">list</tt></dt>
+<dd><p>Default:   allWPDicts</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">numerator</tt></dt>
+<dd><p>Default:   value[&#8216;Shortname&#8217;]</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   gantts</p>
+</dd></dl>
+
+</div>
+<div class="section" id="wpdeliverablesshow">
+<span id="index-10"></span><h1>WpDeliverablesShow<a class="headerlink" href="#wpdeliverablesshow" title="Permalink to this headline">¶</a></h1>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \begin{figure}[htbp]
+${ganttPrefix} \\
+${deliverableGanttString}
+${ganttPostfix}
+\caption{Gantt chart of all deliverables of Work package ${Number}}
+\end{figure}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">list</tt></dt>
+<dd><p>Default:   allWPDicts</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">numerator</tt></dt>
+<dd><p>Default:   value[&#8216;Shortname&#8217;]</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   gantts</p>
+</dd></dl>
+
+</div>
+<div class="section" id="ganttwp">
+<span id="index-11"></span><h1>ganttWP<a class="headerlink" href="#ganttwp" title="Permalink to this headline">¶</a></h1>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:         \begin{figure}[htbp]
+\centering{${ganttPrefix}\\
+\ifthenelse{\boolean{Gantts-ShowWPBar}}{
+${groupbar}}{}
+${taskGantt}
+${deliverableGanttString} \\
+${milestoneGanttString}
+${ganttPostfix}}
+\ifthenelse{\boolean{Gantts-ganttPerWPShowsLegend}}{
+\ifthenelse{\boolean{Gantts-ganttLegendTwoColumn}}
+{\begin{multicols}{2}
+\begin{compactitem}
+${deliverableGanttLegend}
+${milestoneGanttLegend}
+\end{compactitem}
+\end{multicols}
+}
+{ % single-column legends:
+\begin{compactitem}
+${deliverableGanttLegend}
+${milestoneGanttLegend}
+\end{compactitem}
+}
+}{}
+\caption{Gantt chart for Work package ${Number}: ${Shortname}}
+\label{fig:gantt-WP${Number}}
+\end{figure}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">list</tt></dt>
+<dd><p>Default:   allWPDicts</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">numerator</tt></dt>
+<dd><p>do not change the numerator; else, wPInclude.tex will look for the wrong files</p>
+<p>Default:   value[&#8216;Shortname&#8217;]</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   gantts</p>
+</dd></dl>
+
+</div>
+<div class="section" id="ganttwplegend">
+<span id="index-12"></span><h1>ganttWPLegend<a class="headerlink" href="#ganttwplegend" title="Permalink to this headline">¶</a></h1>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>separate legends per WP gantts only make sense if they are not already
+included in the</p>
+<p>Default:   \begin{figure}[htbp]
+\ifthenelse{\boolean{Gantts-ganttLegendTwoColumn}}
+{\begin{multicols}{2}
+\begin{compactitem}
+${deliverableGanttLegend}
+${milestoneGanttLegend}
+\end{compactitem}
+\end{multicols}
+}
+{% single-column legends:
+\begin{compactitem}
+${deliverableGanttLegend}
+${milestoneGanttLegend}
+\end{compactitem}
+}
+\caption{Gantt chart of Work package  ${Number}: ${Shortname}}
+\label{fig:gantt-Legend-WP${Number}}
+\end{figure}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">list</tt></dt>
+<dd><p>Default:   allWPDicts</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:   False</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">numerator</tt></dt>
+<dd><p>do not change the numerator; else, wPInclude.tex will look for the wrong files</p>
+<p>Default:   value[&#8216;Shortname&#8217;]</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   gantts</p>
+</dd></dl>
+
+</div>
+<div class="section" id="alltaskdelmslist">
+<span id="index-13"></span><h1>allTaskDelMSList<a class="headerlink" href="#alltaskdelmslist" title="Permalink to this headline">¶</a></h1>
+<p>and prepate the complete Gantt chart for the entire project
+this happens in several steps</p>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:         \ifthenelse{\boolean{Gantts-ShowWPBar}}{
+${groupbar}}{}
+${taskGantt}
+${deliverableGanttString} \\
+${milestoneGanttString}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">list</tt></dt>
+<dd><p>Default:   allWPDicts</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   gantts</p>
+</dd></dl>
+
+</div>
+<div class="section" id="alltaskdelms">
+<span id="index-14"></span><h1>allTaskDelMS<a class="headerlink" href="#alltaskdelms" title="Permalink to this headline">¶</a></h1>
+<p>the next one is an example with an empty template: it is only used to turn a list into
+a string</p>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">list</tt></dt>
+<dd><p>Default:   expanded[&#8216;allTaskDelMSList&#8217;]</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">joiner</tt></dt>
+<dd><p>Default:   \\ \n</p>
+</dd></dl>
+
+</div>
+<div class="section" id="alldellegend">
+<span id="index-15"></span><h1>allDelLegend<a class="headerlink" href="#alldellegend" title="Permalink to this headline">¶</a></h1>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   ${ganttLegend}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">list</tt></dt>
+<dd><p>Default:   allDeliverables</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">joiner</tt></dt>
+<dd><p>Default:   \n</p>
+</dd></dl>
+
+</div>
+<div class="section" id="allmslegend">
+<span id="index-16"></span><h1>allMSLegend<a class="headerlink" href="#allmslegend" title="Permalink to this headline">¶</a></h1>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   ${ganttLegend}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">list</tt></dt>
+<dd><p>Default:   allMilestones</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">joiner</tt></dt>
+<dd><p>Default:    \n</p>
+</dd></dl>
+
+</div>
+<div class="section" id="completegantt">
+<span id="index-17"></span><h1>CompleteGantt<a class="headerlink" href="#completegantt" title="Permalink to this headline">¶</a></h1>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:    \begin{figure}[htbp]
+\centering\maxsizebox{0.95\textwidth}{0.95\textheight}{
+${ganttPrefix} \\
+${allTaskDelMS}
+${ganttPostfix}
+} % closes adjustbox
+\caption[Overall Gantt chart for the entire project, showing all tasks, deliverables, and milestones]{Overall Gantt chart for the entire project, showing all tasks, deliverables, and milestones (legend in Table~\ref{fig:allDelMSLegend})}
+\label{fig:completeGantt}
+\end{figure}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   gantts</p>
+</dd></dl>
+
+</div>
+<div class="section" id="alllegend">
+<span id="index-18"></span><h1>allLegend<a class="headerlink" href="#alllegend" title="Permalink to this headline">¶</a></h1>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \begin{table}
+\caption[List of all deliverables and milestones]{List of all deliverables and milestones shown in Figure~\ref{fig:completeGantt}}
+\label{fig:allDelMSLegend}
+\begin{multicols}{2}
+\begin{compactitem}
+${allDelLegend}
+${allMSLegend}
+\end{compactitem}
+\end{multicols}
+\end{table}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   gantts</p>
+</dd></dl>
+
+</div>
+<div class="section" id="completeganttfacinglegend">
+<span id="index-19"></span><h1>CompleteGanttFacingLegend<a class="headerlink" href="#completeganttfacinglegend" title="Permalink to this headline">¶</a></h1>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>this is particularly useful for a double-sided printing layout
+chart is on a left page, Legend on a right page</p>
+<p>Default:   \cleardoubleevenstandardpage
+\centering\maxsizebox{0.95\textwidth}{0.95\textheight}{
+${ganttPrefix} \\
+${allTaskDelMS}
+${ganttPostfix}
+} % closes adjustbox
+\captionof{figure}[Overall Gantt chart for the entire project, showing all tasks, deliverables, and milestones]{Overall Gantt chart for the entire project, showing all tasks, deliverables, and milestones (legend in Table~\ref{fig:allDelMSLegend})}
+\label{fig:completeGantt}
+\clearpage
+\captionof{table}[List of all deliverables and milestones]{List of all deliverables and milestones shown in Figure~\ref{fig:completeGantt}}
+\label{fig:allDelMSLegend}
+\begin{multicols}{2}
+\begin{compactitem}
+${allDelLegend}
+${allMSLegend}
+\end{compactitem}
+\end{multicols}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:  True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:  expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:  gantts</p>
+</dd></dl>
+
+</div>
+<div class="section" id="wptasks">
+<span id="index-20"></span><h1>WpTasks<a class="headerlink" href="#wptasks" title="Permalink to this headline">¶</a></h1>
+<p>and finally: the actual WP files!</p>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:    \labitem{${taskId}}{task:${Label}} ${Name}
+\ifthenelse{\boolean{WPTables-tasklistShowsDuration}}{
+\hfill
+(%{ &#8216;, &#8216;.join([ (&#8216;M\,&#8217; + str(t[&#8216;Start&#8217;]) + &#8216; &#8211; M\,&#8217; +
+str(t[&#8216;Start&#8217;] + t[&#8216;Duration&#8217;] -1))
+for t in allTasks if t[&#8216;Label&#8217;] == &#8216;${Label}&#8217; ]) %})
+}{}
+\ifthenelse{\boolean{WPTables-tasklistShowsPartners}}{
+\\ Contributing partners:
+%{ &#8216;, &#8216;.join([ ((r&#8221;\textbf{%s}&#8221; % x) if (x == &#8216;${Leadpartner}&#8217;) else x )
+for x in sorted([ p[&#8216;partner&#8217;]  for p in allEfforts
+if p[&#8216;task&#8217;] == &#8216;${Label}&#8217;],
+key = lambda x: [int(pl[&#8216;Number&#8217;]) for pl in partnerList
+if pl[&#8216;Shortname&#8217;] == x][0]
+)]) %}
+}{}
+\ifthenelse{\boolean{WPTables-tasklistShowsDeliverables}}{
+%{ (r&#8217;\\ Contributing to Deliverables: &#8216; +
+&#8216;, &#8216;.join([((r&#8221;\textbf{ %s }&#8221; % d[&#8216;id&#8217;])
+if (d[&#8216;ProducingtaskMain&#8217;] == &#8216;${Label}&#8217;)
+else d[&#8216;id&#8217;])
+for d in allDeliverables if &#8216;${Label}&#8217; in d[&#8216;Producingtask&#8217;]] )
+if [d[&#8216;id&#8217;] for d in allDeliverables
+if &#8216;${Label}&#8217; in d[&#8216;Producingtask&#8217;]]
+else &#8216;&#8217;) %}
+}{}
+\ifthenelse{\boolean{WPTables-tasklistShowsMilestones}}{
+%{ (r&#8217;\\ Contributing to Milestones: &#8216; +
+&#8216;, &#8216;.join([((r&#8221;\textbf{ %s }&#8221; % d[&#8216;id&#8217;])
+if (d[&#8216;ProducingtaskMain&#8217;] == &#8216;${Label}&#8217;)
+else d[&#8216;id&#8217;])
+for d in allMilestones if &#8216;${Label}&#8217; in d[&#8216;Producingtask&#8217;]] )
+if [d[&#8216;id&#8217;] for d in allMilestones
+if &#8216;${Label}&#8217; in d[&#8216;Producingtask&#8217;]]
+else &#8216;&#8217;)  %}
+}{}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">list = [t for t in allTasks if t['Main']=</tt></dt>
+<dd><p>we only show this for the main task, not for all the individual tasks
+need to think about the duration, though!</p>
+<p>Default:  &#8216;True&#8217;]</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">groupby</tt></dt>
+<dd><p>Default:   wp</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">joiner</tt></dt>
+<dd><p>Default:    \n</p>
+</dd></dl>
+
+</div>
+<div class="section" id="wptasksdescriptions">
+<span id="index-21"></span><h1>WpTasksDescriptions<a class="headerlink" href="#wptasksdescriptions" title="Permalink to this headline">¶</a></h1>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \begin{framed}
+\noindent \textbf{Description of Task ${taskId}: ${Name}}
+\ifthenelse{\boolean{WPTables-taskboxShowsLeader}}{(Task leader: ${Leadpartner})}{}
+\ifthenelse{\boolean{WPTables-taskboxShowsObjectives}}{ ~\\[0.2cm]
+\textbf{Task objectives:} ${taskobjectives}}{}
+\ifthenelse{\boolean{WPTables-taskboxShowsDescription}}{~ \\[0.2cm]
+\textbf{Description of work:} ${taskdescription}}{}
+\ifthenelse{\boolean{WPTables-taskboxShowsDeliverables}}{ %{ (r&#8221;&#8220;&#8221;\\[0.3cm]
+\noindent {\centering
+\begin{tabular}{lp{0.7\textwidth}l}
+\multicolumn{3}{l}{\textbf{Deliverables contributed to by Task ${taskId}:} } \\
+\toprule
+Del.\ no. &amp; Deliverable name &amp; Due \\
+\midrule %s
+\\ \bottomrule
+\end{tabular} }&#8221;&#8220;&#8221; % (  r&#8217;\\ &#8216;.join([ ( d[&#8216;id&#8217;] + &#8221; &amp; &#8221; +
+d[&#8216;Title&#8217;] + &#8221; &amp; M\,&#8221; + str(d[&#8216;Monthdue&#8217;]))
+for d in allDeliverables if &#8216;${Label}&#8217; in d[&#8216;Producingtask&#8217;]]))
+if [d for d in allDeliverables if &#8216;${Label}&#8217; in d[&#8216;Producingtask&#8217;]] else &#8220;&#8221; )
+%}
+}{}
+\ifthenelse{\boolean{WPTables-taskboxShowsMilestones}}{
+%{ (r&#8221;&#8220;&#8221;\\[0.3cm]
+\noindent   {\centering
+\begin{tabular}{lp{0.7\textwidth}l}
+\multicolumn{3}{l}{\textbf{Milestones contributed to by Task ${taskId}:} } \\
+\toprule
+MS.\ no. &amp; Milestone name &amp; Due \\
+\midrule %s
+\\ \bottomrule
+\end{tabular} }&#8221;&#8220;&#8221; % (  r&#8217;\\ &#8216;.join([ ( d[&#8216;id&#8217;] + &#8221; &amp; &#8221; +
+d[&#8216;Title&#8217;] + &#8221; &amp; M\,&#8221; + str(d[&#8216;Monthdue&#8217;]))
+for d in allMilestones if &#8216;${Label}&#8217; in d[&#8216;Producingtask&#8217;]]))
+if [d for d in allMilestones if &#8216;${Label}&#8217; in d[&#8216;Producingtask&#8217;]] else &#8220;&#8221; )
+%}
+}{}
+\ifthenelse{\boolean{WPTables-taskboxShowsPartners}}{
+~ \\[0.2cm] \noindent \textbf{Partners contributing to this task:}
+%{ &#8221;, &#8221;.join([ ( r&#8217;\textbf{%s}&#8217; % x[&#8216;partner&#8217;]  if x[&#8216;partner&#8217;] == &#8216;${Leadpartner}&#8217;  else x[&#8216;partner&#8217;])
+for x  in allEfforts
+if x[&#8216;task&#8217;] == &#8216;${Label}&#8217; and
+int(x[&#8216;resources&#8217;]) &gt; 0 ])
+%}
+}{}
+\end{framed}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">list = [t for t in allTasks if t['Main']=</tt></dt>
+<dd><p>Default:  &#8216;True&#8217;]</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">groupby</tt></dt>
+<dd><p>Default:   wp</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">joiner</tt></dt>
+<dd><p>Default:    \n</p>
+</dd></dl>
+
+</div>
+<div class="section" id="wpdeliverables">
+<span id="index-22"></span><h1>WpDeliverables<a class="headerlink" href="#wpdeliverables" title="Permalink to this headline">¶</a></h1>
+<p>the deliverable and milestone list per WP, along with more detailed description</p>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \item \textbf{${id}}: ${Title}
+\ifthenelse{\boolean{WPTables-deliverablesWPshowDue}}{
+\hfill (M\,${Monthdue})}{}
+\ifthenelse{\boolean{WPTables-deliverablesWPshowTasks}}{
+\\ Contributing tasks: ${ProducingtaskString}}{}
+\ifthenelse{\boolean{WPTables-deliverablesWPshowPartners}}{
+\\ Contributing partners: ${ContributorString}}{}
+\ifthenelse{\boolean{WPTables-deliverablesWPshowDescription}}{
+\\ Brief description: ${Description}}{}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">list</tt></dt>
+<dd><p>Default:   allDeliverables</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">groupby</tt></dt>
+<dd><p>Default:   wp</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">joiner</tt></dt>
+<dd><p>Default:   \n</p>
+</dd></dl>
+
+</div>
+<div class="section" id="wpmilestones">
+<span id="index-23"></span><h1>WpMilestones<a class="headerlink" href="#wpmilestones" title="Permalink to this headline">¶</a></h1>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \item \textbf{${id}}: ${Title}
+\ifthenelse{\boolean{WPTables-milestonesWPshowDue}}{
+\hfill (M\,${Monthdue})}{}
+\ifthenelse{\boolean{WPTables-milestonesWPshowTasks}}{
+\\ Contributing tasks: ${ProducingtaskString}}{}
+\ifthenelse{\boolean{WPTables-milestonesWPshowPartners}}{
+\\ Contributing partners: ${ContributorString}}{}
+\ifthenelse{\boolean{WPTables-milestonesWPshowDescription}}{
+\\ Brief description: ${Description}}{}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">list</tt></dt>
+<dd><p>Default:   allMilestones</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">groupby</tt></dt>
+<dd><p>Default:   wp</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">joiner</tt></dt>
+<dd><p>Default:   \n</p>
+</dd></dl>
+
+</div>
+<div class="section" id="wp">
+<span id="index-24"></span><h1>Wp<a class="headerlink" href="#wp" title="Permalink to this headline">¶</a></h1>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \newpage
+\noindent \addcontentsline{toc}{subsubsection}{WP ${Number}: ${Shortname} }
+${tableheader}
+\begin{framed}
+\noindent \textbf{Objectives of Workpackage ${Number}:}
+${objectives}
+\end{framed}
+\begin{framed}
+\noindent  \textbf{Tasks of Workpackage ${Number}:}
+\begin{compactdesc}
+${WpTasks_${Number}}
+\end{compactdesc}
+{\footnotesize \emph{Lead partners are shown in bold.}}
+\end{framed}
+\begin{framed}
+\noindent \textbf{Description of Workpackage ${Number}:}
+\ifthenelse{\boolean{WPTables-wpdescriptionShowsLeader}}{(workpackage leader: ${Leadership})}{}
+${wpdescription}
+\end{framed}
+${WpTasksDescriptions_${Number}}
+\begin{framed}
+\noindent \textbf{Deliverables for Workpackage ${Number}:}
+\begin{compactdesc}
+${WpDeliverables_${Number}}
+\end{compactdesc}
+\noindent \textbf{Milestones for Workpackage ${Number}:}
+\begin{compactdesc}
+${WpMilestones_${Number}}
+\end{compactdesc}
+\end{framed}
+% let us pull in the gantt chart for this WP directly here,
+% no need to use a separate file:
+${ganttWP_${Shortname}}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">list</tt></dt>
+<dd><p>Default:  allWPDicts</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">numerator</tt></dt>
+<dd><p>Default:   value[&#8216;Shortname&#8217;]</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   wp</p>
+</dd></dl>
+
+</div>
+<div class="section" id="deliverabletablerows">
+<span id="index-25"></span><h1>DeliverableTableRows<a class="headerlink" href="#deliverabletablerows" title="Permalink to this headline">¶</a></h1>
+<p>a table to summarize all the deliverables
+again: two steps: build the rows, and then the table</p>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   ${id} &amp; ${Title} &amp; ${Monthdue} &amp; ${Nature} &amp; ${Dissemination} &amp; ${ProducingtaskString}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">list</tt></dt>
+<dd><p>Default:   allDeliverables</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">joiner</tt></dt>
+<dd><p>Default:   \\ \n</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">sorter</tt></dt>
+<dd><p>this sorts according to due date, and where the due date is the same,
+use deliverable id:</p>
+<p>Default:   lambda x: &#8216;%03d&#8217; % x[&#8216;Monthdue&#8217;] + x[&#8216;id&#8217;]</p>
+</dd></dl>
+
+</div>
+<div class="section" id="deliverabletableshort">
+<span id="index-26"></span><h1>DeliverableTableShort<a class="headerlink" href="#deliverabletableshort" title="Permalink to this headline">¶</a></h1>
+<p>if you just want to sort by id, then simply use:
+sorter = lambda x: x[&#8216;id&#8217;]</p>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:           \begin{table}[hbtp]
+\caption{Summary of all deliverables (Nature: O=Other, P=Prototype, R=Report; Dissemination: PU=Public, RE=Restricted, CO=Confidential)}
+\label{tab:deliverablesummary}
+\begin{center}
+\begin{tabular}{l|p{0.4\textwidth}|c|c|c|p{0.1\textwidth}}
+\toprule
+Number  &amp; Title &amp; Due date &amp; Nature &amp; Diss. &amp; Contributing task(s)\\
+\midrule
+${DeliverableTableRows} \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:  expanded</p>
+</dd></dl>
+
+</div>
+<div class="section" id="deliverabletablelong">
+<span id="index-27"></span><h1>DeliverableTableLong<a class="headerlink" href="#deliverabletablelong" title="Permalink to this headline">¶</a></h1>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \topcaption{Summary of all deliverables}
+\label{tab:deliverablesummary}
+\tablefirsthead{        \toprule
+Number  &amp; Title &amp; Due date &amp; Nature &amp; Diss. &amp; Contributing task(s)\\
+\midrule
+}
+\tablehead{\toprule
+\multicolumn{6}{r}{\emph{Table~\ref{tab:deliverablesummary} continues from previous page}} \\
+\toprule
+Number  &amp; Title &amp; Due date &amp; Nature &amp; Diss. &amp; Contributing task(s)\\
+\midrule
+}
+\tabletail{\bottomrule \multicolumn{6}{r}{\emph{Table~\ref{tab:deliverablesummary} continues on next page}} \\ \bottomrule}
+\tablelasttail{\multicolumn{6}{r}{Table~\ref{tab:deliverablesummary} ends} \\ \bottomrule}
+\begin{center}
+\begin{mpxtabular}{l|p{0.4\textwidth}|c|c|c|p{0.1\textwidth}}
+${DeliverableTableRows}\\
+\bottomrule
+\end{mpxtabular}
+\end{center}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:  expanded</p>
+</dd></dl>
+
+</div>
+<div class="section" id="deliverabletable">
+<span id="index-28"></span><h1>DeliverableTable<a class="headerlink" href="#deliverabletable" title="Permalink to this headline">¶</a></h1>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \ifthenelse{\boolean{LaTeX-useMultipageDeliverableTable}}{${DeliverableTableLong}}{${DeliverableTableShort}}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:  expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:  True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   tables</p>
+</dd></dl>
+
+</div>
+<div class="section" id="milestonetablerows">
+<span id="index-29"></span><h1>MilestoneTableRows<a class="headerlink" href="#milestonetablerows" title="Permalink to this headline">¶</a></h1>
+<p>and a table for the milestones  - same structure as for the deliverable table</p>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   ${id} &amp; ${Title} &amp; ${Monthdue} &amp; ${Verificationmeans} &amp; ${ProducingtaskString}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">list</tt></dt>
+<dd><p>Default:   allMilestones</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">joiner</tt></dt>
+<dd><p>Default:   \\ \n</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">sorter</tt></dt>
+<dd><p>Default:   lambda x: &#8216;%03d&#8217; % x[&#8216;Monthdue&#8217;] + x[&#8216;id&#8217;]</p>
+</dd></dl>
+
+</div>
+<div class="section" id="milestonetableshort">
+<span id="index-30"></span><h1>MilestoneTableShort<a class="headerlink" href="#milestonetableshort" title="Permalink to this headline">¶</a></h1>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \begin{table}[hbtp]
+\caption{Summary of all milestones}
+\label{tab:milestonessummary}
+\begin{center}
+\begin{tabular}{l|p{0.3\textwidth}|c|p{0.3\textwidth}|p{0.1\textwidth}}
+\toprule
+Number  &amp; Title &amp; Due date   &amp;  Means of verification &amp; Contributing task(s) \\
+\midrule
+${MilestoneTableRows}\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:  expanded</p>
+</dd></dl>
+
+</div>
+<div class="section" id="milestonetablelong">
+<span id="index-31"></span><h1>MilestoneTableLong<a class="headerlink" href="#milestonetablelong" title="Permalink to this headline">¶</a></h1>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \topcaption{Summary of all milestones}
+\label{tab:milestonessummary}
+\tablefirsthead{        \toprule
+Number  &amp; Title &amp; Due date   &amp;  Means of verification &amp; Contributing task(s) \\
+\midrule
+}
+\tablehead{\toprule
+\multicolumn{5}{r}{\emph{Table~\ref{tab:milestonessummary} continues from previous page}} \\
+\toprule
+Number  &amp; Title &amp; Due date   &amp;  Means of verification &amp; Contributing task(s) \\
+\midrule
+}
+\tabletail{\bottomrule \multicolumn{5}{r}{\emph{Table~\ref{tab:milestonessummary} continues on next page}} \\ \bottomrule}
+\tablelasttail{\multicolumn{5}{r}{Table~\ref{tab:milestonessummary} ends} \\ \bottomrule}
+\begin{center}
+\begin{mpxtabular}{l|p{0.3\textwidth}|c|p{0.3\textwidth}|p{0.1\textwidth}}
+${MilestoneTableRows}\\
+\bottomrule
+\end{mpxtabular}
+\end{center}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:  expanded</p>
+</dd></dl>
+
+</div>
+<div class="section" id="milestonetable">
+<span id="index-32"></span><h1>MilestoneTable<a class="headerlink" href="#milestonetable" title="Permalink to this headline">¶</a></h1>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \ifthenelse{\boolean{LaTeX-useMultipageMilestoneTable}}{${MilestoneTableLong}}{${MilestoneTableShort}}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:  expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:  True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   tables</p>
+</dd></dl>
+
+</div>
+<div class="section" id="summaryeffortrows">
+<span id="index-33"></span><h1>summaryEffortRows<a class="headerlink" href="#summaryeffortrows" title="Permalink to this headline">¶</a></h1>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   ${Shortname} &amp;
+%{ &#8216; &amp; &#8216;.join([str(x[&#8216;partnereffort&#8217;][&#8216;${Shortname}&#8217;]) for x in allWPDicts])
+%} &amp;
+%{ str(sum([x[&#8216;partnereffort&#8217;][&#8216;${Shortname}&#8217;] for x in allWPDicts])) %}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">list</tt></dt>
+<dd><p>Default:   partnerList</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">joiner</tt></dt>
+<dd><p>Default:   \\ \n</p>
+</dd></dl>
+
+</div>
+<div class="section" id="summaryeffort">
+<span id="index-34"></span><h1>summaryEffort<a class="headerlink" href="#summaryeffort" title="Permalink to this headline">¶</a></h1>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \ifthenelse{\boolean{Summaries-showEffortPartnerWPs}}{\begin{table}
+\caption{Summary of all effort over all partners and workpackages}
+\label{tab:summaryEffortperWP}
+\begin{center}
+\begin{tabular}{l%{&#8216;c&#8217;<a href="#id1"><span class="problematic" id="id2">*</span></a>len(allWPDicts)%}r}
+\toprule
+Partner &amp;  %{ &#8216; &amp; &#8216;.join([ &#8216;WP\,%s&#8217; % x[&#8216;Number&#8217;] for x in allWPDicts])  %} &amp; Total
+\\
+\midrule
+${summaryEffortRows} \\
+\midrule
+Total &amp; %{ &#8216; &amp; &#8216;.join([x[&#8216;wpeffort&#8217;] for x in allWPDicts]) %} &amp;
+%{ str(sum([int(x[&#8216;wpeffort&#8217;]) for x in allWPDicts ] ))  %} \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+}{}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   tables</p>
+</dd></dl>
+
+</div>
+<div class="section" id="effortpertaskrows">
+<span id="index-35"></span><h1>effortPerTaskRows<a class="headerlink" href="#effortpertaskrows" title="Permalink to this headline">¶</a></h1>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   ${taskId}  &amp; ${Name} &amp;
+{\cellcolor[gray]{0.9}
+%{ str(sum([int(e[&#8216;resources&#8217;]) for e in allEfforts if e[&#8216;task&#8217;] == &#8216;${Label}&#8217;])) %}
+} &amp;
+%{ &#8216; &amp; &#8216;.join([ ((r&#8217;\textbf{%s}&#8217; % e[&#8216;resources&#8217;]) if &#8216;${Leadpartner}&#8217; == p[&#8216;Shortname&#8217;]
+else (e[&#8216;resources&#8217;] if int(e[&#8216;resources&#8217;]) &gt; 0
+else (r&#8217;{\textcolor{%s}0}&#8217; % config.get(&#8216;WPTables&#8217;,&#8217;colorInactivePartner&#8217;))))
+for p in partnerList
+for e in [ee for ee in allEfforts if
+ee[&#8216;task&#8217;] == &#8216;${Label}&#8217; and
+ee[&#8216;partner&#8217;] == p[&#8216;Shortname&#8217;]] ]
+)
+%}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">list = [t for t in allTasks if t['Main']=</tt></dt>
+<dd><p>Default:  &#8216;True&#8217;]</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">groupby</tt></dt>
+<dd><p>Default:   wp</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">joiner</tt></dt>
+<dd><p>Default:   \\ \hline \n</p>
+</dd></dl>
+
+</div>
+<div class="section" id="effortpertaskrowswp">
+<span id="index-36"></span><h1>effortPerTaskRowsWP<a class="headerlink" href="#effortpertaskrowswp" title="Permalink to this headline">¶</a></h1>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:    ${effortPerTaskRows_${Number}} \\ \hline
+\rowcolor[gray]{0.9}
+\multicolumn{2}{l|}{\cellcolor[gray]{0.9} \textbf{WP ${Number}:}}
+&amp; %{ str(sum(${partnereffort}.values()))  %} &amp;
+%{ &#8216; &amp; &#8216;.join([ r&#8217;\textbf{%s}&#8217; % str(${partnereffort}[p[&#8216;Shortname&#8217;]]) if p[&#8216;Shortname&#8217;]==&#8217;${Leadership}&#8217;
+else str(${partnereffort}[p[&#8216;Shortname&#8217;]])
+for p in partnerList]) %}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">list</tt></dt>
+<dd><p>Default:   allWPDicts</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">joiner</tt></dt>
+<dd><p>Default:   \\ \hline \hline \n</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+</div>
+<div class="section" id="effortheader">
+<span id="index-37"></span><h1>effortHeader<a class="headerlink" href="#effortheader" title="Permalink to this headline">¶</a></h1>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \hline
+Task &amp; Task name &amp; Total PM &amp; %{ &#8216; &amp; &#8216;.join([p[&#8216;Shortname&#8217;] for p in partnerList]) %} \\
+\hline</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+</div>
+<div class="section" id="effortsum">
+<span id="index-38"></span><h1>effortSum<a class="headerlink" href="#effortsum" title="Permalink to this headline">¶</a></h1>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \rowcolor[gray]{0.8} \multicolumn{2}{l|}{\cellcolor[gray]{0.8}
+\textbf{Project total: }} &amp; \textbf{\totalPM} &amp;
+%{ &#8216; &amp; &#8216;.join([ r&#8217;\textbf{%s}&#8217; %
+str(sum([ int(e[&#8216;resources&#8217;]) for e in allEfforts if
+e[&#8216;partner&#8217;] == p[&#8216;Shortname&#8217;] ]))
+for p in partnerList]) %}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+</div>
+<div class="section" id="effortpertasktableshort">
+<span id="index-39"></span><h1>effortPerTaskTableShort<a class="headerlink" href="#effortpertasktableshort" title="Permalink to this headline">¶</a></h1>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \ifthenelse{\boolean{LaTeX-effortTableLandscape}}{\begin{landscape}}{}
+\begin{table}
+\caption{Effort per tasks and partners for entire project (in personmonths)}
+\label{tab:effortPerTasks}
+\begin{center}
+\small
+\begin{tabular}{c|p{0.15\textwidth}|c%{&#8216; <a href="#id3"><span class="problematic" id="id4">|</span></a>c&#8217; * len(partnerList)%}}
+${effortHeader}
+${effortPerTaskRowsWP}
+\\ \hline \hline
+${effortSum}
+\\ \hline \hline
+\end{tabular}
+\end{center}
+\end{table}
+\ifthenelse{\boolean{LaTeX-effortTableLandscape}}{\end{landscape}}{}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:  expanded</p>
+</dd></dl>
+
+</div>
+<div class="section" id="effortpertasktablemultipage">
+<span id="index-40"></span><h1>effortPerTaskTableMultipage<a class="headerlink" href="#effortpertasktablemultipage" title="Permalink to this headline">¶</a></h1>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \ifthenelse{\boolean{LaTeX-effortTableLandscape}}{\begin{landscape}}{}
+\topcaption{Effort per tasks and partners for entire project (in personmonths)}
+\label{tab:effortPerTasks}
+\tablefirsthead{ ${effortHeader}  }
+\tablehead{ \toprule \multicolumn{%{str(3+len(partnerList))%}}{r}{\emph{Table~\ref{tab:effortPerTasks} continues from previous page}} \\ ${effortHeader}}
+\tabletail{\bottomrule \multicolumn{%{str(3+len(partnerList))%}}{r}{\emph{Table~\ref{tab:effortPerTasks} continues on next page}} \\ \bottomrule}
+\tablelasttail{  \multicolumn{%{str(3+len(partnerList))%}}{r}{\emph{Table~\ref{tab:effortPerTasks} ends}} \\ \bottomrule}
+\begin{center}
+\begin{mpxtabular}{c|p{0.15\textwidth}|c%{&#8216; <a href="#id5"><span class="problematic" id="id6">|</span></a>c&#8217; * len(partnerList)%}}
+${effortPerTaskRowsWP}
+\\ \hline \hline
+${effortSum}
+\\ \hline \hline
+\end{mpxtabular}
+\end{center}
+\ifthenelse{\boolean{LaTeX-effortTableLandscape}}{\end{landscape}}{}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:  expanded</p>
+</dd></dl>
+
+</div>
+<div class="section" id="effortpertasktable">
+<span id="index-41"></span><h1>effortPerTaskTable<a class="headerlink" href="#effortpertasktable" title="Permalink to this headline">¶</a></h1>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \ifthenelse{\boolean{Summaries-showEffortPartnerTasks}}
+{\ifthenelse{\boolean{LaTeX-useMultipageEffortTable}}
+{${effortPerTaskTableMultipage}}
+{${effortPerTaskTableShort}}
+}{}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   tables</p>
+</dd></dl>
+
+</div>
+<div class="section" id="piepmspartners">
+<span id="index-42"></span><h1>piePMsPartners<a class="headerlink" href="#piepmspartners" title="Permalink to this headline">¶</a></h1>
+<p>pie charts
+a pie chart showing person months distributed over partners</p>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \ifthenelse{\boolean{Summaries-piePMsPartners}}{
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\pie[scale font]{ %{ utils.roundPie ([ (x[&#8216;Shortname&#8217;],
+sum([int(e[&#8216;resources&#8217;]) for e in allEfforts if e[&#8216;partner&#8217;]==x[&#8216;Shortname&#8217;]]))
+for x in partnerList])
+%}}
+\end{tikzpicture}
+\caption{Distribution of person months over partners  (in percent)}
+\label{fig:pie:pm:partner}
+\end{figure}
+}{}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   pies</p>
+</dd></dl>
+
+</div>
+<div class="section" id="piepmswps">
+<span id="index-43"></span><h1>piePMsWPs<a class="headerlink" href="#piepmswps" title="Permalink to this headline">¶</a></h1>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \ifthenelse{\boolean{Summaries-piePMsWPs}}{
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\pie[scale font]{ %{ utils.roundPie ([ (&#8216;WP\,%s: %s&#8217;%(x[&#8216;Number&#8217;], x[&#8216;Shortname&#8217;]),
+sum(x[&#8216;partnereffort&#8217;].values()))
+for x in allWPDicts])
+%}}
+\end{tikzpicture}
+\caption{Distribution of person months over work packages (in percent)}
+\label{fig:pie:pm:wp}
+\end{figure}
+}{}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   pies</p>
+</dd></dl>
+
+</div>
+<div class="section" id="piepmsnations">
+<span id="index-44"></span><h1>piePMsNations<a class="headerlink" href="#piepmsnations" title="Permalink to this headline">¶</a></h1>
+<p>pie chart over person months assigned to different nations
+a little bit more complicated: we need to pull out the (Nation/Effort) pairs.
+those we get from allEfforts, where we look up the nation in the partnerList
+that leaves us with many entries in the list with the same nation
+we add up those efforts by a mapReduce operation to which we pass
+a suitable reduce function: adding up two values</p>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \ifthenelse{\boolean{Summaries-piePMsNations}}{
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\pie[scale font]{ %{ utils.roundPie(utils.mapReduce ([   (utils.searchListOfDicts(partnerList,
+&#8216;Shortname&#8217;,
+e[&#8216;partner&#8217;],
+&#8216;Nation&#8217;),
+int(e[&#8216;resources&#8217;]))
+for e in allEfforts],
+lambda a,b: a+b))
+%}}
+\end{tikzpicture}
+\caption{Distribution of person months over nations (in percent)}
+\label{fig:pie:pm:nations}
+\end{figure}
+}{}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   pies</p>
+</dd></dl>
+
+</div>
+<div class="section" id="piepmspartnertypes">
+<span id="index-45"></span><h1>piePMsPartnerTypes<a class="headerlink" href="#piepmspartnertypes" title="Permalink to this headline">¶</a></h1>
+<p>same thing that worked for the nation pie charts works for the partner type pie charts as well</p>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \ifthenelse{\boolean{Summaries-piePMsPartnerTypes}}{
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\pie[scale font]{ %{ utils.roundPie(utils.mapReduce ([   (utils.searchListOfDicts(partnerList,
+&#8216;Shortname&#8217;,
+e[&#8216;partner&#8217;],
+&#8216;Type&#8217;),
+int(e[&#8216;resources&#8217;]))
+for e in allEfforts],
+lambda a,b: a+b))
+%}}
+\end{tikzpicture}
+\caption{Distribution of partner types over nations (in percent)}
+\label{fig:pie:pm:partnertype}
+\end{figure}
+}{}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   pies</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">titleheader</a></li>
+<li><a class="reference internal" href="#partnertablerow">partnerTableRow</a></li>
+<li><a class="reference internal" href="#titlepage">titlepage</a></li>
+<li><a class="reference internal" href="#wpsummaryrows">wpSummaryRows</a></li>
+<li><a class="reference internal" href="#wpsummarytable">wpsummarytable</a></li>
+<li><a class="reference internal" href="#ganttprefix">ganttPrefix</a></li>
+<li><a class="reference internal" href="#ganttpostfix">ganttPostfix</a></li>
+<li><a class="reference internal" href="#wpmilestonesuncompressedshow">WpMilestonesUncompressedShow</a></li>
+<li><a class="reference internal" href="#wpmilestonesshow">WpMilestonesShow</a></li>
+<li><a class="reference internal" href="#wpdeliverablesuncompressedshow">WpDeliverablesUncompressedShow</a></li>
+<li><a class="reference internal" href="#wpdeliverablesshow">WpDeliverablesShow</a></li>
+<li><a class="reference internal" href="#ganttwp">ganttWP</a></li>
+<li><a class="reference internal" href="#ganttwplegend">ganttWPLegend</a></li>
+<li><a class="reference internal" href="#alltaskdelmslist">allTaskDelMSList</a></li>
+<li><a class="reference internal" href="#alltaskdelms">allTaskDelMS</a></li>
+<li><a class="reference internal" href="#alldellegend">allDelLegend</a></li>
+<li><a class="reference internal" href="#allmslegend">allMSLegend</a></li>
+<li><a class="reference internal" href="#completegantt">CompleteGantt</a></li>
+<li><a class="reference internal" href="#alllegend">allLegend</a></li>
+<li><a class="reference internal" href="#completeganttfacinglegend">CompleteGanttFacingLegend</a></li>
+<li><a class="reference internal" href="#wptasks">WpTasks</a></li>
+<li><a class="reference internal" href="#wptasksdescriptions">WpTasksDescriptions</a></li>
+<li><a class="reference internal" href="#wpdeliverables">WpDeliverables</a></li>
+<li><a class="reference internal" href="#wpmilestones">WpMilestones</a></li>
+<li><a class="reference internal" href="#wp">Wp</a></li>
+<li><a class="reference internal" href="#deliverabletablerows">DeliverableTableRows</a></li>
+<li><a class="reference internal" href="#deliverabletableshort">DeliverableTableShort</a></li>
+<li><a class="reference internal" href="#deliverabletablelong">DeliverableTableLong</a></li>
+<li><a class="reference internal" href="#deliverabletable">DeliverableTable</a></li>
+<li><a class="reference internal" href="#milestonetablerows">MilestoneTableRows</a></li>
+<li><a class="reference internal" href="#milestonetableshort">MilestoneTableShort</a></li>
+<li><a class="reference internal" href="#milestonetablelong">MilestoneTableLong</a></li>
+<li><a class="reference internal" href="#milestonetable">MilestoneTable</a></li>
+<li><a class="reference internal" href="#summaryeffortrows">summaryEffortRows</a></li>
+<li><a class="reference internal" href="#summaryeffort">summaryEffort</a></li>
+<li><a class="reference internal" href="#effortpertaskrows">effortPerTaskRows</a></li>
+<li><a class="reference internal" href="#effortpertaskrowswp">effortPerTaskRowsWP</a></li>
+<li><a class="reference internal" href="#effortheader">effortHeader</a></li>
+<li><a class="reference internal" href="#effortsum">effortSum</a></li>
+<li><a class="reference internal" href="#effortpertasktableshort">effortPerTaskTableShort</a></li>
+<li><a class="reference internal" href="#effortpertasktablemultipage">effortPerTaskTableMultipage</a></li>
+<li><a class="reference internal" href="#effortpertasktable">effortPerTaskTable</a></li>
+<li><a class="reference internal" href="#piepmspartners">piePMsPartners</a></li>
+<li><a class="reference internal" href="#piepmswps">piePMsWPs</a></li>
+<li><a class="reference internal" href="#piepmsnations">piePMsNations</a></li>
+<li><a class="reference internal" href="#piepmspartnertypes">piePMsPartnerTypes</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/latexTemplates.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">PropGen 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Holger Karl.
+      Last updated on Mar 01, 2012.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+  </body>
+</html>

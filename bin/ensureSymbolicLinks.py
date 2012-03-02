@@ -32,6 +32,7 @@ def createLinks (config):
                 targetdir = config.get ("PathNames", target)
                 originfiles =  glob.glob (os.path.join (origindir,  "*.tex"))
                 originfiles.extend(glob.glob (os.path.join (origindir,  "*.pdf")))
+                originfiles.extend(glob.glob (os.path.join (origindir,  "*.bib")))
 
                 ## abstargetdir = os.path.abspath(targetdir)
                 ## print "absorigindir: ", origindir

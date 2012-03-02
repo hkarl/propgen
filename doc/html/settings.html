@@ -1,0 +1,921 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Wiki &mdash; PropGen 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="PropGen 0.1 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">PropGen 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="wiki">
+<span id="index-0"></span><h1>Wiki<a class="headerlink" href="#wiki" title="Permalink to this headline">¶</a></h1>
+<p>See LICENCE file for licencing information!
+Set up the necessary information to access the  wiki: which type,
+where can it be found, what is the start page, which account and password
+to use to log in.</p>
+<dl class="describe">
+<dt>
+<tt class="descname">projectName</tt></dt>
+<dd><p>This option specificies the root Wiki page where the main project information can
+be found. It also serves as the filename of the final pdf file.</p>
+<p>Default:   TestProject</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">wikitype</tt></dt>
+<dd><p>The wikitype setting selects which type of wiki access is to be
+used. Wikitypes currently supported are: twiki, moinmoin and moinmoin-local</p>
+<p>Option 1: moinmoin-local
+This option specifies that the a moinmoin wiki can be accessed in
+the same file system where the generation system executes. This
+option requires to sepcify the moinmoinpath option as well. No user
+and password need to be given, but the files must be accessible for
+reading.</p>
+<p>Option 2: moinmoin</p>
+<p>A moinmoin wiki is used and accessed remotely, using the mechanize
+library. To this end, both the wikiuser and wikipassword option need
+to be specified; they are used for login. Also, the baseURL option
+needs to be specified: it provides a URL where the wiki can be
+accessed, without any concrete page name. Example:</p>
+<p>baseURL = <a class="reference external" href="http://hk-vm.cs.uni-paderborn.de:8080/">http://hk-vm.cs.uni-paderborn.de:8080/</a></p>
+<p>Option 3: twiki</p>
+<p>It needs the same options as moinmoin as well as the loginURL
+setting. The difference is that the obtained files are parsed
+assuming the twiki syntax and the login process to a Twiki is
+slightly different from a moinmoin wiki.
+The distribution&#8217;s configuration file example assumes a moinmoin-local</p>
+<p>Default:   moinmoin-local</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">moinmoinpath</tt></dt>
+<dd><p>Specify the moinmoin path in the standard PropGen distribution. This
+option is only relevant if wikitype = moinmoin-local and can be left
+out for other wiki types.</p>
+<p>Default:   ../moin/</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">baseURL</tt></dt>
+<dd><p>For remote access to a wiki. It specifies the &#8220;root&#8221; URL where the
+wiki can be accessed, without any particular page name. It is ignored for the moinmoin-local
+wikitype and only used for other wikitypes.</p>
+<p>Default:   <a class="reference external" href="http://hk-vm.cs.uni-paderborn.de:8080/">http://hk-vm.cs.uni-paderborn.de:8080/</a></p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">wikiuser</tt></dt>
+<dd><p>The wikiuser account name to use to log in. Ignored in the
+moinmoin-local wikitype. The default corresponds to the account name
+preset in the distribution&#8217;s moinmoin wiki. Change this option to
+reflect your own user name.</p>
+<p>Default:   ProjectMaster</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">wikipassword</tt></dt>
+<dd><p>Password used to log in. The default is the one used in the
+distribution&#8217;s example moinmoin wiki. You definitely want to change
+the password on the wiki and then reflect this change here. It is ignored in the
+moinmoin-local wikitype and only needed for remote access.</p>
+<p>Default:   123abc</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">loginURL</tt></dt>
+<dd><p>Some remote wikis usually need a special login URL, e.g., Twiki
+wikis. Specify here. This setting is ignored in both the
+moinmoin-local wikitype (where no login is needed at all) and in the
+moinmoin wikitype (were the login URL is constructed directly from
+the baseURL and no separate URL is needed).</p>
+<p>Default:   <a class="reference external" href="https://twiki.sics.se/bin/login">https://twiki.sics.se/bin/login</a></p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">httpProxyIP</tt></dt>
+<dd><p>For remote Wiki access through a proxy: These variables are used by
+the mechanize module, for access via an HTTP or HTTPS proxy. You can
+specify the proxy&#8217;s IP, port number, and user and password, if
+needed. You can do that separately for HTTP and HTTPS access.  But
+this does not always works out well.  Also, this functionality is
+not well tested. Your mileage WILL vary! All the defaults are just
+empty.</p>
+<p>Default:</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">httpProxyport</tt></dt>
+<dd><p>Default:</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">httpProxyuser</tt></dt>
+<dd><p>Default:</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">httpProxypassword</tt></dt>
+<dd><p>Default:</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">httpsProxyIP</tt></dt>
+<dd><p>Default:</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">httpsProxyport</tt></dt>
+<dd><p>Default:</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">httpsProxyuser</tt></dt>
+<dd><p>Default:</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">httpsProxypassword</tt></dt>
+<dd><p>Default:</p>
+</dd></dl>
+
+</div>
+<div class="section" id="pathnames">
+<span id="index-1"></span><h1>PathNames<a class="headerlink" href="#pathnames" title="Permalink to this headline">¶</a></h1>
+<p>The section PathNames gives fine-grained controled over the
+dictionaries where intermediate files are stored.
+Caution: best not to touch these paths!!! You should know what you
+are doing here!
+Note: these paths are relative to the main directory</p>
+<dl class="describe">
+<dt>
+<tt class="descname">binpath</tt></dt>
+<dd><p>Where are all the scripts for the actual generation?</p>
+<p>Default:   bin</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">wikipath</tt></dt>
+<dd><p>Where should downloaded wiki files be stored?</p>
+<p>Default:   generated/wiki</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">wikiwppath</tt></dt>
+<dd><p>Default:   generated/wiki/wp</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">wikipartnerpath</tt></dt>
+<dd><p>Default:   generated/wiki/partners</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">xmlpath</tt></dt>
+<dd><p>Where do generated xml files go?</p>
+<p>Default:   generated/xml</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">xmlwppath</tt></dt>
+<dd><p>Default:   generated/xml/wp</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">latexTemplates</tt></dt>
+<dd><p>Where is the LaTeX templates file?</p>
+<p>Default:   template/latexTemplates.cfg</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">genlatexpath</tt></dt>
+<dd><p>Where do generated LaTeX files, wp paths, partner files go?</p>
+<p>Default:   generated/latex</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">genlatexfigurespath</tt></dt>
+<dd><p>Default:   generated/latex/figures</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">genlatexganttspath</tt></dt>
+<dd><p>Default:   generated/latex/gantts</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">genlatextablespath</tt></dt>
+<dd><p>Default:   generated/latex/tables</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">genlatexpiespath</tt></dt>
+<dd><p>Default:   generated/latex/pies</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">genlatexwppath</tt></dt>
+<dd><p>Default:   generated/latex/wp</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">genlatexpartnerspath</tt></dt>
+<dd><p>Default:   generated/latex/partners</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">manuallatexpath</tt></dt>
+<dd><p>Where are the MANUAL latex files?
+Usage: in that directory, no files are EVER overwritten (as opposed
+to the genlatex directory tree, where all files are routinely
+overwritten).
+However, it is ensured that for all generated files,
+there is either a regular file of the same name in the manual directory
+(then nothing happens), or a symbolic link is created in the manual directory.
+NOTE: no good idea how to replicate that behavior in Windows</p>
+<p>Default:   latex</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">manuallatexfigurespath</tt></dt>
+<dd><p>Default:   latex/figures</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">manuallatexganttspath</tt></dt>
+<dd><p>Default:   latex/figures/gantts</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">manuallatextablespath</tt></dt>
+<dd><p>Default:   latex/figures/tables</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">manuallatexpiespath</tt></dt>
+<dd><p>Default:   latex/figures/pies</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">manuallatexwppath</tt></dt>
+<dd><p>Default:   latex/wp</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">manuallatexpartnerspath</tt></dt>
+<dd><p>Default:   latex/partners</p>
+</dd></dl>
+
+</div>
+<div class="section" id="gantts">
+<span id="index-2"></span><h1>Gantts<a class="headerlink" href="#gantts" title="Permalink to this headline">¶</a></h1>
+<p>Control which and how Gantt charts are typeset. This section has a
+few True/False toggles to include/exclude some features in the
+charts. It also has a few parameters detailing layout options.
+For fine-grained control, see the latexTemplates.cfg file; in
+particular, the GanttPrefix section. Also, the true/false settings
+here can be easily used (via the LaTeX ifthenelse command) to
+control behavior in latexTemplates.cfg.</p>
+<dl class="describe">
+<dt>
+<tt class="descname">WpMilestonesUncompressedShow</tt></dt>
+<dd><p>Some simple examples - generate various WP-specific Gantt charts for
+milestones, deliverables.</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">WpMilestonesShow</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">WpDeliverablesUncompressedShow</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">ShowWPBar</tt></dt>
+<dd><p>For the full-project milestones/deliverable gantt charts: build a WP bar to separate WPs ?</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">ganttPerWPShowsLegend</tt></dt>
+<dd><p>should the WP-specifc Gantt charts show a legend?</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">ganttLegendTwoColumn</tt></dt>
+<dd><p>Should a Gantt legend be one or two columns? (A one-column legend
+will consume a lot of space)</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">ganttTaskbarsShowTaskname</tt></dt>
+<dd><p>Task bars show task names in the gantt chart?
+If True, the Gantt chart is likely easier to read, but the task name
+will typically extend outside of the taskbar. If False, the taskname
+should probably appear in the legend of a Gantt chart, else hard to
+figure out just from the task ID (Gantt chart taskbar will show task
+ID like T 1.2, using the standard templates).</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">ganttDistanceBetweenMS</tt></dt>
+<dd><p>A compact layout of a Gantt chart requires that deliverables and
+milestones are set on the same line (else, every
+milestone/deliverable marker on separate line will create very long
+Gantt charts). This setting controls how many month a marker
+&#8220;occupies&#8221;, how much space it needs before another marker can be set
+on the same line. Minimum value is 1, for the marker itself. Set it
+to a larger value to have each marker on its own line.</p>
+<p>Default:   4</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">milestoneDecoration = fill=orange, rounded corners</tt></dt>
+<dd><p>How should a milestone look like? Put a &#8220;decoration string&#8221;
+according to the pdfgantt package here. (Use the GanttPrefix if you
+want to change the look of a deliverable marker).</p>
+<p>Default:  5pt</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">milestonesShowCrossWP</tt></dt>
+<dd><p>Show cross-WP milestones? That means: Each milestone has a &#8220;home&#8221;
+workpackage where it is defined. But it can have contributing tasks
+from other WPs as well (called a &#8220;cross-WP&#8221; milestone). Should the
+milestone appear also in those &#8220;contributing WP&#8220;&#8216;s Gantt charts? (it
+will always appear in its home WP&#8217;s Gantt chart)</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">deliverablesShowCrossWP</tt></dt>
+<dd><p>Same thing: show cross-WP deliverables?</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">milestoneLegendTemplate</tt></dt>
+<dd><p>Template to format the milestone legends in the Gantt charts. The
+useful when the legends are typeset using a itemize-like list. This
+setting will generate the milestoneGanttLegend (or
+deliverableGanttLegend); it is more a convenience function and could
+also be done in latexTemplates, but would be a little cumbersome
+there).</p>
+<p>A plausible alternative for the legend strings is to use a description
+environment instead. That requires then a corresponding change in
+latexTemplates.cfg. Not difficult to do, look for compactitem there.</p>
+<p>Default:   \item \textbf{${id}}: ${Title}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">deliverableLegendTemplate</tt></dt>
+<dd><p>See milestoneLegendTemplate for details.</p>
+<p>Default:   \item \textbf{${id}}: ${Title}</p>
+</dd></dl>
+
+</div>
+<div class="section" id="summaries">
+<span id="index-3"></span><h1>Summaries<a class="headerlink" href="#summaries" title="Permalink to this headline">¶</a></h1>
+<p>Which summary tables, figures  should appear in the document? Mostly
+True/False switches.</p>
+<dl class="describe">
+<dt>
+<tt class="descname">showEffortPartnerWPs</tt></dt>
+<dd><p>One table showing efforts only per partner and workpackage, over all workpackages</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">showEffortPartnerTasks</tt></dt>
+<dd><p>One table showing effort per partner and task, over all tasks</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">piePMsWPs</tt></dt>
+<dd><p>A pie chart, showing person month summaries for WPs</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">piePMsPartners</tt></dt>
+<dd><p>A pie chart, showing person month summaries for each partner</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">piePMsPartnerTypes</tt></dt>
+<dd><p>A pie chart, showing person month summaries for each partner type (industry, SME, academic)</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">piePMsNations</tt></dt>
+<dd><p>A pie chart, showing person month summaries for each nation</p>
+<p>Default:   True</p>
+</dd></dl>
+
+</div>
+<div class="section" id="wptables">
+<span id="index-4"></span><h1>WPTables<a class="headerlink" href="#wptables" title="Permalink to this headline">¶</a></h1>
+<p>This section collexts all information that is relevant for the
+actual workpackage tables.</p>
+<dl class="describe">
+<dt>
+<tt class="descname">maxPartnersPerRow</tt></dt>
+<dd><p>How many partners should be typeset in one row of the WP tables?
+The choice depends mostly on how long the partner shortnames are; 8
+seems to be a good compromise between readability and space
+effiency.</p>
+<p>Default:   8</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">firstColumnWidth</tt></dt>
+<dd><p>How wide should the first column be?
+Give the value as percent of textwidth!</p>
+<p>Default:   15</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">wptablespacing</tt></dt>
+<dd><p>How to influence the spacing of the wp tables?</p>
+<p>Default:   &#64;{\hskip 0ex}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">tabularCorrection</tt></dt>
+<dd><p>Correction factor to eadjust total width of the WP tabular. This
+does require some fiddling if any of the above values is changed.
+(Note: I&#8217;d much appreciate help from a LaTeX wizard to ensure a tabular
+environment is EXACTLY textwidth wide)</p>
+<p>Default:   0.95</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">tasklistShowsDuration</tt></dt>
+<dd><p>The WP forms has a section with a list of all the tasks. Should
+this list show the duration of a task?  (Details can be fixed in
+latexTemplates.cfg, section WpTasks</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">tasklistShowsPartners</tt></dt>
+<dd><p>Should it show which partners contribute to the task?</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">tasklistShowsDeliverables</tt></dt>
+<dd><p>Should it show the deliverables to which this task contributes?</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">tasklistShowsMilestones</tt></dt>
+<dd><p>And the milestones?</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">wpdescriptionShowsLeader</tt></dt>
+<dd><p>The box &#8220;Description of Workpackage&#8221; - should it show the WP Leader?</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">taskboxShowsLeader</tt></dt>
+<dd><p>Apart from the WP description, each task has an invidual box.
+How much details should they report?
+(this is used in latexTemplates.cfg in the WpTasksDescriptions
+section)
+Should it show the Leader of the particular task?</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">taskboxShowsObjectives</tt></dt>
+<dd><p>Should it show the objectives of the task? (If this is False, this
+information does not appear anywhere.)</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">taskboxShowsDescription</tt></dt>
+<dd><p>Should it show the description of the task? (If this is False, this
+information does not appear anywhere.)</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">taskboxShowsDeliverables</tt></dt>
+<dd><p>Should it list the Deliverables contributed by each task? The
+standard template typesets this as a table at the end of each
+taskbox; easy to change in the WpTasksDescriptions section of
+latexTemplates.cfg</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">taskboxShowsMilestones</tt></dt>
+<dd><p>And correspondingly the milestones?</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">taskboxShowsPartners</tt></dt>
+<dd><p>And that taskbox can show the partners active in this task.</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">deliverablesWPshowDue</tt></dt>
+<dd><p>Each workpackage has a list of deliverables it produces (only the
+&#8220;own&#8221; deliverables are relevant here). This list can contain several
+information; here, the Due date can be turned on or off. These
+settings are used in WpDeliverables in latexTemplates.cfg.</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">deliverablesWPshowTasks</tt></dt>
+<dd><p>Should the deliverable list show which tasks contribute to a
+particular deliverable.</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">deliverablesWPshowPartners</tt></dt>
+<dd><p>Similarly, which partners contribute to the deliverable?</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">deliverablesWPshowDescription</tt></dt>
+<dd><p>And finally, a deliverable can have a description. Should it be
+shown? (If this option is False, the deliverable description does
+not appear anywhere, when using the standard templates).</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">milestonesWPshowTasks</tt></dt>
+<dd><p>Similar to the deliverables, a list of milestones per WP can be
+controlled. See the WpMilestones section in latexTemplates.cfg for
+details.</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">milestonesWPshowPartners</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">milestonesWPshowDue</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">milestonesWPshowDescription</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">colorInactivePartner</tt></dt>
+<dd><p>Should an inactive partner (zero effort in a given workpackage)= be
+shown in a separate color? (color names as defined by the LaTeX
+xcolor package) (No highlight: simply use black)</p>
+<p>Default:   gray</p>
+</dd></dl>
+
+</div>
+<div class="section" id="participants">
+<span id="index-5"></span><h1>Participants<a class="headerlink" href="#participants" title="Permalink to this headline">¶</a></h1>
+<p>Options to control the individual participant descriptions in Section 2.2</p>
+<dl class="describe">
+<dt>
+<tt class="descname">newpageAfterEachPartner</tt></dt>
+<dd><p>Should there be a newpage inserted after each partner description?
+To ensure that each partner description starts on an empty page?</p>
+<p>Default:   True</p>
+</dd></dl>
+
+</div>
+<div class="section" id="latex">
+<span id="index-6"></span><h1>LaTeX<a class="headerlink" href="#latex" title="Permalink to this headline">¶</a></h1>
+<p>The LaTeX section coleects options controlling LaTeX
+processing. These are simle True/False flags to turn on/off various
+parts of the proposal.
+NOTE: these settings are only processed in the makefile; changing them
+and directly running pdflatx will have no effect.</p>
+<dl class="describe">
+<dt>
+<tt class="descname">showCommissionHints</tt></dt>
+<dd><p>Should the PDF file include the commission hints text? (as defined
+on the wiki by the commissionhint level 5 headings on the wiki
+pages). It is HIGHLY recommended to turn this off before producing
+the final version of the proposal.</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">useShowkeys</tt></dt>
+<dd><p>Should the showkey package be used, highlighting the label, ref and
+cite commands?  This can be useful to have an idea which labels
+exist for cross-referencing and looking for errors. Turn this off
+for the final version.</p>
+<p>Default:   False</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">showWarnings</tt></dt>
+<dd><p>Should warnings and fixmes be printed? This includes the list in
+warnings.tex. Turn this off for the final version.</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">showListOfTables</tt></dt>
+<dd><p>Should the table of content show list of tables?</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">showListOfFigures</tt></dt>
+<dd><p>Shoudl the table of content show list of figures?</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">showAcronymList</tt></dt>
+<dd><p>Should there be a list of acronyms? main.tex include a file
+AcronymsList.tex. Your choice how to fill this list. NOTE:
+AcronymsList.tex is not included in the default distribution. Just
+setting this flag to True will result in an error.</p>
+<p>Default:   False</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">useMultipageDeliverableTable</tt></dt>
+<dd><p>Should the deliverable and milestone collection table be typeset
+using a standard tabular environment or a multipage tabularx
+environment? Short lists will look better in singlepage mode, but
+obviously long lists have to be split up over multiple pages. See
+latexTemplates.cfg, sections DeliverableTable and MilestoneTable for
+details.
+(the defaults False / True only for demonstration of the options, pick what
+you prefer...)</p>
+<p>Default:   False</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">useMultipageMilestoneTable</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">useMultipageEffortTable</tt></dt>
+<dd><p>Should the effort table for the entire project be typesetting across
+multiple pages? (Similar to above, see latextemplates.cfg, SEction
+effortPerTaskTable).</p>
+<p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">effortTableLandscape</tt></dt>
+<dd><p>Turn the effort table sideways? Can be useful for large
+consortia. Details are in effortPerTaskTableShort and
+effortPerTaskTableMultipage sections of latexTemplates.cfg.</p>
+<p>Default:   True</p>
+</dd></dl>
+
+</div>
+<div class="section" id="customlatex">
+<span id="index-7"></span><h1>CustomLaTeX<a class="headerlink" href="#customlatex" title="Permalink to this headline">¶</a></h1>
+<p>A section for custom LaTeX commands.  Rationale: there might be some
+things you&#8217;d like to include in your proposal that are not fit for
+making them general, but can be computed based on the numbers
+contained in files pulled form the wiki. E.g., the toal number of
+person months to this end, this section allows you to write python
+code that is executed once every thing else is done and assign the
+result to a LaTeX command. The defining command will end up in
+settings.tex; the option name will be used as the LaTeX command, to
+be replaced by the result of evaluating the python code here. In
+particular, you have access to the variables described in section
+<a class="reference internal" href="sourcecodedoc.html#seclatexfromxml"><em>latexFromXML</em></a>.</p>
+<p>CAUTION: you can really screw up everything here. It can delete your
+disk, insult for boss, and kill your pet. You are WARNED!  To make
+use of this feature, you have to understand the Python code!</p>
+<dl class="describe">
+<dt>
+<tt class="descname">totalPM</tt></dt>
+<dd><p>As an example: total person months should be defined like this. This
+command is actually used.</p>
+<p>Default:   sum([int(e[&#8216;resources&#8217;]) for e in allEfforts])</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">tocLevel</tt></dt>
+<dd><p>Set the toc level for LaTeX; easier than to manipulate the main.tex
+file.</p>
+<p>Default:   3</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">secNumDepth</tt></dt>
+<dd><p>How deeply should headings be numbered?</p>
+<p>Default:   3</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Wiki</a></li>
+<li><a class="reference internal" href="#pathnames">PathNames</a></li>
+<li><a class="reference internal" href="#gantts">Gantts</a></li>
+<li><a class="reference internal" href="#summaries">Summaries</a></li>
+<li><a class="reference internal" href="#wptables">WPTables</a></li>
+<li><a class="reference internal" href="#participants">Participants</a></li>
+<li><a class="reference internal" href="#latex">LaTeX</a></li>
+<li><a class="reference internal" href="#customlatex">CustomLaTeX</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/settings.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">PropGen 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Holger Karl.
+      Last updated on Mar 01, 2012.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+  </body>
+</html>

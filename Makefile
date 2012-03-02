@@ -20,7 +20,7 @@ GENERATEDLATEXPATH = $(shell grep "genlatexpath " ${SETTINGS} | cut -f 2 -d = )
 LATEXLINKS =  $(shell find ${LATEXPATH} -type l)
 
 ####################################
-.PHONY: proposal pdf clean pullproject xml latexFromWiki latexFromXML ensureSymbolicLinks fullcommit docclean
+.PHONY: proposal pdf clean pullproject xml latexFromWiki latexFromXML ensureSymbolicLinks fullcommit doc docclean
 ####################################
 
 
@@ -60,6 +60,8 @@ clean:
 	cd ${LATEXPATH} ; rm -f main.aux main.lof main.log main.lot main.lox main.out main.toc main.bbl main.blg 
 	for d in ${LATEXLINKS}; do test ! -e $$d && rm $$d ; done  
 
+doc:
+	cd docsource ; make install 
 doclean:
 	find doc -type f -print | grep -v README | xargs rm 
 

@@ -1,0 +1,671 @@
+
+titlepageDict
+=============
+
+**call**
+   **Type**: <type 'str'>
+
+   **Example**: ICT FP7-ICT-2012-8
+
+**coordinatoremail**
+   **Type**: <type 'str'>
+
+   **Example**: peter.pan@neverland.org
+
+**coordinatorname**
+   **Type**: <type 'str'>
+
+   **Example**: Peter Pan
+
+**coordinatorphone**
+   **Type**: <type 'str'>
+
+   **Example**: +12 345 5678
+
+**duration**
+   **Type**: <type 'str'>
+
+   **Example**: 24
+
+**instrument**
+   **Type**: <type 'str'>
+
+   **Example**: Integrated Project
+
+**projectname**
+   **Type**: <type 'str'>
+
+   **Example**: Investigating really important research topics
+
+**projectshort**
+   **Type**: <type 'str'>
+
+   **Example**: IRIR
+
+**topics**
+   **Type**: <type 'str'>
+
+   **Example**: Objective ICT-2011.1.1 Future Networks
+
+
+allWPDicts
+==========
+
+**Duration**
+   **Type**: <type 'str'>
+
+   **Example**: 24
+
+**End**
+   **Type**: <type 'int'>
+
+   **Example**: 24
+
+**Leadernumber**
+   **Type**: <type 'str'>
+
+   **Example**: 2
+
+**Leadership**
+   **Type**: <type 'str'>
+
+   **Example**: ISC
+
+**Name**
+   **Type**: <type 'str'>
+
+   **Example**: Project Management
+
+**Number**
+   **Type**: <type 'str'>
+
+   **Example**: 1
+
+**Shortname**
+   **Type**: <type 'str'>
+
+   **Example**: Management
+
+**Start**
+   **Type**: <type 'str'>
+
+   **Example**: 1
+
+**Type**
+   **Type**: <type 'str'>
+
+   **Example**: MGMT
+
+**deliverableGanttLegend**
+   **Type**: <type 'str'>
+
+   **Documentation**: Compare the same corresponding key for milestones.
+
+   **Example**: \\item \\textbf{D\\,1.1}: A research plan description
+   \\item \\textbf{D\\,2.1}: Initial architecture description
+
+**deliverableGanttString**
+   **Type**: <type 'str'>
+
+   **Documentation**: Compare the same corresponding key for milestones.
+
+   **Example**: \\ganttmilestone{D\\,2.1}{3}
+   \\ganttmilestone{D\\,1.1}{12}
+
+**deliverableInGantt**
+   **Type**: <type 'list'>
+
+   **Documentation**: Compare the same corresponding key for milestones.
+
+   **Example**: ['reserachplan', 'initialArch']
+
+**deliverableUncompressedGanttString**
+   **Type**: <type 'str'>
+
+   **Documentation**: Compare the same corresponding key for milestones.
+
+   **Example**: \\ganttmilestone{D\\,1.1}{12}\\\\
+   \\ganttmilestone{D\\,2.1}{3}
+
+**groupbar**
+   **Type**: <type 'str'>
+
+   **Documentation**: In a horizontal bar is desired to separate WPs;
+   this is a command for the pgfgantt package.
+
+   **Example**: \\ganttgroup{}{1}{24} \\\\
+
+**milestoneGanttLegend**
+   **Type**: <type 'str'>
+
+   **Documentation**: The part of the Gantt legend pertaining to the
+   milestones. Its look is controlled by the
+   milestoneLegendTemplate in settings.cfg.
+
+   **Example**: \\item \\textbf{M\\,1.1}: Website goes public
+   \\item \\textbf{M\\,2.1}: Architcture description format chosen
+
+**milestoneGanttString**
+   **Type**: <type 'str'>
+
+   **Documentation**: A LaTeX command string containing the
+   commands to typeset the milestones of a particular WP (use
+   pgfgantt commands). It is
+   in compressed version, i.e., it tries to put milestones on
+   as few lines as possible.
+
+   **Example**: \\ganttmilestone[milestone={fill=orange, rounded corners=5pt}]{M\\,2.1}{2}
+   \\ganttmilestone[milestone={fill=orange, rounded corners=5pt}]{M\\,1.1}{7}
+
+**milestoneInGantt**
+   **Type**: <type 'list'>
+
+   **Documentation**: Which milestones (symbolic labels) appear in
+   the Gantt chart of this WP? (This is NOT the same thing as the
+   milestones hosted in a WP because of cross-WP milestones; this
+   list might contain milestones of other WPs as well in case a
+   task of this WP contributes to the milestone.
+
+   **Example**: ['website', 'archDescrFormat']
+
+**milestoneUncompressedGanttString**
+   **Type**: <type 'str'>
+
+   **Documentation**: A LaTeX command string containing the commands to typeset the
+   milestones of a particular WP. This is in uncompressed form,
+   i.e., each miilestone goes on a separate line.
+
+   **Example**: \\ganttmilestone[milestone={fill=orange, rounded corners=5pt}]{M\\,1.1}{7}\\\\
+   \\ganttmilestone[milestone={fill=orange, rounded corners=5pt}]{M\\,2.1}{2}
+
+**objectives**
+   **Type**: <type 'unicode'>
+
+   **Example**: The objectives of this workpage are Lorem ipsum dolor sit amet,
+   consectetuer adipiscing elit. Nulla urna. Maecenas interdum nunc in
+   augue. Mauris quis massa in ante tincidunt mollis. Proin
+   imperdiet. Donec porttitor pede id est. Sed in ante. Integer id
+   arcu. Nam lectus nisl, posuere sit amet, imperdiet ut, tristique ac,
+   lorem. In erat. In commodo enim.  Phasellus libero ipsum, tempor a,
+   pharetra consequat, pellentesque sit amet, sem. Praesent ut augue
+   luctus elit adipiscing ultricies.  Vestibulum suscipit cursus
+   leo. Nullam molestie justo.
+   
+   Umlaut test: äöü é è ß
+
+**partnereffort**
+   **Type**: <type 'dict'>
+
+   **Documentation**: A dictionary mapping the shortname of each
+   partner with positive effort in this WP to the effort (as integer).
+
+   **Example**: {'UE': 10, 'ISC': 0, 'ABC': 15}
+
+**tableheader**
+   **Type**: <type 'str'>
+
+   **Documentation**: The WP table header block, with effort lines
+   per partner. It is a complete tabular environment, ready to be
+   used in a template section of latexTemplates.cfg.
+
+   **Example**: \\begin{tabular}{|p{0.15\\textwidth}|@{\\hskip 0ex}p{0.100937\\textwidth}@{\\hskip 0ex}|@{\\hskip 0ex}p{0.100937\\textwidth}@{\\hskip 0ex}|@{\\hskip 0ex}p{0.100937\\textwidth}@{\\hskip 0ex}|@{\\hskip 0ex}p{0.100937\\textwidth}@{\\hskip 0ex}|@{\\hskip 0ex}p{0.100937\\textwidth}@{\\hskip 0ex}|@{\\hskip 0ex}p{0.100937\\textwidth}@{\\hskip 0ex}|@{\\hskip 0ex}p{0.100937\\textwidth}@{\\hskip 0ex}|@{\\hskip 0ex}p{0.100937\\textwidth}@{\\hskip 0ex}|}
+   \\hline\\textbf{Workpackage no.} & \\multicolumn{1}{c|}{1} & \\multicolumn{7}{l|}{\\textbf{Start date:} M 1} \\\\ \\hline
+   \\textbf{Title} & \\multicolumn{8}{l|}{Project Management} \\\\ \\hline\\textbf{Activity type} & \\multicolumn{8}{l|}{MGMT \\hfill} \\\\ \\hline
+   Part.\\ no.\\  & \\centering{1} & \\centering{\\textbf{\\textcolor{gray}{2}}} & \\centering{3} &  &  &  &  & \\\\ \\hline
+   Short name  & \\centering{ABC} & \\centering{\\textbf{\\textcolor{gray}{ISC}}} & \\centering{UE} &  &  &  &  & \\\\ \\hline
+   Effort  & \\centering{15} & \\centering{\\textbf{\\textcolor{gray}{0}}} & \\centering{10} &  &  &  &  & \\\\ \\hline
+   \\end{tabular}
+
+**taskGantt**
+   **Type**: <type 'str'>
+
+   **Documentation**: A command for pgfgantt to set the task part of
+   the WP's Gantt chart. This is in principle
+   straightforward, but the requirement for multi-phase tasks
+   makes it a bit complicated.
+
+   **Example**: \\ganttbar[name=T1-1-0]{T\\,1.1: Research preparation}{1}{24} \\\\
+   \\ganttbar[name=T1-2-0]{T\\,1.2: Research execution}{5}{7} \\\\
+
+**taskeffort**
+   **Type**: <type 'dict'>
+
+   **Documentation**: A dictionary, mapping the symbolic label of
+   each task of this WP to the total effort it consumes (as
+   integer).
+
+   **Example**: {'otherTask': 12, 'plan': 13}
+
+**wpdescription**
+   **Type**: <type 'str'>
+
+   **Example**: Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla
+   urna. Maecenas interdum nunc in augue. Mauris quis massa in ante
+   tincidunt mollis. Proin imperdiet. Donec porttitor pede id est. Sed
+   in ante. Integer id arcu. Nam lectus nisl, posuere sit amet,
+   imperdiet ut, tristique ac, lorem. In erat. In commodo enim.
+   Phasellus libero ipsum, tempor a, pharetra consequat, pellentesque
+   sit amet, sem. Praesent ut augue luctus elit adipiscing ultricies.
+   Vestibulum suscipit cursus leo. Nullam molestie justo.
+
+**wpeffort**
+   **Type**: <type 'str'>
+
+   **Documentation**: The total effort of this WP (as string, not
+   sure why?).
+
+   **Example**: 25
+
+
+allTasks
+========
+
+**Duration**
+   **Type**: <type 'int'>
+
+   **Example**: 24
+
+**Label**
+   **Type**: <type 'str'>
+
+   **Example**: plan
+
+**Leadpartner**
+   **Type**: <type 'str'>
+
+   **Example**: UE
+
+**Main**
+   **Type**: <type 'str'>
+
+   **Example**: True
+
+**Name**
+   **Type**: <type 'str'>
+
+   **Example**: Research preparation
+
+**Start**
+   **Type**: <type 'int'>
+
+   **Example**: 1
+
+**contributedDeliverables**
+   **Type**: <type 'list'>
+
+   **Documentation**: All the deliverables this task contributes to,
+   using the label of the deliverable. A
+   list; can be turned into a string by proper join operation.
+
+   **Example**: ['reserachplan', 'initialArch']
+
+**ganttid**
+   **Type**: <type 'str'>
+
+   **Documentation**: The string to typeset in the Gantt box
+   of this task.
+
+   **Example**: T1-1
+
+**taskId**
+   **Type**: <type 'str'>
+
+   **Documentation**: Based on the tasknumber, construct a
+   readbable number for this task.
+
+   **Example**: T\\,1.1
+
+**taskdescription**
+   **Type**: <type 'str'>
+
+   **Example**: Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla
+   urna. Maecenas interdum nunc in augue. Mauris quis massa in ante
+   tincidunt mollis. Proin imperdiet. Donec porttitor pede id est. Sed
+   in ante. Integer id arcu. Nam lectus nisl, posuere sit amet,
+   imperdiet ut, tristique ac, lorem. In erat. In commodo enim.
+   Phasellus libero ipsum, tempor a, pharetra consequat, pellentesque
+   sit amet, sem. Praesent ut augue luctus elit adipiscing ultricies.
+   Vestibulum suscipit cursus leo. Nullam molestie justo.
+   
+   
+   Morbi dui. Morbi convallis mi sed sem. Nulla convallis lacus vitae
+   risus. Phasellus adipiscing. Nullam tortor. Sed laoreet aliquam
+   ante. Vestibulum diam. Pellentesque nec leo. Pellentesque velit.
+   Praesent congue mi eu ipsum cursus fringilla. Etiam leo erat,
+   tristique et, pharetra eget, mollis vitae, velit. In hac habitasse
+   platea dictumst. In quam nibh, facilisis et, laoreet non, facilisis
+   tempus, justo.
+   
+   
+   Donec nulla lectus, faucibus sit amet, auctor non, consectetuer
+   quis, pede. Nullam dictum. Nullam suscipit, ligula in scelerisque
+   posuere, sapien purus rutrum magna, vitae pharetra leo quam vel
+   tortor. Donec eleifend condimentum sapien. Etiam sed orci. Aliquam
+   tempor. Pellentesque egestas tortor id eros. Donec mauris justo,
+   commodo id, pellentesque id, eleifend non, mi. Duis venenatis
+   sagittis metus.
+
+**tasknumber**
+   **Type**: <type 'int'>
+
+   **Documentation**: Constructed tasknumber, makes
+   sure that a multiple phase task only gets one number,
+   consequetively increasing in a WP, ordered in the same
+   order as the tasks appear on the WP's wiki page. If
+   you want something like T 1.1, use taskId instead.
+
+   **Example**: 1
+
+**taskobjectives**
+   **Type**: <type 'str'>
+
+   **Example**: Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla
+   urna. Maecenas interdum nunc in augue. Mauris quis massa in ante
+   tincidunt mollis. Proin imperdiet. Donec porttitor pede id est. Sed
+   in ante. Integer id arcu. Nam lectus nisl, posuere sit amet,
+   imperdiet ut, tristique ac, lorem. In erat. In commodo enim.
+   Phasellus libero ipsum, tempor a, pharetra consequat, pellentesque
+   sit amet, sem. Praesent ut augue luctus elit adipiscing ultricies.
+   Vestibulum suscipit cursus leo. Nullam molestie justo.
+   
+   \\begin{compactitem}
+   \\item Objective one for a task
+   \\item Objective two for a task
+   \\item Objective three for a task
+   \\end{compactitem}
+
+**wp**
+   **Type**: <type 'str'>
+
+   **Documentation**: For simplicity, this field describes the
+   number of the workpackage in which this task is
+   hosted. Not strictly necessary, but makes a number of
+   tests simpler later on.
+
+   **Example**: 1
+
+
+allMilestones
+=============
+
+**Contributor**
+   **Type**: <type 'list'>
+
+   **Example**: ['ABC']
+
+**ContributorMain**
+   **Type**: <type 'str'>
+
+   **Documentation**: A main key for the acutal key Contributor
+
+   **Example**: ABC
+
+**ContributorString**
+   **Type**: <type 'str'>
+
+   **Documentation**: Since there is a main entry for key Contributor, we
+   add here a key to the dictionary that contains a string
+   concatening the list of individual entries, marking the
+   main entry in boldface.
+
+   **Example**: \\textbf{ABC}
+
+**Description**
+   **Type**: <type 'str'>
+
+   **Example**: Website for the project is ready
+
+**Label**
+   **Type**: <type 'str'>
+
+   **Example**: website
+
+**Monthdue**
+   **Type**: <type 'int'>
+
+   **Documentation**: Due dates are interpreted as being at
+   the END of the given month. Relevant for correct placement
+   of the markers in the Gantt charts.
+
+   **Example**: 7
+
+**Producingtask**
+   **Type**: <type 'list'>
+
+   **Example**: ['otherTask']
+
+**ProducingtaskString**
+   **Type**: <type 'str'>
+
+   **Documentation**: A string that contains all the tasks
+   producing this milestone or deliverable; with a possible
+   main contributor set in boldface.
+
+   **Example**: T\\,1.2
+
+**Title**
+   **Type**: <type 'str'>
+
+   **Example**: Website goes public
+
+**Verificationmeans**
+   **Type**: <type 'str'>
+
+   **Example**: Website can be accessed
+
+**deco**
+   **Type**: <type 'str'>
+
+   **Documentation**: A string to be passed to the pgfgantt
+   package, to make the milestones look
+   differently from the deliverables
+   markers. Controlled by the
+   milestoneDecoration option in settings.cfg.
+
+   **Example**: [milestone={fill=orange, rounded corners=5pt}]
+
+**ganttLegend**
+   **Type**: <type 'str'>
+
+   **Documentation**: The string to be put into the legend of a Gantt
+   chart for this milestone. Controlled by the
+   deliverableLegendTemplate option in settings.cfg.
+
+   **Example**: \\item \\textbf{M\\,1.1}: Website goes public
+
+**id**
+   **Type**: <type 'str'>
+
+   **Documentation**: Unique shortname for the milestone.
+
+   **Example**: M\\,1.1
+
+**wp**
+   **Type**: <type 'str'>
+
+   **Documentation**: For simplicity, this field describes the
+   number of the workpackage in which this task is
+   hosted. Not strictly necessary, but makes a number of
+   tests simpler later on.
+
+   **Example**: 1
+
+
+allDeliverables
+===============
+
+**Contributor**
+   **Type**: <type 'list'>
+
+   **Example**: ['UE', 'ABC', 'ISC']
+
+**ContributorMain**
+   **Type**: <type 'str'>
+
+   **Documentation**: A main key for the acutal key Contributor
+
+   **Example**: ISC
+
+**ContributorString**
+   **Type**: <type 'str'>
+
+   **Documentation**: Since there is a main entry for key Contributor, we
+   add here a key to the dictionary that contains a string
+   concatening the list of individual entries, marking the
+   main entry in boldface.
+
+   **Example**: ABC, \\textbf{ISC}, UE
+
+**Description**
+   **Type**: <type 'str'>
+
+   **Example**: A complete research plan to be followed for the remained of the project is described.
+
+**Dissemination**
+   **Type**: <type 'str'>
+
+   **Example**: PU
+
+**Label**
+   **Type**: <type 'str'>
+
+   **Example**: reserachplan
+
+**Monthdue**
+   **Type**: <type 'int'>
+
+   **Documentation**: Due dates are interpreted as being at
+   the END of the given month. Relevant for correct placement
+   of the markers in the Gantt charts.
+
+   **Example**: 12
+
+**Nature**
+   **Type**: <type 'str'>
+
+   **Example**: R
+
+**Producingtask**
+   **Type**: <type 'list'>
+
+   **Example**: ['plan', 'otherTask']
+
+**ProducingtaskMain**
+   **Type**: <type 'str'>
+
+   **Documentation**: A main key for the acutal key Producingtask
+
+   **Example**: otherTask
+
+**ProducingtaskString**
+   **Type**: <type 'str'>
+
+   **Documentation**: A string that contains all the tasks
+   producing this milestone or deliverable; with a possible
+   main contributor set in boldface.
+
+   **Example**: T\\,1.1, \\textbf{T\\,1.2}
+
+**Title**
+   **Type**: <type 'str'>
+
+   **Example**: A research plan description
+
+**ganttLegend**
+   **Type**: <type 'str'>
+
+   **Documentation**: The string to be put into the legend of a Gantt
+   chart for this milestone. Controlled by the
+   deliverableLegendTemplate option in settings.cfg.
+
+   **Example**: \\item \\textbf{D\\,1.1}: A research plan description
+
+**id**
+   **Type**: <type 'str'>
+
+   **Documentation**: Unique shortname for the milestone.
+
+   **Example**: D\\,1.1
+
+**wp**
+   **Type**: <type 'str'>
+
+   **Documentation**: For simplicity, this field describes the
+   number of the workpackage in which this task is
+   hosted. Not strictly necessary, but makes a number of
+   tests simpler later on.
+
+   **Example**: 1
+
+
+allEfforts
+==========
+
+**partner**
+   **Type**: <type 'str'>
+
+   **Documentation**: The partner shortname of the partner
+   organization the effort of which is described here.
+
+   **Example**: ABC
+
+**resources**
+   **Type**: <type 'str'>
+
+   **Documentation**: The resources which this partner has in
+   this task.
+
+   **Example**: 5
+
+**task**
+   **Type**: <type 'str'>
+
+   **Documentation**: The task label which identifies this
+   task.
+
+   **Example**: otherTask
+
+**wp**
+   **Type**: <type 'str'>
+
+   **Documentation**: For simplicity, this field describes the
+   number of the workpackage in which this task is
+   hosted. Not strictly necessary, but makes a number of
+   tests simpler later on.
+
+   **Example**: 1
+
+
+partnerList
+===========
+
+**Name**
+   **Type**: <type 'str'>
+
+   **Example**: A Broad Company
+
+**Nation**
+   **Type**: <type 'str'>
+
+   **Example**: FR
+
+**Number**
+   **Type**: <type 'str'>
+
+   **Example**: 1
+
+**Shortname**
+   **Type**: <type 'str'>
+
+   **Example**: ABC
+
+**Type**
+   **Type**: <type 'str'>
+
+   **Example**: IN
+
+**Wiki**
+   **Type**: <type 'str'>
+
+   **Example**: PartnerAbc
+

@@ -1,0 +1,275 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Directory layout and major files &mdash; PropGen 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="PropGen 0.1 documentation" href="index.html" />
+    <link rel="next" title="Open Issues" href="openissues.html" />
+    <link rel="prev" title="How to customize PropGren" href="customize.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="openissues.html" title="Open Issues"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="customize.html" title="How to customize PropGren"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">PropGen 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="directory-layout-and-major-files">
+<h1>Directory layout and major files<a class="headerlink" href="#directory-layout-and-major-files" title="Permalink to this headline">¶</a></h1>
+<p>This section summarizes the directory layout as used in the standard
+distribution setup. It is possible to widely reconfigure this (via the
+PathNames section in settings.cfg); however, unless there are concrete
+reasons to change it, it seems reasonable not to modify this.</p>
+<div class="section" id="directory-structure">
+<h2>Directory structure<a class="headerlink" href="#directory-structure" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>bin</dt>
+<dd>All the Python scripts necessary to generate the proposal PDF are
+here.</dd>
+<dt>doc</dt>
+<dd>The documentation in various formats.</dd>
+<dt>docsource</dt>
+<dd>The sources for the documentation, in reStructuredText, based on
+Sphinx.</dd>
+<dt>generated</dt>
+<dd><p class="first">This directory contains all intermediately downloaded or generated
+files. It has several subdirectories:</p>
+<dl class="last docutils">
+<dt>latex</dt>
+<dd><p class="first">All the generated LaTeX files go in here. Files in the directory
+as such are direct transliterations of the corresponding Wiki
+files. There are a few subdirectories:</p>
+<dl class="last docutils">
+<dt>figures</dt>
+<dd>All <em>generated</em> tables,
+gantts, and pie charts go in here (in respective
+subdirectories).</dd>
+<dt>partners</dt>
+<dd>Files pertaining to the description of partners.</dd>
+<dt>wp</dt>
+<dd>Files pertaining to individual workpackages. One file per
+workpackage, containing all relevant information.</dd>
+</dl>
+</dd>
+<dt>wiki</dt>
+<dd><p class="first">The raw download of the wiki sources. Very useful for error
+checking, in case some of the download fails, problems with
+special characters (e.g., Umlaute) appear, etc. Files in here
+should be verbatim copies of all the Wiki pages pertaining to
+the project. In particular, there are two further
+subdirectories:</p>
+<dl class="last docutils">
+<dt>partners</dt>
+<dd>All the partner description files, as linked from the Partner
+Description part of the main project page.</dd>
+<dt>wp</dt>
+<dd>All the workpackage wiki pages, as linked from the
+workpackage description part of the main page.</dd>
+</dl>
+</dd>
+<dt>xml</dt>
+<dd><p class="first">A directory containing all intermediately generated XML
+files. Workpackage-specific information goes into the
+subdirectory wp. One file per workpackage. All the partner
+descriptions go in one LaTeX file.</p>
+<p class="last">The purpose of the intermediate XML representation is to give
+secondary tools a standard way to hook in (and it is a legacy of
+an older version of the program).</p>
+</dd>
+</dl>
+</dd>
+<dt>latex</dt>
+<dd><p class="first">This directory contains all the manually added LaTeX files, as well
+as the root main.tex file invoked by pdflatex. Feel free to add any
+files you like in here.</p>
+<p>It has a few subdirectories:</p>
+<dl class="docutils">
+<dt>figures</dt>
+<dd>By convention, all figures necessary for the proposal go in
+here. In addition, there are subdirectories gantts, pies, tables
+pointing to generated material.</dd>
+<dt>partners</dt>
+<dd>Same purpose as above.</dd>
+<dt>styles</dt>
+<dd>All specific, non-standard, unusual or modified style files are
+collected here.</dd>
+<dt>wp</dt>
+<dd>Same purpose as above.</dd>
+</dl>
+<p class="last">In addition, there are symbolic links pointing from this directory
+to the directory generated, to each of the automatically generated
+files. This is done by the script ensureSymbolicLinks.py. The idea
+is to keep files on the Wiki as long as possible. But if, at some
+point in time, a file should be maintained only manually, remove
+the symbolic link, copy the generated file to the this directory,
+and the generation scripts will no longer overwrite this file; all
+manual changes are preserved. (Obviously, you should make it clear
+on the wiki that the wiki version is out of date.)</p>
+</dd>
+<dt>moin</dt>
+<dd>A distribution of the MoinMoin wiki, adapted to the needs of a
+project proposal. In particular, restricted login and a
+pre-configured superuser.</dd>
+<dt>template</dt>
+<dd>All template files. It contains, for each supported wiki type, an
+example setup of the example project, separated by
+subdirectory. Currently, moinmoin and twiki.
+See also below for latexTemplates.cfg.</dd>
+</dl>
+</div>
+<div class="section" id="relevant-files">
+<h2>Relevant files<a class="headerlink" href="#relevant-files" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>settings.cfg</dt>
+<dd>This file contains main configuration options: where to find the
+Wiki, which information to include, some basic settings about the
+look of the PDF file. See <a class="reference internal" href="sourcecodedoc.html#sec-settings-cfg"><em>settings.cfg</em></a> for the actual
+source code and detailed documentation.</dd>
+<dt>template/latexTemplates.cfg</dt>
+<dd>In here, all the templates used to produce actual LaTeX code are
+maintained. Changes here allow a fine-grained customization of the
+result. See <a class="reference internal" href="sourcecodedoc.html#sec-latextemplates-cfg"><em>latexTemplates.cfg</em></a> for the actual source
+code and detailed documentation.</dd>
+<dt>latex/main.tex</dt>
+<dd>The main LaTeX file; from here, all other LaTeX files are
+included. You can change a lot of the behavior here, e.g., include
+other style files. This file is never manipulated automatically,
+feel free to make manual adjustments here. See <a class="reference internal" href="sourcecodedoc.html#sec-mainlatex"><em>main.tex</em></a> for details.</dd>
+<dt>latex/warnings.tex</dt>
+<dd>All warning generated during the production of XML or LaTeX code
+are collected here and can be typeset directly. The showWarnings
+flag in settings.cfg controls whether these warnings are included
+in the PDF output.</dd>
+<dt>latex/settings.tex</dt>
+<dd>This file is produced from settings.cfg by turning all the
+True/False flags in this file into a corresponding LaTeX variable
+(which can be queried via the ifthenelse command). It also contains
+the <em>results</em> of executing all the  commands in  the CustomLaTeX
+section of settings.cfg, made accessible via a corresponding LaTeX
+variable.</dd>
+<dt>latex/partners/partnersIncluder.tex</dt>
+<dd>A small file, generated to make sure that all downloaded partner
+descriptions are included. No need to change anything manually when
+a new partner is added.</dd>
+<dt>latex/wp/wpIncluder.tex</dt>
+<dd>Similarly, a file to include all workpackage description files.</dd>
+<dt>Makefile</dt>
+<dd>A standard Makefile guiding the generation process. It is fairly
+straightforward, simply running the consecutive steps of a build
+process after each other for the main target <em>pdf</em>. See
+<a class="reference internal" href="sourcecodedoc.html#sec-makefile"><em>Makefile</em></a> for details.</dd>
+<dt>projectname.pdf</dt>
+<dd>The ultimate PDF file. &#8220;projectname&#8221; is replaced by the value you
+gave in settings.cfg&#8217;s projectName option. In the example setup, it
+will be called TestProject.pdf.</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Directory layout and major files</a><ul>
+<li><a class="reference internal" href="#directory-structure">Directory structure</a></li>
+<li><a class="reference internal" href="#relevant-files">Relevant files</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="customize.html"
+                        title="previous chapter">How to customize PropGren</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="openissues.html"
+                        title="next chapter">Open Issues</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/directorylayout.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="openissues.html" title="Open Issues"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="customize.html" title="How to customize PropGren"
+             >previous</a> |</li>
+        <li><a href="index.html">PropGen 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Holger Karl.
+      Last updated on Mar 01, 2012.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+  </body>
+</html>

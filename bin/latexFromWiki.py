@@ -19,6 +19,7 @@ import glob
 import os 
 import codecs
 import utils
+import re
 
 from pprint import pprint as pp
 
@@ -28,13 +29,20 @@ def handleFile (f, outdir, parser, config, verbose=False):
 
     Information where and how to translate are giving in config. Parser is
     a parser object for the correct wiki style.
+
+    Exception: if the filename contains bibtex in some capitalization, we append .bib, not .tex. 
     """
 
+    if re.search ('bibtex', f, re.IGNORECASE):
+        suffix = ".bib"
+    else:
+        suffix = ".tex"
+        
     fileName = os.path.basename(f)
     inputDir = os.path.dirname(f)
     if verbose:
         print "Generating LaTeX from wiki file " + fileName  + " in dir: " + inputDir
-        print " and storing it in " + outdir + " as path " + os.path.join (outdir, fileName)+".tex"
+        print " and storing it in " + outdir + " as path " + os.path.join (outdir, fileName)+suffix
 
     # caution: we have to open that as UTF-8 files!
     wiki = codecs.open (f, 'r', 'utf-8').read()
@@ -43,7 +51,7 @@ def handleFile (f, outdir, parser, config, verbose=False):
         print wiki
         print parser.getLaTeX (wiki)
 
-    utils.writefile (parser.getLaTeX (wiki), os.path.join (outdir, fileName+".tex"))
+    utils.writefile (parser.getLaTeX (wiki), os.path.join (outdir, fileName+suffix))
 
 
 ########################################
