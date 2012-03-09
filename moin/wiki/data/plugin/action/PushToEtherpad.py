@@ -6,6 +6,14 @@ from MoinMoin.PageEditor import PageEditor
 import ConfigParser
 import py_etherpad 
 
+# for obfuscating pad names:
+import string
+import random
+
+def id_generator(size=12,
+                 chars=string.ascii_uppercase + string.digits + string.ascii_lowercase):
+    return ''.join(random.choice(chars) for x in range(size))
+
 
 def execute (pagename, request):
 
@@ -29,11 +37,31 @@ def execute (pagename, request):
             key = "not found"
 
     # Password for Etherpad?
+    # NOTE: This is future versions of Etherpad-lite 
+    ## try:
+    ##     etherpadPassword = c.get('Etherpad', 'Password')
+    ## except:
+    ##     etherpadPassword = ''
+    ##     pass
+
+    ## print etherpadPassword
+        
+    # and groupID?
+    ## try:
+    ##     etherpadGroup = c.get('Etherpad', 'GroupID')
+    ## except:
+    ##     etherpadGroup = ''
+    ##     pass
+    
+
+    # instead of using password, we can at least obfuscate the pad names: 
     try:
-        etherpadPassword = c.get('Etherpad', 'Password')
-    except:
-        etherpadPassword = ''
-        pass 
+        obfuscated = c.getboolean ('Etherpad', 'ObfuscatePads')
+        obfuscatedFile = c.get ('Etherpad', 'ObfuscatedFile')
+    except: 
+        obfuscated = False
+
+
 
     # create a py_etherpad client object
     baseURL = "http://" + etherpadIP + ":" + etherpadPort + "/"
@@ -44,25 +72,16 @@ def execute (pagename, request):
     pe = PageEditor(request, pagename) 
 
     padtext = pe.get_raw_body()
-    ## print padtext
-    ## if isinstance(padtext, unicode):
-    ##     padtext = padtext.encode('latin-1', 'ignore')
-    ## print type(padtext)
-    ## print padtext 
-
     currev = pe.current_rev()
 
 
-    # TODO: Check whether is is already on Etherpad - if so, ask whether a new session should be started?
-
-    
     padname = "Wiki-" + pagename
     padURL = baseURL + "p/" +  padname 
     success = False 
-
-    # padtextEP = padtext.encode('iso8859')
     padtextEP = padtext.encode('utf-8')
-    # padtextEP = padtext.encode('ascii', 'xmlcharrefreplace')
+
+
+    # start the actual writing out to Etherpad. 
     try: 
         r = ep.getText (padname)
 
@@ -71,8 +90,24 @@ def execute (pagename, request):
     except ValueError:
         try: 
             if etherpadPassword:
-                # let's try to password-protect this page:
-                # ep.createGroupIfNotExistsFor ()
+                # is there a groupID? if not, create the group
+                print "Group: ", etherpadGroup
+                if not etherpadGroup:
+                    resp = ep.createGroupIfNotExistsFor (c.get('Wiki', 'projectName'))
+                    print resp
+                    groupID = resp['groupID']
+                    print groupID
+
+                    # testing: delete the group immediately
+                    ep.deleteGroup (groupIP)
+                    
+                # store the created group id in the settings file
+
+
+                # then create the pad in this group
+                # ep.createPad (padname, padtextEP)
+
+                # and set pass word on it
                 # ep.setPassword (padname, etherpadPassword)
                 print "not implemented"
             else:
