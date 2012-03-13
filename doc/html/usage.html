@@ -409,6 +409,35 @@ example Wiki page TestProject has links to the corresponding
 attachments at the very top for easy access. (Change the attachment
 link to TestProject.pdf if you rename the main page.)</p>
 </div>
+<div class="section" id="etherpad-lite-support">
+<h2>Etherpad-lite  support<a class="headerlink" href="#etherpad-lite-support" title="Permalink to this headline">¶</a></h2>
+<p>The Moinmoin wiki included in the standard distribution can interwork
+with an Etherpad-lite installation. The idea is fairly simple: There
+are two actions PushToEtherpad and PullFromEtherpad in the Wiki.</p>
+<p>Invoking the PushToEtherpad action creates a pad in a corresponding
+Etherpad instance and puts a warning text on the Wiki page, stating
+that this page is currently edited on an Etherpad. The warning text
+also contains a link to the particular Etherpad pad (usually, when the
+warning text is shown, it makes little sense to edit this page, as
+changes are likely to be overwritten).  If a pad of the corresponding
+name already exists, a new version is created; hence, successive edits
+can be tracked.</p>
+<p>Once the Etherpad editing is done, invoke the PullFromEtherpad action
+on the Wiki. This copies the current state of the corresponding pad
+back from the Etherpad into the wiki, creating a new version of the
+wiki page. Note that only the PURE TEXT VERSION of the Etherpad is
+considered; no Etherpad-specific markup is taken into account. The
+text version MUST be valid Wiki syntax; there are no checks of any
+kind.</p>
+<p>The rationale for this integration is to support Wiki editing by an
+interactive editing tool, e.g., during a phone conference.</p>
+<p>There are a few configuration options for the IP and port number and
+API key file in settings.cfg. Also, you can choose whether the Pads
+should have plain names corresponding directly to the wiki name, or
+whether some obfuscating characters should be added to provide at
+least a little bit of protection since Etherpad lite currently has no
+easy way of doing password authentication.</p>
+</div>
 </div>
 
 
@@ -440,6 +469,7 @@ link to TestProject.pdf if you rename the main page.)</p>
 </li>
 <li><a class="reference internal" href="#recognized-wiki-markup">Recognized Wiki markup</a></li>
 <li><a class="reference internal" href="#building-a-pdf-file">Building a PDF file</a></li>
+<li><a class="reference internal" href="#etherpad-lite-support">Etherpad-lite  support</a></li>
 </ul>
 </li>
 </ul>
@@ -492,7 +522,7 @@ link to TestProject.pdf if you rename the main page.)</p>
     </div>
     <div class="footer">
         &copy; Copyright 2012, Holger Karl.
-      Last updated on Mar 02, 2012.
+      Last updated on Mar 13, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
     </div>
   </body>

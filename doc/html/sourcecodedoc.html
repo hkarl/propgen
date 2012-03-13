@@ -2051,12 +2051,61 @@ file.</p>
 </dd></dl>
 
 </div>
+<div class="section" id="etherpad">
+<span id="index-8"></span><h3>Etherpad<a class="headerlink" href="#etherpad" title="Permalink to this headline">¶</a></h3>
+<p>Support for Etherpad lite directly from the moinmoin wiki
+This is somewhat experimental</p>
+<dl class="describe">
+<dt>
+<tt class="descname">IP</tt></dt>
+<dd><p>At which IP address can the Etherpad instance be found?</p>
+<p>Default:   127.0.0.1</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">Port</tt></dt>
+<dd><p>Port number of the Etherpad-lite server</p>
+<p>Default:   9001</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">PathToKey</tt></dt>
+<dd><p>At which path can the APIKEY file of the Etherpad server be found?
+Useful for a local installation where moinmoin and Etherpad run on a
+local machine. Alternatively, use the Key option to directly provide
+the actual key.</p>
+<p>Default:   /Users/hkarl/c.prog/etherpad/APIKEY.txt</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">Password</tt></dt>
+<dd><p>Ideally, etherpad-lite should be able to ask for a password through
+its web interface. But that seems to be long in the making; unless
+you want to put etherpad behind an apache server, which seems like
+overkill for the likely number of people involved. Hence, the
+password option is currently not supported. this is a TODO once
+future versions of Etherpad make this easier.</p>
+<p>Default:   ThisIsNotImplementedYet</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">ObfuscatePads</tt></dt>
+<dd><p>Instead of password protection, we can obfuscate the URLs of the
+generated PADs. Set this to True of False</p>
+<p>Default:   True</p>
+</dd></dl>
+
+</div>
 </div>
 <div class="section" id="latextemplates-cfg">
 <span id="sec-latextemplates-cfg"></span><h2>latexTemplates.cfg<a class="headerlink" href="#latextemplates-cfg" title="Permalink to this headline">¶</a></h2>
 <p>This file contains the input for a little templating engine.</p>
 <div class="section" id="titleheader">
-<span id="index-8"></span><h3>titleheader<a class="headerlink" href="#titleheader" title="Permalink to this headline">¶</a></h3>
+<span id="index-9"></span><h3>titleheader<a class="headerlink" href="#titleheader" title="Permalink to this headline">¶</a></h3>
 <p>Put all the templates to be used for LaTeX configuration here.
 this file works in concert with the settings.cfg file;
 some changes there have to be reflected here (see comments).
@@ -2096,7 +2145,7 @@ out of these two parts. This third part is then written to file</p>
 
 </div>
 <div class="section" id="partnertablerow">
-<span id="index-9"></span><h3>partnerTableRow<a class="headerlink" href="#partnertablerow" title="Permalink to this headline">¶</a></h3>
+<span id="index-10"></span><h3>partnerTableRow<a class="headerlink" href="#partnertablerow" title="Permalink to this headline">¶</a></h3>
 <p>Rows for partner table on titlepage:</p>
 <dl class="describe">
 <dt>
@@ -2129,7 +2178,7 @@ sorter = lambda x: x[&#8216;Nation&#8217;]</p>
 
 </div>
 <div class="section" id="titlepage">
-<span id="index-10"></span><h3>titlepage<a class="headerlink" href="#titlepage" title="Permalink to this headline">¶</a></h3>
+<span id="index-11"></span><h3>titlepage<a class="headerlink" href="#titlepage" title="Permalink to this headline">¶</a></h3>
 <p>And the actual titlepage:</p>
 <dl class="describe">
 <dt>
@@ -2160,7 +2209,7 @@ ${partnerTableRow} \\
 
 </div>
 <div class="section" id="wpsummaryrows">
-<span id="index-11"></span><h3>wpSummaryRows<a class="headerlink" href="#wpsummaryrows" title="Permalink to this headline">¶</a></h3>
+<span id="index-12"></span><h3>wpSummaryRows<a class="headerlink" href="#wpsummaryrows" title="Permalink to this headline">¶</a></h3>
 <p>The wp summary table; first the individual rows, one per WP:</p>
 <dl class="describe">
 <dt>
@@ -2182,7 +2231,7 @@ ${partnerTableRow} \\
 
 </div>
 <div class="section" id="wpsummarytable">
-<span id="index-12"></span><h3>wpsummarytable<a class="headerlink" href="#wpsummarytable" title="Permalink to this headline">¶</a></h3>
+<span id="index-13"></span><h3>wpsummarytable<a class="headerlink" href="#wpsummarytable" title="Permalink to this headline">¶</a></h3>
 <p>Then build the complete WP summary table.</p>
 <dl class="describe">
 <dt>
@@ -2223,7 +2272,7 @@ ${wpSummaryRows} \\
 
 </div>
 <div class="section" id="ganttprefix">
-<span id="index-13"></span><h3>ganttPrefix<a class="headerlink" href="#ganttprefix" title="Permalink to this headline">¶</a></h3>
+<span id="index-14"></span><h3>ganttPrefix<a class="headerlink" href="#ganttprefix" title="Permalink to this headline">¶</a></h3>
 <p>Gantt charts start here!
 First, some building blocks for various Gantt charts</p>
 <dl class="describe">
@@ -2251,7 +2300,7 @@ link={-latex, rounded corners=1ex, thick}]{${duration}}
 
 </div>
 <div class="section" id="ganttpostfix">
-<span id="index-14"></span><h3>ganttPostfix<a class="headerlink" href="#ganttpostfix" title="Permalink to this headline">¶</a></h3>
+<span id="index-15"></span><h3>ganttPostfix<a class="headerlink" href="#ganttpostfix" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2261,7 +2310,7 @@ link={-latex, rounded corners=1ex, thick}]{${duration}}
 
 </div>
 <div class="section" id="wpmilestonesuncompressedshow">
-<span id="index-15"></span><h3>WpMilestonesUncompressedShow<a class="headerlink" href="#wpmilestonesuncompressedshow" title="Permalink to this headline">¶</a></h3>
+<span id="index-16"></span><h3>WpMilestonesUncompressedShow<a class="headerlink" href="#wpmilestonesuncompressedshow" title="Permalink to this headline">¶</a></h3>
 <p>and the actual gantts: first, the wp-specific gantts</p>
 <dl class="describe">
 <dt>
@@ -2306,7 +2355,7 @@ ${ganttPostfix}
 
 </div>
 <div class="section" id="wpmilestonesshow">
-<span id="index-16"></span><h3>WpMilestonesShow<a class="headerlink" href="#wpmilestonesshow" title="Permalink to this headline">¶</a></h3>
+<span id="index-17"></span><h3>WpMilestonesShow<a class="headerlink" href="#wpmilestonesshow" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2350,7 +2399,7 @@ ${ganttPostfix}
 
 </div>
 <div class="section" id="wpdeliverablesuncompressedshow">
-<span id="index-17"></span><h3>WpDeliverablesUncompressedShow<a class="headerlink" href="#wpdeliverablesuncompressedshow" title="Permalink to this headline">¶</a></h3>
+<span id="index-18"></span><h3>WpDeliverablesUncompressedShow<a class="headerlink" href="#wpdeliverablesuncompressedshow" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2394,7 +2443,7 @@ ${ganttPostfix}
 
 </div>
 <div class="section" id="wpdeliverablesshow">
-<span id="index-18"></span><h3>WpDeliverablesShow<a class="headerlink" href="#wpdeliverablesshow" title="Permalink to this headline">¶</a></h3>
+<span id="index-19"></span><h3>WpDeliverablesShow<a class="headerlink" href="#wpdeliverablesshow" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2438,7 +2487,7 @@ ${ganttPostfix}
 
 </div>
 <div class="section" id="ganttwp">
-<span id="index-19"></span><h3>ganttWP<a class="headerlink" href="#ganttwp" title="Permalink to this headline">¶</a></h3>
+<span id="index-20"></span><h3>ganttWP<a class="headerlink" href="#ganttwp" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2498,7 +2547,7 @@ ${milestoneGanttLegend}
 
 </div>
 <div class="section" id="ganttwplegend">
-<span id="index-20"></span><h3>ganttWPLegend<a class="headerlink" href="#ganttwplegend" title="Permalink to this headline">¶</a></h3>
+<span id="index-21"></span><h3>ganttWPLegend<a class="headerlink" href="#ganttwplegend" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2557,7 +2606,7 @@ ${milestoneGanttLegend}
 
 </div>
 <div class="section" id="alltaskdelmslist">
-<span id="index-21"></span><h3>allTaskDelMSList<a class="headerlink" href="#alltaskdelmslist" title="Permalink to this headline">¶</a></h3>
+<span id="index-22"></span><h3>allTaskDelMSList<a class="headerlink" href="#alltaskdelmslist" title="Permalink to this headline">¶</a></h3>
 <p>and prepate the complete Gantt chart for the entire project
 this happens in several steps</p>
 <dl class="describe">
@@ -2584,7 +2633,7 @@ ${milestoneGanttString}</p>
 
 </div>
 <div class="section" id="alltaskdelms">
-<span id="index-22"></span><h3>allTaskDelMS<a class="headerlink" href="#alltaskdelms" title="Permalink to this headline">¶</a></h3>
+<span id="index-23"></span><h3>allTaskDelMS<a class="headerlink" href="#alltaskdelms" title="Permalink to this headline">¶</a></h3>
 <p>the next one is an example with an empty template: it is only used to turn a list into
 a string</p>
 <dl class="describe">
@@ -2607,7 +2656,7 @@ a string</p>
 
 </div>
 <div class="section" id="alldellegend">
-<span id="index-23"></span><h3>allDelLegend<a class="headerlink" href="#alldellegend" title="Permalink to this headline">¶</a></h3>
+<span id="index-24"></span><h3>allDelLegend<a class="headerlink" href="#alldellegend" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2628,7 +2677,7 @@ a string</p>
 
 </div>
 <div class="section" id="allmslegend">
-<span id="index-24"></span><h3>allMSLegend<a class="headerlink" href="#allmslegend" title="Permalink to this headline">¶</a></h3>
+<span id="index-25"></span><h3>allMSLegend<a class="headerlink" href="#allmslegend" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2649,7 +2698,7 @@ a string</p>
 
 </div>
 <div class="section" id="completegantt">
-<span id="index-25"></span><h3>CompleteGantt<a class="headerlink" href="#completegantt" title="Permalink to this headline">¶</a></h3>
+<span id="index-26"></span><h3>CompleteGantt<a class="headerlink" href="#completegantt" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2684,7 +2733,7 @@ ${ganttPostfix}
 
 </div>
 <div class="section" id="alllegend">
-<span id="index-26"></span><h3>allLegend<a class="headerlink" href="#alllegend" title="Permalink to this headline">¶</a></h3>
+<span id="index-27"></span><h3>allLegend<a class="headerlink" href="#alllegend" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2720,7 +2769,7 @@ ${allMSLegend}
 
 </div>
 <div class="section" id="completeganttfacinglegend">
-<span id="index-27"></span><h3>CompleteGanttFacingLegend<a class="headerlink" href="#completeganttfacinglegend" title="Permalink to this headline">¶</a></h3>
+<span id="index-28"></span><h3>CompleteGanttFacingLegend<a class="headerlink" href="#completeganttfacinglegend" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2765,7 +2814,7 @@ ${allMSLegend}
 
 </div>
 <div class="section" id="wptasks">
-<span id="index-28"></span><h3>WpTasks<a class="headerlink" href="#wptasks" title="Permalink to this headline">¶</a></h3>
+<span id="index-29"></span><h3>WpTasks<a class="headerlink" href="#wptasks" title="Permalink to this headline">¶</a></h3>
 <p>and finally: the actual WP files!</p>
 <dl class="describe">
 <dt>
@@ -2830,7 +2879,7 @@ need to think about the duration, though!</p>
 
 </div>
 <div class="section" id="wptasksdescriptions">
-<span id="index-29"></span><h3>WpTasksDescriptions<a class="headerlink" href="#wptasksdescriptions" title="Permalink to this headline">¶</a></h3>
+<span id="index-30"></span><h3>WpTasksDescriptions<a class="headerlink" href="#wptasksdescriptions" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2901,7 +2950,7 @@ int(x[&#8216;resources&#8217;]) &gt; 0 ])
 
 </div>
 <div class="section" id="wpdeliverables">
-<span id="index-30"></span><h3>WpDeliverables<a class="headerlink" href="#wpdeliverables" title="Permalink to this headline">¶</a></h3>
+<span id="index-31"></span><h3>WpDeliverables<a class="headerlink" href="#wpdeliverables" title="Permalink to this headline">¶</a></h3>
 <p>the deliverable and milestone list per WP, along with more detailed description</p>
 <dl class="describe">
 <dt>
@@ -2937,7 +2986,7 @@ int(x[&#8216;resources&#8217;]) &gt; 0 ])
 
 </div>
 <div class="section" id="wpmilestones">
-<span id="index-31"></span><h3>WpMilestones<a class="headerlink" href="#wpmilestones" title="Permalink to this headline">¶</a></h3>
+<span id="index-32"></span><h3>WpMilestones<a class="headerlink" href="#wpmilestones" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2972,7 +3021,7 @@ int(x[&#8216;resources&#8217;]) &gt; 0 ])
 
 </div>
 <div class="section" id="wp">
-<span id="index-32"></span><h3>Wp<a class="headerlink" href="#wp" title="Permalink to this headline">¶</a></h3>
+<span id="index-33"></span><h3>Wp<a class="headerlink" href="#wp" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3043,7 +3092,7 @@ ${ganttWP_${Shortname}}</p>
 
 </div>
 <div class="section" id="deliverabletablerows">
-<span id="index-33"></span><h3>DeliverableTableRows<a class="headerlink" href="#deliverabletablerows" title="Permalink to this headline">¶</a></h3>
+<span id="index-34"></span><h3>DeliverableTableRows<a class="headerlink" href="#deliverabletablerows" title="Permalink to this headline">¶</a></h3>
 <p>a table to summarize all the deliverables
 again: two steps: build the rows, and then the table</p>
 <dl class="describe">
@@ -3074,7 +3123,7 @@ use deliverable id:</p>
 
 </div>
 <div class="section" id="deliverabletableshort">
-<span id="index-34"></span><h3>DeliverableTableShort<a class="headerlink" href="#deliverabletableshort" title="Permalink to this headline">¶</a></h3>
+<span id="index-35"></span><h3>DeliverableTableShort<a class="headerlink" href="#deliverabletableshort" title="Permalink to this headline">¶</a></h3>
 <p>if you just want to sort by id, then simply use:
 sorter = lambda x: x[&#8216;id&#8217;]</p>
 <dl class="describe">
@@ -3103,7 +3152,7 @@ ${DeliverableTableRows} \\
 
 </div>
 <div class="section" id="deliverabletablelong">
-<span id="index-35"></span><h3>DeliverableTableLong<a class="headerlink" href="#deliverabletablelong" title="Permalink to this headline">¶</a></h3>
+<span id="index-36"></span><h3>DeliverableTableLong<a class="headerlink" href="#deliverabletablelong" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3137,7 +3186,7 @@ ${DeliverableTableRows}\\
 
 </div>
 <div class="section" id="deliverabletable">
-<span id="index-36"></span><h3>DeliverableTable<a class="headerlink" href="#deliverabletable" title="Permalink to this headline">¶</a></h3>
+<span id="index-37"></span><h3>DeliverableTable<a class="headerlink" href="#deliverabletable" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3164,7 +3213,7 @@ ${DeliverableTableRows}\\
 
 </div>
 <div class="section" id="milestonetablerows">
-<span id="index-37"></span><h3>MilestoneTableRows<a class="headerlink" href="#milestonetablerows" title="Permalink to this headline">¶</a></h3>
+<span id="index-38"></span><h3>MilestoneTableRows<a class="headerlink" href="#milestonetablerows" title="Permalink to this headline">¶</a></h3>
 <p>and a table for the milestones  - same structure as for the deliverable table</p>
 <dl class="describe">
 <dt>
@@ -3192,7 +3241,7 @@ ${DeliverableTableRows}\\
 
 </div>
 <div class="section" id="milestonetableshort">
-<span id="index-38"></span><h3>MilestoneTableShort<a class="headerlink" href="#milestonetableshort" title="Permalink to this headline">¶</a></h3>
+<span id="index-39"></span><h3>MilestoneTableShort<a class="headerlink" href="#milestonetableshort" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3219,7 +3268,7 @@ ${MilestoneTableRows}\\
 
 </div>
 <div class="section" id="milestonetablelong">
-<span id="index-39"></span><h3>MilestoneTableLong<a class="headerlink" href="#milestonetablelong" title="Permalink to this headline">¶</a></h3>
+<span id="index-40"></span><h3>MilestoneTableLong<a class="headerlink" href="#milestonetablelong" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3253,7 +3302,7 @@ ${MilestoneTableRows}\\
 
 </div>
 <div class="section" id="milestonetable">
-<span id="index-40"></span><h3>MilestoneTable<a class="headerlink" href="#milestonetable" title="Permalink to this headline">¶</a></h3>
+<span id="index-41"></span><h3>MilestoneTable<a class="headerlink" href="#milestonetable" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3280,7 +3329,7 @@ ${MilestoneTableRows}\\
 
 </div>
 <div class="section" id="summaryeffortrows">
-<span id="index-41"></span><h3>summaryEffortRows<a class="headerlink" href="#summaryeffortrows" title="Permalink to this headline">¶</a></h3>
+<span id="index-42"></span><h3>summaryEffortRows<a class="headerlink" href="#summaryeffortrows" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3304,7 +3353,7 @@ ${MilestoneTableRows}\\
 
 </div>
 <div class="section" id="summaryeffort">
-<span id="index-42"></span><h3>summaryEffort<a class="headerlink" href="#summaryeffort" title="Permalink to this headline">¶</a></h3>
+<span id="index-43"></span><h3>summaryEffort<a class="headerlink" href="#summaryeffort" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3348,7 +3397,7 @@ Total &amp; %{ &#8216; &amp; &#8216;.join([x[&#8216;wpeffort&#8217;] for x in al
 
 </div>
 <div class="section" id="effortpertaskrows">
-<span id="index-43"></span><h3>effortPerTaskRows<a class="headerlink" href="#effortpertaskrows" title="Permalink to this headline">¶</a></h3>
+<span id="index-44"></span><h3>effortPerTaskRows<a class="headerlink" href="#effortpertaskrows" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3387,7 +3436,7 @@ ee[&#8216;partner&#8217;] == p[&#8216;Shortname&#8217;]] ]
 
 </div>
 <div class="section" id="effortpertaskrowswp">
-<span id="index-44"></span><h3>effortPerTaskRowsWP<a class="headerlink" href="#effortpertaskrowswp" title="Permalink to this headline">¶</a></h3>
+<span id="index-45"></span><h3>effortPerTaskRowsWP<a class="headerlink" href="#effortpertaskrowswp" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3420,7 +3469,7 @@ for p in partnerList]) %}</p>
 
 </div>
 <div class="section" id="effortheader">
-<span id="index-45"></span><h3>effortHeader<a class="headerlink" href="#effortheader" title="Permalink to this headline">¶</a></h3>
+<span id="index-46"></span><h3>effortHeader<a class="headerlink" href="#effortheader" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3437,7 +3486,7 @@ Task &amp; Task name &amp; Total PM &amp; %{ &#8216; &amp; &#8216;.join([p[&#821
 
 </div>
 <div class="section" id="effortsum">
-<span id="index-46"></span><h3>effortSum<a class="headerlink" href="#effortsum" title="Permalink to this headline">¶</a></h3>
+<span id="index-47"></span><h3>effortSum<a class="headerlink" href="#effortsum" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3457,7 +3506,7 @@ for p in partnerList]) %}</p>
 
 </div>
 <div class="section" id="effortpertasktableshort">
-<span id="index-47"></span><h3>effortPerTaskTableShort<a class="headerlink" href="#effortpertasktableshort" title="Permalink to this headline">¶</a></h3>
+<span id="index-48"></span><h3>effortPerTaskTableShort<a class="headerlink" href="#effortpertasktableshort" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3487,7 +3536,7 @@ ${effortSum}
 
 </div>
 <div class="section" id="effortpertasktablemultipage">
-<span id="index-48"></span><h3>effortPerTaskTableMultipage<a class="headerlink" href="#effortpertasktablemultipage" title="Permalink to this headline">¶</a></h3>
+<span id="index-49"></span><h3>effortPerTaskTableMultipage<a class="headerlink" href="#effortpertasktablemultipage" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3517,7 +3566,7 @@ ${effortSum}
 
 </div>
 <div class="section" id="effortpertasktable">
-<span id="index-49"></span><h3>effortPerTaskTable<a class="headerlink" href="#effortpertasktable" title="Permalink to this headline">¶</a></h3>
+<span id="index-50"></span><h3>effortPerTaskTable<a class="headerlink" href="#effortpertasktable" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3548,7 +3597,7 @@ ${effortSum}
 
 </div>
 <div class="section" id="piepmspartners">
-<span id="index-50"></span><h3>piePMsPartners<a class="headerlink" href="#piepmspartners" title="Permalink to this headline">¶</a></h3>
+<span id="index-51"></span><h3>piePMsPartners<a class="headerlink" href="#piepmspartners" title="Permalink to this headline">¶</a></h3>
 <p>pie charts
 a pie chart showing person months distributed over partners</p>
 <dl class="describe">
@@ -3589,7 +3638,7 @@ for x in partnerList])
 
 </div>
 <div class="section" id="piepmswps">
-<span id="index-51"></span><h3>piePMsWPs<a class="headerlink" href="#piepmswps" title="Permalink to this headline">¶</a></h3>
+<span id="index-52"></span><h3>piePMsWPs<a class="headerlink" href="#piepmswps" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3628,7 +3677,7 @@ for x in allWPDicts])
 
 </div>
 <div class="section" id="piepmsnations">
-<span id="index-52"></span><h3>piePMsNations<a class="headerlink" href="#piepmsnations" title="Permalink to this headline">¶</a></h3>
+<span id="index-53"></span><h3>piePMsNations<a class="headerlink" href="#piepmsnations" title="Permalink to this headline">¶</a></h3>
 <p>pie chart over person months assigned to different nations
 a little bit more complicated: we need to pull out the (Nation/Effort) pairs.
 those we get from allEfforts, where we look up the nation in the partnerList
@@ -3677,7 +3726,7 @@ lambda a,b: a+b))
 
 </div>
 <div class="section" id="piepmspartnertypes">
-<span id="index-53"></span><h3>piePMsPartnerTypes<a class="headerlink" href="#piepmspartnertypes" title="Permalink to this headline">¶</a></h3>
+<span id="index-54"></span><h3>piePMsPartnerTypes<a class="headerlink" href="#piepmspartnertypes" title="Permalink to this headline">¶</a></h3>
 <p>same thing that worked for the nation pie charts works for the partner type pie charts as well</p>
 <dl class="describe">
 <dt>
@@ -4241,6 +4290,7 @@ protection authorities.
 <li><a class="reference internal" href="#participants">Participants</a></li>
 <li><a class="reference internal" href="#latex">LaTeX</a></li>
 <li><a class="reference internal" href="#customlatex">CustomLaTeX</a></li>
+<li><a class="reference internal" href="#etherpad">Etherpad</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#latextemplates-cfg">latexTemplates.cfg</a><ul>
@@ -4340,7 +4390,7 @@ protection authorities.
     </div>
     <div class="footer">
         &copy; Copyright 2012, Holger Karl.
-      Last updated on Mar 02, 2012.
+      Last updated on Mar 13, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
     </div>
   </body>

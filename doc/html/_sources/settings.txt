@@ -775,3 +775,53 @@ use of this feature, you have to understand the Python code!
     How deeply should headings be numbered? 
 
     Default:   3  
+
+.. index::
+   single:  settings.cfg ;  Etherpad
+
+Etherpad
+========
+.. program::  Etherpad
+
+Support for Etherpad lite directly from the moinmoin wiki
+This is somewhat experimental 
+
+
+.. describe:: IP
+
+    At which IP address can the Etherpad instance be found? 
+
+    Default:   127.0.0.1
+
+.. describe:: Port
+
+    Port number of the Etherpad-lite server
+
+    Default:   9001 
+
+.. describe:: PathToKey
+
+    At which path can the APIKEY file of the Etherpad server be found?
+    Useful for a local installation where moinmoin and Etherpad run on a
+    local machine. Alternatively, use the Key option to directly provide
+    the actual key. 
+
+    Default:   /Users/hkarl/c.prog/etherpad/APIKEY.txt
+
+.. describe:: Password
+
+    Ideally, etherpad-lite should be able to ask for a password through
+    its web interface. But that seems to be long in the making; unless
+    you want to put etherpad behind an apache server, which seems like
+    overkill for the likely number of people involved. Hence, the
+    password option is currently not supported. this is a TODO once
+    future versions of Etherpad make this easier. 
+
+    Default:   ThisIsNotImplementedYet
+
+.. describe:: ObfuscatePads
+
+    Instead of password protection, we can obfuscate the URLs of the
+    generated PADs. Set this to True of False 
+
+    Default:   True 

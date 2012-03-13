@@ -431,3 +431,37 @@ example Wiki page TestProject has links to the corresponding
 attachments at the very top for easy access. (Change the attachment
 link to TestProject.pdf if you rename the main page.) 
 
+========================
+ Etherpad-lite  support
+========================
+
+The Moinmoin wiki included in the standard distribution can interwork
+with an Etherpad-lite installation. The idea is fairly simple: There
+are two actions PushToEtherpad and PullFromEtherpad in the Wiki. 
+
+Invoking the PushToEtherpad action creates a pad in a corresponding
+Etherpad instance and puts a warning text on the Wiki page, stating
+that this page is currently edited on an Etherpad. The warning text
+also contains a link to the particular Etherpad pad (usually, when the
+warning text is shown, it makes little sense to edit this page, as
+changes are likely to be overwritten).  If a pad of the corresponding
+name already exists, a new version is created; hence, successive edits
+can be tracked. 
+
+Once the Etherpad editing is done, invoke the PullFromEtherpad action
+on the Wiki. This copies the current state of the corresponding pad
+back from the Etherpad into the wiki, creating a new version of the
+wiki page. Note that only the PURE TEXT VERSION of the Etherpad is
+considered; no Etherpad-specific markup is taken into account. The
+text version MUST be valid Wiki syntax; there are no checks of any
+kind. 
+
+The rationale for this integration is to support Wiki editing by an
+interactive editing tool, e.g., during a phone conference. 
+
+There are a few configuration options for the IP and port number and
+API key file in settings.cfg. Also, you can choose whether the Pads
+should have plain names corresponding directly to the wiki name, or
+whether some obfuscating characters should be added to provide at
+least a little bit of protection since Etherpad lite currently has no
+easy way of doing password authentication. 

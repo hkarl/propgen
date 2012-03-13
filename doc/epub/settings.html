@@ -845,6 +845,55 @@ file.</p>
 </dd></dl>
 
 </div>
+<div class="section" id="etherpad">
+<span id="index-8"></span><h1>Etherpad</h1>
+<p>Support for Etherpad lite directly from the moinmoin wiki
+This is somewhat experimental</p>
+<dl class="describe">
+<dt>
+<tt class="descname">IP</tt></dt>
+<dd><p>At which IP address can the Etherpad instance be found?</p>
+<p>Default:   127.0.0.1</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">Port</tt></dt>
+<dd><p>Port number of the Etherpad-lite server</p>
+<p>Default:   9001</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">PathToKey</tt></dt>
+<dd><p>At which path can the APIKEY file of the Etherpad server be found?
+Useful for a local installation where moinmoin and Etherpad run on a
+local machine. Alternatively, use the Key option to directly provide
+the actual key.</p>
+<p>Default:   /Users/hkarl/c.prog/etherpad/APIKEY.txt</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">Password</tt></dt>
+<dd><p>Ideally, etherpad-lite should be able to ask for a password through
+its web interface. But that seems to be long in the making; unless
+you want to put etherpad behind an apache server, which seems like
+overkill for the likely number of people involved. Hence, the
+password option is currently not supported. this is a TODO once
+future versions of Etherpad make this easier.</p>
+<p>Default:   ThisIsNotImplementedYet</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">ObfuscatePads</tt></dt>
+<dd><p>Instead of password protection, we can obfuscate the URLs of the
+generated PADs. Set this to True of False</p>
+<p>Default:   True</p>
+</dd></dl>
+
+</div>
 
 
           </div>
@@ -853,7 +902,7 @@ file.</p>
     </div>
     <div class="footer">
         &copy; Copyright 2012, Holger Karl.
-      Last updated on Mar 01, 2012.
+      Last updated on Mar 13, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
     </div>
   </body>
