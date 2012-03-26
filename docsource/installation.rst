@@ -330,3 +330,141 @@ settings.
 
 .. include:: settings.rst
    :end-before: PathNames
+
+
+===================================
+ Using the PropGen virtual machine
+===================================
+
+Usage, accounts, passwords
+==========================
+
+- Download the virtual machine. Run it in a hypervisor. The virtual machine is a virtualbox, but can probably convert it to some other hypervisor if needs be. 
+
+- There is an account propgen; this is under which all the programs run. Password: abc123. You *definitely must* change the password. (Login under this account, type passwd at the prompt.) 
+
+- change the password of the mysql server for both the root account and the propgen account: sudo dpkg-reconfigure mysql-server-5.5. The MySQL password of the propgen user must also be changed in the settings.json file in the ehterpad-lite directory! 
+
+
+- Both Etherpad lite and the Moinmoin wiki are preconfigured and start at boot time. 
+
+
+Notes on the virtual machine installation
+=========================================
+
+- It is a ubuntu 12.04 i386 server, with fairly minimal setup. Only OpenSSH is selected as software package in the initial selection. 
+
+- You might want to change the keyboad layout (currently configured via console-data as a German Apple USB keyboad, no deadkeys) and possibly the locale. 
+
+- Plain installation of ubuntu from ISO image (no hypervisor extensions installed; this is recommendable to do once you have chosen your hypervisor setup) 
+
+- Install mysql, follwowing these instructions: https://help.ubuntu.com/11.10/serverguide/C/mysql.html (should apply to 12.04 as well...). Same password abc123, *change the password* , type sudo dpkg-reconfigure mysql-server-5.5 in terminal. Change it then in the etherpad-lite configuration correspondingly.  
+
+- Installation of Etherpad lite follows these instructions: https://github.com/Pita/etherpad-lite . Make sure to install node.js! 
+
+- Tell etherpad-lite to use the mysql database. Described here: https://github.com/Pita/etherpad-lite/wiki/How-to-use-Etherpad-Lite-with-MySQL . The user to use here is propgen. Note: In this description, in settings.json also needs to alter the databse entry; 'store' is incorrect (it is the table, not the database) and has to be replaced by 'etherpad-lite' in the example. In settings.json, you have to put the password given to mysql; whatever you have changed it to! 
+
+
+- Install the necessary python libraries, in particular, we need 
+
+  - pip to support python module installation http://pypi.python.org/pypi/pip (pip will pull in necessary libraries automatically) 
+
+.. code-block:: bash 
+   $ sudo apt-get install python-pip
+
+ - mechnize from http://wwwsearch.sourceforge.net/mechanize/ ; this should be at leat version 2.5 (note: some Linux installations seem to have older versions of mechanized installed; they are known to NOT work!) 
+
+.. code-block:: bash 
+   $ sudo pip install mechanize 
+
+  - Sphinx, to generate the documentation (should be version 1.1.3 or later) 
+
+.. code-block:: bash 
+   $ sudo pip install Sphinx 
+
+
+- Pull the actual distribution from github; it will include the moinmoin wiki already, with necessary adaptations. https://github.com/hkarl/propgen
+
+.. code-block:: bash 
+  $ cd ~
+  $ git clone git://github.com/hkarl/propgen.git
+
+- Try to start the wikiserver. It should say "Running on http://127.0.0.1:8080/ ". Direct your browser there, it should deny access; click on login. Use the ProjectMaster with 123abc. 
+
+.. code-block:: bash 
+   $ cd propgen 
+   $ cd moin 
+   $ python wikiserver.py 
+
+- Upstart script for etherpad-lite, copied and slightly adapted from this source http://raphael.kallensee.name/journal/etherpad-lite-auf-ubuntu-server-apache-upstart/. This script goes into /etc/init/. Note that this configuration write logs into ~/etherpad-lite/log; you might want to check them occasionally.  WARNING:  It sometimes seems so have problems connecting to the SQL database correctly. No idea why this is the case, still monitoring problem :-(. 
+
+.. code-block:: bash 
+description "etherpad-lite"
+
+start on started networking and started mysql 
+stop on runlevel [!2345]
+
+env NODEBIN=/usr/local/bin/node 
+env EPHOME=/home/propgen/etherpad-lite
+env EPLOGS=/home/propgen/etherpad-lite/log
+env EPUSER=propgen 
+env EPGROUP=propgen
+
+pre-start script
+    chdir $EPHOME
+    mkdir $EPLOGS                              ||true
+    chown $EPUSER:$EPGROUP $EPLOGS             ||true
+    chmod 0755 $EPLOGS                         ||true
+    chown -R $EPUSER:$EPGROUP $EPHOME/var      ||true
+#    exec su -s /bin/bash -c 'exec "$0" "$@"' $EPUSER $EPHOME/bin/installDeps.sh >> $EPLOGS/error.log || { stop; exit 1; }
+end script
+
+script
+  cd $EPHOME/node
+  exec su -s /bin/bash -c 'exec "$0" "$@"' $EPUSER $NODEBIN server.js \
+			>> $EPLOGS/access.log \
+			2>> $EPLOGS/error.log
+end script
+
+
+
+- Provide an upstart script to have the wikiserver starting at boot-time; similar logic as for the etherpad-lite upstart script 
+
+.. code-block:: bash 
+
+description "moinwiki"
+
+start on started networking 
+stop on runlevel [!2345]
+
+env MWHOME=/home/propgen/propgen/moin
+env MWLOGS=/home/propgen/propgen/moin/log
+env MWUSER=propgen 
+env MWGROUP=propgen
+
+pre-start script
+    chdir $MWHOME
+    mkdir $MWLOGS                              ||true
+    chown $MWUSER:$MWGROUP $MWLOGS             ||true
+    chmod 0755 $MWLOGS                         ||true
+end script
+                    
+script
+  cd $MWHOME
+  exec su -s /bin/bash -c 'exec "$0" "$@"' $MWUSER  python wikiserver.py \
+                        			>> $MWLOGS/access.log \
+       						2>> $MWLOGS/error.log
+end script
+                        						
+- Copy the API
+
+- Install an up-to-date TexLive. Unfortunately, even ubunutu 12.04 still comes with an 2009 texlive, far too outdated for our needs. Follow instructions here: http://www.tug.org/texlive/quickinstall.html . Note: this can take a while... 
+
+
+
+
+
+
+
+
+

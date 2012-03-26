@@ -53,12 +53,12 @@ pdf:
 
 
 clean:
-	find ${WIKIPATH} -type f -print | grep -v README | xargs rm 
-	find ${XMLPATH} -type f -print | grep -v README | xargs rm 
-	find ${GENERATEDLATEXPATH} -type f -print | grep -v README | xargs rm 
+	-find ${WIKIPATH} -type f -print | grep -v README | xargs rm 
+	-find ${XMLPATH} -type f -print | grep -v README | xargs rm 
+	-find ${GENERATEDLATEXPATH} -type f -print | grep -v README | xargs rm 
 	# remove empty symbolic links from latex path - this is debatable! 
-	cd ${LATEXPATH} ; rm -f main.aux main.lof main.log main.lot main.lox main.out main.toc main.bbl main.blg 
-	for d in ${LATEXLINKS}; do test ! -e $$d && rm $$d ; done  
+	-cd ${LATEXPATH} ; rm -f main.aux main.lof main.log main.lot main.lox main.out main.toc main.bbl main.blg 
+	-for d in ${LATEXLINKS}; do test ! -e $$d && rm $$d ; done  
 
 moinpdf:
 	-rm logfile
