@@ -21,8 +21,8 @@ def execute (pagename, request):
         request.theme.add_msg ("The pdf has been created successfully.")        
     except subprocess.CalledProcessError, e:
         request.theme.add_msg ("The pdf has been created with return code %d, this usually signifies an error.\n Output: %s" % (e.returncode, e.output))
-    except OSError as (errno, strerror):
-        request.theme.add_msg ("Operating system raised an error with code %d and description:  %s." % (errno, strerror))
+    except OSError, e: 
+        request.theme.add_msg ("Operating system raised an error with code %d and description:  %s." % (e.errno, e.strerror))
     except:
         request.theme.add_msg ("An unknown error has occured. This is a serious problem!")
         
