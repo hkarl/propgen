@@ -9,7 +9,7 @@
     <dc:publisher>Holger Karl</dc:publisher>
     <dc:rights>2012, Holger Karl</dc:rights>
     <dc:identifier id="unknown" opf:scheme="unknown">unknown</dc:identifier>
-    <dc:date>2012-03-13</dc:date>
+    <dc:date>2012-03-28</dc:date>
   </metadata>
   <manifest>
     <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml" />

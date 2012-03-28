@@ -2,9 +2,37 @@
 Installation
 *********************
 
-=================
- Quick and dirty
-=================
+==================================
+ Quick and dirty, virtual machine
+==================================
+
+To get your own version of PropGen up and running quickly, use the virtual machine. 
+
+- Download it from Ubuntu One, using this link: http://ubuntuone.com/6CMWlbTtjxQtjhed24ZIkn
+
+- It is a VirtualBox-produced Open Virtualization Appliance. It should work out of the box under VirtualBox and can (probably) be used under different hypervisors. Import it in your hypervisor. 
+
+   - Note: under VirtualBox, it is configured to use NAT network access. There are two port forwarding rules configured for port 8080 (to access the Wiki) and 9001 (to access the Etherpad). You most probably want to check whether this is suitable for your local hypervisor setting as well. 
+
+- Start the virtual machine. 
+
+- Point your browser to this virtual machine, port 8080 gives the wiki, 9001 the etherpad-lite. Login into the Wiki using ProjectMaster and password abc123. Go to http://<virtualmachine>:8080/TestProject . Click on "CreatePDF" and enjoy the PDF for a proposal. 
+
+- Predefined accounts: 
+
+   - Unix user: propgen , Password: abc123 
+      - To change: log into the virtual machine, type "passwd" at the prompt 
+   - Wiki user: ProjectMast , Password 123abc 
+      - To change: log into the wiki, ??? 
+   - Mysql user: root, Password: abc123 
+      - To change: $ sudo dpkg-reconfigure mysql-server-5.5
+   - Mysqk user: propgen, Password: abc123 
+      - To change: Follow instructions here: https://github.com/Pita/etherpad-lite/wiki/How-to-use-Etherpad-Lite-with-MySQL; remember to edit ~/etherpad-lite/settings.json
+ 
+
+===================================
+ Quick and dirty, own installation
+===================================
 
 The fastest possible way to get everything set up and
 produce a proposal PDF, assuming you have latex and python set up:  
@@ -352,6 +380,8 @@ Usage, accounts, passwords
 Notes on the virtual machine installation
 =========================================
 
+This section summaries the crucial steps to install the virtual machine that can be downloaded from Ubuntu One. It might help to setup an own installation. 
+
 - It is a ubuntu 12.04 i386 server, with fairly minimal setup. Only OpenSSH is selected as software package in the initial selection. 
 
 - You might want to change the keyboad layout (currently configured via console-data as a German Apple USB keyboad, no deadkeys) and possibly the locale. 
@@ -369,96 +399,59 @@ Notes on the virtual machine installation
 
   - pip to support python module installation http://pypi.python.org/pypi/pip (pip will pull in necessary libraries automatically) 
 
-.. code-block:: bash 
-   $ sudo apt-get install python-pip
+  .. code-block:: bash 
 
- - mechnize from http://wwwsearch.sourceforge.net/mechanize/ ; this should be at leat version 2.5 (note: some Linux installations seem to have older versions of mechanized installed; they are known to NOT work!) 
+     $ sudo apt-get install python-pip
 
-.. code-block:: bash 
-   $ sudo pip install mechanize 
+  - mechnize from http://wwwsearch.sourceforge.net/mechanize/ ; this should be at leat version 2.5 (note: some Linux installations seem to have older versions of mechanized installed; they are known to NOT work!) 
+
+  .. code-block:: bash 
+
+     $ sudo pip install mechanize 
 
   - Sphinx, to generate the documentation (should be version 1.1.3 or later) 
 
-.. code-block:: bash 
-   $ sudo pip install Sphinx 
+  .. code-block:: bash 
+
+     $ sudo pip install Sphinx 
 
 
-- Pull the actual distribution from github; it will include the moinmoin wiki already, with necessary adaptations. https://github.com/hkarl/propgen
+- Pull the actual distribution or propgen from github; it will include the moinmoin wiki already, with necessary adaptations. https://github.com/hkarl/propgen
 
-.. code-block:: bash 
-  $ cd ~
-  $ git clone git://github.com/hkarl/propgen.git
+  .. code-block:: bash 
+
+    $ cd ~
+    $ git clone git://github.com/hkarl/propgen.git
+
 
 - Try to start the wikiserver. It should say "Running on http://127.0.0.1:8080/ ". Direct your browser there, it should deny access; click on login. Use the ProjectMaster with 123abc. 
 
-.. code-block:: bash 
-   $ cd propgen 
-   $ cd moin 
-   $ python wikiserver.py 
+  .. code-block:: bash 
 
-- Upstart script for etherpad-lite, copied and slightly adapted from this source http://raphael.kallensee.name/journal/etherpad-lite-auf-ubuntu-server-apache-upstart/. This script goes into /etc/init/. Note that this configuration write logs into ~/etherpad-lite/log; you might want to check them occasionally.  WARNING:  It sometimes seems so have problems connecting to the SQL database correctly. No idea why this is the case, still monitoring problem :-(. 
+     $ cd propgen 
+     $ cd moin 
+     $ python wikiserver.py 
 
-.. code-block:: bash 
-description "etherpad-lite"
+- Let's make sure that the etherpad-lite server starts at every boot. Upstart script for etherpad-lite, copied and slightly adapted from this source http://raphael.kallensee.name/journal/etherpad-lite-auf-ubuntu-server-apache-upstart/. This script goes into /etc/init/. Note that this configuration write logs into ~/etherpad-lite/log; you might want to check them occasionally.  WARNING:  It sometimes seems so have problems connecting to the SQL database correctly. No idea why this is the case, still monitoring problem :-(. 
 
-start on started networking and started mysql 
-stop on runlevel [!2345]
 
-env NODEBIN=/usr/local/bin/node 
-env EPHOME=/home/propgen/etherpad-lite
-env EPLOGS=/home/propgen/etherpad-lite/log
-env EPUSER=propgen 
-env EPGROUP=propgen
-
-pre-start script
-    chdir $EPHOME
-    mkdir $EPLOGS                              ||true
-    chown $EPUSER:$EPGROUP $EPLOGS             ||true
-    chmod 0755 $EPLOGS                         ||true
-    chown -R $EPUSER:$EPGROUP $EPHOME/var      ||true
-#    exec su -s /bin/bash -c 'exec "$0" "$@"' $EPUSER $EPHOME/bin/installDeps.sh >> $EPLOGS/error.log || { stop; exit 1; }
-end script
-
-script
-  cd $EPHOME/node
-  exec su -s /bin/bash -c 'exec "$0" "$@"' $EPUSER $NODEBIN server.js \
-			>> $EPLOGS/access.log \
-			2>> $EPLOGS/error.log
-end script
+ .. literalinclude:: upstart/etherpad-lite.conf 
+      :language: bash 
 
 
 
-- Provide an upstart script to have the wikiserver starting at boot-time; similar logic as for the etherpad-lite upstart script 
+- Provide an upstart script to have the wikiserver starting at boot-time; similar logic as for the etherpad-lite upstart script. 
 
-.. code-block:: bash 
 
-description "moinwiki"
+ .. literalinclude:: upstart/moinwiki.conf 
+      :language: bash 
 
-start on started networking 
-stop on runlevel [!2345]
+                       						
 
-env MWHOME=/home/propgen/propgen/moin
-env MWLOGS=/home/propgen/propgen/moin/log
-env MWUSER=propgen 
-env MWGROUP=propgen
-
-pre-start script
-    chdir $MWHOME
-    mkdir $MWLOGS                              ||true
-    chown $MWUSER:$MWGROUP $MWLOGS             ||true
-    chmod 0755 $MWLOGS                         ||true
-end script
-                    
-script
-  cd $MWHOME
-  exec su -s /bin/bash -c 'exec "$0" "$@"' $MWUSER  python wikiserver.py \
-                        			>> $MWLOGS/access.log \
-       						2>> $MWLOGS/error.log
-end script
-                        						
-- Copy the API
 
 - Install an up-to-date TexLive. Unfortunately, even ubunutu 12.04 still comes with an 2009 texlive, far too outdated for our needs. Follow instructions here: http://www.tug.org/texlive/quickinstall.html . Note: this can take a while... 
+
+Note: there is a little pitfall. Don't put the PATH definition in .bashrc, else the upstart script will not find the latex binaries. The texlive PATH extension has to go into ~/.profile. 
 
 
 

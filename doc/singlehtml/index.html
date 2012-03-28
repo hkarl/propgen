@@ -69,8 +69,65 @@
 </div>
 <span id="document-installation"></span><div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="quick-and-dirty">
-<h3>Quick and dirty<a class="headerlink" href="#quick-and-dirty" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="quick-and-dirty-virtual-machine">
+<h3>Quick and dirty, virtual machine<a class="headerlink" href="#quick-and-dirty-virtual-machine" title="Permalink to this headline">¶</a></h3>
+<p>To get your own version of PropGen up and running quickly, use the virtual machine.</p>
+<ul>
+<li><p class="first">Download it from Ubuntu One, using this link: <a class="reference external" href="http://ubuntuone.com/6CMWlbTtjxQtjhed24ZIkn">http://ubuntuone.com/6CMWlbTtjxQtjhed24ZIkn</a></p>
+</li>
+<li><p class="first">It is a VirtualBox-produced Open Virtualization Appliance. It should work out of the box under VirtualBox and can (probably) be used under different hypervisors. Import it in your hypervisor.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Note: under VirtualBox, it is configured to use NAT network access. There are two port forwarding rules configured for port 8080 (to access the Wiki) and 9001 (to access the Etherpad). You most probably want to check whether this is suitable for your local hypervisor setting as well.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Start the virtual machine.</p>
+</li>
+<li><p class="first">Point your browser to this virtual machine, port 8080 gives the wiki, 9001 the etherpad-lite. Login into the Wiki using ProjectMaster and password abc123. Go to <a class="reference external" href="http:/">http:/</a>/&lt;virtualmachine&gt;:8080/TestProject . Click on &#8220;CreatePDF&#8221; and enjoy the PDF for a proposal.</p>
+</li>
+<li><p class="first">Predefined accounts:</p>
+<blockquote>
+<div><ul>
+<li><dl class="first docutils">
+<dt>Unix user: propgen , Password: abc123</dt>
+<dd><ul class="first last simple">
+<li>To change: log into the virtual machine, type &#8220;passwd&#8221; at the prompt</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Wiki user: ProjectMast , Password 123abc</dt>
+<dd><ul class="first last simple">
+<li>To change: log into the wiki, ???</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Mysql user: root, Password: abc123</dt>
+<dd><ul class="first last simple">
+<li>To change: $ sudo dpkg-reconfigure mysql-server-5.5</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Mysqk user: propgen, Password: abc123</dt>
+<dd><ul class="first last simple">
+<li>To change: Follow instructions here: <a class="reference external" href="https://github.com/Pita/etherpad-lite/wiki/How-to-use-Etherpad-Lite-with-MySQL">https://github.com/Pita/etherpad-lite/wiki/How-to-use-Etherpad-Lite-with-MySQL</a>; remember to edit ~/etherpad-lite/settings.json</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="quick-and-dirty-own-installation">
+<h3>Quick and dirty, own installation<a class="headerlink" href="#quick-and-dirty-own-installation" title="Permalink to this headline">¶</a></h3>
 <p>The fastest possible way to get everything set up and
 produce a proposal PDF, assuming you have latex and python set up:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> ~/tmp
@@ -474,7 +531,139 @@ empty.</p>
 <dd><p>Default:</p>
 </dd></dl>
 
-<span class="target" id="index-1"></span></div>
+</div>
+</div>
+<div class="section" id="using-the-propgen-virtual-machine">
+<span id="index-1"></span><h3>Using the PropGen virtual machine<a class="headerlink" href="#using-the-propgen-virtual-machine" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="usage-accounts-passwords">
+<h4>Usage, accounts, passwords<a class="headerlink" href="#usage-accounts-passwords" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>Download the virtual machine. Run it in a hypervisor. The virtual machine is a virtualbox, but can probably convert it to some other hypervisor if needs be.</li>
+<li>There is an account propgen; this is under which all the programs run. Password: abc123. You <em>definitely must</em> change the password. (Login under this account, type passwd at the prompt.)</li>
+<li>change the password of the mysql server for both the root account and the propgen account: sudo dpkg-reconfigure mysql-server-5.5. The MySQL password of the propgen user must also be changed in the settings.json file in the ehterpad-lite directory!</li>
+<li>Both Etherpad lite and the Moinmoin wiki are preconfigured and start at boot time.</li>
+</ul>
+</div>
+<div class="section" id="notes-on-the-virtual-machine-installation">
+<h4>Notes on the virtual machine installation<a class="headerlink" href="#notes-on-the-virtual-machine-installation" title="Permalink to this headline">¶</a></h4>
+<p>This section summaries the crucial steps to install the virtual machine that can be downloaded from Ubuntu One. It might help to setup an own installation.</p>
+<ul>
+<li><p class="first">It is a ubuntu 12.04 i386 server, with fairly minimal setup. Only OpenSSH is selected as software package in the initial selection.</p>
+</li>
+<li><p class="first">You might want to change the keyboad layout (currently configured via console-data as a German Apple USB keyboad, no deadkeys) and possibly the locale.</p>
+</li>
+<li><p class="first">Plain installation of ubuntu from ISO image (no hypervisor extensions installed; this is recommendable to do once you have chosen your hypervisor setup)</p>
+</li>
+<li><p class="first">Install mysql, follwowing these instructions: <a class="reference external" href="https://help.ubuntu.com/11.10/serverguide/C/mysql.html">https://help.ubuntu.com/11.10/serverguide/C/mysql.html</a> (should apply to 12.04 as well...). Same password abc123, <em>change the password</em> , type sudo dpkg-reconfigure mysql-server-5.5 in terminal. Change it then in the etherpad-lite configuration correspondingly.</p>
+</li>
+<li><p class="first">Installation of Etherpad lite follows these instructions: <a class="reference external" href="https://github.com/Pita/etherpad-lite">https://github.com/Pita/etherpad-lite</a> . Make sure to install node.js!</p>
+</li>
+<li><p class="first">Tell etherpad-lite to use the mysql database. Described here: <a class="reference external" href="https://github.com/Pita/etherpad-lite/wiki/How-to-use-Etherpad-Lite-with-MySQL">https://github.com/Pita/etherpad-lite/wiki/How-to-use-Etherpad-Lite-with-MySQL</a> . The user to use here is propgen. Note: In this description, in settings.json also needs to alter the databse entry; &#8216;store&#8217; is incorrect (it is the table, not the database) and has to be replaced by &#8216;etherpad-lite&#8217; in the example. In settings.json, you have to put the password given to mysql; whatever you have changed it to!</p>
+</li>
+<li><p class="first">Install the necessary python libraries, in particular, we need</p>
+<ul class="simple">
+<li>pip to support python module installation <a class="reference external" href="http://pypi.python.org/pypi/pip">http://pypi.python.org/pypi/pip</a> (pip will pull in necessary libraries automatically)</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>sudo apt-get install python-pip
+</pre></div>
+</div>
+<ul class="simple">
+<li>mechnize from <a class="reference external" href="http://wwwsearch.sourceforge.net/mechanize/">http://wwwsearch.sourceforge.net/mechanize/</a> ; this should be at leat version 2.5 (note: some Linux installations seem to have older versions of mechanized installed; they are known to NOT work!)</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>sudo pip install mechanize
+</pre></div>
+</div>
+<ul class="simple">
+<li>Sphinx, to generate the documentation (should be version 1.1.3 or later)</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>sudo pip install Sphinx
+</pre></div>
+</div>
+</li>
+<li><p class="first">Pull the actual distribution or propgen from github; it will include the moinmoin wiki already, with necessary adaptations. <a class="reference external" href="https://github.com/hkarl/propgen">https://github.com/hkarl/propgen</a></p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> ~
+<span class="nv">$ </span>git clone git://github.com/hkarl/propgen.git
+</pre></div>
+</div>
+</li>
+<li><p class="first">Try to start the wikiserver. It should say &#8220;Running on <a class="reference external" href="http://127.0.0.1:8080/">http://127.0.0.1:8080/</a> &#8221;. Direct your browser there, it should deny access; click on login. Use the ProjectMaster with 123abc.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd </span>propgen
+<span class="nv">$ </span><span class="nb">cd </span>moin
+<span class="nv">$ </span>python wikiserver.py
+</pre></div>
+</div>
+</li>
+<li><p class="first">Let&#8217;s make sure that the etherpad-lite server starts at every boot. Upstart script for etherpad-lite, copied and slightly adapted from this source <a class="reference external" href="http://raphael.kallensee.name/journal/etherpad-lite-auf-ubuntu-server-apache-upstart/">http://raphael.kallensee.name/journal/etherpad-lite-auf-ubuntu-server-apache-upstart/</a>. This script goes into /etc/init/. Note that this configuration write logs into ~/etherpad-lite/log; you might want to check them occasionally.  WARNING:  It sometimes seems so have problems connecting to the SQL database correctly. No idea why this is the case, still monitoring problem :-(.</p>
+</li>
+</ul>
+<blockquote>
+<div><div class="highlight-bash"><div class="highlight"><pre>description <span class="s2">&quot;etherpad-lite&quot;</span>
+
+start on started networking and started mysql 
+stop on runlevel <span class="o">[</span>!2345<span class="o">]</span>
+
+env <span class="nv">NODEBIN</span><span class="o">=</span>/usr/local/bin/node 
+env <span class="nv">EPHOME</span><span class="o">=</span>/home/propgen/etherpad-lite
+env <span class="nv">EPLOGS</span><span class="o">=</span>/home/propgen/etherpad-lite/log
+env <span class="nv">EPUSER</span><span class="o">=</span>propgen 
+env <span class="nv">EPGROUP</span><span class="o">=</span>propgen
+
+pre-start script
+    chdir <span class="nv">$EPHOME</span>
+    mkdir <span class="nv">$EPLOGS</span>                              <span class="o">||</span><span class="nb">true</span>
+<span class="nb">    </span>chown <span class="nv">$EPUSER</span>:<span class="nv">$EPGROUP</span> <span class="nv">$EPLOGS</span>             <span class="o">||</span><span class="nb">true</span>
+<span class="nb">    </span>chmod 0755 <span class="nv">$EPLOGS</span>                         <span class="o">||</span><span class="nb">true</span>
+<span class="nb">    </span>chown -R <span class="nv">$EPUSER</span>:<span class="nv">$EPGROUP</span> <span class="nv">$EPHOME</span>/var      <span class="o">||</span><span class="nb">true</span>
+<span class="nb">    </span>mv access.log access.beforeboot		<span class="o">||</span> <span class="nb">true</span>
+<span class="nb">    </span>mv error.log error.beforeboot		<span class="o">||</span> <span class="nb">true</span>
+end script
+                        						
+
+script
+  <span class="nb">cd</span> <span class="nv">$EPHOME</span>/node
+  <span class="nb">exec </span>su -s /bin/bash -c <span class="s1">&#39;exec &quot;$0&quot; &quot;$@&quot;&#39;</span> <span class="nv">$EPUSER</span> <span class="nv">$NODEBIN</span> server.js <span class="se">\</span>
+			&gt;&gt; <span class="nv">$EPLOGS</span>/access.log <span class="se">\</span>
+			2&gt;&gt; <span class="nv">$EPLOGS</span>/error.log
+end script
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li>Provide an upstart script to have the wikiserver starting at boot-time; similar logic as for the etherpad-lite upstart script.</li>
+</ul>
+<blockquote>
+<div><div class="highlight-bash"><div class="highlight"><pre>description <span class="s2">&quot;moinwiki&quot;</span>
+
+start on started networking 
+stop on runlevel <span class="o">[</span>!2345<span class="o">]</span>
+
+env <span class="nv">MWHOME</span><span class="o">=</span>/home/propgen/propgen/moin
+env <span class="nv">MWLOGS</span><span class="o">=</span>/home/propgen/propgen/moin/log
+env <span class="nv">MWUSER</span><span class="o">=</span>propgen 
+env <span class="nv">MWGROUP</span><span class="o">=</span>propgen
+
+pre-start script
+    chdir <span class="nv">$MWHOME</span>
+    mkdir <span class="nv">$MWLOGS</span>                              <span class="o">||</span><span class="nb">true</span>
+<span class="nb">    </span>chown <span class="nv">$MWUSER</span>:<span class="nv">$MWGROUP</span> <span class="nv">$MWLOGS</span>             <span class="o">||</span><span class="nb">true</span>
+<span class="nb">    </span>chmod 0755 <span class="nv">$MWLOGS</span>                         <span class="o">||</span><span class="nb">true</span>
+<span class="nb">    </span>mv access.log access.beforeboot		<span class="o">||</span> <span class="nb">true</span>
+<span class="nb">    </span>mv error.log error.beforeboot		<span class="o">||</span> <span class="nb">true</span>
+end script
+                    
+script
+  <span class="c"># echo &#39;exec &quot;$0&quot; &quot;$@&quot;&#39; &gt;&gt; $MWLOGS/access.log</span>
+  <span class="nb">exec </span>su -s /bin/bash -l -c <span class="s2">&quot;cd $MWHOME ; python wikiserver.py &gt;&gt; $MWLOGS/access.log 2&gt;&gt; $MWLOGS/error.log&quot;</span> <span class="nv">$MWUSER</span> 
+end script
+                        						
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li>Install an up-to-date TexLive. Unfortunately, even ubunutu 12.04 still comes with an 2009 texlive, far too outdated for our needs. Follow instructions here: <a class="reference external" href="http://www.tug.org/texlive/quickinstall.html">http://www.tug.org/texlive/quickinstall.html</a> . Note: this can take a while...</li>
+</ul>
+<p>Note: there is a little pitfall. Don&#8217;t put the PATH definition in .bashrc, else the upstart script will not find the latex binaries. The texlive PATH extension has to go into ~/.profile.</p>
+</div>
 </div>
 </div>
 <span id="document-usage"></span><div class="section" id="how-to-use-propgen-what-to-put-on-wiki-building-a-pdf-file">
@@ -3115,7 +3304,7 @@ This is somewhat experimental</p>
 Useful for a local installation where moinmoin and Etherpad run on a
 local machine. Alternatively, use the Key option to directly provide
 the actual key.</p>
-<p>Default:   /Users/hkarl/c.prog/etherpad/APIKEY.txt</p>
+<p>Default:   ../../etherpad-lite/APIKEY.txt</p>
 </dd></dl>
 
 <dl class="describe">
@@ -4867,12 +5056,12 @@ pdf:
 
 
 clean:
-	find <span class="k">${</span><span class="nv">WIKIPATH</span><span class="k">}</span> -type f -print | grep -v README | xargs rm 
-	find <span class="k">${</span><span class="nv">XMLPATH</span><span class="k">}</span> -type f -print | grep -v README | xargs rm 
-	find <span class="k">${</span><span class="nv">GENERATEDLATEXPATH</span><span class="k">}</span> -type f -print | grep -v README | xargs rm 
+	-find <span class="k">${</span><span class="nv">WIKIPATH</span><span class="k">}</span> -type f -print | grep -v README | xargs rm 
+	-find <span class="k">${</span><span class="nv">XMLPATH</span><span class="k">}</span> -type f -print | grep -v README | xargs rm 
+	-find <span class="k">${</span><span class="nv">GENERATEDLATEXPATH</span><span class="k">}</span> -type f -print | grep -v README | xargs rm 
 <span class="c">	# remove empty symbolic links from latex path - this is debatable! </span>
-	<span class="nb">cd</span> <span class="k">${</span><span class="nv">LATEXPATH</span><span class="k">}</span> ; rm -f main.aux main.lof main.log main.lot main.lox main.out main.toc main.bbl main.blg 
-	<span class="k">for </span>d in <span class="k">${</span><span class="nv">LATEXLINKS</span><span class="k">}</span>; <span class="k">do </span><span class="nb">test</span> ! -e <span class="nv">$$</span>d <span class="o">&amp;&amp;</span> rm <span class="nv">$$</span>d ; <span class="k">done  </span>
+	-cd <span class="k">${</span><span class="nv">LATEXPATH</span><span class="k">}</span> ; rm -f main.aux main.lof main.log main.lot main.lox main.out main.toc main.bbl main.blg 
+	-for d in <span class="k">${</span><span class="nv">LATEXLINKS</span><span class="k">}</span>; <span class="k">do </span><span class="nb">test</span> ! -e <span class="nv">$$</span>d <span class="o">&amp;&amp;</span> rm <span class="nv">$$</span>d ; <span class="k">done  </span>
 
 moinpdf:
 	-rm logfile
@@ -5309,11 +5498,13 @@ protection authorities.
   <ul>
 <li class="toctree-l1"><a class="reference internal" href="index.html#document-motivation">Why this tool?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="index.html#document-installation">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="index.html#quick-and-dirty">Quick and dirty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#quick-and-dirty-virtual-machine">Quick and dirty, virtual machine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#quick-and-dirty-own-installation">Quick and dirty, own installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#usage-scenarios">Usage scenarios</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#actual-installation">Actual installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#setting-up-the-moinmoin-wiki-included-in-distribution">Setting up the MoinMoin Wiki included in distribution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#setting-up-wiki-in-settings-cfg">Setting up wiki in settings.cfg</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#using-the-propgen-virtual-machine">Using the PropGen virtual machine</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="index.html#document-usage">How to use PropGen, what to put on Wiki, building a PDF file</a><ul>
@@ -5384,7 +5575,7 @@ protection authorities.
     </div>
     <div class="footer">
         &copy; Copyright 2012, Holger Karl.
-      Last updated on Mar 13, 2012.
+      Last updated on Mar 28, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
     </div>
   </body>

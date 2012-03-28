@@ -2061,7 +2061,7 @@ This is somewhat experimental</p>
 Useful for a local installation where moinmoin and Etherpad run on a
 local machine. Alternatively, use the Key option to directly provide
 the actual key.</p>
-<p>Default:   /Users/hkarl/c.prog/etherpad/APIKEY.txt</p>
+<p>Default:   ../../etherpad-lite/APIKEY.txt</p>
 </dd></dl>
 
 <dl class="describe">
@@ -3813,12 +3813,12 @@ pdf:
 
 
 clean:
-	find <span class="k">${</span><span class="nv">WIKIPATH</span><span class="k">}</span> -type f -print | grep -v README | xargs rm 
-	find <span class="k">${</span><span class="nv">XMLPATH</span><span class="k">}</span> -type f -print | grep -v README | xargs rm 
-	find <span class="k">${</span><span class="nv">GENERATEDLATEXPATH</span><span class="k">}</span> -type f -print | grep -v README | xargs rm 
+	-find <span class="k">${</span><span class="nv">WIKIPATH</span><span class="k">}</span> -type f -print | grep -v README | xargs rm 
+	-find <span class="k">${</span><span class="nv">XMLPATH</span><span class="k">}</span> -type f -print | grep -v README | xargs rm 
+	-find <span class="k">${</span><span class="nv">GENERATEDLATEXPATH</span><span class="k">}</span> -type f -print | grep -v README | xargs rm 
 <span class="c">	# remove empty symbolic links from latex path - this is debatable! </span>
-	<span class="nb">cd</span> <span class="k">${</span><span class="nv">LATEXPATH</span><span class="k">}</span> ; rm -f main.aux main.lof main.log main.lot main.lox main.out main.toc main.bbl main.blg 
-	<span class="k">for </span>d in <span class="k">${</span><span class="nv">LATEXLINKS</span><span class="k">}</span>; <span class="k">do </span><span class="nb">test</span> ! -e <span class="nv">$$</span>d <span class="o">&amp;&amp;</span> rm <span class="nv">$$</span>d ; <span class="k">done  </span>
+	-cd <span class="k">${</span><span class="nv">LATEXPATH</span><span class="k">}</span> ; rm -f main.aux main.lof main.log main.lot main.lox main.out main.toc main.bbl main.blg 
+	-for d in <span class="k">${</span><span class="nv">LATEXLINKS</span><span class="k">}</span>; <span class="k">do </span><span class="nb">test</span> ! -e <span class="nv">$$</span>d <span class="o">&amp;&amp;</span> rm <span class="nv">$$</span>d ; <span class="k">done  </span>
 
 moinpdf:
 	-rm logfile
@@ -4242,7 +4242,7 @@ protection authorities.
     </div>
     <div class="footer">
         &copy; Copyright 2012, Holger Karl.
-      Last updated on Mar 13, 2012.
+      Last updated on Mar 28, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
     </div>
   </body>

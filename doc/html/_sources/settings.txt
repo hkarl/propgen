@@ -806,7 +806,7 @@ This is somewhat experimental
     local machine. Alternatively, use the Key option to directly provide
     the actual key. 
 
-    Default:   /Users/hkarl/c.prog/etherpad/APIKEY.txt
+    Default:   ../../etherpad-lite/APIKEY.txt
 
 .. describe:: Password
 
