@@ -341,6 +341,33 @@ start automatically after reboot. Consult your own
 operating system how to do that. 
 
 
+Updating Moinmoin 
+==================
+
+- Overwrite existing files 
+- wikiserverconfig.py
+  - set hostname, possibly port 
+- wikiconfig.py : Make sure you got the following lines, replacing the DesktopEditing=True part 
+
+.. code-block:: python 
+
+    DesktopEdition = False # give all local users full powers
+    acl_rights_default = u"ProjectMaster:read,write,delete,revert,admin Known:read,write,revert,de
+lete"
+    # acl_rights_default = u"All:read,write,delete,revert,admin"
+    surge_action_limits = None # no surge protection
+    sitename = u'Generate EU FP7 Proposal from MoinMoin wiki'
+    logo_string = u'<img src="%s/common/moinmoin.png" alt="MoinMoin Logo">' % url_prefix_static
+
+    auth = [MyAuth()]
+
+    superuser = [u"ProjectMaster"]
+
+
+- follow http://moinmo.in/FeatureRequests/DisableUserCreation#Solution_for_1.9_to_only_allow_superusers_to_create_new_accounts (or just copy myauth.py from old installation; should still be there if you've overwritten the old installation)
+  - add the import command: from myauth import MyAuth to wikiconfig.py 
+- also check: http://wiki.apache.org/thrift/HelpOnMoinCommand
+
 
 .. _sec-setting-up-settings-cfg:
 
@@ -449,7 +476,7 @@ This section summaries the crucial steps to install the virtual machine that can
                        						
 
 
-- Install an up-to-date TexLive. Unfortunately, even ubunutu 12.04 still comes with an 2009 texlive, far too outdated for our needs. Follow instructions here: http://www.tug.org/texlive/quickinstall.html . Note: this can take a while... 
+- Install an up-to-date TexLive. Unfortunately, even ubunutu 12.04 still comes with an 2009 texlive, far too outdated for our needs. Follow instructions here: http://www.tug.org/texlive/quickinstall.html or try the backported TexLive 2012 from here: http://askubuntu.com/questions/163682/how-do-i-install-the-latest-tex-live-2012. Note: this can take a while... 
 
 Note: there is a little pitfall. Don't put the PATH definition in .bashrc, else the upstart script will not find the latex binaries. The texlive PATH extension has to go into ~/.profile. 
 
