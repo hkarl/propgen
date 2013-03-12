@@ -151,6 +151,8 @@ class wikiParser:
                 # print lineIndent
                 # print leadingSpacesBeforeAsterix
 
+                # print "restText  ", restText 
+
                 if lineIndent > indentLevel:
                     # print indentLevel - lineIndent + 1
                     for i in range(lineIndent - indentLevel ):
@@ -221,20 +223,22 @@ class wikiParser:
         latex = ""
         # print self.figureRE
         for l in lines:
+            # print l 
             m = re.search (self.figureRE, l)
             if m:
+                ## print "line with figure: " , l
+                ## print 'pre', m.group('pre') 
+                ## print 'fs', m.group('fs')
+                ## print 'post', m.group('post') 
 
                 # s is the constructed replacmenet string. Might contain warning 
                 s = ""
 
-                print "recognized figure"
-                kvstring= m.group(1)
-                print kvstring, self.figureKeys
+                # print "recognized figure"
+                kvstring= m.group('fs')
+                # print kvstring, self.figureKeys
                 r= re.compile(self.figureKeys)
-                d = {}
-                for k,v1,v2 in r.findall(kvstring):
-                    print "KEys: ", k, v1, v2
-                    d[k] = v2
+                d= self.extractFigureKeys (kvstring)
 
                 # pp(d)
                 # error checking: is the figure there, in a good format?
@@ -312,8 +316,14 @@ class wikiParser:
                 else:
                     s = "\\fxwarning{" + s + "}"
 
-                latex += s
+                #  dont ignore  the rest of the line:
+                ## print "--------------" 
+                ## print l
+                ## print m.group('pre') + s + m.group('post')
+                # latex += l
+                latex += m.group('pre') + s + m.group('post')
             else:
+                # print "no match"
                 latex += l + "\n"
 
         return latex 
@@ -528,7 +538,8 @@ class wikiParserMoinmoin(wikiParser):
 
         ## Pattern: 
         ## {{attachment:test.pdf|label=fig:bla|caption=This is the caption}}
-        self.figureRE = r'{{attachment:(.*)}}'
+        self.figureRE = r'(?P<pre>.*){{attachment:(?P<fs>.*)}}(?P<post>.*)' #  r'{{attachment:(.*)}}' r'&lt;img (.*)/&gt;'   
+        self.figureKeys = r'([^ =]+) *= *([^\|}]*)'
 
 
     ## def buildFigure (self, t):
@@ -540,6 +551,28 @@ class wikiParserMoinmoin(wikiParser):
     ##     t = re.sub (r"{{attachment:.*?}}", "", t)
     ##     return (wikiParser.buildFigure (self, t))
         
+    def extractFigureKeys (self, kvstring):
+        """For building a figure, the moinmoin syntax can be exploited
+        by means of the vertical bar syntax. It should look like this:
+        {{attachment:duckie.png|&postion=htbp,&caption=bla bla and some more text for the caption,&label=fig:duckie,&latexwidth=0.8}}
+           kvstring has the key-value pairs, with the {{attachment: }} already removed 
+        """
+        d = {}
+
+        l = string.split(kvstring, '|')
+        d['file'] = l[0]
+        ll = string.split (l[1], ',')
+        for x in ll:
+            xx = string.split(x, '=')
+            if xx[0][0] == '&':
+                xx[0] = xx[0][1:]
+            d[xx[0]] = xx[1]
+
+        #print d 
+        
+        return d
+
+
     def getSection (self, wiki, title, level):
         """Extract the section with title at level """
 
@@ -582,13 +615,21 @@ class wikiParserTwiki(wikiParser):
         # example for image string:
         # <img file="duckie" label="duckie" caption="The main objectives of the Test project" latexwidth="1"/>
 
-        self.figureRE = r'&lt;img (.*)/&gt;'
+        self.figureRE = r'(?P<pre>.*)&lt;img (.*)/&gt;(?P<post>.*)'   
         self.figureKeys = r'([^ =]+) *= *(&quot;(.*?)&quot;|[^ ]*)'
         self.headingReplacements = [(r'^---\+ (.*)$', 'section'),
                                     (r'^---\+\+ (.*)$', 'subsection'),
                                     (r'^---\+\+\+ (.*)$', 'subsubsection'),
                                     (r'^---\+\+\+\+ (.*)$', 'paragraph'),
                                     (r'^---\+\+\+\+\+ (.*)$', 'subparagraph')]
+
+    def extractFigureKeys (self, kvstring):
+        d = {}
+        for k,v1,v2 in re.findall(kvstring):
+            # print "KEys: ", k, v1, v2
+            d[k] = v2
+        return d
+    
 
     def getSection (self, wiki, title, level):
         """extract the section with title at level """
