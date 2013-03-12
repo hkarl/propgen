@@ -227,13 +227,13 @@ class wikiParser:
                 # s is the constructed replacmenet string. Might contain warning 
                 s = ""
 
-                # print "recognized figure"
+                print "recognized figure"
                 kvstring= m.group(1)
-                # print kvstring, self.figureKeys
+                print kvstring, self.figureKeys
                 r= re.compile(self.figureKeys)
                 d = {}
                 for k,v1,v2 in r.findall(kvstring):
-                    # print "KEys: ", k, v1, v2
+                    print "KEys: ", k, v1, v2
                     d[k] = v2
 
                 # pp(d)
@@ -520,18 +520,25 @@ class wikiParserMoinmoin(wikiParser):
                                     (r'^== (.*) ==$', 'subsection'),
                                     (r'^= (.*) =$', 'section')]
 
-
+                                    #
+        ## DATED:
         ## sadly, is seems we have to use the twiki approach here 
-        self.figureRE = r'<img (.*)/>'
-        self.figureKeys = r'([^ =]+) *= *("(.*?)"|[^ ]*)'
+        ## self.figureRE = r'<img (.*)/>'
+        ## self.figureKeys = r'([^ =]+) *= *("(.*?)"|[^ ]*)'
 
-    def buildFigure (self, t):
-        """For building a figure, the moinmoin syntax gets in out way
-        - kick out the attachment syntax and rely on the twik iway of
-        doing it - this needs fixing!  TODO"""
+        ## Pattern: 
+        ## {{attachment:test.pdf|label=fig:bla|caption=This is the caption}}
+        self.figureRE = r'{{attachment:(.*)}}'
+
+
+    ## def buildFigure (self, t):
+    ##     """For building a figure, the moinmoin syntax can be exploited
+    ##     by means of the vertical bar syntax. It should look like this:
+    ##        {{attachment:test.pdf|label=fig:bla|caption=This is the caption}}
+    ##     """
         
-        t = re.sub (r"{{attachment:.*?}}", "", t)
-        return (wikiParser.buildFigure (self, t))
+    ##     t = re.sub (r"{{attachment:.*?}}", "", t)
+    ##     return (wikiParser.buildFigure (self, t))
         
     def getSection (self, wiki, title, level):
         """Extract the section with title at level """
@@ -571,6 +578,10 @@ class wikiParserTwiki(wikiParser):
         self.tableColumns = "|"
         # self.tableColumnsRE = "\|"
         self.tableRows = r"^\|"
+
+        # example for image string:
+        # <img file="duckie" label="duckie" caption="The main objectives of the Test project" latexwidth="1"/>
+
         self.figureRE = r'&lt;img (.*)/&gt;'
         self.figureKeys = r'([^ =]+) *= *(&quot;(.*?)&quot;|[^ ]*)'
         self.headingReplacements = [(r'^---\+ (.*)$', 'section'),

@@ -16,7 +16,7 @@ To get your own version of PropGen up and running quickly, use the virtual machi
 
 - Start the virtual machine. 
 
-- Point your browser to this virtual machine, port 8080 gives the wiki, 9001 the etherpad-lite. Login into the Wiki using ProjectMaster and password abc123. Go to http://<virtualmachine>:8080/TestProject . Click on "CreatePDF" and enjoy the PDF for a proposal. 
+- Point your browser to this virtual machine, port 8080 gives the wiki, 9001 the etherpad-lite. Login into the Wiki using ProjectMaster and password 123abc. Go to http://<virtualmachine>:8080/TestProject . Click on "CreatePDF" and enjoy the PDF for a proposal. 
 
 - Predefined accounts: 
 

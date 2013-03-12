@@ -31,10 +31,7 @@ Ideas for future features
 
 1. Integrate a version control system like SVN for
    the produced LaTeX files 
-2. Generate PDF files directly from the Wiki, make
-   it possible to trigger that at least. 
-3. Integrate Etherpad into Wiki 
-4. Build a bridge to the financial planning of a
+2. Build a bridge to the financial planning of a
    project. 
 
   - Either by parsing from/ writing to an Excel
@@ -45,9 +42,9 @@ Ideas for future features
     the wiki. Hard to do for different wiki types
     (a nightmare, probably). 
 
-5. Build support for latexdiff. Possibly triggered
+3. Build support for latexdiff. Possibly triggered
    from wiki as well? 
-6. Better support for figures in both wiki in latex. One idea might be
+4. Better support for figures in both wiki and latex. One idea might be
    to upload a PDF to the wiki and have the Wiki convert it to a PNG
-   file. And the pull the PDF file directly from the wiki, without
+   file. And then pull the PDF file directly from the wiki, without
    need to manually put it in the LaTeX figure directory.
