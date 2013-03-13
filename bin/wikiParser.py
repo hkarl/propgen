@@ -15,9 +15,12 @@ A factory function is called to obtain an instance of such a parser.
 
 import re
 from pprint import pprint as pp
+import shutil
 import utils
 import os 
 import string
+import glob
+
 
 def wikiParserFactory(config):
     """Construct an instance of the correct parser class, choice depends on what is
@@ -212,13 +215,21 @@ class wikiParser:
                     enumerateLevel = 0 
                 latex += l + '\n'
 
-        return latex 
+        return latex
 
+    def getFileFromWiki(self, figfile):
+        """
+        Let's try to see if the figure file has been uploaded to the wiki.
+        Also check if there is a newer version there, rather than the one in the latex path.
+
+        This needs to be overriden by the dervied classes since this is highly specific for the particular wiki type.
+        :rtype : None or error code
+        """
+        return None
 
     def buildFigure (self, t):
         """An attempt to allow direct figure inclusion. See
         documentation for details on synatx and limitations."""
-        import glob
         lines = t.split('\n')
         latex = ""
         # print self.figureRE
@@ -252,27 +263,37 @@ class wikiParser:
                     utils.warning ("No need to specify file extension for graphic inclusion, file: " + d['file'])
                     d['file'] = mm.group(1)
 
+                self.getFileFromWiki (d['file'])
+
                 # check for PDF first 
-                if not os.path.exists (os.path.join(
-                    self.config.get("PathNames", 'manuallatexfigurespath'),
-                    d["file"] + ".pdf")):
+                if ((not os.path.exists(os.path.join(self.config.get("PathNames", 'manuallatexfigurespath'),
+                                                     d["file"] + ".pdf"))) and
+                        (not os.path.exists(os.path.join(self.config.get("PathNames", 'uploadedfigurespath'),
+                                                         d["file"] + ".pdf")))):
                     w = "You are trying to include file " + d["file"] +  \
                         ", but no PDF file of that name exists in " + \
-                        self.config.get("PathNames", 'manuallatexfigurespath')
+                        self.config.get("PathNames", 'manuallatexfigurespath') + \
+                        ' or in ' +  self.config.get("PathNames", 'uploadedfigurespath')
                     utils.warning (w)
                     s += w
 
-                    print (os.path.join(
-                        self.config.get("PathNames", 'manuallatexfigurespath'),
-                        d["file"]))
-                    if not glob.glob (os.path.join(
-                        self.config.get("PathNames", 'manuallatexfigurespath'),
-                        d["file"] + ".*")):
+                    # print (os.path.join(
+                    #     self.config.get("PathNames", 'manuallatexfigurespath'),
+                    #     d["file"]))
+                    if ((not glob.glob(os.path.join(
+                            self.config.get("PathNames", 'manuallatexfigurespath'),
+                            d["file"] + ".*")))
+                        and
+                            (not glob.glob(os.path.join(
+                                    self.config.get("PathNames", 'uploadedfigurespath'),
+                                    d["file"] + ".*")))
+                        ):
                         w = ("You are trying to include file " +
                              d["file"] + 
                              ", but no file with any extension of that name was found in " +
                              self.config.get("PathNames",
-                                             'manuallatexfigurespath'))
+                                             'manuallatexfigurespath')  + \
+                             ' or in ' +  self.config.get("PathNames", 'uploadedfigurespath'))
                         utils.warning (w)
                         # that overwrittes a potential warning about pdf file not found 
                         s = w
@@ -437,8 +458,10 @@ class wikiParser:
         return latex 
 
     
-    def getLaTeX (self, t):
+    def getLaTeX (self, t, f=""):
         """turn all of the wiki into LaTeX"""
+
+        self.wikifile = f
 
         ## processing steps independent of the wiki type:
         t = re.sub (r'&lt;DEL&gt;(.|\n)*?&lt;/DEL&gt;', r'', t)
@@ -518,7 +541,10 @@ class wikiParserMoinmoin(wikiParser):
     replacement regular expressions is tricky for moinmoin."""
 
     def __init__ (self, config):
-        self.config = config 
+        self.config = config
+        self.localMoinmoin = config.get('Wiki', 'wikitype') == 'moinmoin-local'
+        self.latexFiguresPath = config.get('PathNames', 'uploadedfigurespath')
+        self.wikiAttachementPath = '../moin/wiki/data/pages/'
         self.boldfaceDelimiter = "'''"
         self.tableColumns = "||"
         # self.tableColumnsRE = "\|\|"
@@ -542,6 +568,48 @@ class wikiParserMoinmoin(wikiParser):
         self.figureKeys = r'([^ =]+) *= *([^\|}]*)'
 
 
+    def getFileFromWiki(self, figfile):
+
+        """
+        Try to find a figure file in the local moinmoin installation.
+        Only relevant if it is indeed local moinmoin.
+
+        :return: None
+        """
+        # print "in GetFileFromWiki"
+        # print self.wikifile
+
+        # print figfile
+
+        candidateFiles = os.path.join(self.wikiAttachementPath,
+                                                 self.wikifile,
+                                                 'attachments',
+                                                 figfile + '.*')
+        # print "candidate files: ", candidateFiles
+        # print "candidate generated path: ", self.latexFiguresPath
+
+        # possible files: with any ending, in attachement path
+        files = glob.glob (candidateFiles)
+        for f in files:
+            fBase = os.path.basename(f)
+            # print fBase
+
+            existingFile = os.path.join(self.latexFiguresPath, fBase)
+
+            # does this file really exist?
+            if os.path.exists(existingFile):
+                # if yes, is it perhaps newer than the one in the Wiki attachment?
+                if (os.path.getmtime(existingFile) >
+                    os.path.getmtime(f)):
+                    # then, don't do antything
+                    loop
+            # otherwise: copy the file from the attachement path to the uploaded latex directory
+            shutil.copy2(f, existingFile)
+
+
+
+        return None
+
     ## def buildFigure (self, t):
     ##     """For building a figure, the moinmoin syntax can be exploited
     ##     by means of the vertical bar syntax. It should look like this:
@@ -550,7 +618,8 @@ class wikiParserMoinmoin(wikiParser):
         
     ##     t = re.sub (r"{{attachment:.*?}}", "", t)
     ##     return (wikiParser.buildFigure (self, t))
-        
+
+
     def extractFigureKeys (self, kvstring):
         """For building a figure, the moinmoin syntax can be exploited
         by means of the vertical bar syntax. It should look like this:

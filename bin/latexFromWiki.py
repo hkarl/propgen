@@ -51,7 +51,7 @@ def handleFile (f, outdir, parser, config, verbose=False):
         print wiki
         print parser.getLaTeX (wiki)
 
-    utils.writefile (parser.getLaTeX (wiki), os.path.join (outdir, fileName+suffix))
+    utils.writefile (parser.getLaTeX (wiki, fileName), os.path.join (outdir, fileName+suffix))
 
 
 ########################################
