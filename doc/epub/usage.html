@@ -64,7 +64,7 @@ and the main.tex file is setup to use this as a BiBTeX file.</p>
 <h3>Main data</h3>
 <p>The main data section specifies basic data about the project as a whole.</p>
 <div class="figure">
-<a class="reference internal image-reference" href="_images/MainData.png"><img alt="_images/MainData.png" src="_images/MainData.png" /></a>
+<a class="reference internal image-reference" href="_images/MainData.png"><img alt="_images/MainData.png" src="_images/MainData.png" style="width: 293.0px; height: 146.5px;" /></a>
 <p class="caption">Screenshot of main data section</p>
 </div>
 <p>Similar to the proposal structure section, it is a bullet list with individual items. Here, however, each line is a key/value combination, with the format &#8220;key: value&#8221;. Most lines should be self-explanatory. Duration is the duration of the project in months; do not specify a unit, just the number.</p>
@@ -73,7 +73,7 @@ and the main.tex file is setup to use this as a BiBTeX file.</p>
 <h3>Workpackages</h3>
 <p>The third part is a list of Wiki pages where a workpackage is described. Same syntax as in the proposal structure section, but the treatment of these pages is different. Unlike above, files here are not just downloaded and converted to LaTeX. Instead, a workpackage page needs to follow a certain structure to specify semantics of a workpackage. Details described below.</p>
 <div class="figure">
-<a class="reference internal image-reference" href="_images/WorkpackagesList.png"><img alt="_images/WorkpackagesList.png" src="_images/WorkpackagesList.png" /></a>
+<a class="reference internal image-reference" href="_images/WorkpackagesList.png"><img alt="_images/WorkpackagesList.png" src="_images/WorkpackagesList.png" style="width: 387.0px; height: 177.5px;" /></a>
 <p class="caption">Screenshot of workpackage list section</p>
 </div>
 </div>
@@ -81,7 +81,7 @@ and the main.tex file is setup to use this as a BiBTeX file.</p>
 <h3>Partner data</h3>
 <p>The partner data has more semantic structure. The important part is a table with four columns:</p>
 <div class="figure">
-<a class="reference internal image-reference" href="_images/PartnerData.png"><img alt="_images/PartnerData.png" src="_images/PartnerData.png" /></a>
+<a class="reference internal image-reference" href="_images/PartnerData.png"><img alt="_images/PartnerData.png" src="_images/PartnerData.png" style="width: 386.0px; height: 205.0px;" /></a>
 <p class="caption">Screenshot of the partner data section</p>
 </div>
 <dl class="docutils">
@@ -314,11 +314,14 @@ level 2 headings become subsections, etc.</p>
 </li>
 <li><p class="first">Bullet lists and enumeration lists are recognized and turned into
 itemize and enumerate environments. More precisely, compactitem and
-compactenum environments are used for compacter layouting. These</p>
+compactenum environments are used for compacter layouting.</p>
 </li>
-<li><p class="first">There is some support for figure inclusion. The basic idea is
-recognize a figure tag of the form &lt;img key=value, key=value&gt;. The
-following keys are recognized:</p>
+<li><p class="first">There is some support for figure inclusion. The basic idea is to
+recognize a figure tag of wiki-specific syntax and turn this into
+the proper LaTeX commands for inclusion. Necessary keys for the
+proper LaTeX markup can be given as keys; details of the syntax are
+highly specific for the Wiki in use (see below). The  following
+keys are recognized:</p>
 <blockquote>
 <div><p>file</p>
 <blockquote>
@@ -342,17 +345,28 @@ this key is not present, is to scale the figure to 0.8 of
 textwidth.</p>
 </div></blockquote>
 </div></blockquote>
-<p>Obviously, this is inspired by the twiki way of doing figures. In
-fact, the key/value pairs can be included in the twiki commands for
-figure inclusion. Moinmoin is much less amenable to extending its own
-syntax. It is indeed a bit cumbersome to include a figure in moinmoin,
-necessitating effectively two include commands: one to have the figure
-appear on the wiki, one to refer to the PDF file and trigger the
-generation of the LaTeX figure environment. Any goods ideas here are
-much appreciated.</p>
+<p>The concrete markup looks as follow for the supported Wiki types:</p>
+<blockquote>
+<div><p>twiki</p>
+<blockquote>
+<div><p>A fairly simple style as follows works:</p>
+<div class="highlight-python"><pre>&lt;img file="duckie"
+label="duckie" caption="The main objectives of the Test
+project" latexwidth="1"/&gt;</pre>
+</div>
+</div></blockquote>
+<p>moinmoin</p>
+<blockquote>
+<div><p>Slightly more complex syntax:</p>
+<div class="highlight-python"><pre>{{attachment:duckie.png|&amp;postion=htbp,&amp;caption=bla bla and some more text for the caption,&amp;label=fig:duckie,&amp;latexwidth=0.8}}</pre>
+</div>
+<p>Note the need to put in the ampersands before each key; that
+is a moinmoin peculiarity.</p>
+</div></blockquote>
+</div></blockquote>
 </li>
 <li><p class="first">Tables are turned into tabular commands. Columns are equally wide,
-spaced to 80% of the textwidth. To fine-tuning the looks of these
+spaced to 80% of the textwidth. To fine-tune the looks of these
 columns, you can specify the column layout: Write e.g.</p>
 <blockquote>
 <div><p>## TABULAR: c|p{0.2textwidth}|r #</p>
@@ -431,7 +445,7 @@ easy way of doing password authentication.</p>
     </div>
     <div class="footer">
         &copy; Copyright 2012, Holger Karl.
-      Last updated on Mar 13, 2012.
+      Last updated on Mar 14, 2013.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
     </div>
   </body>

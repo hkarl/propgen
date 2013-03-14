@@ -343,11 +343,14 @@ recognized features (see Section :ref:`sec-wiki-parser` for details):
   
 - Bullet lists and enumeration lists are recognized and turned into
   itemize and enumerate environments. More precisely, compactitem and
-  compactenum environments are used for compacter layouting. These 
+  compactenum environments are used for compacter layouting. 
   
-- There is some support for figure inclusion. The basic idea is
-  recognize a figure tag of the form <img key=value, key=value>. The
-  following keys are recognized: 
+- There is some support for figure inclusion. The basic idea is to
+  recognize a figure tag of wiki-specific syntax and turn this into
+  the proper LaTeX commands for inclusion. Necessary keys for the
+  proper LaTeX markup can be given as keys; details of the syntax are
+  highly specific for the Wiki in use (see below). The  following
+  keys are recognized:
 
     file
 
@@ -370,18 +373,29 @@ recognized features (see Section :ref:`sec-wiki-parser` for details):
        this key is not present, is to scale the figure to 0.8 of
        textwidth. 
 
-  Obviously, this is inspired by the twiki way of doing figures. In
-  fact, the key/value pairs can be included in the twiki commands for
-  figure inclusion. Moinmoin is much less amenable to extending its own
-  syntax. It is indeed a bit cumbersome to include a figure in moinmoin,
-  necessitating effectively two include commands: one to have the figure
-  appear on the wiki, one to refer to the PDF file and trigger the
-  generation of the LaTeX figure environment. Any goods ideas here are
-  much appreciated. 
+
+  The concrete markup looks as follow for the supported Wiki types: 
+
+    twiki 
+    
+       A fairly simple style as follows works:: 
+
+          <img file="duckie"
+	  label="duckie" caption="The main objectives of the Test
+	  project" latexwidth="1"/> 
+
+    moinmoin   
+      
+      Slightly more complex syntax:: 
+ 
+        {{attachment:duckie.png|&postion=htbp,&caption=bla bla and some more text for the caption,&label=fig:duckie,&latexwidth=0.8}}
+ 
+      Note the need to put in the ampersands before each key; that
+      is a moinmoin peculiarity. 
 
  
 - Tables are turned into tabular commands. Columns are equally wide,
-  spaced to 80% of the textwidth. To fine-tuning the looks of these
+  spaced to 80% of the textwidth. To fine-tune the looks of these
   columns, you can specify the column layout: Write e.g. 
   
      ## TABULAR: c|p{0.2\textwidth}|r # 

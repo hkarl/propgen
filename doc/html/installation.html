@@ -70,7 +70,7 @@
 </li>
 <li><p class="first">Start the virtual machine.</p>
 </li>
-<li><p class="first">Point your browser to this virtual machine, port 8080 gives the wiki, 9001 the etherpad-lite. Login into the Wiki using ProjectMaster and password abc123. Go to <a class="reference external" href="http:/">http:/</a>/&lt;virtualmachine&gt;:8080/TestProject . Click on &#8220;CreatePDF&#8221; and enjoy the PDF for a proposal.</p>
+<li><p class="first">Point your browser to this virtual machine, port 8080 gives the wiki, 9001 the etherpad-lite. Login into the Wiki using ProjectMaster and password 123abc. Go to <a class="reference external" href="http:/">http:/</a>/&lt;virtualmachine&gt;:8080/TestProject . Click on &#8220;CreatePDF&#8221; and enjoy the PDF for a proposal.</p>
 </li>
 <li><p class="first">Predefined accounts:</p>
 <blockquote>
@@ -323,7 +323,7 @@ which you want to change password, go to &#8220;Settings&#8221; (link
 on the very top of the page, to the left), then click
 &#8220;Change password&#8221;.</p>
 <div class="figure">
-<a class="reference internal image-reference" href="_images/MoinMoin-ChangePassword.png"><img alt="_images/MoinMoin-ChangePassword.png" src="_images/MoinMoin-ChangePassword.png" /></a>
+<a class="reference internal image-reference" href="_images/MoinMoin-ChangePassword.png"><img alt="_images/MoinMoin-ChangePassword.png" src="_images/MoinMoin-ChangePassword.png" style="width: 161.5px; height: 37.0px;" /></a>
 </div>
 <p>Or go directly to
 <a class="reference external" href="http://127.0.0.1:8080/ProjectMaster?action=userprefs&amp;sub=changepass">http://127.0.0.1:8080/ProjectMaster?action=userprefs&amp;sub=changepass</a>
@@ -361,6 +361,33 @@ settings.cfg as well!</p>
 <p>You might want to start this as a daemon, possibly
 start automatically after reboot. Consult your own
 operating system how to do that.</p>
+</div>
+<div class="section" id="updating-moinmoin">
+<h3>Updating Moinmoin<a class="headerlink" href="#updating-moinmoin" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Overwrite existing files</li>
+<li>wikiserverconfig.py
+- set hostname, possibly port</li>
+<li>wikiconfig.py : Make sure you got the following lines, replacing the DesktopEditing=True part</li>
+</ul>
+<div class="highlight-python"><pre>DesktopEdition = False # give all local users full powers
+acl_rights_default = u"ProjectMaster:read,write,delete,revert,admin Known:read,write,revert,de</pre>
+</div>
+<dl class="docutils">
+<dt>lete&#8221;</dt>
+<dd><p class="first"># acl_rights_default = u&#8221;All:read,write,delete,revert,admin&#8221;
+surge_action_limits = None # no surge protection
+sitename = u&#8217;Generate EU FP7 Proposal from MoinMoin wiki&#8217;
+logo_string = u&#8217;&lt;img src=&#8221;%s/common/moinmoin.png&#8221; alt=&#8221;MoinMoin Logo&#8221;&gt;&#8217; % url_prefix_static</p>
+<p>auth = [MyAuth()]</p>
+<p class="last">superuser = [u&#8221;ProjectMaster&#8221;]</p>
+</dd>
+</dl>
+<ul class="simple">
+<li>follow <a class="reference external" href="http://moinmo.in/FeatureRequests/DisableUserCreation#Solution_for_1.9_to_only_allow_superusers_to_create_new_accounts">http://moinmo.in/FeatureRequests/DisableUserCreation#Solution_for_1.9_to_only_allow_superusers_to_create_new_accounts</a> (or just copy myauth.py from old installation; should still be there if you&#8217;ve overwritten the old installation)
+- add the import command: from myauth import MyAuth to wikiconfig.py</li>
+<li>also check: <a class="reference external" href="http://wiki.apache.org/thrift/HelpOnMoinCommand">http://wiki.apache.org/thrift/HelpOnMoinCommand</a></li>
+</ul>
 </div>
 </div>
 <div class="section" id="setting-up-wiki-in-settings-cfg">
@@ -646,7 +673,7 @@ end script
 </div>
 </div></blockquote>
 <ul class="simple">
-<li>Install an up-to-date TexLive. Unfortunately, even ubunutu 12.04 still comes with an 2009 texlive, far too outdated for our needs. Follow instructions here: <a class="reference external" href="http://www.tug.org/texlive/quickinstall.html">http://www.tug.org/texlive/quickinstall.html</a> . Note: this can take a while...</li>
+<li>Install an up-to-date TexLive. Unfortunately, even ubunutu 12.04 still comes with an 2009 texlive, far too outdated for our needs. Follow instructions here: <a class="reference external" href="http://www.tug.org/texlive/quickinstall.html">http://www.tug.org/texlive/quickinstall.html</a> or try the backported TexLive 2012 from here: <a class="reference external" href="http://askubuntu.com/questions/163682/how-do-i-install-the-latest-tex-live-2012">http://askubuntu.com/questions/163682/how-do-i-install-the-latest-tex-live-2012</a>. Note: this can take a while...</li>
 </ul>
 <p>Note: there is a little pitfall. Don&#8217;t put the PATH definition in .bashrc, else the upstart script will not find the latex binaries. The texlive PATH extension has to go into ~/.profile.</p>
 </div>
@@ -681,6 +708,7 @@ end script
 <li><a class="reference internal" href="#adding-accounts">Adding accounts</a></li>
 <li><a class="reference internal" href="#rename-the-main-project-page">Rename the main project page</a></li>
 <li><a class="reference internal" href="#run-the-moinmoin-wiki">Run the MoinMoin Wiki</a></li>
+<li><a class="reference internal" href="#updating-moinmoin">Updating Moinmoin</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#setting-up-wiki-in-settings-cfg">Setting up wiki in settings.cfg</a><ul>
@@ -744,7 +772,7 @@ end script
     </div>
     <div class="footer">
         &copy; Copyright 2012, Holger Karl.
-      Last updated on Mar 28, 2012.
+      Last updated on Mar 14, 2013.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
     </div>
   </body>

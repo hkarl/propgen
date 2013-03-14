@@ -144,8 +144,17 @@ Remove whitspaces and obvious strange characters.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="wikiParser.wikiParser.getFileFromWiki">
+<tt class="descname">getFileFromWiki</tt><big>(</big><em>figfile</em><big>)</big></dt>
+<dd><p>Let&#8217;s try to see if the figure file has been uploaded to the wiki.
+Also check if there is a newer version there, rather than the one in the latex path.</p>
+<p>This needs to be overriden by the dervied classes since this is highly specific for the particular wiki type.
+:rtype : None or error code</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="wikiParser.wikiParser.getLaTeX">
-<tt class="descname">getLaTeX</tt><big>(</big><em>t</em><big>)</big></dt>
+<tt class="descname">getLaTeX</tt><big>(</big><em>t</em>, <em>f=''</em><big>)</big></dt>
 <dd><p>turn all of the wiki into LaTeX</p>
 </dd></dl>
 
@@ -208,11 +217,28 @@ attempts at manual HTML markup.</p>
 <dd><p>Specialized for Moinmoin. Especially the order of the heading
 replacement regular expressions is tricky for moinmoin.</p>
 <dl class="method">
-<dt id="wikiParser.wikiParserMoinmoin.buildFigure">
-<tt class="descname">buildFigure</tt><big>(</big><em>t</em><big>)</big></dt>
-<dd><p>For building a figure, the moinmoin syntax gets in out way
-- kick out the attachment syntax and rely on the twik iway of
-doing it - this needs fixing!  TODO</p>
+<dt id="wikiParser.wikiParserMoinmoin.extractFigureKeys">
+<tt class="descname">extractFigureKeys</tt><big>(</big><em>kvstring</em><big>)</big></dt>
+<dd><p>For building a figure, the moinmoin syntax can be exploited
+by means of the vertical bar syntax. It should look like this:
+{{attachment:duckie.png|&amp;postion=htbp,&amp;caption=bla bla and some more text for the caption,&amp;label=fig:duckie,&amp;latexwidth=0.8}}</p>
+<blockquote>
+<div>kvstring has the key-value pairs, with the {{attachment: }} already removed</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="wikiParser.wikiParserMoinmoin.getFileFromWiki">
+<tt class="descname">getFileFromWiki</tt><big>(</big><em>figfile</em><big>)</big></dt>
+<dd><p>Try to find a figure file in the local moinmoin installation.
+Only relevant if it is indeed local moinmoin.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -1462,6 +1488,13 @@ Note: these paths are relative to the main directory</p>
 <dt>
 <tt class="descname">genlatexpartnerspath</tt></dt>
 <dd><p>Default:   generated/latex/partners</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">uploadedfigurespath</tt></dt>
+<dd><p>where do figures uploaded from the wiki go?</p>
+<p>Default:   generated/uploaded</p>
 </dd></dl>
 
 <dl class="describe">
@@ -3916,7 +3949,7 @@ fullcommit:
 <span class="k">\usepackage</span><span class="nb">{</span>textcomp<span class="nb">}</span>           <span class="c">%for euro symbol</span>
 
 <span class="k">\usepackage</span><span class="nb">{</span>graphicx<span class="nb">}</span>
-<span class="k">\graphicspath</span><span class="nb">{{</span>Figures/<span class="nb">}{</span>figures/<span class="nb">}}</span>
+<span class="k">\graphicspath</span><span class="nb">{{</span>Figures/<span class="nb">}{</span>figures/<span class="nb">}{</span>../generated/uploaded/<span class="nb">}}</span>
 
 <span class="c">%%% make sure to use the pgfgantt file from the SVN! </span>
 <span class="k">\usepackage</span><span class="nb">{</span>styles/pgfgantt<span class="nb">}</span>
@@ -4242,7 +4275,7 @@ protection authorities.
     </div>
     <div class="footer">
         &copy; Copyright 2012, Holger Karl.
-      Last updated on Mar 28, 2012.
+      Last updated on Mar 14, 2013.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
     </div>
   </body>

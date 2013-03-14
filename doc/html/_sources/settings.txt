@@ -231,6 +231,12 @@ Note: these paths are relative to the main directory
     
     Default:   generated/latex/partners
 
+.. describe:: uploadedfigurespath
+
+    where do figures uploaded from the wiki go?
+
+    Default:   generated/uploaded
+
 .. describe:: manuallatexpath
 
     Where are the MANUAL latex files? 
