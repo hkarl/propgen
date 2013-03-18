@@ -20,6 +20,7 @@ import utils
 import os 
 import string
 import glob
+import bisect
 
 
 def wikiParserFactory(config):
@@ -148,19 +149,20 @@ class wikiParser:
             tmp = re.match('( *\* )', l)
             if tmp:
                 leadingSpacesBeforeAsterix =tmp.group(0)
-                lineIndent = (len(leadingSpacesBeforeAsterix)-1)/3
-                restText = l[3*lineIndent+2:len(l)] + '\n'
+                lineIndent = (len(leadingSpacesBeforeAsterix)-1)/self.lineIndentDivisor
+                # restText = l[3*lineIndent+2:len(l)] + '\n'
+                restText = l[len(leadingSpacesBeforeAsterix):] + '\n'
 
-                # print lineIndent
-                # print leadingSpacesBeforeAsterix
+                print lineIndent
+                print leadingSpacesBeforeAsterix
 
-                # print "restText  ", restText 
+                print "restText  ", restText
 
                 if lineIndent > indentLevel:
                     # print indentLevel - lineIndent + 1
                     for i in range(lineIndent - indentLevel ):
                         latex +=  "\\begin{compactitem}\n"
-                    indentLevel = lineIndent 
+                        indentLevel += 1
                     latex +=  "\\item " +  restText
 
                 elif lineIndent == indentLevel:
@@ -172,7 +174,7 @@ class wikiParser:
                     latex +=  "\\item " +  restText
             else:
                 # no indent on this line ; do we have an indent previously?
-                if (indentLevel > 0):
+                if indentLevel > 0:
                     # close all indents
                     for i in range(indentLevel):
                         latex +=  "\\end{compactitem}\n" 
@@ -186,8 +188,9 @@ class wikiParser:
             tmp = re.match('( *1\. | *1 )', l)
             if tmp:
                 leadingSpacesBeforeAsterix =tmp.group(0)
-                lineIndent = (len(leadingSpacesBeforeAsterix)-1)/3
-                restText = l[3*lineIndent+2:len(l)] + '\n'
+                lineIndent = (len(leadingSpacesBeforeAsterix)-1)/self.lineIndentDivisor
+                # restText = l[3*lineIndent+2:len(l)] + '\n'
+                restText = l[len(leadingSpacesBeforeAsterix):] + '\n'
 
                 # print lineIndent
                 # print leadingSpacesBeforeAsterix
@@ -196,7 +199,7 @@ class wikiParser:
                     # print eumerateLevel - lineIndent + 1
                     for i in range(lineIndent - enumerateLevel ):
                         latex +=  "\\begin{compactenum}\n"
-                    enumerateLevel = lineIndent 
+                        enumerateLevel += 1
                     latex +=  "\\item " +  restText
 
                 elif lineIndent == enumerateLevel:
@@ -208,7 +211,7 @@ class wikiParser:
                     latex +=  "\\item " +  restText
             else:
                 # no indent on this line ; do we have an indent previously?
-                if (enumerateLevel > 0):
+                if enumerateLevel > 0:
                     # close all indents
                     for i in range(enumerateLevel):
                         latex +=  "\\end{compactenum}\n" 
@@ -383,7 +386,7 @@ class wikiParser:
                 # print colstring 
                 ll = re.sub (re.escape(self.tableColumns), r'&', ll)
 
-                if inTable==False:
+                if not inTable:
 
                     if tabularHeader:
                         latex+= "{\\centering\\begin{tabular}{" + tabularHeader  + "}\n"
@@ -398,7 +401,7 @@ class wikiParser:
                     # we already are in the table, just put in the line 
                     latex += ll + '\\\\ \n'
             else:
-                if inTable==True:
+                if inTable:
                     # we just left a table 
                     latex+= "\\bottomrule \n\\end{tabular}}\n"
                     inTable=False
@@ -549,6 +552,7 @@ class wikiParserMoinmoin(wikiParser):
         self.tableColumns = "||"
         # self.tableColumnsRE = "\|\|"
         self.tableRows = r"^\|\|"
+        self.lineIndentDivisor = 1
 
         self.headingReplacements = [(r'^===== (.*) =====$', 'subparagraph'),
                                     (r'^==== (.*) ====$', 'paragraph'),
@@ -670,6 +674,70 @@ class wikiParserMoinmoin(wikiParser):
     def localHeading (self, title, level):
         return '='*level + ' +' + title + ' +' + '='*level
 
+    def buildListsHelper (self, inputLines, regexp, markup):
+        indentStack = []
+        lines = inputLines.split('\n')
+        indentLevel = 0
+        currentIndentIndex = -1
+        latex = ""
+        for l in lines:
+        # an itemize list?
+            tmp = re.match(regexp, l)
+            if tmp:
+                leadingSpacesBeforeAsterix =tmp.group(0)
+                lineIndent = len(leadingSpacesBeforeAsterix)-2
+                # restText = l[3*lineIndent+2:len(l)] + '\n'
+                restText = l[len(leadingSpacesBeforeAsterix):] + '\n'
+
+                print lineIndent
+                print leadingSpacesBeforeAsterix
+                print "restText  ", restText
+
+
+                if (not indentStack) or (lineIndent > max(indentStack)):
+                    # new indentation level found
+                    indentStack.append (lineIndent)
+
+                # try to find the right index in the indentation stack, beware of missing ones
+                # if the indentation value is in the stack, get that value's index
+                # if not, round up to the next bigger one (to stay consistent with moinmoin)
+                newIndentIndex = bisect.bisect_left (indentStack, lineIndent)
+
+
+                if newIndentIndex > currentIndentIndex:
+                    for i in range(currentIndentIndex, newIndentIndex):
+                        latex +=  "\\begin{%s}\n" % markup
+                elif newIndentIndex < currentIndentIndex:
+                    for i in range(newIndentIndex, currentIndentIndex):
+                        latex +=  "\\end{%s}\n" % markup
+
+                currentIndentIndex = newIndentIndex
+
+                latex +=  "\\item " +  restText
+
+            else:
+                # no indent on this line ; did we have an indent previously thgat we have to close?
+                # i.e., is this the end of this (possibly nested) environment?
+                if currentIndentIndex >= 0:
+                    # close all indents
+                    for i in range(currentIndentIndex+1):
+                        latex +=  "\\end{%s}\n" % markup
+                    currentIndentIndex = -1
+                latex += l + '\n'
+
+        return latex
+
+
+    def buildLists (self, latex):
+        """Moinmoin has a rather different approach to building lists since it does not mandate a fixed number
+        of whitespaces per indentation level. Rather, any increase is seen to go one step deeper. This rules out the
+        ability to jump over several levels, though."""
+
+        latex = self.buildListsHelper(latex, '( *\* )', 'compactitem')
+        latex = self.buildListsHelper(latex, '( *1\. | *1 )', 'compactenum')
+
+        return latex
+
 
 class wikiParserTwiki(wikiParser):
     """Specialized for Twiki"""
@@ -680,6 +748,7 @@ class wikiParserTwiki(wikiParser):
         self.tableColumns = "|"
         # self.tableColumnsRE = "\|"
         self.tableRows = r"^\|"
+        self.lineIndentDivisor = 3
 
         # example for image string:
         # <img file="duckie" label="duckie" caption="The main objectives of the Test project" latexwidth="1"/>
