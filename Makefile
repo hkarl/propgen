@@ -8,6 +8,7 @@ SETTINGS = settings.cfg
 # FLAGS = -v 
 FLAGS = 
 
+LATEXBIN = pdflatex -interaction=nonstopmode
 
 # Relevant path names. They are extracted from settings.cfg 
 
@@ -48,7 +49,7 @@ ensureSymbolicLinks:
 	cd ${BINPATH} ; python ensureSymbolicLinks.py   -s ../$(SETTINGS) $(FLAGS) 
 
 pdf: 
-	cd ${LATEXPATH}; pdflatex main; bibtex main; pdflatex main; pdflatex main 
+	cd ${LATEXPATH}; ${LATEXBIN} main; bibtex main; ${LATEXBIN} main; ${LATEXBIN} main
 	cp ${LATEXPATH}/main.pdf ${PROJECTNAME}.pdf
 
 
