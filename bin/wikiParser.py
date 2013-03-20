@@ -53,10 +53,12 @@ class wikiParser:
         found = False
         
         for l in lines:
-            if re.match (r"^   \* ", l):
+            m = re.match (r"^ +\* (?P<entry>.*)", l)
+            if m:
+            # if re.match (r"^ +\* ", l):
                 if not found:
                     found=True
-                res.append(str(l[4:].strip()))
+                res.append(str(m.group('entry').strip()))
             else:
                 if found:
                     break
@@ -153,10 +155,10 @@ class wikiParser:
                 # restText = l[3*lineIndent+2:len(l)] + '\n'
                 restText = l[len(leadingSpacesBeforeAsterix):] + '\n'
 
-                print lineIndent
-                print leadingSpacesBeforeAsterix
+                # print lineIndent
+                # print leadingSpacesBeforeAsterix
 
-                print "restText  ", restText
+                # print "restText  ", restText
 
                 if lineIndent > indentLevel:
                     # print indentLevel - lineIndent + 1
