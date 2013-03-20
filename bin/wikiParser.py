@@ -691,9 +691,9 @@ class wikiParserMoinmoin(wikiParser):
                 # restText = l[3*lineIndent+2:len(l)] + '\n'
                 restText = l[len(leadingSpacesBeforeAsterix):] + '\n'
 
-                print lineIndent
-                print leadingSpacesBeforeAsterix
-                print "restText  ", restText
+                # print lineIndent
+                # print leadingSpacesBeforeAsterix
+                # print "restText  ", restText
 
 
                 if (not indentStack) or (lineIndent > max(indentStack)):
