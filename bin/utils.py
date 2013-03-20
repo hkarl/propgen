@@ -139,17 +139,19 @@ def roundPie  (l):
     s = sum(v)
 
 
-    percents = [ vv*100./s for vv in v]
-    
-    rounded = [ int(vv) for vv in percents]
+    if s > 0:
+        percents = [ vv*100./s for vv in v]
 
-    
-    while (sum(rounded) < 100):
-        # which is point of largest rounding error?
-        dif = [percents[i]-rounded[i] for i in range(len(rounded))]
-        [maxval, maxind] = max([x, y] for y,x in enumerate(dif))
+        rounded = [ int(vv) for vv in percents]
 
-        rounded[maxind] += 1 
+        while (sum(rounded) < 100):
+            # which is point of largest rounding error?
+            dif = [percents[i]-rounded[i] for i in range(len(rounded))]
+            [maxval, maxind] = max([x, y] for y,x in enumerate(dif))
+
+            rounded[maxind] += 1
+    else:
+        rounded = [0] * len(rounded)
 
     # return [ (l[i][0], str(rounded[i])) for i in range(len(rounded)) ]
     return ', '.join([ "%d/%s" %  (rounded[i], l[i][0]) for i in range(len(rounded)) ])
