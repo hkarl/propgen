@@ -151,7 +151,7 @@ def roundPie  (l):
 
             rounded[maxind] += 1
     else:
-        rounded = [0] * len(rounded)
+        rounded = [0] * len(l)
 
     # return [ (l[i][0], str(rounded[i])) for i in range(len(rounded)) ]
     return ', '.join([ "%d/%s" %  (rounded[i], l[i][0]) for i in range(len(rounded)) ])
