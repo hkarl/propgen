@@ -638,10 +638,11 @@ class wikiParserMoinmoin(wikiParser):
         d['file'] = l[0]
         ll = string.split (','.join(l[1:]), ',')
         for x in ll:
-            xx = string.split(x, '=')
-            if xx[0][0] == '&':
-                xx[0] = xx[0][1:]
-            d[xx[0]] = xx[1]
+            if x[0] == '&': 
+                xx = string.split(x, '=')
+                if xx[0][0] == '&':
+                    xx[0] = xx[0][1:]
+                d[xx[0]] = xx[1]
 
         #print d 
         
