@@ -21,7 +21,7 @@ GENERATEDLATEXPATH = $(shell grep "genlatexpath " ${SETTINGS} | cut -f 2 -d = )
 LATEXLINKS =  $(shell find ${LATEXPATH} -type l)
 
 ####################################
-.PHONY: proposal pdf clean pullproject xml latexFromWiki latexFromXML ensureSymbolicLinks fullcommit doc docclean createtar 
+.PHONY: proposal pdf clean pullproject xml latexFromWiki latexFromXML ensureSymbolicLinks fullcommit doc docclean
 
 ####################################
 
@@ -69,6 +69,10 @@ moinpdf:
 	make pdf  >> logfile 
 	cp ${PROJECTNAME}.pdf "moin/wiki/data/pages/${PROJECTNAME}/attachments/"
 	cp logfile "moin/wiki/data/pages/${PROJECTNAME}/attachments/logfile.txt"
+	tar cfhz ${PROJECTNAME}.tgz latex 
+	mv ${PROJECTNAME}.tgz "moin/wiki/data/pages/${PROJECTNAME}/attachments/"
+
+
 doc:
 	cd docsource ; make install 
 doclean:
@@ -82,7 +86,3 @@ fullcommit:
 	make clean 
 	git commit -a -m "a full commit triggered by the makefile" 
 
-
-createtar: 
-	tar cfhz ${PROJECTNAME}.tgz latex 
-	mv ${PROJECTNAME}.tgz "moin/wiki/data/pages/${PROJECTNAME}/attachments/"
