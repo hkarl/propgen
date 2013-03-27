@@ -6,7 +6,7 @@ SETTINGS = settings.cfg
 # Which flags to use? -v is verbose for all scripts; 
 # in production use, -v is usually not necessary
 # FLAGS = -v 
-FLAGS = 
+FLAGS =
 
 LATEXBIN = pdflatex -interaction=nonstopmode
 
@@ -81,3 +81,7 @@ fullcommit:
 	make clean 
 	git commit -a -m "a full commit triggered by the makefile" 
 
+
+createtar: 
+	tar cfh latex.tgz latex 
+	mv ${PROJECTNAME}.pdf "moin/wiki/data/pages/${PROJECTNAME}/attachments/"
