@@ -636,7 +636,7 @@ class wikiParserMoinmoin(wikiParser):
 
         l = string.split(kvstring, '|')
         d['file'] = l[0]
-        ll = string.split (l[1], ',')
+        ll = string.split (','.join(l[1:]), ',')
         for x in ll:
             xx = string.split(x, '=')
             if xx[0][0] == '&':
