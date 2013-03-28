@@ -726,6 +726,8 @@ class wikiParserMoinmoin(wikiParser):
                     for i in range(currentIndentIndex+1):
                         latex +=  "\\end{%s}\n" % markup
                     currentIndentIndex = -1
+
+                indentStack = []
                 latex += l + '\n'
 
         return latex
