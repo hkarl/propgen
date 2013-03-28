@@ -270,7 +270,9 @@ class wikiParser:
 
                 self.getFileFromWiki (d['file'])
 
-                # check for PDF first 
+                # check for PDF first
+                crucialFailure = False
+
                 if ((not os.path.exists(os.path.join(self.config.get("PathNames", 'manuallatexfigurespath'),
                                                      d["file"] + ".pdf"))) and
                         (not os.path.exists(os.path.join(self.config.get("PathNames", 'uploadedfigurespath'),
@@ -302,6 +304,7 @@ class wikiParser:
                         utils.warning (w)
                         # that overwrittes a potential warning about pdf file not found 
                         s = w
+                        crucialFailure = True
                     else:
                         w =  ("You are trying to include file " +
                               d["file"] + 
@@ -325,22 +328,26 @@ class wikiParser:
                     utils.warning (w)
                     s += " -- " + w
 
-                if not s:
+                st = ""
+                if not crucialFailure:
                     # no warnings produced, so let's include the figure 
-                    s = "\\begin{figure}{\\centering\\includegraphics*[width="
+                    st = "\\begin{figure}{\\centering\\includegraphics*[width="
                     if d.has_key("latexwidth"):
-                        s += d["latexwidth"]
+                        st += d["latexwidth"]
                     else:
-                        s += "0.8"
-                    s += "\\textwidth]"
-                    s += "{" + d["file"] + "}"
+                        st += "0.8"
+                    st += "\\textwidth]"
+                    st += "{" + d["file"] + "}"
                     if d.has_key("caption"):
-                        s += "\\caption{" + d["caption"] + "}"
+                        st += "\\caption{" + d["caption"] + "}"
                     if d.has_key("label"):
-                        s += "\\label{fig:" + d["label"] + "}"
-                    s += "}\\end{figure}"
+                        st += "\\label{fig:" + d["label"] + "}"
+                    st += "}\\end{figure}"
+
+                if s:
+                    s =  st + "\\fxwarning{" + s + "}"
                 else:
-                    s = "\\fxwarning{" + s + "}"
+                    s = st
 
                 #  dont ignore  the rest of the line:
                 ## print "--------------" 
