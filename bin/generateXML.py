@@ -118,6 +118,8 @@ def singleWorkpackageXML (wp, wpwiki, parser, wpcount):
             # print wpwiki
             td = parser.getSection (wpwiki, "Task [dD]escription: " + task['Label'].strip(), 3)
             obj = parser.getSection (td, "Objectives", 4)
+            if options.verbose: 
+                print 'task objectives', obj 
             descr = parser.getSection (td, "Description of work", 4)
             # print "Objectives: ", obj
             # print "Descr: ", descr
@@ -149,8 +151,8 @@ def singleWorkpackageXML (wp, wpwiki, parser, wpcount):
     ## and the final workpackage string 
     wpXML =  '<workpackage id="' + wp + '">' + \
             dictAsXML (wpMain) + \
-            "<objectives>\n" + parser.getSection(wpwiki, "Objectives", 2).strip() + "</objectives>\n" + \
-            "<wpdescription>\n" + parser.getSection(wpwiki, "WP Description", 2).strip() + "</wpdescription>\n" + \
+            "<objectives>\n" + parser.getLaTeX(parser.getSection(wpwiki, "Objectives", 2).strip()) + "</objectives>\n" + \
+            "<wpdescription>\n" + parser.getLaTeX(parser.getSection(wpwiki, "WP Description", 2).strip()) + "</wpdescription>\n" + \
             wpDelXML + \
             wpMilestonesXML + \
             wpTasksXML + \

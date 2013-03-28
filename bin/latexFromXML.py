@@ -1003,7 +1003,10 @@ def computeStatistics (verbose):
 
         wp['End'] = int(wp['Start']) + int(wp['Duration']) - 1 
 
-        wp['Leadernumber'] = [p['Number'] for p in partnerList if p['Shortname'] == wp['Leadership']][0]
+        try:
+            wp['Leadernumber'] = [p['Number'] for p in partnerList if p['Shortname'] == wp['Leadership']][0]
+        except:
+            wp['Leadernumber'] = 1
     return 
 
 

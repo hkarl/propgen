@@ -687,6 +687,7 @@ class wikiParserMoinmoin(wikiParser):
         # an itemize list?
             tmp = re.match(regexp, l)
             if tmp:
+                # print l, indentStack
                 leadingSpacesBeforeAsterix =tmp.group(0)
                 lineIndent = len(leadingSpacesBeforeAsterix)-2
                 # restText = l[3*lineIndent+2:len(l)] + '\n'
@@ -706,6 +707,7 @@ class wikiParserMoinmoin(wikiParser):
                 # if not, round up to the next bigger one (to stay consistent with moinmoin)
                 newIndentIndex = bisect.bisect_left (indentStack, lineIndent)
 
+                # print currentIndentIndex, newIndentIndex
 
                 if newIndentIndex > currentIndentIndex:
                     for i in range(currentIndentIndex, newIndentIndex):
@@ -729,6 +731,13 @@ class wikiParserMoinmoin(wikiParser):
 
                 indentStack = []
                 latex += l + '\n'
+
+        # at the end of the lines: is possible an indent still open?
+        if currentIndentIndex >= 0:
+            # close all indents
+            for i in range(currentIndentIndex+1):
+                latex +=  "\\end{%s}\n" % markup
+            currentIndentIndex = -1
 
         return latex
 
