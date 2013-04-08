@@ -72,13 +72,13 @@ def dictAsXML (d, parser=None, specialFields=[]):
                 # if vv==vvv:
                 if not re.search(parser.boldfaceDelimiter, vv):
                     # print "false"
-                    t += "<" + kk + ' main="False">' + str(vvv) + "</" + kk + ">\n"
+                    t += "<" + kk + ' main="False">' + unicode(vvv) + "</" + kk + ">\n"
                 else:
                     # print "main"
-                    t += "<" + kk + ' main="True">' + str(vvv) + "</" + kk + ">\n"
+                    t += "<" + kk + ' main="True">' + unicode(vvv) + "</" + kk + ">\n"
         else:
             k = re.sub ('\s', '', k) 
-            t += "<" + k + ">" + (parser.getLaTeX(str(v)) if parser else str(v)).strip() + "</" + k + ">\n"
+            t += "<" + k + ">" + (parser.getLaTeX(unicode(v)) if parser else unicode(v)).strip() + "</" + k + ">\n"
 
     return t 
 
