@@ -129,10 +129,16 @@ def singleWorkpackageXML (wp, wpwiki, parser, wpcount):
             task['Main'] = False 
         # pp(task)
 
-        wpTasksXML += '<task id="' + task["Label"] + '">\n'  + \
-                    dictAsXML(task, parser) + \
-                    "</task>\n"
-        
+        try:
+            wpTasksXML += '<task id="' + task["Label"] + '">\n'  + \
+                        dictAsXML(task, parser) + \
+                        "</task>\n"
+        except:
+            utils.warning("Could not properly convert task in workpackage generation, wp " + wpwiki)
+            wpTasksXML += '<task id="' + task["Label"] + '">\n'  + \
+                          "Conversion error occured here!" + \
+                          "</task>\n"
+
     ## get the effort - that's a little bit more difficult: 
     wpEffortXML = ""
     for effort in parser.getTable(parser.getSection (wpwiki, "Effort", 3)):
