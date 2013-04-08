@@ -589,8 +589,8 @@ class wikiParserMoinmoin(wikiParser):
 
         :return: None
         """
-        print "in GetFileFromWiki"
-        print self.wikifile
+        # print "in GetFileFromWiki"
+        # print self.wikifile
 
         print figfile
 

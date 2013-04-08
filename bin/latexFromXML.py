@@ -975,7 +975,44 @@ def writeTemplateResult (expanded, templ, keytouse = None):
             filename += ".tex"
             # print "filename: ", filename
             # print "content: ", pp(expanded[keytouse])
-            utils.writefile (expanded[keytouse], filename)
+
+            outtext = expanded[keytouse]
+
+            # move any figures out of the framed environments
+            inlines = outtext.split('\\begin{framed}')
+            outlines = []
+            outlines.append(inlines[0])
+
+            p = re.compile (r'(?P<beforeFigure>.*)(?P<beginfigure>\\begin{figure})(?P<bodyfigure>.*)(?P<endfigure>\\end{figure})(?P<afterfigure>.*\\end{framed}.*)',
+                            re.DOTALL)
+            for o in inlines[1:]:
+                print "---------------------"
+
+                m = p.match (o)
+                while m:
+                    print "before figure:", m.group('beforeFigure')
+                    print "--------"
+                    print "begin figure:", m.group('beginfigure')
+                    print "--------"
+                    print "body figure:", m.group('bodyfigure')
+                    print "--------"
+                    print "end figure:", m.group('endfigure')
+                    print "--------"
+                    print "after figure:", m.group('afterfigure')
+
+                    o = m.group('beforeFigure') + \
+                        m.group('afterfigure') + \
+                        m.group('beginfigure') + \
+                        m.group('bodyfigure') + \
+                        m.group('endfigure')
+
+                    m = p.match (o)
+
+
+                outlines.append(o)
+
+            outtext = '\\begin{framed}'.join(outlines)
+            utils.writefile (outtext, filename)
 
     
 #########################################
