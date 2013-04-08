@@ -670,8 +670,11 @@ def computeWPTable (config):
                     wpHighligher = lambda x: inactiveLighter(x) if not wp['Leadership'] == shortname else \
                                    r'\textbf{%s}' % inactiveLighter(x)
 
-                    centerer = lambda x: "\centering{%s}" % wpHighligher(x)
-                    t1 += " & " + centerer(str(i)) 
+                    # this one stopped working at some time with misplaced aligns:
+                    # centerer = lambda x: "\centering{%s}" % wpHighligher(x)
+                    # tried the hackish alternative:
+                    centerer = lambda x: "\hfill {%s} \hfill \\vadjust{}" % wpHighligher(x)
+                    t1 += " & " + centerer(str(i))
                     t2 += " & " + centerer(shortname) 
                     t3 += " & " + centerer(str(thiseffort))
                 else:
