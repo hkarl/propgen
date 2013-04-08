@@ -594,15 +594,25 @@ class wikiParserMoinmoin(wikiParser):
 
         # print figfile
 
-        candidateFiles = os.path.join(self.wikiAttachementPath,
+
+        # try to find out what the candidate files are:
+
+        if self.wikifile:
+            candidateFiles = os.path.join(self.wikiAttachementPath,
                                                  self.wikifile,
                                                  'attachments',
                                                  figfile + '.*')
-        # print "candidate files: ", candidateFiles
-        # print "candidate generated path: ", self.latexFiguresPath
 
-        # possible files: with any ending, in attachement path
-        files = glob.glob (candidateFiles)
+            # possible files: with any ending, in attachement path
+            files = glob.glob (candidateFiles)
+        else:
+            files = []
+            for root, dirnames, filenames in os.walk (self.wikiAttachementPath):
+                for filename in fnmatch.filter (filenames, figfile+'.*'):
+                    files.append(os.path.join(self.wikiAttachementPath, filename))
+
+
+
         for f in files:
             fBase = os.path.basename(f)
             # print fBase
@@ -618,6 +628,7 @@ class wikiParserMoinmoin(wikiParser):
                     loop
             # otherwise: copy the file from the attachement path to the uploaded latex directory
             shutil.copy2(f, existingFile)
+            return None
 
 
 
