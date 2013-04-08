@@ -66,24 +66,36 @@ titlepageDict = utils.documentedDict()
 """ Dictionary containing all information about the project in
 general; mostly it goes on the titlepage. It directly obtains its
 content from the main project wiki page, without any additions
-computed here. 
+computed here.
 """
 
 expanded = utils.documentedDict()
 """This dictionary collects all the expansions of templates from
 latexTemplate.cfg. Like all the other ones, it can be used as an
 argument to the dict option therein, allowing to build templates that
-use the expansions of simpler templates as variables. 
+use the expansions of simpler templates as variables.
 """
 
+def stripped(text=None):
+    return "<empty>" if text is None else text.strip()
+
+def errorMsg(tree):
+    print "Something was left empty in %s '%s'" % (tree.tag,tree.text)
+    for x in tree.getchildren():
+        print "| %s | %s | %s |" % (stripped(x.tag),stripped(x.text),x.attrib)
+    print
+    raise SystemExit
 
 def dictFromXML (tree):
     """Given an XML node (obtained via the xml.etree.ElementTree
     libary, build a dictionary where the keys are the tag of a child
     node and the text attribute of the child node is the value. Return
     this dictionary."""
-    
-    return utils.documentedDict ([(x.tag.strip(), x.text.strip()) for x in tree.getchildren()])
+
+    try:
+        return utils.documentedDict ([(x.tag.strip(), x.text.strip()) for x in tree.getchildren()])
+    except:
+        errorMsg(tree)
 
 def dictFromXMLWithMains (tree):
     """Similar to dictFromXML, but this function in addition
@@ -99,17 +111,20 @@ def dictFromXMLWithMains (tree):
     Example: Milestone dicts have a key Contributor, which has a list
     of partner shortnames. A milestone also *might* have a key
     ContributorMain, which is a partner shortname string, specifying
-    a potential lead partner for this milestone. 
+    a potential lead partner for this milestone.
     """
     d = utils.documentedDict()
-    ll = [(x.tag.strip(), x.text.strip(), x.attrib) for x in tree.getchildren()]
+    try:
+        ll = [(x.tag.strip(), x.text.strip(), x.attrib) for x in tree.getchildren()]
+    except:
+        errorMsg(tree)
 
     for l in ll:
         tag = l[0]
         val = l[1]
         attrib = l[2]
         hasMain = False
-        
+
         if tag in d:
             # need to think about the arrays
             if attrib.has_key("main"):
