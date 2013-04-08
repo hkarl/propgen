@@ -21,7 +21,7 @@ import os
 import string
 import glob
 import bisect
-
+import fnmatch 
 
 def wikiParserFactory(config):
     """Construct an instance of the correct parser class, choice depends on what is
@@ -589,10 +589,10 @@ class wikiParserMoinmoin(wikiParser):
 
         :return: None
         """
-        # print "in GetFileFromWiki"
-        # print self.wikifile
+        print "in GetFileFromWiki"
+        print self.wikifile
 
-        # print figfile
+        print figfile
 
 
         # try to find out what the candidate files are:
@@ -606,12 +606,23 @@ class wikiParserMoinmoin(wikiParser):
             # possible files: with any ending, in attachement path
             files = glob.glob (candidateFiles)
         else:
+	    # print "trying by treewalk"
+            # print self.wikiAttachementPath
+            # print os.getcwd()
             files = []
-            for root, dirnames, filenames in os.walk (self.wikiAttachementPath):
-                for filename in fnmatch.filter (filenames, figfile+'.*'):
-                    files.append(os.path.join(self.wikiAttachementPath, filename))
+            rdf = os.walk (self.wikiAttachementPath)
+            # print rdf
+	    try:
+            	for root, dirnames, filenames in rdf: 
+                    # print root, dirnames, filenames 
+                    for filename in fnmatch.filter (filenames, figfile+'.*'):
+		        # print "filename", filename 
+                    	files.append(os.path.join(root, filename))
+            except Exception as e: 
+                print "Exception", type(e)
 
 
+        # print "files: ", files 
 
         for f in files:
             fBase = os.path.basename(f)
@@ -628,7 +639,6 @@ class wikiParserMoinmoin(wikiParser):
                     loop
             # otherwise: copy the file from the attachement path to the uploaded latex directory
             shutil.copy2(f, existingFile)
-            return None
 
 
 
