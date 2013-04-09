@@ -986,19 +986,19 @@ def writeTemplateResult (expanded, templ, keytouse = None):
             p = re.compile (r'(?P<beforeFigure>.*)(?P<beginfigure>\\begin{figure})(?P<bodyfigure>.*)(?P<endfigure>\\end{figure})(?P<afterfigure>.*\\end{framed}.*)',
                             re.DOTALL)
             for o in inlines[1:]:
-                print "---------------------"
+                # print "---------------------"
 
                 m = p.match (o)
                 while m:
-                    print "before figure:", m.group('beforeFigure')
-                    print "--------"
-                    print "begin figure:", m.group('beginfigure')
-                    print "--------"
-                    print "body figure:", m.group('bodyfigure')
-                    print "--------"
-                    print "end figure:", m.group('endfigure')
-                    print "--------"
-                    print "after figure:", m.group('afterfigure')
+                    # print "before figure:", m.group('beforeFigure')
+                    # print "--------"
+                    # print "begin figure:", m.group('beginfigure')
+                    # print "--------"
+                    # print "body figure:", m.group('bodyfigure')
+                    # print "--------"
+                    # print "end figure:", m.group('endfigure')
+                    # print "--------"
+                    # print "after figure:", m.group('afterfigure')
 
                     o = m.group('beforeFigure') + \
                         m.group('afterfigure') + \
