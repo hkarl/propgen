@@ -69,7 +69,7 @@
 \usepackage{textcomp}           %for euro symbol
 
 \usepackage{graphicx}
-\graphicspath{{Figures/}{figures/}}
+\graphicspath{{Figures/}{figures/}{../generated/uploaded/}}
 
 %%% make sure to use the pgfgantt file from the SVN! 
 \usepackage{styles/pgfgantt}
@@ -149,11 +149,15 @@
   \addcontentsline{toc}{chapter}{\numberline{}List of Figures}
 }{}
 \ifthenelse{\boolean{LaTeX-showAcronymList}}{
-  \input{AcronymsList}}{}
+  \chapter*{List of Acronyms}
+  \addcontentsline{toc}{chapter}{\numberline{}List of Acronyms}
+  \input{AcronymsList}
+}{}
 }
 
 
 \ifthenelse{\boolean{LaTeX-showWarnings}}{
+\newpage
 \listoffixmes
 \IfFileExists{warnings.tex}{
   \begin{compactitem}
