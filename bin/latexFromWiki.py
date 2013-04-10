@@ -47,9 +47,9 @@ def handleFile (f, outdir, parser, config, verbose=False):
     # caution: we have to open that as UTF-8 files!
     wiki = codecs.open (f, 'r', 'utf-8').read()
 
-    if verbose:
-        print wiki
-        print parser.getLaTeX (wiki)
+    # if verbose:
+    #     print wiki
+    #     print parser.getLaTeX (wiki)
 
     utils.writefile (parser.getLaTeX (wiki, fileName), os.path.join (outdir, fileName+suffix))
 

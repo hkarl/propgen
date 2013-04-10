@@ -265,7 +265,7 @@ class wikiParser:
                 # strip of any extension of the filename first - TODO 
                 mm = re.search(r'([^.]*?)\..*', d['file'])
                 if mm:
-                    utils.warning ("No need to specify file extension for graphic inclusion, file: " + d['file'])
+                    # utils.warning ("No need to specify file extension for graphic inclusion, file: " + d['file'])
                     d['file'] = mm.group(1)
 
                 self.getFileFromWiki (d['file'])
