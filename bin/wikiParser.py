@@ -701,7 +701,7 @@ class wikiParserMoinmoin(wikiParser):
         # camel case stuff? (not sure this applies to moimon ? 
         latex = re.sub (r' !([a-z0-9]*?[A-Z]\w*?) ', r' \1 ', latex)
 
-        latex = re.sub (r'&ldquo;', r"`", latex)
+        latex = re.sub (r'&ldquo;', r"``", latex)
         latex = re.sub (r'&rdquo;', r"''", latex)
 
 
