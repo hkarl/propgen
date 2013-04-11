@@ -698,7 +698,11 @@ class wikiParserMoinmoin(wikiParser):
         latex = re.sub (r"''(.+?)''", r'\\emph{\1}', latex) 
 
         # camel case stuff? (not sure this applies to moimon ? 
-        latex = re.sub (r' !([a-z0-9]*?[A-Z]\w*?) ', r' \1 ', latex) 
+        latex = re.sub (r' !([a-z0-9]*?[A-Z]\w*?) ', r' \1 ', latex)
+
+        latex = re.sub (r'&lduo;', r"``", latex)
+        latex = re.sub (r'&rduo;', r"''", latex)
+
 
         return latex
 
