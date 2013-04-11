@@ -520,6 +520,7 @@ class wikiParser:
         Remove whitspaces and obvious strange characters."""
 
         # in case someone has the bright idea to put ampersands in the titles: 
+        t = re.sub ('\&', '', t)
         t = re.sub ('&', '', t)
 
         # remove double whitespaces:
