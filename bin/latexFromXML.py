@@ -504,7 +504,7 @@ def computeGanttStrings (config):
         list might contain milestones of other WPs as well in case a
         task of this WP contributes to the milestone."""
         
-        wp["milestoneGanttLegend"] = "\n".join([Template(config.get("Gantts","milestoneLegendTemplate")).substitute(x) for x in milestoneList])
+        wp["milestoneGanttLegend"] = "\n".join([Template(config.get("Gantts","milestoneLegendTemplate")).safe_substitute(x) for x in milestoneList])
         wp.keydoc = """The part of the Gantt legend pertaining to the
         milestones. Its look is controlled by the
         milestoneLegendTemplate in settings.cfg."""
@@ -529,7 +529,7 @@ def computeGanttStrings (config):
         wp["deliverableInGantt"] = [d["Label"] for d in deliverableList]
         wp.keydoc = "Compare the same corresponding key for milestones."
 
-        wp["deliverableGanttLegend"] = "\n".join([Template(config.get("Gantts","deliverableLegendTemplate")).substitute(x) for x in deliverableList])
+        wp["deliverableGanttLegend"] = "\n".join([Template(config.get("Gantts","deliverableLegendTemplate")).safe_substitute(x) for x in deliverableList])
         wp.keydoc = "Compare the same corresponding key for milestones."
 
         
@@ -595,13 +595,13 @@ def computeGanttStrings (config):
 
     for d in allDeliverables:
         d['ganttLegend'] = Template(config.get("Gantts",
-                                               "deliverableLegendTemplate")).substitute(d)
+                                               "deliverableLegendTemplate")).safe_substitute(d)
         d.keydoc = """The string to be put into the legend of a Gantt
         chart for this deliverable. Controlled by the
         deliverableLegendTemplate option in settings.cfg. """
 
     for ms in allMilestones:
-        ms['ganttLegend'] = Template(config.get("Gantts","milestoneLegendTemplate")).substitute(ms)
+        ms['ganttLegend'] = Template(config.get("Gantts","milestoneLegendTemplate")).safe_substitute(ms)
         ms.keydoc = """The string to be put into the legend of a Gantt
         chart for this milestone. Controlled by the
         deliverableLegendTemplate option in settings.cfg. """
@@ -726,10 +726,12 @@ class recursiveTemplate(Template):
         tmp = re.sub (r'\${([_a-zA-Z][_a-zA-Z0-9]*)_(\${([_a-zA-Z][_a-zA-Z0-9]*)})}',
                 lambda m: "${" + m.group(1) + "_" + d[m.group(3)] +"}",
                 tmp)
+        # print "======================================================================="
         # print "template after RE: ", tmp
         # pp(d)
+        # print "======================================================================="
         ts = Template(tmp)
-        substituted =  ts.substitute (d)
+        substituted =  ts.safe_substitute (d)
         # print substituted 
         # print re.findall (r'%{(.*?)}', substituted)
         ## print "----"
@@ -766,11 +768,11 @@ def generateTemplatesBuildListResult (templ, listtoworkon,
             ## print "--------------"
             # pp(dicttouse)
             # pp (listtoworkon)
-            substitutedValues = [ ((t.substitute(dict (dicttouse, **x)), x) if isinstance (x, dict)
-                                   else (t.substitute(dict (dicttouse, **{"Listelement": x})), x))
+            substitutedValues = [ ((t.safe_substitute(dict (dicttouse, **x)), x) if isinstance (x, dict)
+                                   else (t.safe_substitute(dict (dicttouse, **{"Listelement": x})), x))
             for x in listtoworkon]
         else:
-            substitutedValues = [(t.substitute(x), x) for x in listtoworkon]
+            substitutedValues = [(t.safe_substitute(x), x) for x in listtoworkon]
     else:
         substitutedValues = [ (x, None) for x in listtoworkon]
     
@@ -903,7 +905,7 @@ def generateTemplates(config, verbose):
             if templ.has_key("dict"):
                 # dealing with a dictionary is quite straightforward. 
                 t = recursiveTemplate(templ["template"])
-                exp =  t.substitute (eval(templ["dict"]))
+                exp =  t.safe_substitute (eval(templ["dict"]))
                 expanded[templ["label"]] = exp.strip()
             else:
                 # print "Template " + templ["label"] + " has neither dict not list; makes no sense."
