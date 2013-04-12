@@ -398,10 +398,10 @@ class wikiParser:
                 if not inTable:
 
                     if tabularHeader:
-                        latex+= "{\\centering\\begin{tabular}{" + tabularHeader  + "}\n"
+                        latex+= "\\centering\\begin{tabular}{" + tabularHeader  + "}\n"
                         tabularHeader = ""
                     else:
-                        latex+= "{\\centering\\begin{tabular}{" + (colstring * cols)  + "}\n"
+                        latex+= "\\centering\\begin{tabular}{" + (colstring * cols)  + "}\n"
                     latex+= "\\toprule\n"
                     latex+= ll + "\\\\ \n"
                     latex+= "\\midrule\n"
@@ -412,7 +412,7 @@ class wikiParser:
             else:
                 if inTable:
                     # we just left a table 
-                    latex+= "\\bottomrule \n\\end{tabular}}\n"
+                    latex+= "\\bottomrule \n\\end{tabular}\n"
                     inTable=False
 
                 latex += l + '\n'
@@ -520,7 +520,7 @@ class wikiParser:
         Remove whitspaces and obvious strange characters."""
 
         # in case someone has the bright idea to put ampersands in the titles: 
-        t = re.sub ('\&', '', t)
+        # t = re.sub ('\\\\&', '', t)
         t = re.sub ('&', '', t)
 
         # remove double whitespaces:

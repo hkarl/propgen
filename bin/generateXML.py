@@ -78,6 +78,7 @@ def dictAsXML (d, parser=None, specialFields=[]):
                     t += "<" + kk + ' main="True">' + unicode(vvv) + "</" + kk + ">\n"
         else:
             k = re.sub ('\s', '', k) 
+            # print "converting to latex: ", k
             t += "<" + k + ">" + (parser.getLaTeX(unicode(v)) if parser else unicode(v)).strip() + "</" + k + ">\n"
 
     return t 
@@ -134,7 +135,10 @@ def singleWorkpackageXML (wp, wpwiki, parser, wpcount):
                         dictAsXML(task, parser) + \
                         "</task>\n"
         except:
-            utils.warning("Could not properly convert task in workpackage generation, wp " + wpwiki)
+            pp (task) 
+            utils.warning("Could not properly convert task in workpackage generation, wp " + 
+                          # wpwiki + ", "  + 
+                          task["Label"])
             wpTasksXML += '<task id="' + task["Label"] + '">\n'  + \
                           "Conversion error occured here!" + \
                           "</task>\n"
