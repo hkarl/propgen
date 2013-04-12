@@ -14,6 +14,8 @@ generates the LaTeX output. To this end, it uses a couple of steps:
 
    4. The partner descriptions are generated - generatePartnerDescriptions
 
+   4b. Parse the Excel file with bdget, if present 
+
    5. The templates from latexTemplates.cfg are processed; this is the
       main step for all the details of LaTeX producting - generateTemplates
 
@@ -1083,6 +1085,41 @@ def generatePartnerDescriptions(config, verbose):
                      os.path.join(config.get('PathNames', 'genlatexpartnerspath'),
                                   'partnersIncluder.tex'))
 
+
+def parseBudget (config):
+    """
+    If there is a budget file (excel), read in the data from there
+    """
+
+    import xlrd
+
+    try:
+	wb = xlrd.open_workbook (os.path.join('..',
+					      config.get('Budget', 'file')))
+	sh = wb.sheet_by_name (config.get('Budget', 'sheet'))
+	for i in range (config.getint('Budget', 'partnerCol')-1,
+			config.getint('Budget', 'partnerCol')-1 + len(partnerList)):
+	    partner = sh.cell_value (config.getint('Budget', 'partnerRow')-1,
+				     i)
+
+	    dd = {}
+	    for d in ['totalResearch', 'requestedResearch',
+		      'totalManagement', 'requestedManagement',
+		      'totalCost', 'totalRequested', 'PMCost']:
+		dd[d]= sh.cell_value (config.getint('Budget', d)-1,
+				     i)
+
+	    # print partner, dd
+
+	    for p in partnerList:
+		if p['Shortname'] == partner:
+		    p.update (dd)
+    except:
+	print "Warning: No budget file found or problems parsing it"
+
+
+    # pp (partnerList)
+
 ########################################
 if __name__ == '__main__':
     import sys
@@ -1129,7 +1166,8 @@ if __name__ == '__main__':
     computeWPTable (config) 
 
     generatePartnerDescriptions (config, options.verbose)
-    
+
+    parseBudget (config)
     
     generateTemplates (config, options.verbose)
 
