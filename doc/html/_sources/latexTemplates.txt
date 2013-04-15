@@ -27,7 +27,7 @@ out of these two parts. This third part is then written to file
     {\\LARGE \\textbf{  ${projectname}  }} \\\\[.3cm]
     {\\LARGE Acronym: \\textbf{  ${projectshort}  }} \\\\[.3cm]
     \\end{center}
-    {\\large Date of Preparation: \\today }\\\\[1em]
+    {\\large Date of Preparation: \\today, \\currenttime }\\\\[1em]
     \\begin{large}
     \\begin{description}
     \\item[Work program topics  addressed:]  ${topics}
@@ -555,6 +555,32 @@ this happens in several steps
     Default:   gantts
 
 .. index::
+   single:  latexTemplates.cfg ;  allTaskList
+
+allTaskList
+===========
+.. program::  allTaskList
+
+
+
+.. describe:: template
+
+    
+    Default:         \\ifthenelse{\\boolean{Gantts-ShowWPBar}}{
+    ${groupbar}}{}
+    ${taskGantt}
+
+.. describe:: list
+
+    
+    Default:   allWPDicts 
+
+.. describe:: dir
+
+    
+    Default:   gantts
+
+.. index::
    single:  latexTemplates.cfg ;  allTaskDelMS
 
 allTaskDelMS
@@ -574,6 +600,30 @@ a string
 
     
     Default:   expanded['allTaskDelMSList']
+
+.. describe:: joiner
+
+    
+    Default:   \\\\ \\n
+
+.. index::
+   single:  latexTemplates.cfg ;  allTask
+
+allTask
+=======
+.. program::  allTask
+
+
+
+.. describe:: template
+
+    
+    Default:   
+
+.. describe:: list
+
+    
+    Default:   expanded['allTaskList']
 
 .. describe:: joiner
 
@@ -628,6 +678,43 @@ allMSLegend
     
     Default:    \\n
      
+
+.. index::
+   single:  latexTemplates.cfg ;  CompleteGanttNoDelMS
+
+CompleteGanttNoDelMS
+====================
+.. program::  CompleteGanttNoDelMS
+
+
+
+.. describe:: template
+
+    
+    Default:    \\begin{figure}[htbp]
+    \\centering\\maxsizebox{0.95\\textwidth}{0.95\\textheight}{	
+    ${ganttPrefix} \\\\
+    ${allTask}
+    ${ganttPostfix}
+    } % closes adjustbox
+    \\caption[Overall Gantt chart for the entire project, showing all tasks]{Overall Gantt chart for the entire project, showing all tasks}
+    \\label{fig:completeGanttNoDelMS}
+    \\end{figure}
+
+.. describe:: dict
+
+    
+    Default:   expanded
+
+.. describe:: file
+
+    
+    Default:   True
+
+.. describe:: dir
+
+    
+    Default:   gantts
 
 .. index::
    single:  latexTemplates.cfg ;  CompleteGantt
@@ -781,7 +868,7 @@ and finally: the actual WP files!
     )]) %}
     }{}
     \\ifthenelse{\\boolean{WPTables-tasklistShowsDeliverables}}{
-    %{ (r'\\\\ Contributing to Deliverables: ' +
+    %{ (r'~\\\\ Contributing to Deliverables: ' +
     ', '.join([((r"\\textbf{ %s }" % d['id'])
     if (d['ProducingtaskMain'] == '${Label}')
     else d['id'])
@@ -791,7 +878,7 @@ and finally: the actual WP files!
     else '') %} 
     }{}
     \\ifthenelse{\\boolean{WPTables-tasklistShowsMilestones}}{
-    %{ (r'\\\\ Contributing to Milestones: ' +
+    %{ (r'~\\\\ Contributing to Milestones: ' +
     ', '.join([((r"\\textbf{ %s }" % d['id'])
     if (d['ProducingtaskMain'] == '${Label}')
     else d['id'])
@@ -837,7 +924,7 @@ WpTasksDescriptions
     \\textbf{Task objectives:} ${taskobjectives}}{}
     \\ifthenelse{\\boolean{WPTables-taskboxShowsDescription}}{~ \\\\[0.2cm]
     \\textbf{Description of work:} ${taskdescription}}{}
-    \\ifthenelse{\\boolean{WPTables-taskboxShowsDeliverables}}{ %{ (r"""\\\\[0.3cm]
+    \\ifthenelse{\\boolean{WPTables-taskboxShowsDeliverables}}{ %{ (r"""~\\\\[0.3cm]
     \\noindent {\\centering
     \\begin{tabular}{lp{0.7\\textwidth}l}
     \\multicolumn{3}{l}{\\textbf{Deliverables contributed to by Task ${taskId}:} } \\\\
@@ -852,7 +939,7 @@ WpTasksDescriptions
     %}
     }{}
     \\ifthenelse{\\boolean{WPTables-taskboxShowsMilestones}}{
-    %{ (r"""\\\\[0.3cm]
+    %{ (r"""~\\\\[0.3cm]
     \\noindent   {\\centering
     \\begin{tabular}{lp{0.7\\textwidth}l}
     \\multicolumn{3}{l}{\\textbf{Milestones contributed to by Task ${taskId}:} } \\\\
@@ -1595,55 +1682,14 @@ effortPerTaskTable
     Default:   tables 
 
 .. index::
-   single:  latexTemplates.cfg ;  piePMsPartners
-
-piePMsPartners
-==============
-.. program::  piePMsPartners
-
-pie charts 
-a pie chart showing person months distributed over partners 
-
-
-.. describe:: template
-
-    
-    Default:   \\ifthenelse{\\boolean{Summaries-piePMsPartners}}{
-    \\begin{figure}[htbp]
-    \\centering
-    \\begin{tikzpicture}
-    \\pie[scale font]{ %{ utils.roundPie ([ (x['Shortname'], 
-    sum([int(e['resources']) for e in allEfforts if e['partner']==x['Shortname']])) 
-    for x in partnerList])
-    %}}
-    \\end{tikzpicture}
-    \\caption{Distribution of person months over partners  (in percent)}
-    \\label{fig:pie:pm:partner}
-    \\end{figure}
-    }{}
-
-.. describe:: dict
-
-    
-    Default:   expanded 
-
-.. describe:: file
-
-    
-    Default:   True 
-
-.. describe:: dir
-
-    
-    Default:   pies 
-
-.. index::
    single:  latexTemplates.cfg ;  piePMsWPs
 
 piePMsWPs
 =========
 .. program::  piePMsWPs
 
+pie charts 
+Pie over WPs, here on Person month (budget rather compliced. TODO) 
 
 
 .. describe:: template
@@ -1679,12 +1725,236 @@ piePMsWPs
     Default:   pies 
 
 .. index::
-   single:  latexTemplates.cfg ;  piePMsNations
+   single:  latexTemplates.cfg ;  piePMsPartners_tikz
 
-piePMsNations
-=============
-.. program::  piePMsNations
+piePMsPartners_tikz
+===================
+.. program::  piePMsPartners_tikz
 
+Pies, Grouped by Partners 
+a pie chart showing person months distributed over partners 
+first, the actual tikz figures 
+
+
+.. describe:: template
+
+    
+    Default:    \\begin{tikzpicture}
+    \\pie[scale font]{ %{ utils.roundPie ([ (x['Shortname'], 
+    sum([int(e['resources']) for e in allEfforts if e['partner']==x['Shortname']])) 
+    for x in partnerList])
+    %}}
+    \\end{tikzpicture}
+
+.. describe:: dict
+
+    
+    Default:   expanded 
+
+.. index::
+   single:  latexTemplates.cfg ;  pieBudgetPartners_tikz
+
+pieBudgetPartners_tikz
+======================
+.. program::  pieBudgetPartners_tikz
+
+
+
+.. describe:: template
+
+    
+    Default:    \\begin{tikzpicture}
+    \\pie[scale font]{ %{ utils.roundPie ([ (x['Shortname'], 
+    int(x['totalCost']))
+    for x in partnerList])
+    %}}
+    \\end{tikzpicture}
+
+.. describe:: dict
+
+    
+    Default:   expanded 
+
+.. index::
+   single:  latexTemplates.cfg ;  pieRequestedBudgetPartners_tikz
+
+pieRequestedBudgetPartners_tikz
+===============================
+.. program::  pieRequestedBudgetPartners_tikz
+
+
+
+.. describe:: template
+
+    
+    Default:    \\begin{tikzpicture}
+    \\pie[scale font]{ %{ utils.roundPie ([ (x['Shortname'], 
+    int(x['totalRequested']))
+    for x in partnerList])
+    %}}
+    \\end{tikzpicture}
+
+.. describe:: dict
+
+    
+    Default:   expanded
+
+.. index::
+   single:  latexTemplates.cfg ;  piePMsPartners
+
+piePMsPartners
+==============
+.. program::  piePMsPartners
+
+and then, combining the tikz figures to actual figures: 
+first, individual figures, then a compact representation 
+
+
+.. describe:: template
+
+    
+    Default:   \\ifthenelse{\\boolean{Summaries-piePMsPartners}}{
+    \\begin{figure}[htbp]
+    \\centering
+    ${piePMsPartners_tikz}
+    \\caption{Distribution of person months over partners  (in percent)}
+    \\label{fig:pie:pm:partner}
+    \\end{figure}
+    }{}
+
+.. describe:: dict
+
+    
+    Default:   expanded 
+
+.. describe:: file
+
+    
+    Default:   True 
+
+.. describe:: dir
+
+    
+    Default:   pies 
+
+.. index::
+   single:  latexTemplates.cfg ;  pieBudgetPartners
+
+pieBudgetPartners
+=================
+.. program::  pieBudgetPartners
+
+
+
+.. describe:: template
+
+    
+    Default:   \\ifthenelse{\\boolean{Summaries-pieBudgetPartners}}{
+    \\begin{figure}[htbp]
+    \\centering
+    ${pieBudgetPartners_tikz}
+    \\caption{Distribution of total budget over partners  (in percent)}
+    \\label{fig:pie:budget:partner}
+    \\end{figure}
+    }{}
+
+.. describe:: dict
+
+    
+    Default:   expanded 
+
+.. describe:: file
+
+    
+    Default:   True 
+
+.. describe:: dir
+
+    
+    Default:   pies 
+
+.. index::
+   single:  latexTemplates.cfg ;  pieRequestedBudgetPartners
+
+pieRequestedBudgetPartners
+==========================
+.. program::  pieRequestedBudgetPartners
+
+
+
+.. describe:: template
+
+    
+    Default:   \\ifthenelse{\\boolean{Summaries-pieRequestedBudgetPartners}}{
+    \\begin{figure}[htbp]
+    \\centering
+    ${pieRequestedBudgetPartners_tikz}
+    \\caption{Distribution of requested budget over partners  (in percent)}
+    \\label{fig:pie:requested:partner}
+    \\end{figure}
+    }{}
+
+.. describe:: dict
+
+    
+    Default:   expanded 
+
+.. describe:: file
+
+    
+    Default:   True 
+
+.. describe:: dir
+
+    
+    Default:   pies 
+
+.. index::
+   single:  latexTemplates.cfg ;  piePartnersCompact
+
+piePartnersCompact
+==================
+.. program::  piePartnersCompact
+
+
+
+.. describe:: template
+
+    
+    Default:   \\ifthenelse{\\boolean{Summaries-piePartnersCompact}}{
+    \\begin{figure}[htbp]
+    \\centering
+    \\subfigure[Person months]{\\adjustbox{width=0.3\\textwidth}{${piePMsPartners_tikz}}} \\goodgap
+    \\subfigure[Total cost]{\\adjustbox{width=0.3\\textwidth}{ ${pieBudgetPartners_tikz}}} \\goodgap
+    \\subfigure[Requested Contribution]{\\adjustbox{width=0.3\\textwidth}{${pieRequestedBudgetPartners_tikz}}}
+    \\caption{Distribution of resources over partners  (in percent)}
+    \\label{fig:pie:partner:compact}
+    \\end{figure}
+    }{}
+
+.. describe:: dict
+
+    
+    Default:   expanded 
+
+.. describe:: file
+
+    
+    Default:   True 
+
+.. describe:: dir
+
+    
+    Default:   pies 
+
+.. index::
+   single:  latexTemplates.cfg ;  piePMsNations_tikz
+
+piePMsNations_tikz
+==================
+.. program::  piePMsNations_tikz
+
+pie charts, grouped by nations 
 pie chart over person months assigned to different nations
 a little bit more complicated: we need to pull out the (Nation/Effort) pairs. 
 those we get from allEfforts, where we look up the nation in the partnerList
@@ -1696,10 +1966,7 @@ a suitable reduce function: adding up two values
 .. describe:: template
 
     
-    Default:   \\ifthenelse{\\boolean{Summaries-piePMsNations}}{
-    \\begin{figure}[htbp]
-    \\centering
-    \\begin{tikzpicture}
+    Default:    \\begin{tikzpicture}
     \\pie[scale font]{ %{ utils.roundPie(utils.mapReduce ([   (utils.searchListOfDicts(partnerList,
     'Shortname',
     e['partner'],
@@ -1709,6 +1976,74 @@ a suitable reduce function: adding up two values
     lambda a,b: a+b))
     %}}
     \\end{tikzpicture}
+
+.. describe:: dict
+
+    
+    Default:   expanded
+
+.. index::
+   single:  latexTemplates.cfg ;  pieTotalCostNations_tikz
+
+pieTotalCostNations_tikz
+========================
+.. program::  pieTotalCostNations_tikz
+
+
+
+.. describe:: template
+
+    
+    Default:    \\begin{tikzpicture}
+    \\pie[scale font]{ %{ utils.roundPie(utils.mapReduce ([(x['Nation'], x['totalCost']) for x in partnerList],
+    lambda a,b: a+b))
+    %}}
+    \\end{tikzpicture}
+
+.. describe:: dict
+
+    
+    Default:   expanded
+
+.. index::
+   single:  latexTemplates.cfg ;  pieRequestedNations_tikz
+
+pieRequestedNations_tikz
+========================
+.. program::  pieRequestedNations_tikz
+
+
+
+.. describe:: template
+
+    
+    Default:    \\begin{tikzpicture}
+    \\pie[scale font]{ %{ utils.roundPie(utils.mapReduce ([(x['Nation'], x['totalRequested']) for x in partnerList],
+    lambda a,b: a+b))
+    %}}
+    \\end{tikzpicture}
+
+.. describe:: dict
+
+    
+    Default:   expanded
+
+.. index::
+   single:  latexTemplates.cfg ;  piePMsNations
+
+piePMsNations
+=============
+.. program::  piePMsNations
+
+
+
+.. describe:: template
+
+    
+    Default:   \\ifthenelse{\\boolean{Summaries-piePMsNations}}{
+    \\begin{figure}[htbp]
+    \\centering
+    ${piePMsNations_tikz}
     \\caption{Distribution of person months over nations (in percent)}
     \\label{fig:pie:pm:nations}
     \\end{figure}
@@ -1730,22 +2065,129 @@ a suitable reduce function: adding up two values
     Default:   pies 
 
 .. index::
-   single:  latexTemplates.cfg ;  piePMsPartnerTypes
+   single:  latexTemplates.cfg ;  pieTotalCostNations
 
-piePMsPartnerTypes
-==================
-.. program::  piePMsPartnerTypes
+pieTotalCostNations
+===================
+.. program::  pieTotalCostNations
 
-same thing that worked for the nation pie charts works for the partner type pie charts as well 
 
 
 .. describe:: template
 
     
-    Default:   \\ifthenelse{\\boolean{Summaries-piePMsPartnerTypes}}{
+    Default:   \\ifthenelse{\\boolean{Summaries-pieTotalCostNations}}{
     \\begin{figure}[htbp]
     \\centering
-    \\begin{tikzpicture}
+    ${pieTotalCostNations_tikz}
+    \\caption{Distribution of total cost over nations (in percent)}
+    \\label{fig:pie:total:nations}
+    \\end{figure}
+    }{}
+
+.. describe:: dict
+
+    
+    Default:   expanded 
+
+.. describe:: file
+
+    
+    Default:   True 
+
+.. describe:: dir
+
+    
+    Default:   pies 
+
+.. index::
+   single:  latexTemplates.cfg ;  pieRequestedNations
+
+pieRequestedNations
+===================
+.. program::  pieRequestedNations
+
+
+
+.. describe:: template
+
+    
+    Default:   \\ifthenelse{\\boolean{Summaries-pieRequestedNations}}{
+    \\begin{figure}[htbp]
+    \\centering
+    ${pieRequestedNations_tikz}
+    \\caption{Distribution of requested contribution over nations (in percent)}
+    \\label{fig:pie:requested:nations}
+    \\end{figure}
+    }{}
+
+.. describe:: dict
+
+    
+    Default:   expanded 
+
+.. describe:: file
+
+    
+    Default:   True 
+
+.. describe:: dir
+
+    
+    Default:   pies 
+
+.. index::
+   single:  latexTemplates.cfg ;  pieNationsCompact
+
+pieNationsCompact
+=================
+.. program::  pieNationsCompact
+
+
+
+.. describe:: template
+
+    
+    Default:   \\ifthenelse{\\boolean{Summaries-pieNationsCompact}}{
+    \\begin{figure}[htbp]
+    \\centering
+    \\subfigure[Person months]{\\adjustbox{width=0.3\\textwidth}{${piePMsNations_tikz}}} \\goodgap
+    \\subfigure[Total cost]{\\adjustbox{width=0.3\\textwidth}{ ${pieTotalCostNations_tikz}}} \\goodgap
+    \\subfigure[Requested Contribution]{\\adjustbox{width=0.3\\textwidth}{${pieRequestedNations_tikz}}}
+    \\caption{Distribution of resources over nations  (in percent)}
+    \\label{fig:pie:nations:compact}
+    \\end{figure}
+    }{}
+
+.. describe:: dict
+
+    
+    Default:   expanded 
+
+.. describe:: file
+
+    
+    Default:   True 
+
+.. describe:: dir
+
+    
+    Default:   pies 
+
+.. index::
+   single:  latexTemplates.cfg ;  piePMsPartnerTypes_tikz
+
+piePMsPartnerTypes_tikz
+=======================
+.. program::  piePMsPartnerTypes_tikz
+
+and finally, pie charts for partner types; very similat to the nations grouping 
+
+
+.. describe:: template
+
+    
+    Default:   \\begin{tikzpicture}
     \\pie[scale font]{ %{ utils.roundPie(utils.mapReduce ([   (utils.searchListOfDicts(partnerList,
     'Shortname',
     e['partner'],
@@ -1755,8 +2197,186 @@ same thing that worked for the nation pie charts works for the partner type pie 
     lambda a,b: a+b))
     %}}
     \\end{tikzpicture}
-    \\caption{Distribution of partner types over nations (in percent)}
+
+.. describe:: dict
+
+    
+    Default:   expanded
+
+.. index::
+   single:  latexTemplates.cfg ;  pieTotalCostPartnerTypes_tikz
+
+pieTotalCostPartnerTypes_tikz
+=============================
+.. program::  pieTotalCostPartnerTypes_tikz
+
+
+
+.. describe:: template
+
+    
+    Default:   \\begin{tikzpicture}
+    \\pie[scale font]{ %{ utils.roundPie(utils.mapReduce ([(x['Type'], x['totalCost']) for x in partnerList],
+    lambda a,b: a+b))
+    %}}
+    \\end{tikzpicture}
+
+.. describe:: dict
+
+    
+    Default:   expanded
+
+.. index::
+   single:  latexTemplates.cfg ;  pieRequestedPartnerTypes_tikz
+
+pieRequestedPartnerTypes_tikz
+=============================
+.. program::  pieRequestedPartnerTypes_tikz
+
+
+
+.. describe:: template
+
+    
+    Default:   \\begin{tikzpicture}
+    \\pie[scale font]{ %{ utils.roundPie(utils.mapReduce ([(x['Type'], x['totalRequested']) for x in partnerList],
+    lambda a,b: a+b))
+    %}}
+    \\end{tikzpicture}
+
+.. describe:: dict
+
+    
+    Default:   expanded
+
+.. index::
+   single:  latexTemplates.cfg ;  piePMsPartnerTypes
+
+piePMsPartnerTypes
+==================
+.. program::  piePMsPartnerTypes
+
+
+
+.. describe:: template
+
+    
+    Default:   \\ifthenelse{\\boolean{Summaries-piePMsPartnerTypes}}{
+    \\begin{figure}[htbp]
+    \\centering
+    ${piePMsPartnerTypes_tikz}
+    \\caption{Distribution of person months over partner types (in percent)}
     \\label{fig:pie:pm:partnertype}
+    \\end{figure}
+    }{}
+
+.. describe:: dict
+
+    
+    Default:   expanded 
+
+.. describe:: file
+
+    
+    Default:   True 
+
+.. describe:: dir
+
+    
+    Default:   pies 
+
+.. index::
+   single:  latexTemplates.cfg ;  pieTotalCostPartnerType
+
+pieTotalCostPartnerType
+=======================
+.. program::  pieTotalCostPartnerType
+
+
+
+.. describe:: template
+
+    
+    Default:   \\ifthenelse{\\boolean{Summaries-pieTotalCostPartnerType}}{
+    \\begin{figure}[htbp]
+    \\centering
+    ${pieTotalCostPartnerTypes_tikz}
+    \\caption{Distribution of total cost over partner type (in percent)}
+    \\label{fig:pie:total:nations}
+    \\end{figure}
+    }{}
+
+.. describe:: dict
+
+    
+    Default:   expanded 
+
+.. describe:: file
+
+    
+    Default:   True 
+
+.. describe:: dir
+
+    
+    Default:   pies 
+
+.. index::
+   single:  latexTemplates.cfg ;  pieRequestedPartnerType
+
+pieRequestedPartnerType
+=======================
+.. program::  pieRequestedPartnerType
+
+
+
+.. describe:: template
+
+    
+    Default:   \\ifthenelse{\\boolean{Summaries-pieRequestedNations}}{
+    \\begin{figure}[htbp]
+    \\centering
+    ${pieRequestedPartnerTypes_tikz}
+    \\caption{Distribution of requested contribution over partner type (in percent)}
+    \\label{fig:pie:requested:nations}
+    \\end{figure}
+    }{}
+
+.. describe:: dict
+
+    
+    Default:   expanded 
+
+.. describe:: file
+
+    
+    Default:   True 
+
+.. describe:: dir
+
+    
+    Default:   pies 
+
+.. index::
+   single:  latexTemplates.cfg ;  piePartnerTypeCompact
+
+piePartnerTypeCompact
+=====================
+.. program::  piePartnerTypeCompact
+
+
+
+.. describe:: template
+
+    
+    Default:   \\ifthenelse{\\boolean{Summaries-piePartnerTypeCompact}}{
+    \\begin{figure}[htbp]
+    \\centering
+    \\subfigure[Person months]{\\adjustbox{width=0.3\\textwidth}{${piePMsPartnerTypes_tikz}}} \\goodgap
+    \\subfigure[Total cost]{\\adjustbox{width=0.3\\textwidth}{ ${pieTotalCostPartnerTypes_tikz}}} \\goodgap
+    \\subfigure[Requested Contribution]{\\adjustbox{width=0.3\\textwidth}{${pieRequestedPartnerTypes_tikz}}}
+    \\caption{Distribution of resources over partner types  (in percent)}
+    \\label{fig:pie:partnertype:compact}
     \\end{figure}
     }{}
 

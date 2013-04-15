@@ -36,7 +36,7 @@ Ideas for future features
 
   - Either by parsing from/ writing to an Excel
     (or similar) spreadsheet. Relatively easy, but
-    hard to make this general 
+    hard to make this general. (This is currently implemented in rudimentary form)  
   
   - Or by putting spreadsheet-functionality onto
     the wiki. Hard to do for different wiki types

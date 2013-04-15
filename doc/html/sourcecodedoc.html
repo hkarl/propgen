@@ -232,6 +232,14 @@ attempts at manual HTML markup.</p>
 <dd><p>Specialized for Moinmoin. Especially the order of the heading
 replacement regular expressions is tricky for moinmoin.</p>
 <dl class="method">
+<dt id="wikiParser.wikiParserMoinmoin.buildLists">
+<tt class="descname">buildLists</tt><big>(</big><em>latex</em><big>)</big><a class="headerlink" href="#wikiParser.wikiParserMoinmoin.buildLists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moinmoin has a rather different approach to building lists since it does not mandate a fixed number
+of whitespaces per indentation level. Rather, any increase is seen to go one step deeper. This rules out the
+ability to jump over several levels, though.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="wikiParser.wikiParserMoinmoin.extractFigureKeys">
 <tt class="descname">extractFigureKeys</tt><big>(</big><em>kvstring</em><big>)</big><a class="headerlink" href="#wikiParser.wikiParserMoinmoin.extractFigureKeys" title="Permalink to this definition">¶</a></dt>
 <dd><p>For building a figure, the moinmoin syntax can be exploited
@@ -322,6 +330,9 @@ analyzeTree function.</p>
 <li>Statistics are computed - computeStatistics</li>
 <li>The tables for the WP are generated - computeWPTable</li>
 <li>The partner descriptions are generated - generatePartnerDescriptions</li>
+</ol>
+<p>4b. Parse the Excel file with bdget, if present</p>
+<ol class="arabic simple" start="5">
 <li>The templates from latexTemplates.cfg are processed; this is the
 main step for all the details of LaTeX producting - generateTemplates</li>
 <li>Finally, LaTeX options in settings.cfg - processLaTeX</li>
@@ -509,6 +520,12 @@ directory (relative to the genlatexpath option).</dd>
 <tt class="descclassname">latexFromXML.</tt><tt class="descname">generateTemplatesBuildListResult</tt><big>(</big><em>templ</em>, <em>listtoworkon</em>, <em>keytosave</em>, <em>expandedresults</em><big>)</big><a class="headerlink" href="#latexFromXML.generateTemplatesBuildListResult" title="Permalink to this definition">¶</a></dt>
 <dd><p>Helper function to deal with lists in the template substition
 process.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="latexFromXML.parseBudget">
+<tt class="descclassname">latexFromXML.</tt><tt class="descname">parseBudget</tt><big>(</big><em>config</em><big>)</big><a class="headerlink" href="#latexFromXML.parseBudget" title="Permalink to this definition">¶</a></dt>
+<dd><p>If there is a budget file (excel), read in the data from there</p>
 </dd></dl>
 
 <dl class="function">
@@ -1274,7 +1291,7 @@ to use to log in.</p>
 <tt class="descname">projectName</tt></dt>
 <dd><p>This option specificies the root Wiki page where the main project information can
 be found. It also serves as the filename of the final pdf file.</p>
-<p>Default:   TestProject</p>
+<p>Default:   SDNIDE</p>
 </dd></dl>
 
 <dl class="describe">
@@ -1716,8 +1733,28 @@ True/False switches.</p>
 
 <dl class="describe">
 <dt>
+<tt class="descname">pieBudgetPartners</tt></dt>
+<dd><p>Same thing, but with budget numbers (either total cost or requested cost)</p>
+<p>Default:   False</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">pieRequestedBudgetPartners</tt></dt>
+<dd><p>Default:   False</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
 <tt class="descname">piePMsPartners</tt></dt>
 <dd><p>A pie chart, showing person month summaries for each partner</p>
+<p>Default:   False</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">piePartnersCompact</tt></dt>
+<dd><p>compact version for partners:</p>
 <p>Default:   True</p>
 </dd></dl>
 
@@ -1725,19 +1762,125 @@ True/False switches.</p>
 <dt>
 <tt class="descname">piePMsPartnerTypes</tt></dt>
 <dd><p>A pie chart, showing person month summaries for each partner type (industry, SME, academic)</p>
-<p>Default:   True</p>
+<p>Default:   False</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">pieTotalCostPartnerType</tt></dt>
+<dd><p>Default:   False</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">pieRequestedPartnerType</tt></dt>
+<dd><p>Default:   False</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">piePartnerTypeCompact</tt></dt>
+<dd><p>Default:   True</p>
 </dd></dl>
 
 <dl class="describe">
 <dt>
 <tt class="descname">piePMsNations</tt></dt>
 <dd><p>A pie chart, showing person month summaries for each nation</p>
-<p>Default:   True</p>
+<p>Default:   False</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">pieTotalCostNations</tt></dt>
+<dd><p>Default:   False</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">pieRequestedNations</tt></dt>
+<dd><p>Default:   False</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">pieNationsCompact</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+</div>
+<div class="section" id="budget">
+<span id="index-4"></span><h3>Budget<a class="headerlink" href="#budget" title="Permalink to this headline">¶</a></h3>
+<p>Budget information extracting from an excel file</p>
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:   budget.xls</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">sheet</tt></dt>
+<dd><p>Default:   Budget</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">partnerRow</tt></dt>
+<dd><p>Default:   3</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">partnerCol</tt></dt>
+<dd><p>Default:   2</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">PMCost</tt></dt>
+<dd><p>Default:   7</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">totalResearch</tt></dt>
+<dd><p>Default:   16</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">requestedResearch</tt></dt>
+<dd><p>Default:   19</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">totalManagement</tt></dt>
+<dd><p>Default:   49</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">requestedManagement</tt></dt>
+<dd><p>Default:   52</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">totalCost</tt></dt>
+<dd><p>Default:   54</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">totalRequested</tt></dt>
+<dd><p>Default:   55</p>
 </dd></dl>
 
 </div>
 <div class="section" id="wptables">
-<span id="index-4"></span><h3>WPTables<a class="headerlink" href="#wptables" title="Permalink to this headline">¶</a></h3>
+<span id="index-5"></span><h3>WPTables<a class="headerlink" href="#wptables" title="Permalink to this headline">¶</a></h3>
 <p>This section collexts all information that is relevant for the
 actual workpackage tables.</p>
 <dl class="describe">
@@ -1935,7 +2078,7 @@ xcolor package) (No highlight: simply use black)</p>
 
 </div>
 <div class="section" id="participants">
-<span id="index-5"></span><h3>Participants<a class="headerlink" href="#participants" title="Permalink to this headline">¶</a></h3>
+<span id="index-6"></span><h3>Participants<a class="headerlink" href="#participants" title="Permalink to this headline">¶</a></h3>
 <p>Options to control the individual participant descriptions in Section 2.2</p>
 <dl class="describe">
 <dt>
@@ -1947,7 +2090,7 @@ To ensure that each partner description starts on an empty page?</p>
 
 </div>
 <div class="section" id="latex">
-<span id="index-6"></span><h3>LaTeX<a class="headerlink" href="#latex" title="Permalink to this headline">¶</a></h3>
+<span id="index-7"></span><h3>LaTeX<a class="headerlink" href="#latex" title="Permalink to this headline">¶</a></h3>
 <p>The LaTeX section coleects options controlling LaTeX
 processing. These are simle True/False flags to turn on/off various
 parts of the proposal.
@@ -1970,7 +2113,7 @@ the final version of the proposal.</p>
 cite commands?  This can be useful to have an idea which labels
 exist for cross-referencing and looking for errors. Turn this off
 for the final version.</p>
-<p>Default:   False</p>
+<p>Default:   True</p>
 </dd></dl>
 
 <dl class="describe">
@@ -2002,7 +2145,7 @@ warnings.tex. Turn this off for the final version.</p>
 AcronymsList.tex. Your choice how to fill this list. NOTE:
 AcronymsList.tex is not included in the default distribution. Just
 setting this flag to True will result in an error.</p>
-<p>Default:   False</p>
+<p>Default:   True</p>
 </dd></dl>
 
 <dl class="describe">
@@ -2016,7 +2159,7 @@ latexTemplates.cfg, sections DeliverableTable and MilestoneTable for
 details.
 (the defaults False / True only for demonstration of the options, pick what
 you prefer...)</p>
-<p>Default:   False</p>
+<p>Default:   True</p>
 </dd></dl>
 
 <dl class="describe">
@@ -2045,7 +2188,7 @@ effortPerTaskTableMultipage sections of latexTemplates.cfg.</p>
 
 </div>
 <div class="section" id="customlatex">
-<span id="index-7"></span><h3>CustomLaTeX<a class="headerlink" href="#customlatex" title="Permalink to this headline">¶</a></h3>
+<span id="index-8"></span><h3>CustomLaTeX<a class="headerlink" href="#customlatex" title="Permalink to this headline">¶</a></h3>
 <p>A section for custom LaTeX commands.  Rationale: there might be some
 things you&#8217;d like to include in your proposal that are not fit for
 making them general, but can be computed based on the numbers
@@ -2085,14 +2228,14 @@ file.</p>
 
 </div>
 <div class="section" id="etherpad">
-<span id="index-8"></span><h3>Etherpad<a class="headerlink" href="#etherpad" title="Permalink to this headline">¶</a></h3>
+<span id="index-9"></span><h3>Etherpad<a class="headerlink" href="#etherpad" title="Permalink to this headline">¶</a></h3>
 <p>Support for Etherpad lite directly from the moinmoin wiki
 This is somewhat experimental</p>
 <dl class="describe">
 <dt>
 <tt class="descname">IP</tt></dt>
 <dd><p>At which IP address can the Etherpad instance be found?</p>
-<p>Default:   127.0.0.1</p>
+<p>Default:   131.234.31.186</p>
 </dd></dl>
 
 <dl class="describe">
@@ -2109,7 +2252,7 @@ This is somewhat experimental</p>
 Useful for a local installation where moinmoin and Etherpad run on a
 local machine. Alternatively, use the Key option to directly provide
 the actual key.</p>
-<p>Default:   ../../etherpad-lite/APIKEY.txt</p>
+<p>Default:   ../APIKEY.txt</p>
 </dd></dl>
 
 <dl class="describe">
@@ -2138,7 +2281,7 @@ generated PADs. Set this to True of False</p>
 <span id="sec-latextemplates-cfg"></span><h2>latexTemplates.cfg<a class="headerlink" href="#latextemplates-cfg" title="Permalink to this headline">¶</a></h2>
 <p>This file contains the input for a little templating engine.</p>
 <div class="section" id="titleheader">
-<span id="index-9"></span><h3>titleheader<a class="headerlink" href="#titleheader" title="Permalink to this headline">¶</a></h3>
+<span id="index-10"></span><h3>titleheader<a class="headerlink" href="#titleheader" title="Permalink to this headline">¶</a></h3>
 <p>Put all the templates to be used for LaTeX configuration here.
 this file works in concert with the settings.cfg file;
 some changes there have to be reflected here (see comments).
@@ -2158,7 +2301,7 @@ out of these two parts. This third part is then written to file</p>
 {\LARGE \textbf{  ${projectname}  }} \\[.3cm]
 {\LARGE Acronym: \textbf{  ${projectshort}  }} \\[.3cm]
 \end{center}
-{\large Date of Preparation: \today }\\[1em]
+{\large Date of Preparation: \today, \currenttime }\\[1em]
 \begin{large}
 \begin{description}
 \item[Work program topics  addressed:]  ${topics}
@@ -2178,7 +2321,7 @@ out of these two parts. This third part is then written to file</p>
 
 </div>
 <div class="section" id="partnertablerow">
-<span id="index-10"></span><h3>partnerTableRow<a class="headerlink" href="#partnertablerow" title="Permalink to this headline">¶</a></h3>
+<span id="index-11"></span><h3>partnerTableRow<a class="headerlink" href="#partnertablerow" title="Permalink to this headline">¶</a></h3>
 <p>Rows for partner table on titlepage:</p>
 <dl class="describe">
 <dt>
@@ -2211,7 +2354,7 @@ sorter = lambda x: x[&#8216;Nation&#8217;]</p>
 
 </div>
 <div class="section" id="titlepage">
-<span id="index-11"></span><h3>titlepage<a class="headerlink" href="#titlepage" title="Permalink to this headline">¶</a></h3>
+<span id="index-12"></span><h3>titlepage<a class="headerlink" href="#titlepage" title="Permalink to this headline">¶</a></h3>
 <p>And the actual titlepage:</p>
 <dl class="describe">
 <dt>
@@ -2242,7 +2385,7 @@ ${partnerTableRow} \\
 
 </div>
 <div class="section" id="wpsummaryrows">
-<span id="index-12"></span><h3>wpSummaryRows<a class="headerlink" href="#wpsummaryrows" title="Permalink to this headline">¶</a></h3>
+<span id="index-13"></span><h3>wpSummaryRows<a class="headerlink" href="#wpsummaryrows" title="Permalink to this headline">¶</a></h3>
 <p>The wp summary table; first the individual rows, one per WP:</p>
 <dl class="describe">
 <dt>
@@ -2264,7 +2407,7 @@ ${partnerTableRow} \\
 
 </div>
 <div class="section" id="wpsummarytable">
-<span id="index-13"></span><h3>wpsummarytable<a class="headerlink" href="#wpsummarytable" title="Permalink to this headline">¶</a></h3>
+<span id="index-14"></span><h3>wpsummarytable<a class="headerlink" href="#wpsummarytable" title="Permalink to this headline">¶</a></h3>
 <p>Then build the complete WP summary table.</p>
 <dl class="describe">
 <dt>
@@ -2305,7 +2448,7 @@ ${wpSummaryRows} \\
 
 </div>
 <div class="section" id="ganttprefix">
-<span id="index-14"></span><h3>ganttPrefix<a class="headerlink" href="#ganttprefix" title="Permalink to this headline">¶</a></h3>
+<span id="index-15"></span><h3>ganttPrefix<a class="headerlink" href="#ganttprefix" title="Permalink to this headline">¶</a></h3>
 <p>Gantt charts start here!
 First, some building blocks for various Gantt charts</p>
 <dl class="describe">
@@ -2333,7 +2476,7 @@ link={-latex, rounded corners=1ex, thick}]{${duration}}
 
 </div>
 <div class="section" id="ganttpostfix">
-<span id="index-15"></span><h3>ganttPostfix<a class="headerlink" href="#ganttpostfix" title="Permalink to this headline">¶</a></h3>
+<span id="index-16"></span><h3>ganttPostfix<a class="headerlink" href="#ganttpostfix" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2343,7 +2486,7 @@ link={-latex, rounded corners=1ex, thick}]{${duration}}
 
 </div>
 <div class="section" id="wpmilestonesuncompressedshow">
-<span id="index-16"></span><h3>WpMilestonesUncompressedShow<a class="headerlink" href="#wpmilestonesuncompressedshow" title="Permalink to this headline">¶</a></h3>
+<span id="index-17"></span><h3>WpMilestonesUncompressedShow<a class="headerlink" href="#wpmilestonesuncompressedshow" title="Permalink to this headline">¶</a></h3>
 <p>and the actual gantts: first, the wp-specific gantts</p>
 <dl class="describe">
 <dt>
@@ -2388,7 +2531,7 @@ ${ganttPostfix}
 
 </div>
 <div class="section" id="wpmilestonesshow">
-<span id="index-17"></span><h3>WpMilestonesShow<a class="headerlink" href="#wpmilestonesshow" title="Permalink to this headline">¶</a></h3>
+<span id="index-18"></span><h3>WpMilestonesShow<a class="headerlink" href="#wpmilestonesshow" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2432,7 +2575,7 @@ ${ganttPostfix}
 
 </div>
 <div class="section" id="wpdeliverablesuncompressedshow">
-<span id="index-18"></span><h3>WpDeliverablesUncompressedShow<a class="headerlink" href="#wpdeliverablesuncompressedshow" title="Permalink to this headline">¶</a></h3>
+<span id="index-19"></span><h3>WpDeliverablesUncompressedShow<a class="headerlink" href="#wpdeliverablesuncompressedshow" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2476,7 +2619,7 @@ ${ganttPostfix}
 
 </div>
 <div class="section" id="wpdeliverablesshow">
-<span id="index-19"></span><h3>WpDeliverablesShow<a class="headerlink" href="#wpdeliverablesshow" title="Permalink to this headline">¶</a></h3>
+<span id="index-20"></span><h3>WpDeliverablesShow<a class="headerlink" href="#wpdeliverablesshow" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2520,7 +2663,7 @@ ${ganttPostfix}
 
 </div>
 <div class="section" id="ganttwp">
-<span id="index-20"></span><h3>ganttWP<a class="headerlink" href="#ganttwp" title="Permalink to this headline">¶</a></h3>
+<span id="index-21"></span><h3>ganttWP<a class="headerlink" href="#ganttwp" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2580,7 +2723,7 @@ ${milestoneGanttLegend}
 
 </div>
 <div class="section" id="ganttwplegend">
-<span id="index-21"></span><h3>ganttWPLegend<a class="headerlink" href="#ganttwplegend" title="Permalink to this headline">¶</a></h3>
+<span id="index-22"></span><h3>ganttWPLegend<a class="headerlink" href="#ganttwplegend" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2639,7 +2782,7 @@ ${milestoneGanttLegend}
 
 </div>
 <div class="section" id="alltaskdelmslist">
-<span id="index-22"></span><h3>allTaskDelMSList<a class="headerlink" href="#alltaskdelmslist" title="Permalink to this headline">¶</a></h3>
+<span id="index-23"></span><h3>allTaskDelMSList<a class="headerlink" href="#alltaskdelmslist" title="Permalink to this headline">¶</a></h3>
 <p>and prepate the complete Gantt chart for the entire project
 this happens in several steps</p>
 <dl class="describe">
@@ -2665,8 +2808,31 @@ ${milestoneGanttString}</p>
 </dd></dl>
 
 </div>
+<div class="section" id="alltasklist">
+<span id="index-24"></span><h3>allTaskList<a class="headerlink" href="#alltasklist" title="Permalink to this headline">¶</a></h3>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:         \ifthenelse{\boolean{Gantts-ShowWPBar}}{
+${groupbar}}{}
+${taskGantt}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">list</tt></dt>
+<dd><p>Default:   allWPDicts</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   gantts</p>
+</dd></dl>
+
+</div>
 <div class="section" id="alltaskdelms">
-<span id="index-23"></span><h3>allTaskDelMS<a class="headerlink" href="#alltaskdelms" title="Permalink to this headline">¶</a></h3>
+<span id="index-25"></span><h3>allTaskDelMS<a class="headerlink" href="#alltaskdelms" title="Permalink to this headline">¶</a></h3>
 <p>the next one is an example with an empty template: it is only used to turn a list into
 a string</p>
 <dl class="describe">
@@ -2688,8 +2854,29 @@ a string</p>
 </dd></dl>
 
 </div>
+<div class="section" id="alltask">
+<span id="index-26"></span><h3>allTask<a class="headerlink" href="#alltask" title="Permalink to this headline">¶</a></h3>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">list</tt></dt>
+<dd><p>Default:   expanded[&#8216;allTaskList&#8217;]</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">joiner</tt></dt>
+<dd><p>Default:   \\ \n</p>
+</dd></dl>
+
+</div>
 <div class="section" id="alldellegend">
-<span id="index-24"></span><h3>allDelLegend<a class="headerlink" href="#alldellegend" title="Permalink to this headline">¶</a></h3>
+<span id="index-27"></span><h3>allDelLegend<a class="headerlink" href="#alldellegend" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2710,7 +2897,7 @@ a string</p>
 
 </div>
 <div class="section" id="allmslegend">
-<span id="index-25"></span><h3>allMSLegend<a class="headerlink" href="#allmslegend" title="Permalink to this headline">¶</a></h3>
+<span id="index-28"></span><h3>allMSLegend<a class="headerlink" href="#allmslegend" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2730,8 +2917,43 @@ a string</p>
 </dd></dl>
 
 </div>
+<div class="section" id="completeganttnodelms">
+<span id="index-29"></span><h3>CompleteGanttNoDelMS<a class="headerlink" href="#completeganttnodelms" title="Permalink to this headline">¶</a></h3>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:    \begin{figure}[htbp]
+\centering\maxsizebox{0.95\textwidth}{0.95\textheight}{
+${ganttPrefix} \\
+${allTask}
+${ganttPostfix}
+} % closes adjustbox
+\caption[Overall Gantt chart for the entire project, showing all tasks]{Overall Gantt chart for the entire project, showing all tasks}
+\label{fig:completeGanttNoDelMS}
+\end{figure}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   gantts</p>
+</dd></dl>
+
+</div>
 <div class="section" id="completegantt">
-<span id="index-26"></span><h3>CompleteGantt<a class="headerlink" href="#completegantt" title="Permalink to this headline">¶</a></h3>
+<span id="index-30"></span><h3>CompleteGantt<a class="headerlink" href="#completegantt" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2766,7 +2988,7 @@ ${ganttPostfix}
 
 </div>
 <div class="section" id="alllegend">
-<span id="index-27"></span><h3>allLegend<a class="headerlink" href="#alllegend" title="Permalink to this headline">¶</a></h3>
+<span id="index-31"></span><h3>allLegend<a class="headerlink" href="#alllegend" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2802,7 +3024,7 @@ ${allMSLegend}
 
 </div>
 <div class="section" id="completeganttfacinglegend">
-<span id="index-28"></span><h3>CompleteGanttFacingLegend<a class="headerlink" href="#completeganttfacinglegend" title="Permalink to this headline">¶</a></h3>
+<span id="index-32"></span><h3>CompleteGanttFacingLegend<a class="headerlink" href="#completeganttfacinglegend" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2847,7 +3069,7 @@ ${allMSLegend}
 
 </div>
 <div class="section" id="wptasks">
-<span id="index-29"></span><h3>WpTasks<a class="headerlink" href="#wptasks" title="Permalink to this headline">¶</a></h3>
+<span id="index-33"></span><h3>WpTasks<a class="headerlink" href="#wptasks" title="Permalink to this headline">¶</a></h3>
 <p>and finally: the actual WP files!</p>
 <dl class="describe">
 <dt>
@@ -2869,7 +3091,7 @@ if pl[&#8216;Shortname&#8217;] == x][0]
 )]) %}
 }{}
 \ifthenelse{\boolean{WPTables-tasklistShowsDeliverables}}{
-%{ (r&#8217;\\ Contributing to Deliverables: &#8216; +
+%{ (r&#8217;~\\ Contributing to Deliverables: &#8216; +
 &#8216;, &#8216;.join([((r&#8221;\textbf{ %s }&#8221; % d[&#8216;id&#8217;])
 if (d[&#8216;ProducingtaskMain&#8217;] == &#8216;${Label}&#8217;)
 else d[&#8216;id&#8217;])
@@ -2879,7 +3101,7 @@ if &#8216;${Label}&#8217; in d[&#8216;Producingtask&#8217;]]
 else &#8216;&#8217;) %}
 }{}
 \ifthenelse{\boolean{WPTables-tasklistShowsMilestones}}{
-%{ (r&#8217;\\ Contributing to Milestones: &#8216; +
+%{ (r&#8217;~\\ Contributing to Milestones: &#8216; +
 &#8216;, &#8216;.join([((r&#8221;\textbf{ %s }&#8221; % d[&#8216;id&#8217;])
 if (d[&#8216;ProducingtaskMain&#8217;] == &#8216;${Label}&#8217;)
 else d[&#8216;id&#8217;])
@@ -2912,7 +3134,7 @@ need to think about the duration, though!</p>
 
 </div>
 <div class="section" id="wptasksdescriptions">
-<span id="index-30"></span><h3>WpTasksDescriptions<a class="headerlink" href="#wptasksdescriptions" title="Permalink to this headline">¶</a></h3>
+<span id="index-34"></span><h3>WpTasksDescriptions<a class="headerlink" href="#wptasksdescriptions" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -2923,7 +3145,7 @@ need to think about the duration, though!</p>
 \textbf{Task objectives:} ${taskobjectives}}{}
 \ifthenelse{\boolean{WPTables-taskboxShowsDescription}}{~ \\[0.2cm]
 \textbf{Description of work:} ${taskdescription}}{}
-\ifthenelse{\boolean{WPTables-taskboxShowsDeliverables}}{ %{ (r&#8221;&#8220;&#8221;\\[0.3cm]
+\ifthenelse{\boolean{WPTables-taskboxShowsDeliverables}}{ %{ (r&#8221;&#8220;&#8221;~\\[0.3cm]
 \noindent {\centering
 \begin{tabular}{lp{0.7\textwidth}l}
 \multicolumn{3}{l}{\textbf{Deliverables contributed to by Task ${taskId}:} } \\
@@ -2938,7 +3160,7 @@ if [d for d in allDeliverables if &#8216;${Label}&#8217; in d[&#8216;Producingta
 %}
 }{}
 \ifthenelse{\boolean{WPTables-taskboxShowsMilestones}}{
-%{ (r&#8221;&#8220;&#8221;\\[0.3cm]
+%{ (r&#8221;&#8220;&#8221;~\\[0.3cm]
 \noindent   {\centering
 \begin{tabular}{lp{0.7\textwidth}l}
 \multicolumn{3}{l}{\textbf{Milestones contributed to by Task ${taskId}:} } \\
@@ -2983,7 +3205,7 @@ int(x[&#8216;resources&#8217;]) &gt; 0 ])
 
 </div>
 <div class="section" id="wpdeliverables">
-<span id="index-31"></span><h3>WpDeliverables<a class="headerlink" href="#wpdeliverables" title="Permalink to this headline">¶</a></h3>
+<span id="index-35"></span><h3>WpDeliverables<a class="headerlink" href="#wpdeliverables" title="Permalink to this headline">¶</a></h3>
 <p>the deliverable and milestone list per WP, along with more detailed description</p>
 <dl class="describe">
 <dt>
@@ -3019,7 +3241,7 @@ int(x[&#8216;resources&#8217;]) &gt; 0 ])
 
 </div>
 <div class="section" id="wpmilestones">
-<span id="index-32"></span><h3>WpMilestones<a class="headerlink" href="#wpmilestones" title="Permalink to this headline">¶</a></h3>
+<span id="index-36"></span><h3>WpMilestones<a class="headerlink" href="#wpmilestones" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3054,7 +3276,7 @@ int(x[&#8216;resources&#8217;]) &gt; 0 ])
 
 </div>
 <div class="section" id="wp">
-<span id="index-33"></span><h3>Wp<a class="headerlink" href="#wp" title="Permalink to this headline">¶</a></h3>
+<span id="index-37"></span><h3>Wp<a class="headerlink" href="#wp" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3125,7 +3347,7 @@ ${ganttWP_${Shortname}}</p>
 
 </div>
 <div class="section" id="deliverabletablerows">
-<span id="index-34"></span><h3>DeliverableTableRows<a class="headerlink" href="#deliverabletablerows" title="Permalink to this headline">¶</a></h3>
+<span id="index-38"></span><h3>DeliverableTableRows<a class="headerlink" href="#deliverabletablerows" title="Permalink to this headline">¶</a></h3>
 <p>a table to summarize all the deliverables
 again: two steps: build the rows, and then the table</p>
 <dl class="describe">
@@ -3156,7 +3378,7 @@ use deliverable id:</p>
 
 </div>
 <div class="section" id="deliverabletableshort">
-<span id="index-35"></span><h3>DeliverableTableShort<a class="headerlink" href="#deliverabletableshort" title="Permalink to this headline">¶</a></h3>
+<span id="index-39"></span><h3>DeliverableTableShort<a class="headerlink" href="#deliverabletableshort" title="Permalink to this headline">¶</a></h3>
 <p>if you just want to sort by id, then simply use:
 sorter = lambda x: x[&#8216;id&#8217;]</p>
 <dl class="describe">
@@ -3185,7 +3407,7 @@ ${DeliverableTableRows} \\
 
 </div>
 <div class="section" id="deliverabletablelong">
-<span id="index-36"></span><h3>DeliverableTableLong<a class="headerlink" href="#deliverabletablelong" title="Permalink to this headline">¶</a></h3>
+<span id="index-40"></span><h3>DeliverableTableLong<a class="headerlink" href="#deliverabletablelong" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3219,7 +3441,7 @@ ${DeliverableTableRows}\\
 
 </div>
 <div class="section" id="deliverabletable">
-<span id="index-37"></span><h3>DeliverableTable<a class="headerlink" href="#deliverabletable" title="Permalink to this headline">¶</a></h3>
+<span id="index-41"></span><h3>DeliverableTable<a class="headerlink" href="#deliverabletable" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3246,7 +3468,7 @@ ${DeliverableTableRows}\\
 
 </div>
 <div class="section" id="milestonetablerows">
-<span id="index-38"></span><h3>MilestoneTableRows<a class="headerlink" href="#milestonetablerows" title="Permalink to this headline">¶</a></h3>
+<span id="index-42"></span><h3>MilestoneTableRows<a class="headerlink" href="#milestonetablerows" title="Permalink to this headline">¶</a></h3>
 <p>and a table for the milestones  - same structure as for the deliverable table</p>
 <dl class="describe">
 <dt>
@@ -3274,7 +3496,7 @@ ${DeliverableTableRows}\\
 
 </div>
 <div class="section" id="milestonetableshort">
-<span id="index-39"></span><h3>MilestoneTableShort<a class="headerlink" href="#milestonetableshort" title="Permalink to this headline">¶</a></h3>
+<span id="index-43"></span><h3>MilestoneTableShort<a class="headerlink" href="#milestonetableshort" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3301,7 +3523,7 @@ ${MilestoneTableRows}\\
 
 </div>
 <div class="section" id="milestonetablelong">
-<span id="index-40"></span><h3>MilestoneTableLong<a class="headerlink" href="#milestonetablelong" title="Permalink to this headline">¶</a></h3>
+<span id="index-44"></span><h3>MilestoneTableLong<a class="headerlink" href="#milestonetablelong" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3335,7 +3557,7 @@ ${MilestoneTableRows}\\
 
 </div>
 <div class="section" id="milestonetable">
-<span id="index-41"></span><h3>MilestoneTable<a class="headerlink" href="#milestonetable" title="Permalink to this headline">¶</a></h3>
+<span id="index-45"></span><h3>MilestoneTable<a class="headerlink" href="#milestonetable" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3362,7 +3584,7 @@ ${MilestoneTableRows}\\
 
 </div>
 <div class="section" id="summaryeffortrows">
-<span id="index-42"></span><h3>summaryEffortRows<a class="headerlink" href="#summaryeffortrows" title="Permalink to this headline">¶</a></h3>
+<span id="index-46"></span><h3>summaryEffortRows<a class="headerlink" href="#summaryeffortrows" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3386,7 +3608,7 @@ ${MilestoneTableRows}\\
 
 </div>
 <div class="section" id="summaryeffort">
-<span id="index-43"></span><h3>summaryEffort<a class="headerlink" href="#summaryeffort" title="Permalink to this headline">¶</a></h3>
+<span id="index-47"></span><h3>summaryEffort<a class="headerlink" href="#summaryeffort" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3430,7 +3652,7 @@ Total &amp; %{ &#8216; &amp; &#8216;.join([x[&#8216;wpeffort&#8217;] for x in al
 
 </div>
 <div class="section" id="effortpertaskrows">
-<span id="index-44"></span><h3>effortPerTaskRows<a class="headerlink" href="#effortpertaskrows" title="Permalink to this headline">¶</a></h3>
+<span id="index-48"></span><h3>effortPerTaskRows<a class="headerlink" href="#effortpertaskrows" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3469,7 +3691,7 @@ ee[&#8216;partner&#8217;] == p[&#8216;Shortname&#8217;]] ]
 
 </div>
 <div class="section" id="effortpertaskrowswp">
-<span id="index-45"></span><h3>effortPerTaskRowsWP<a class="headerlink" href="#effortpertaskrowswp" title="Permalink to this headline">¶</a></h3>
+<span id="index-49"></span><h3>effortPerTaskRowsWP<a class="headerlink" href="#effortpertaskrowswp" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3502,7 +3724,7 @@ for p in partnerList]) %}</p>
 
 </div>
 <div class="section" id="effortheader">
-<span id="index-46"></span><h3>effortHeader<a class="headerlink" href="#effortheader" title="Permalink to this headline">¶</a></h3>
+<span id="index-50"></span><h3>effortHeader<a class="headerlink" href="#effortheader" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3519,7 +3741,7 @@ Task &amp; Task name &amp; Total PM &amp; %{ &#8216; &amp; &#8216;.join([p[&#821
 
 </div>
 <div class="section" id="effortsum">
-<span id="index-47"></span><h3>effortSum<a class="headerlink" href="#effortsum" title="Permalink to this headline">¶</a></h3>
+<span id="index-51"></span><h3>effortSum<a class="headerlink" href="#effortsum" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3539,7 +3761,7 @@ for p in partnerList]) %}</p>
 
 </div>
 <div class="section" id="effortpertasktableshort">
-<span id="index-48"></span><h3>effortPerTaskTableShort<a class="headerlink" href="#effortpertasktableshort" title="Permalink to this headline">¶</a></h3>
+<span id="index-52"></span><h3>effortPerTaskTableShort<a class="headerlink" href="#effortpertasktableshort" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3569,7 +3791,7 @@ ${effortSum}
 
 </div>
 <div class="section" id="effortpertasktablemultipage">
-<span id="index-49"></span><h3>effortPerTaskTableMultipage<a class="headerlink" href="#effortpertasktablemultipage" title="Permalink to this headline">¶</a></h3>
+<span id="index-53"></span><h3>effortPerTaskTableMultipage<a class="headerlink" href="#effortpertasktablemultipage" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3599,7 +3821,7 @@ ${effortSum}
 
 </div>
 <div class="section" id="effortpertasktable">
-<span id="index-50"></span><h3>effortPerTaskTable<a class="headerlink" href="#effortpertasktable" title="Permalink to this headline">¶</a></h3>
+<span id="index-54"></span><h3>effortPerTaskTable<a class="headerlink" href="#effortpertasktable" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3629,49 +3851,10 @@ ${effortSum}
 </dd></dl>
 
 </div>
-<div class="section" id="piepmspartners">
-<span id="index-51"></span><h3>piePMsPartners<a class="headerlink" href="#piepmspartners" title="Permalink to this headline">¶</a></h3>
-<p>pie charts
-a pie chart showing person months distributed over partners</p>
-<dl class="describe">
-<dt>
-<tt class="descname">template</tt></dt>
-<dd><p>Default:   \ifthenelse{\boolean{Summaries-piePMsPartners}}{
-\begin{figure}[htbp]
-\centering
-\begin{tikzpicture}
-\pie[scale font]{ %{ utils.roundPie ([ (x[&#8216;Shortname&#8217;],
-sum([int(e[&#8216;resources&#8217;]) for e in allEfforts if e[&#8216;partner&#8217;]==x[&#8216;Shortname&#8217;]]))
-for x in partnerList])
-%}}
-\end{tikzpicture}
-\caption{Distribution of person months over partners  (in percent)}
-\label{fig:pie:pm:partner}
-\end{figure}
-}{}</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">dict</tt></dt>
-<dd><p>Default:   expanded</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">file</tt></dt>
-<dd><p>Default:   True</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">dir</tt></dt>
-<dd><p>Default:   pies</p>
-</dd></dl>
-
-</div>
 <div class="section" id="piepmswps">
-<span id="index-52"></span><h3>piePMsWPs<a class="headerlink" href="#piepmswps" title="Permalink to this headline">¶</a></h3>
+<span id="index-55"></span><h3>piePMsWPs<a class="headerlink" href="#piepmswps" title="Permalink to this headline">¶</a></h3>
+<p>pie charts
+Pie over WPs, here on Person month (budget rather compliced. TODO)</p>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
@@ -3709,9 +3892,213 @@ for x in allWPDicts])
 </dd></dl>
 
 </div>
-<div class="section" id="piepmsnations">
-<span id="index-53"></span><h3>piePMsNations<a class="headerlink" href="#piepmsnations" title="Permalink to this headline">¶</a></h3>
-<p>pie chart over person months assigned to different nations
+<div class="section" id="piepmspartners-tikz">
+<span id="index-56"></span><h3>piePMsPartners_tikz<a class="headerlink" href="#piepmspartners-tikz" title="Permalink to this headline">¶</a></h3>
+<p>Pies, Grouped by Partners
+a pie chart showing person months distributed over partners
+first, the actual tikz figures</p>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:    \begin{tikzpicture}
+\pie[scale font]{ %{ utils.roundPie ([ (x[&#8216;Shortname&#8217;],
+sum([int(e[&#8216;resources&#8217;]) for e in allEfforts if e[&#8216;partner&#8217;]==x[&#8216;Shortname&#8217;]]))
+for x in partnerList])
+%}}
+\end{tikzpicture}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+</div>
+<div class="section" id="piebudgetpartners-tikz">
+<span id="index-57"></span><h3>pieBudgetPartners_tikz<a class="headerlink" href="#piebudgetpartners-tikz" title="Permalink to this headline">¶</a></h3>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:    \begin{tikzpicture}
+\pie[scale font]{ %{ utils.roundPie ([ (x[&#8216;Shortname&#8217;],
+int(x[&#8216;totalCost&#8217;]))
+for x in partnerList])
+%}}
+\end{tikzpicture}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+</div>
+<div class="section" id="pierequestedbudgetpartners-tikz">
+<span id="index-58"></span><h3>pieRequestedBudgetPartners_tikz<a class="headerlink" href="#pierequestedbudgetpartners-tikz" title="Permalink to this headline">¶</a></h3>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:    \begin{tikzpicture}
+\pie[scale font]{ %{ utils.roundPie ([ (x[&#8216;Shortname&#8217;],
+int(x[&#8216;totalRequested&#8217;]))
+for x in partnerList])
+%}}
+\end{tikzpicture}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+</div>
+<div class="section" id="piepmspartners">
+<span id="index-59"></span><h3>piePMsPartners<a class="headerlink" href="#piepmspartners" title="Permalink to this headline">¶</a></h3>
+<p>and then, combining the tikz figures to actual figures:
+first, individual figures, then a compact representation</p>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \ifthenelse{\boolean{Summaries-piePMsPartners}}{
+\begin{figure}[htbp]
+\centering
+${piePMsPartners_tikz}
+\caption{Distribution of person months over partners  (in percent)}
+\label{fig:pie:pm:partner}
+\end{figure}
+}{}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   pies</p>
+</dd></dl>
+
+</div>
+<div class="section" id="piebudgetpartners">
+<span id="index-60"></span><h3>pieBudgetPartners<a class="headerlink" href="#piebudgetpartners" title="Permalink to this headline">¶</a></h3>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \ifthenelse{\boolean{Summaries-pieBudgetPartners}}{
+\begin{figure}[htbp]
+\centering
+${pieBudgetPartners_tikz}
+\caption{Distribution of total budget over partners  (in percent)}
+\label{fig:pie:budget:partner}
+\end{figure}
+}{}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   pies</p>
+</dd></dl>
+
+</div>
+<div class="section" id="pierequestedbudgetpartners">
+<span id="index-61"></span><h3>pieRequestedBudgetPartners<a class="headerlink" href="#pierequestedbudgetpartners" title="Permalink to this headline">¶</a></h3>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \ifthenelse{\boolean{Summaries-pieRequestedBudgetPartners}}{
+\begin{figure}[htbp]
+\centering
+${pieRequestedBudgetPartners_tikz}
+\caption{Distribution of requested budget over partners  (in percent)}
+\label{fig:pie:requested:partner}
+\end{figure}
+}{}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   pies</p>
+</dd></dl>
+
+</div>
+<div class="section" id="piepartnerscompact">
+<span id="index-62"></span><h3>piePartnersCompact<a class="headerlink" href="#piepartnerscompact" title="Permalink to this headline">¶</a></h3>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \ifthenelse{\boolean{Summaries-piePartnersCompact}}{
+\begin{figure}[htbp]
+\centering
+\subfigure[Person months]{\adjustbox{width=0.3\textwidth}{${piePMsPartners_tikz}}} \goodgap
+\subfigure[Total cost]{\adjustbox{width=0.3\textwidth}{ ${pieBudgetPartners_tikz}}} \goodgap
+\subfigure[Requested Contribution]{\adjustbox{width=0.3\textwidth}{${pieRequestedBudgetPartners_tikz}}}
+\caption{Distribution of resources over partners  (in percent)}
+\label{fig:pie:partner:compact}
+\end{figure}
+}{}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   pies</p>
+</dd></dl>
+
+</div>
+<div class="section" id="piepmsnations-tikz">
+<span id="index-63"></span><h3>piePMsNations_tikz<a class="headerlink" href="#piepmsnations-tikz" title="Permalink to this headline">¶</a></h3>
+<p>pie charts, grouped by nations
+pie chart over person months assigned to different nations
 a little bit more complicated: we need to pull out the (Nation/Effort) pairs.
 those we get from allEfforts, where we look up the nation in the partnerList
 that leaves us with many entries in the list with the same nation
@@ -3720,10 +4107,7 @@ a suitable reduce function: adding up two values</p>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
-<dd><p>Default:   \ifthenelse{\boolean{Summaries-piePMsNations}}{
-\begin{figure}[htbp]
-\centering
-\begin{tikzpicture}
+<dd><p>Default:    \begin{tikzpicture}
 \pie[scale font]{ %{ utils.roundPie(utils.mapReduce ([   (utils.searchListOfDicts(partnerList,
 &#8216;Shortname&#8217;,
 e[&#8216;partner&#8217;],
@@ -3732,7 +4116,63 @@ int(e[&#8216;resources&#8217;]))
 for e in allEfforts],
 lambda a,b: a+b))
 %}}
-\end{tikzpicture}
+\end{tikzpicture}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+</div>
+<div class="section" id="pietotalcostnations-tikz">
+<span id="index-64"></span><h3>pieTotalCostNations_tikz<a class="headerlink" href="#pietotalcostnations-tikz" title="Permalink to this headline">¶</a></h3>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:    \begin{tikzpicture}
+\pie[scale font]{ %{ utils.roundPie(utils.mapReduce ([(x[&#8216;Nation&#8217;], x[&#8216;totalCost&#8217;]) for x in partnerList],
+lambda a,b: a+b))
+%}}
+\end{tikzpicture}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+</div>
+<div class="section" id="pierequestednations-tikz">
+<span id="index-65"></span><h3>pieRequestedNations_tikz<a class="headerlink" href="#pierequestednations-tikz" title="Permalink to this headline">¶</a></h3>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:    \begin{tikzpicture}
+\pie[scale font]{ %{ utils.roundPie(utils.mapReduce ([(x[&#8216;Nation&#8217;], x[&#8216;totalRequested&#8217;]) for x in partnerList],
+lambda a,b: a+b))
+%}}
+\end{tikzpicture}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+</div>
+<div class="section" id="piepmsnations">
+<span id="index-66"></span><h3>piePMsNations<a class="headerlink" href="#piepmsnations" title="Permalink to this headline">¶</a></h3>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \ifthenelse{\boolean{Summaries-piePMsNations}}{
+\begin{figure}[htbp]
+\centering
+${piePMsNations_tikz}
 \caption{Distribution of person months over nations (in percent)}
 \label{fig:pie:pm:nations}
 \end{figure}
@@ -3758,16 +4198,117 @@ lambda a,b: a+b))
 </dd></dl>
 
 </div>
-<div class="section" id="piepmspartnertypes">
-<span id="index-54"></span><h3>piePMsPartnerTypes<a class="headerlink" href="#piepmspartnertypes" title="Permalink to this headline">¶</a></h3>
-<p>same thing that worked for the nation pie charts works for the partner type pie charts as well</p>
+<div class="section" id="pietotalcostnations">
+<span id="index-67"></span><h3>pieTotalCostNations<a class="headerlink" href="#pietotalcostnations" title="Permalink to this headline">¶</a></h3>
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
-<dd><p>Default:   \ifthenelse{\boolean{Summaries-piePMsPartnerTypes}}{
+<dd><p>Default:   \ifthenelse{\boolean{Summaries-pieTotalCostNations}}{
 \begin{figure}[htbp]
 \centering
-\begin{tikzpicture}
+${pieTotalCostNations_tikz}
+\caption{Distribution of total cost over nations (in percent)}
+\label{fig:pie:total:nations}
+\end{figure}
+}{}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   pies</p>
+</dd></dl>
+
+</div>
+<div class="section" id="pierequestednations">
+<span id="index-68"></span><h3>pieRequestedNations<a class="headerlink" href="#pierequestednations" title="Permalink to this headline">¶</a></h3>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \ifthenelse{\boolean{Summaries-pieRequestedNations}}{
+\begin{figure}[htbp]
+\centering
+${pieRequestedNations_tikz}
+\caption{Distribution of requested contribution over nations (in percent)}
+\label{fig:pie:requested:nations}
+\end{figure}
+}{}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   pies</p>
+</dd></dl>
+
+</div>
+<div class="section" id="pienationscompact">
+<span id="index-69"></span><h3>pieNationsCompact<a class="headerlink" href="#pienationscompact" title="Permalink to this headline">¶</a></h3>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \ifthenelse{\boolean{Summaries-pieNationsCompact}}{
+\begin{figure}[htbp]
+\centering
+\subfigure[Person months]{\adjustbox{width=0.3\textwidth}{${piePMsNations_tikz}}} \goodgap
+\subfigure[Total cost]{\adjustbox{width=0.3\textwidth}{ ${pieTotalCostNations_tikz}}} \goodgap
+\subfigure[Requested Contribution]{\adjustbox{width=0.3\textwidth}{${pieRequestedNations_tikz}}}
+\caption{Distribution of resources over nations  (in percent)}
+\label{fig:pie:nations:compact}
+\end{figure}
+}{}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   pies</p>
+</dd></dl>
+
+</div>
+<div class="section" id="piepmspartnertypes-tikz">
+<span id="index-70"></span><h3>piePMsPartnerTypes_tikz<a class="headerlink" href="#piepmspartnertypes-tikz" title="Permalink to this headline">¶</a></h3>
+<p>and finally, pie charts for partner types; very similat to the nations grouping</p>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \begin{tikzpicture}
 \pie[scale font]{ %{ utils.roundPie(utils.mapReduce ([   (utils.searchListOfDicts(partnerList,
 &#8216;Shortname&#8217;,
 e[&#8216;partner&#8217;],
@@ -3776,9 +4317,169 @@ int(e[&#8216;resources&#8217;]))
 for e in allEfforts],
 lambda a,b: a+b))
 %}}
-\end{tikzpicture}
-\caption{Distribution of partner types over nations (in percent)}
+\end{tikzpicture}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+</div>
+<div class="section" id="pietotalcostpartnertypes-tikz">
+<span id="index-71"></span><h3>pieTotalCostPartnerTypes_tikz<a class="headerlink" href="#pietotalcostpartnertypes-tikz" title="Permalink to this headline">¶</a></h3>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \begin{tikzpicture}
+\pie[scale font]{ %{ utils.roundPie(utils.mapReduce ([(x[&#8216;Type&#8217;], x[&#8216;totalCost&#8217;]) for x in partnerList],
+lambda a,b: a+b))
+%}}
+\end{tikzpicture}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+</div>
+<div class="section" id="pierequestedpartnertypes-tikz">
+<span id="index-72"></span><h3>pieRequestedPartnerTypes_tikz<a class="headerlink" href="#pierequestedpartnertypes-tikz" title="Permalink to this headline">¶</a></h3>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \begin{tikzpicture}
+\pie[scale font]{ %{ utils.roundPie(utils.mapReduce ([(x[&#8216;Type&#8217;], x[&#8216;totalRequested&#8217;]) for x in partnerList],
+lambda a,b: a+b))
+%}}
+\end{tikzpicture}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+</div>
+<div class="section" id="piepmspartnertypes">
+<span id="index-73"></span><h3>piePMsPartnerTypes<a class="headerlink" href="#piepmspartnertypes" title="Permalink to this headline">¶</a></h3>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \ifthenelse{\boolean{Summaries-piePMsPartnerTypes}}{
+\begin{figure}[htbp]
+\centering
+${piePMsPartnerTypes_tikz}
+\caption{Distribution of person months over partner types (in percent)}
 \label{fig:pie:pm:partnertype}
+\end{figure}
+}{}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   pies</p>
+</dd></dl>
+
+</div>
+<div class="section" id="pietotalcostpartnertype">
+<span id="index-74"></span><h3>pieTotalCostPartnerType<a class="headerlink" href="#pietotalcostpartnertype" title="Permalink to this headline">¶</a></h3>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \ifthenelse{\boolean{Summaries-pieTotalCostPartnerType}}{
+\begin{figure}[htbp]
+\centering
+${pieTotalCostPartnerTypes_tikz}
+\caption{Distribution of total cost over partner type (in percent)}
+\label{fig:pie:total:nations}
+\end{figure}
+}{}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   pies</p>
+</dd></dl>
+
+</div>
+<div class="section" id="pierequestedpartnertype">
+<span id="index-75"></span><h3>pieRequestedPartnerType<a class="headerlink" href="#pierequestedpartnertype" title="Permalink to this headline">¶</a></h3>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \ifthenelse{\boolean{Summaries-pieRequestedNations}}{
+\begin{figure}[htbp]
+\centering
+${pieRequestedPartnerTypes_tikz}
+\caption{Distribution of requested contribution over partner type (in percent)}
+\label{fig:pie:requested:nations}
+\end{figure}
+}{}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   pies</p>
+</dd></dl>
+
+</div>
+<div class="section" id="piepartnertypecompact">
+<span id="index-76"></span><h3>piePartnerTypeCompact<a class="headerlink" href="#piepartnertypecompact" title="Permalink to this headline">¶</a></h3>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \ifthenelse{\boolean{Summaries-piePartnerTypeCompact}}{
+\begin{figure}[htbp]
+\centering
+\subfigure[Person months]{\adjustbox{width=0.3\textwidth}{${piePMsPartnerTypes_tikz}}} \goodgap
+\subfigure[Total cost]{\adjustbox{width=0.3\textwidth}{ ${pieTotalCostPartnerTypes_tikz}}} \goodgap
+\subfigure[Requested Contribution]{\adjustbox{width=0.3\textwidth}{${pieRequestedPartnerTypes_tikz}}}
+\caption{Distribution of resources over partner types  (in percent)}
+\label{fig:pie:partnertype:compact}
 \end{figure}
 }{}</p>
 </dd></dl>
@@ -3814,8 +4515,9 @@ lambda a,b: a+b))
 <span class="c"># Which flags to use? -v is verbose for all scripts; </span>
 <span class="c"># in production use, -v is usually not necessary</span>
 <span class="c"># FLAGS = -v </span>
-<span class="nv">FLAGS</span> <span class="o">=</span> 
+<span class="nv">FLAGS</span> <span class="o">=</span>
 
+<span class="nv">LATEXBIN</span> <span class="o">=</span> pdflatex -interaction<span class="o">=</span>nonstopmode
 
 <span class="c"># Relevant path names. They are extracted from settings.cfg </span>
 
@@ -3829,6 +4531,7 @@ lambda a,b: a+b))
 
 <span class="c">####################################</span>
 .PHONY: proposal pdf clean pullproject xml latexFromWiki latexFromXML ensureSymbolicLinks fullcommit doc docclean
+
 <span class="c">####################################</span>
 
 
@@ -3856,7 +4559,7 @@ ensureSymbolicLinks:
 	<span class="nb">cd</span> <span class="k">${</span><span class="nv">BINPATH</span><span class="k">}</span> ; python ensureSymbolicLinks.py   -s ../<span class="k">$(</span>SETTINGS<span class="k">)</span> <span class="k">$(</span>FLAGS<span class="k">)</span> 
 
 pdf: 
-	<span class="nb">cd</span> <span class="k">${</span><span class="nv">LATEXPATH</span><span class="k">}</span>; pdflatex main; bibtex main; pdflatex main; pdflatex main 
+	<span class="nb">cd</span> <span class="k">${</span><span class="nv">LATEXPATH</span><span class="k">}</span>; <span class="k">${</span><span class="nv">LATEXBIN</span><span class="k">}</span> main; bibtex main; <span class="k">${</span><span class="nv">LATEXBIN</span><span class="k">}</span> main; <span class="k">${</span><span class="nv">LATEXBIN</span><span class="k">}</span> main
 	cp <span class="k">${</span><span class="nv">LATEXPATH</span><span class="k">}</span>/main.pdf <span class="k">${</span><span class="nv">PROJECTNAME</span><span class="k">}</span>.pdf
 
 
@@ -3875,6 +4578,10 @@ moinpdf:
 	make pdf  &gt;&gt; logfile 
 	cp <span class="k">${</span><span class="nv">PROJECTNAME</span><span class="k">}</span>.pdf <span class="s2">&quot;moin/wiki/data/pages/${PROJECTNAME}/attachments/&quot;</span>
 	cp logfile <span class="s2">&quot;moin/wiki/data/pages/${PROJECTNAME}/attachments/logfile.txt&quot;</span>
+	tar cfhz <span class="k">${</span><span class="nv">PROJECTNAME</span><span class="k">}</span>.tgz latex 
+	mv <span class="k">${</span><span class="nv">PROJECTNAME</span><span class="k">}</span>.tgz <span class="s2">&quot;moin/wiki/data/pages/${PROJECTNAME}/attachments/&quot;</span>
+
+
 doc:
 	<span class="nb">cd </span>docsource ; make install 
 doclean:
@@ -4014,6 +4721,7 @@ fullcommit:
 <span class="k">\setlength</span><span class="nb">{</span><span class="k">\pltopsep</span><span class="nb">}{</span>0.5ex<span class="nb">}</span>
 <span class="k">\setlength</span><span class="nb">{</span><span class="k">\plitemsep</span><span class="nb">}{</span>0.25ex<span class="nb">}</span>
 
+<span class="k">\usepackage</span><span class="nb">{</span>datetime<span class="nb">}</span>
 
 <span class="k">\begin</span><span class="nb">{</span>document<span class="nb">}</span>
 
@@ -4044,11 +4752,15 @@ fullcommit:
   <span class="k">\addcontentsline</span><span class="nb">{</span>toc<span class="nb">}{</span>chapter<span class="nb">}{</span><span class="k">\numberline</span><span class="nb">{}</span>List of Figures<span class="nb">}</span>
 <span class="nb">}{}</span>
 <span class="k">\ifthenelse</span><span class="nb">{</span><span class="k">\boolean</span><span class="nb">{</span>LaTeX-showAcronymList<span class="nb">}}{</span>
-  <span class="k">\input</span><span class="nb">{</span>AcronymsList<span class="nb">}}{}</span>
+  <span class="k">\chapter*</span><span class="nb">{</span>List of Acronyms<span class="nb">}</span>
+  <span class="k">\addcontentsline</span><span class="nb">{</span>toc<span class="nb">}{</span>chapter<span class="nb">}{</span><span class="k">\numberline</span><span class="nb">{}</span>List of Acronyms<span class="nb">}</span>
+  <span class="k">\input</span><span class="nb">{</span>AcronymsList<span class="nb">}</span>
+<span class="nb">}{}</span>
 <span class="nb">}</span>
 
 
 <span class="k">\ifthenelse</span><span class="nb">{</span><span class="k">\boolean</span><span class="nb">{</span>LaTeX-showWarnings<span class="nb">}}{</span>
+<span class="k">\newpage</span>
 <span class="k">\listoffixmes</span>
 <span class="k">\IfFileExists</span><span class="nb">{</span>warnings.tex<span class="nb">}{</span>
   <span class="k">\begin</span><span class="nb">{</span>compactitem<span class="nb">}</span>
@@ -4084,6 +4796,8 @@ fullcommit:
 
 <span class="k">\input</span><span class="nb">{</span>figures/tables/wpsummarytable<span class="nb">}</span>
 
+<span class="k">\clearpage</span> 
+
 <span class="c">%%% a little demo to include all gantt charts, likely not useful! </span>
 <span class="c">% \input{figures/gantts/demoGantts}</span>
 
@@ -4095,6 +4809,11 @@ fullcommit:
 <span class="c">% standard floating environments</span>
 <span class="k">\input</span><span class="nb">{</span>figures/gantts/CompleteGantt<span class="nb">}</span>
 <span class="k">\input</span><span class="nb">{</span>figures/gantts/allLegend<span class="nb">}</span>
+
+<span class="k">\clearpage</span>
+<span class="k">\input</span><span class="nb">{</span>figures/gantts/CompleteGanttNoDelMS<span class="nb">}</span>
+
+<span class="k">\clearpage</span> 
 
 <span class="c">% %%%</span>
 
@@ -4154,41 +4873,27 @@ The maximum length applying to a legal entity composed of several members, each 
 
 <span class="c">%%%%%%%%</span>
 
+<span class="k">\newcommand</span><span class="nb">{</span><span class="k">\goodgap</span><span class="nb">}{</span><span class="c">%</span>
+<span class="k">\hspace</span><span class="nb">{</span><span class="k">\subfigtopskip</span><span class="nb">}</span><span class="c">%</span>
+<span class="k">\hspace</span><span class="nb">{</span><span class="k">\subfigbottomskip</span><span class="nb">}}</span>
+
 <span class="k">\input</span><span class="nb">{</span>figures/pies/piePMsWPs<span class="nb">}</span>
 <span class="k">\input</span><span class="nb">{</span>figures/pies/piePMsPartners<span class="nb">}</span>
+<span class="k">\input</span><span class="nb">{</span>figures/pies/pieBudgetPartners<span class="nb">}</span>
+<span class="k">\input</span><span class="nb">{</span>figures/pies/pieRequestedBudgetPartners<span class="nb">}</span>
+<span class="k">\input</span><span class="nb">{</span>figures/pies/piePartnersCompact<span class="nb">}</span>
+
+
 <span class="k">\input</span><span class="nb">{</span>figures/pies/piePMsNations<span class="nb">}</span>
+<span class="k">\input</span><span class="nb">{</span>figures/pies/pieTotalCostNations<span class="nb">}</span>
+<span class="k">\input</span><span class="nb">{</span>figures/pies/pieRequestedNations<span class="nb">}</span> 
+<span class="k">\input</span><span class="nb">{</span>figures/pies/pieNationsCompact<span class="nb">}</span> 
+
 <span class="k">\input</span><span class="nb">{</span>figures/pies/piePMsPartnerTypes<span class="nb">}</span>
+<span class="k">\input</span><span class="nb">{</span>figures/pies/pieTotalCostPartnerType<span class="nb">}</span>
+<span class="k">\input</span><span class="nb">{</span>figures/pies/pieRequestedPartnerType<span class="nb">}</span>
+<span class="k">\input</span><span class="nb">{</span>figures/pies/piePartnerTypeCompact<span class="nb">}</span>
 
-<span class="c">% can&#39;t do contribs yet, needs spreadsheet input</span>
-<span class="c">% \ifthenelse{\boolean{Summaries-pieContribPerPartner}}{</span>
-<span class="c">% \begin{figure}[htbp]</span>
-<span class="c">%   \centering</span>
-<span class="c">%   \input{wp/contribPartner}</span>
-<span class="c">%   \caption{Distribution of EU contribution over partners  (in percent)}</span>
-<span class="c">%   \label{fig:contrib:pie:partner}</span>
-<span class="c">% \end{figure}</span>
-<span class="c">% }{}</span>
-
-
-<span class="c">% \ifthenelse{\boolean{Summaries-pieContribPerPartnerType}}{</span>
-<span class="c">% \begin{figure}[htbp]</span>
-<span class="c">%   \centering</span>
-<span class="c">%   \input{wp/contribType}</span>
-<span class="c">%   \caption{Distribution of EU contribution over partner kinds (in percent)}</span>
-<span class="c">%   \label{fig:contrib:pie:kind}</span>
-<span class="c">% \end{figure}</span>
-<span class="c">% }{}</span>
-
-
-
-<span class="c">% \ifthenelse{\boolean{Summaries-pieContribPerNation}}{</span>
-<span class="c">% \begin{figure}[htbp]</span>
-<span class="c">%   \centering</span>
-<span class="c">%   \input{wp/contribNation}</span>
-<span class="c">%   \caption{Distribution of EU contribution over partner nations  (in percent)}</span>
-<span class="c">%   \label{fig:contrib:pie:nation}</span>
-<span class="c">% \end{figure}</span>
-<span class="c">% }{}</span>
 
 
 <span class="k">\chapter</span><span class="nb">{</span>Impact<span class="nb">}</span><span class="k">\label</span><span class="nb">{</span>chap:impact<span class="nb">}</span>
@@ -4319,6 +5024,7 @@ protection authorities.
 <li><a class="reference internal" href="#pathnames">PathNames</a></li>
 <li><a class="reference internal" href="#gantts">Gantts</a></li>
 <li><a class="reference internal" href="#summaries">Summaries</a></li>
+<li><a class="reference internal" href="#budget">Budget</a></li>
 <li><a class="reference internal" href="#wptables">WPTables</a></li>
 <li><a class="reference internal" href="#participants">Participants</a></li>
 <li><a class="reference internal" href="#latex">LaTeX</a></li>
@@ -4341,9 +5047,12 @@ protection authorities.
 <li><a class="reference internal" href="#ganttwp">ganttWP</a></li>
 <li><a class="reference internal" href="#ganttwplegend">ganttWPLegend</a></li>
 <li><a class="reference internal" href="#alltaskdelmslist">allTaskDelMSList</a></li>
+<li><a class="reference internal" href="#alltasklist">allTaskList</a></li>
 <li><a class="reference internal" href="#alltaskdelms">allTaskDelMS</a></li>
+<li><a class="reference internal" href="#alltask">allTask</a></li>
 <li><a class="reference internal" href="#alldellegend">allDelLegend</a></li>
 <li><a class="reference internal" href="#allmslegend">allMSLegend</a></li>
+<li><a class="reference internal" href="#completeganttnodelms">CompleteGanttNoDelMS</a></li>
 <li><a class="reference internal" href="#completegantt">CompleteGantt</a></li>
 <li><a class="reference internal" href="#alllegend">allLegend</a></li>
 <li><a class="reference internal" href="#completeganttfacinglegend">CompleteGanttFacingLegend</a></li>
@@ -4369,10 +5078,28 @@ protection authorities.
 <li><a class="reference internal" href="#effortpertasktableshort">effortPerTaskTableShort</a></li>
 <li><a class="reference internal" href="#effortpertasktablemultipage">effortPerTaskTableMultipage</a></li>
 <li><a class="reference internal" href="#effortpertasktable">effortPerTaskTable</a></li>
-<li><a class="reference internal" href="#piepmspartners">piePMsPartners</a></li>
 <li><a class="reference internal" href="#piepmswps">piePMsWPs</a></li>
+<li><a class="reference internal" href="#piepmspartners-tikz">piePMsPartners_tikz</a></li>
+<li><a class="reference internal" href="#piebudgetpartners-tikz">pieBudgetPartners_tikz</a></li>
+<li><a class="reference internal" href="#pierequestedbudgetpartners-tikz">pieRequestedBudgetPartners_tikz</a></li>
+<li><a class="reference internal" href="#piepmspartners">piePMsPartners</a></li>
+<li><a class="reference internal" href="#piebudgetpartners">pieBudgetPartners</a></li>
+<li><a class="reference internal" href="#pierequestedbudgetpartners">pieRequestedBudgetPartners</a></li>
+<li><a class="reference internal" href="#piepartnerscompact">piePartnersCompact</a></li>
+<li><a class="reference internal" href="#piepmsnations-tikz">piePMsNations_tikz</a></li>
+<li><a class="reference internal" href="#pietotalcostnations-tikz">pieTotalCostNations_tikz</a></li>
+<li><a class="reference internal" href="#pierequestednations-tikz">pieRequestedNations_tikz</a></li>
 <li><a class="reference internal" href="#piepmsnations">piePMsNations</a></li>
+<li><a class="reference internal" href="#pietotalcostnations">pieTotalCostNations</a></li>
+<li><a class="reference internal" href="#pierequestednations">pieRequestedNations</a></li>
+<li><a class="reference internal" href="#pienationscompact">pieNationsCompact</a></li>
+<li><a class="reference internal" href="#piepmspartnertypes-tikz">piePMsPartnerTypes_tikz</a></li>
+<li><a class="reference internal" href="#pietotalcostpartnertypes-tikz">pieTotalCostPartnerTypes_tikz</a></li>
+<li><a class="reference internal" href="#pierequestedpartnertypes-tikz">pieRequestedPartnerTypes_tikz</a></li>
 <li><a class="reference internal" href="#piepmspartnertypes">piePMsPartnerTypes</a></li>
+<li><a class="reference internal" href="#pietotalcostpartnertype">pieTotalCostPartnerType</a></li>
+<li><a class="reference internal" href="#pierequestedpartnertype">pieRequestedPartnerType</a></li>
+<li><a class="reference internal" href="#piepartnertypecompact">piePartnerTypeCompact</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#makefile">Makefile</a></li>
@@ -4423,7 +5150,7 @@ protection authorities.
     </div>
     <div class="footer">
         &copy; Copyright 2012, Holger Karl.
-      Last updated on Mar 14, 2013.
+      Last updated on Apr 15, 2013.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
     </div>
   </body>

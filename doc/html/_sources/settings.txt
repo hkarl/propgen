@@ -17,7 +17,7 @@ to use to log in.
     This option specificies the root Wiki page where the main project information can 
     be found. It also serves as the filename of the final pdf file. 
 
-    Default:   TestProject 
+    Default:   SDNIDE 
 
 .. describe:: wikitype
 
@@ -429,9 +429,26 @@ True/False switches.
 
     Default:   True
 
+.. describe:: pieBudgetPartners
+
+    Same thing, but with budget numbers (either total cost or requested cost) 
+
+    Default:   False 
+
+.. describe:: pieRequestedBudgetPartners
+
+    
+    Default:   False
+
 .. describe:: piePMsPartners
 
     A pie chart, showing person month summaries for each partner  
+
+    Default:   False
+
+.. describe:: piePartnersCompact
+
+    compact version for partners: 
 
     Default:   True 
 
@@ -439,13 +456,108 @@ True/False switches.
 
     A pie chart, showing person month summaries for each partner type (industry, SME, academic)  
 
+    Default:   False
+
+.. describe:: pieTotalCostPartnerType
+
+    
+    Default:   False
+
+.. describe:: pieRequestedPartnerType
+
+    
+    Default:   False 
+
+.. describe:: piePartnerTypeCompact
+
+    
     Default:   True 
 
 .. describe:: piePMsNations
 
     A pie chart, showing person month summaries for each nation   
 
+    Default:   False 
+
+.. describe:: pieTotalCostNations
+
+    
+    Default:   False 
+
+.. describe:: pieRequestedNations
+
+    
+    Default:   False 
+
+.. describe:: pieNationsCompact
+
+    
     Default:   True 
+
+.. index::
+   single:  settings.cfg ;  Budget
+
+Budget
+======
+.. program::  Budget
+
+Budget information extracting from an excel file 
+
+
+.. describe:: file
+
+    
+    Default:   budget.xls
+
+.. describe:: sheet
+
+    
+    Default:   Budget 
+
+.. describe:: partnerRow
+
+    
+    Default:   3
+
+.. describe:: partnerCol
+
+    
+    Default:   2
+
+.. describe:: PMCost
+
+    
+    Default:   7 
+
+.. describe:: totalResearch
+
+    
+    Default:   16
+
+.. describe:: requestedResearch
+
+    
+    Default:   19 
+
+.. describe:: totalManagement
+
+    
+    Default:   49
+
+.. describe:: requestedManagement
+
+    
+    Default:   52
+
+.. describe:: totalCost
+
+    
+    Default:   54
+
+.. describe:: totalRequested
+
+    
+    Default:   55 
 
 .. index::
    single:  settings.cfg ;  WPTables
@@ -674,7 +786,7 @@ and directly running pdflatx will have no effect.
     exist for cross-referencing and looking for errors. Turn this off
     for the final version. 
 
-    Default:   False 
+    Default:   True 
 
 .. describe:: showWarnings
 
@@ -702,7 +814,7 @@ and directly running pdflatx will have no effect.
     AcronymsList.tex is not included in the default distribution. Just
     setting this flag to True will result in an error.
 
-    Default:   False 
+    Default:   True  
 
 .. describe:: useMultipageDeliverableTable
 
@@ -715,7 +827,7 @@ and directly running pdflatx will have no effect.
     (the defaults False / True only for demonstration of the options, pick what 
     you prefer...) 
 
-    Default:   False 
+    Default:   True 
 
 .. describe:: useMultipageMilestoneTable
 
@@ -797,7 +909,7 @@ This is somewhat experimental
 
     At which IP address can the Etherpad instance be found? 
 
-    Default:   127.0.0.1
+    Default:   131.234.31.186
 
 .. describe:: Port
 
@@ -812,7 +924,7 @@ This is somewhat experimental
     local machine. Alternatively, use the Key option to directly provide
     the actual key. 
 
-    Default:   ../../etherpad-lite/APIKEY.txt
+    Default:   ../APIKEY.txt
 
 .. describe:: Password
 

@@ -318,6 +318,21 @@ software, ... -checkcommissiontemplate) and &#8220;Dissemination&#8221;
 <p class="caption">Table specifying deliverables</p>
 </div>
 </div>
+<div class="section" id="budget-information">
+<h3>Budget information<a class="headerlink" href="#budget-information" title="Permalink to this headline">¶</a></h3>
+<p>There is some rudimentary support for showing budget information. For
+this, an excel file has to be put somewhere in the propgen tree, the
+path has to be added to settings.cfg file, and the relevant line
+ranges have to be specified therein. See the included budget.xls file
+(TODO: provide example!).</p>
+<p>This information is currently only used to generate pie charts for
+budget distribution. See the corresponding section of
+latexTemplates.cfg. It is, however, fairly easy to extend that, e.g.,
+to generate a table with such information.</p>
+<p>TODO: make it possible to upload the excel file via Wiki; exploit
+information therein better; or directly get this information from wiki
+page?</p>
+</div>
 </div>
 <div class="section" id="recognized-wiki-markup">
 <h2>Recognized Wiki markup<a class="headerlink" href="#recognized-wiki-markup" title="Permalink to this headline">¶</a></h2>
@@ -347,7 +362,8 @@ latex/figure directory.</p>
 <p>label</p>
 <blockquote>
 <div><p>Value will become the label in the LaTeX figure environment, for
-cross-referencing.</p>
+cross-referencing. The value will be prefixed by &#8220;fig:&#8221; to
+delinate it as a figure.</p>
 </div></blockquote>
 <p>caption</p>
 <blockquote>
@@ -376,8 +392,18 @@ project" latexwidth="1"/&gt;</pre>
 <div><p>Slightly more complex syntax:</p>
 <div class="highlight-python"><pre>{{attachment:duckie.png|&amp;postion=htbp,&amp;caption=bla bla and some more text for the caption,&amp;label=fig:duckie,&amp;latexwidth=0.8}}</pre>
 </div>
+<p>It is also acceptable to use the &#8220;alternate text&#8221; in between,
+which in turns allows to use widht and height markers for the
+moinmoin display in the
+last argument, along with the latex markup:</p>
+<blockquote>
+<div><p>{{attachment:duckie.png|some text describing the figure|width=600,height=400,&amp;postion=htbp,&amp;caption=bla bla and some more text for the caption,&amp;label=fig:duckie,&amp;latexwidth=0.8}}</p>
+</div></blockquote>
+<p>and the width and height values will be used to set the figure size
+in the browser.</p>
 <p>Note the need to put in the ampersands before each key; that
-is a moinmoin peculiarity.</p>
+is a moinmoin peculiarity and is used to mark each label as a
+label for propgen to look at.</p>
 </div></blockquote>
 </div></blockquote>
 </li>
@@ -393,18 +419,60 @@ into the argument of the tabular environment in the LaTeX markup. No
 table environment is generated, if you want that, you can simply
 enclose the Wiki table with the corresponding LaTeX commands, they are
 passed through unhindered.</p>
+<p>Alternatively, for long tables that need to be split over multiple
+pages, you can also use:</p>
+<blockquote>
+<div><p>## XTABULAR: c|p{0.2textwidth}|r #</p>
+</div></blockquote>
+<p>This will generate an xtabular (from the xtab package) instead of a
+tabular environment. The necessary topcaption, tablehead
+etc. commands have to be inserted before the actual table.</p>
+<p>It can also be convenient to add a {small before, and a } after the
+actual table.</p>
 </li>
 <li><p class="first">Some attempts are made to maintain special characters. In particular:</p>
+<ul>
+<li><p class="first">Some effort is made to deal with ampersand characters &amp;. However,
+they are hard to do since they serve as separators in plain LaTeX,
+and since entering plain LaTeX code should be possible (e.g., for
+complicated tables), they cannot simply all be escaped. The
+current compromises is a follows:</p>
 <ul class="simple">
-<li>Boldface markup is recognized</li>
-<li>Italics markup as well</li>
-<li>Line breaks specified by &lt;BR&gt; turn into newline commands</li>
-<li>Commands of the form: #TODO: some text # are turned into fxwarning
-commands of the fixme package (and appear in warnings.tex)</li>
-<li>Some attempts are made to provide correct left and right quotation
-marks; guessing is based on spaces before or after a quotation mark &#8221;.</li>
-<li>Pure hash marks # are protected by turning them into \#.</li>
-<li>So are ampersand marks &amp;.</li>
+<li>Ampersands that are surrounded (!) by white space are escaped,
+e.g., turned into &amp; and are typeset thus by LaTeX as an
+ampersand mark.</li>
+<li>Ampersands without spaces around them are passed through
+unmodified, unescaped.</li>
+</ul>
+<p>The upshoot is this:</p>
+<ul class="simple">
+<li>Users have to be told (and this usually fails) that for
+abbreviations like R&amp;D (when no space is desired), they have to
+enter R&amp;D! This often fails when users are not familiar with
+LaTeX.</li>
+<li>Users familiar with LaTeX, on the other hand, are likely to
+write &#8220;bla &amp; bla&#8221;, since they know that ampersands have to be
+escaped. This should work, but tread careful here nonetheless.</li>
+<li>If you need the ampersand as LaTeX&#8217;s control character, then you
+must not use space around them. If space is absolutely
+necessary, you could try something like &#8220;bla {}&amp;{} bla&#8221;, but I
+have no idea whether this works as desired.</li>
+</ul>
+</li>
+<li><p class="first">Boldface markup is recognized</p>
+</li>
+<li><p class="first">Italics markup as well</p>
+</li>
+<li><p class="first">Line breaks specified by &lt;BR&gt; turn into newline commands</p>
+</li>
+<li><p class="first">Commands of the form: #TODO: some text # are turned into fxwarning
+commands of the fixme package (and appear in warnings.tex)</p>
+</li>
+<li><p class="first">Some attempts are made to provide correct left and right quotation
+marks; guessing is based on spaces before or after a quotation mark &#8221;.</p>
+</li>
+<li><p class="first">Pure hash marks # are protected by turning them into \#.</p>
+</li>
 </ul>
 </li>
 </ul>
@@ -479,6 +547,7 @@ easy way of doing password authentication.</p>
 <li><a class="reference internal" href="#task-efforts">Task efforts</a></li>
 <li><a class="reference internal" href="#milestones">Milestones</a></li>
 <li><a class="reference internal" href="#deliverables">Deliverables</a></li>
+<li><a class="reference internal" href="#budget-information">Budget information</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#recognized-wiki-markup">Recognized Wiki markup</a></li>
@@ -536,7 +605,7 @@ easy way of doing password authentication.</p>
     </div>
     <div class="footer">
         &copy; Copyright 2012, Holger Karl.
-      Last updated on Mar 14, 2013.
+      Last updated on Apr 15, 2013.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
     </div>
   </body>

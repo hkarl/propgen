@@ -56,7 +56,7 @@ to use to log in.</p>
 <tt class="descname">projectName</tt></dt>
 <dd><p>This option specificies the root Wiki page where the main project information can
 be found. It also serves as the filename of the final pdf file.</p>
-<p>Default:   TestProject</p>
+<p>Default:   SDNIDE</p>
 </dd></dl>
 
 <dl class="describe">
@@ -498,8 +498,28 @@ True/False switches.</p>
 
 <dl class="describe">
 <dt>
+<tt class="descname">pieBudgetPartners</tt></dt>
+<dd><p>Same thing, but with budget numbers (either total cost or requested cost)</p>
+<p>Default:   False</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">pieRequestedBudgetPartners</tt></dt>
+<dd><p>Default:   False</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
 <tt class="descname">piePMsPartners</tt></dt>
 <dd><p>A pie chart, showing person month summaries for each partner</p>
+<p>Default:   False</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">piePartnersCompact</tt></dt>
+<dd><p>compact version for partners:</p>
 <p>Default:   True</p>
 </dd></dl>
 
@@ -507,19 +527,125 @@ True/False switches.</p>
 <dt>
 <tt class="descname">piePMsPartnerTypes</tt></dt>
 <dd><p>A pie chart, showing person month summaries for each partner type (industry, SME, academic)</p>
-<p>Default:   True</p>
+<p>Default:   False</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">pieTotalCostPartnerType</tt></dt>
+<dd><p>Default:   False</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">pieRequestedPartnerType</tt></dt>
+<dd><p>Default:   False</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">piePartnerTypeCompact</tt></dt>
+<dd><p>Default:   True</p>
 </dd></dl>
 
 <dl class="describe">
 <dt>
 <tt class="descname">piePMsNations</tt></dt>
 <dd><p>A pie chart, showing person month summaries for each nation</p>
-<p>Default:   True</p>
+<p>Default:   False</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">pieTotalCostNations</tt></dt>
+<dd><p>Default:   False</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">pieRequestedNations</tt></dt>
+<dd><p>Default:   False</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">pieNationsCompact</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+</div>
+<div class="section" id="budget">
+<span id="index-4"></span><h1>Budget<a class="headerlink" href="#budget" title="Permalink to this headline">¶</a></h1>
+<p>Budget information extracting from an excel file</p>
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:   budget.xls</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">sheet</tt></dt>
+<dd><p>Default:   Budget</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">partnerRow</tt></dt>
+<dd><p>Default:   3</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">partnerCol</tt></dt>
+<dd><p>Default:   2</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">PMCost</tt></dt>
+<dd><p>Default:   7</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">totalResearch</tt></dt>
+<dd><p>Default:   16</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">requestedResearch</tt></dt>
+<dd><p>Default:   19</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">totalManagement</tt></dt>
+<dd><p>Default:   49</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">requestedManagement</tt></dt>
+<dd><p>Default:   52</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">totalCost</tt></dt>
+<dd><p>Default:   54</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">totalRequested</tt></dt>
+<dd><p>Default:   55</p>
 </dd></dl>
 
 </div>
 <div class="section" id="wptables">
-<span id="index-4"></span><h1>WPTables<a class="headerlink" href="#wptables" title="Permalink to this headline">¶</a></h1>
+<span id="index-5"></span><h1>WPTables<a class="headerlink" href="#wptables" title="Permalink to this headline">¶</a></h1>
 <p>This section collexts all information that is relevant for the
 actual workpackage tables.</p>
 <dl class="describe">
@@ -717,7 +843,7 @@ xcolor package) (No highlight: simply use black)</p>
 
 </div>
 <div class="section" id="participants">
-<span id="index-5"></span><h1>Participants<a class="headerlink" href="#participants" title="Permalink to this headline">¶</a></h1>
+<span id="index-6"></span><h1>Participants<a class="headerlink" href="#participants" title="Permalink to this headline">¶</a></h1>
 <p>Options to control the individual participant descriptions in Section 2.2</p>
 <dl class="describe">
 <dt>
@@ -729,7 +855,7 @@ To ensure that each partner description starts on an empty page?</p>
 
 </div>
 <div class="section" id="latex">
-<span id="index-6"></span><h1>LaTeX<a class="headerlink" href="#latex" title="Permalink to this headline">¶</a></h1>
+<span id="index-7"></span><h1>LaTeX<a class="headerlink" href="#latex" title="Permalink to this headline">¶</a></h1>
 <p>The LaTeX section coleects options controlling LaTeX
 processing. These are simle True/False flags to turn on/off various
 parts of the proposal.
@@ -752,7 +878,7 @@ the final version of the proposal.</p>
 cite commands?  This can be useful to have an idea which labels
 exist for cross-referencing and looking for errors. Turn this off
 for the final version.</p>
-<p>Default:   False</p>
+<p>Default:   True</p>
 </dd></dl>
 
 <dl class="describe">
@@ -784,7 +910,7 @@ warnings.tex. Turn this off for the final version.</p>
 AcronymsList.tex. Your choice how to fill this list. NOTE:
 AcronymsList.tex is not included in the default distribution. Just
 setting this flag to True will result in an error.</p>
-<p>Default:   False</p>
+<p>Default:   True</p>
 </dd></dl>
 
 <dl class="describe">
@@ -798,7 +924,7 @@ latexTemplates.cfg, sections DeliverableTable and MilestoneTable for
 details.
 (the defaults False / True only for demonstration of the options, pick what
 you prefer...)</p>
-<p>Default:   False</p>
+<p>Default:   True</p>
 </dd></dl>
 
 <dl class="describe">
@@ -827,7 +953,7 @@ effortPerTaskTableMultipage sections of latexTemplates.cfg.</p>
 
 </div>
 <div class="section" id="customlatex">
-<span id="index-7"></span><h1>CustomLaTeX<a class="headerlink" href="#customlatex" title="Permalink to this headline">¶</a></h1>
+<span id="index-8"></span><h1>CustomLaTeX<a class="headerlink" href="#customlatex" title="Permalink to this headline">¶</a></h1>
 <p>A section for custom LaTeX commands.  Rationale: there might be some
 things you&#8217;d like to include in your proposal that are not fit for
 making them general, but can be computed based on the numbers
@@ -867,14 +993,14 @@ file.</p>
 
 </div>
 <div class="section" id="etherpad">
-<span id="index-8"></span><h1>Etherpad<a class="headerlink" href="#etherpad" title="Permalink to this headline">¶</a></h1>
+<span id="index-9"></span><h1>Etherpad<a class="headerlink" href="#etherpad" title="Permalink to this headline">¶</a></h1>
 <p>Support for Etherpad lite directly from the moinmoin wiki
 This is somewhat experimental</p>
 <dl class="describe">
 <dt>
 <tt class="descname">IP</tt></dt>
 <dd><p>At which IP address can the Etherpad instance be found?</p>
-<p>Default:   127.0.0.1</p>
+<p>Default:   131.234.31.186</p>
 </dd></dl>
 
 <dl class="describe">
@@ -891,7 +1017,7 @@ This is somewhat experimental</p>
 Useful for a local installation where moinmoin and Etherpad run on a
 local machine. Alternatively, use the Key option to directly provide
 the actual key.</p>
-<p>Default:   ../../etherpad-lite/APIKEY.txt</p>
+<p>Default:   ../APIKEY.txt</p>
 </dd></dl>
 
 <dl class="describe">
@@ -928,6 +1054,7 @@ generated PADs. Set this to True of False</p>
 <li><a class="reference internal" href="#pathnames">PathNames</a></li>
 <li><a class="reference internal" href="#gantts">Gantts</a></li>
 <li><a class="reference internal" href="#summaries">Summaries</a></li>
+<li><a class="reference internal" href="#budget">Budget</a></li>
 <li><a class="reference internal" href="#wptables">WPTables</a></li>
 <li><a class="reference internal" href="#participants">Participants</a></li>
 <li><a class="reference internal" href="#latex">LaTeX</a></li>
@@ -971,7 +1098,7 @@ generated PADs. Set this to True of False</p>
     </div>
     <div class="footer">
         &copy; Copyright 2012, Holger Karl.
-      Last updated on Mar 14, 2013.
+      Last updated on Apr 15, 2013.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
     </div>
   </body>

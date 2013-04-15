@@ -330,6 +330,25 @@ software, ... -checkcommissiontemplate) and "Dissemination"
 
    Table specifying deliverables
 
+Budget information
+==================
+
+There is some rudimentary support for showing budget information. For
+this, an excel file has to be put somewhere in the propgen tree, the
+path has to be added to settings.cfg file, and the relevant line
+ranges have to be specified therein. See the included budget.xls file
+(TODO: provide example!). 
+
+This information is currently only used to generate pie charts for
+budget distribution. See the corresponding section of
+latexTemplates.cfg. It is, however, fairly easy to extend that, e.g.,
+to generate a table with such information. 
+
+TODO: make it possible to upload the excel file via Wiki; exploit
+information therein better; or directly get this information from wiki
+page? 
+
+
 ========================
  Recognized Wiki markup
 ========================
@@ -360,7 +379,8 @@ recognized features (see Section :ref:`sec-wiki-parser` for details):
     label
 
        Value will become the label in the LaTeX figure environment, for
-       cross-referencing. 
+       cross-referencing. The value will be prefixed by "fig:" to
+       delinate it as a figure. 
 
     caption 
 
@@ -389,9 +409,20 @@ recognized features (see Section :ref:`sec-wiki-parser` for details):
       Slightly more complex syntax:: 
  
         {{attachment:duckie.png|&postion=htbp,&caption=bla bla and some more text for the caption,&label=fig:duckie,&latexwidth=0.8}}
- 
+
+      It is also acceptable to use the "alternate text" in between,
+      which in turns allows to use widht and height markers for the
+      moinmoin display in the
+      last argument, along with the latex markup: 
+
+        {{attachment:duckie.png|some text describing the figure|width=600,height=400,&postion=htbp,&caption=bla bla and some more text for the caption,&label=fig:duckie,&latexwidth=0.8}}
+
+      and the width and height values will be used to set the figure size
+      in the browser.  
+
       Note the need to put in the ampersands before each key; that
-      is a moinmoin peculiarity. 
+      is a moinmoin peculiarity and is used to mark each label as a
+      label for propgen to look at. 
 
  
 - Tables are turned into tabular commands. Columns are equally wide,
@@ -406,9 +437,51 @@ recognized features (see Section :ref:`sec-wiki-parser` for details):
   table environment is generated, if you want that, you can simply
   enclose the Wiki table with the corresponding LaTeX commands, they are
   passed through unhindered. 
-  
+
+  Alternatively, for long tables that need to be split over multiple
+  pages, you can also use: 
+
+     ## XTABULAR: c|p{0.2\textwidth}|r # 
+
+  This will generate an xtabular (from the xtab package) instead of a
+  tabular environment. The necessary topcaption, tablehead
+  etc. commands have to be inserted before the actual table. 
+
+  It can also be convenient to add a {\small before, and a } after the
+  actual table. 
+
+
 - Some attempts are made to maintain special characters. In particular: 
-  
+
+  - Some effort is made to deal with ampersand characters &. However,
+    they are hard to do since they serve as separators in plain LaTeX,
+    and since entering plain LaTeX code should be possible (e.g., for
+    complicated tables), they cannot simply all be escaped. The
+    current compromises is a follows: 
+
+    - Ampersands that are surrounded (!) by white space are escaped,
+      e.g., turned into \& and are typeset thus by LaTeX as an
+      ampersand mark. 
+
+    - Ampersands without spaces around them are passed through
+      unmodified, unescaped. 
+
+    The upshoot is this: 
+
+    - Users have to be told (and this usually fails) that for
+      abbreviations like R&D (when no space is desired), they have to
+      enter R\&D! This often fails when users are not familiar with
+      LaTeX. 
+
+    - Users familiar with LaTeX, on the other hand, are likely to
+      write "bla \& bla", since they know that ampersands have to be
+      escaped. This should work, but tread careful here nonetheless. 
+
+    - If you need the ampersand as LaTeX's control character, then you
+      must not use space around them. If space is absolutely
+      necessary, you could try something like "bla {}&{} bla", but I
+      have no idea whether this works as desired. 
+
   - Boldface markup is recognized 
 
   - Italics markup as well 
@@ -423,7 +496,6 @@ recognized features (see Section :ref:`sec-wiki-parser` for details):
 
   - Pure hash marks # are protected by turning them into \\#. 
 
-  - So are ampersand marks &. 
 
 
 
