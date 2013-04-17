@@ -501,30 +501,42 @@ class wikiParser:
 
 
         # deal with verbatim environments:
-        # t = [('bla1 \\b{v} bla2 \\e{v} bla3 \\b{v} bla4 ', ' bla5')]
-        verbatimsplitter = re.compile (r'(.*?)\\begin\{verbatim\}(.*?)\\end\{verbatim\}', re.DOTALL)
-        # [('bla1 ', ' bla2 '), (' bla3 ', ' bla4 ')]
-        verbatimsplit = verbatimsplitter.findall(t)
-        # print type(verbatimsplit)
-        # print (verbatimsplit)
+        # limitation: no nesting of verbatims allowed; there must be text BEFORE the
+        # first appearance of a verabtim command, they must be properly nested
 
-        if verbatimsplit: 
-            verbatimender = re.compile (r'(.*)\\end\{verbatim\}(.*)', re.DOTALL)
-            # [('bla1 \\b{v} bla2 \\e{v} bla3 \\b{v} bla4 ', ' bla5')]
-            verbatimend = verbatimender.findall(t)
+        verbatimsplits = re.split (r'\\begin\{verbatim\}|\\end\{verbatim\}', t)
+        latex = ""
+        for i in range(0, len(verbatimsplits)):
+            if i%2:
+                latex += "\\begin{verbatim}" + verbatimsplits[i] + "\\end{verbatim}"
+            else:
+                latex += self.applyLaTeXFunctions(verbatimsplits[i])
+                
+        
+        ## # t = [('bla1 \\b{v} bla2 \\e{v} bla3 \\b{v} bla4 ', ' bla5')]
+        ## verbatimsplitter = re.compile (r'(.*?)\\begin\{verbatim\}(.*?)\\end\{verbatim\}', re.DOTALL)
+        ## # [('bla1 ', ' bla2 '), (' bla3 ', ' bla4 ')]
+        ## verbatimsplit = verbatimsplitter.findall(t)
+        ## # print type(verbatimsplit)
+        ## # print (verbatimsplit)
 
-            latex = ""
-            # now iterate over verbatimsplit, apply functions to first part, add with second part
-            for block in verbatimsplit:
-                latex += self.applyLaTeXFunctions(block[0]) + "\\begin{verbatim}" + block[1] + "\\end{verbatim}"
-            if verbatimend:
-                # print verbatimend
-                latex += self.applyLaTeXFunctions (verbatimend[0][1])
+        ## if verbatimsplit: 
+        ##     verbatimender = re.compile (r'(.*)\\end\{verbatim\}(.*)', re.DOTALL)
+        ##     # [('bla1 \\b{v} bla2 \\e{v} bla3 \\b{v} bla4 ', ' bla5')]
+        ##     verbatimend = verbatimender.findall(t)
 
-            # in the function calls, all # characters are still there 
-            # t = applyFunctions(t)
-        else:
-            latex = self.applyLaTeXFunctions (t) 
+        ##     latex = ""
+        ##     # now iterate over verbatimsplit, apply functions to first part, add with second part
+        ##     for block in verbatimsplit:
+        ##         latex += self.applyLaTeXFunctions(block[0]) + "\\begin{verbatim}" + block[1] + "\\end{verbatim}"
+        ##     if verbatimend:
+        ##         # print verbatimend
+        ##         latex += self.applyLaTeXFunctions (verbatimend[0][1])
+
+        ##     # in the function calls, all # characters are still there 
+        ##     # t = applyFunctions(t)
+        ## else:
+        ##     latex = self.applyLaTeXFunctions (t) 
 
         return latex
 
