@@ -204,6 +204,13 @@ class PullWikiMechanize(PullWiki):
         if response=="Page " + page + "not found.":
             response = None 
 
+        if response:
+            if self.verbose:
+                print 'length before replace: ', len(response)
+            response = response.replace ('\r\n', '\n')
+            if self.verbose:
+                print 'length after replace: ', len(response)
+            
         return response 
         
 ###########################################
