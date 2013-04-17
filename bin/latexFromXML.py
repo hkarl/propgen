@@ -1030,7 +1030,7 @@ def computeStatistics (verbose):
 
     # What can we compute about WPs?
     for wp in allWPDicts:
-        wp['wpeffort'] = str(sum([float(e['resources'])
+        wp['wpeffort'] = utils.myFormat(sum([float(e['resources'])
                                   for e in allEfforts if e['wp'] == wp['Number']]))
         wp.keydoc = """The total effort of this WP (as string, not
         sure why?)."""
