@@ -1318,7 +1318,7 @@ setting. The difference is that the obtained files are parsed
 assuming the twiki syntax and the login process to a Twiki is
 slightly different from a moinmoin wiki.
 The distribution&#8217;s configuration file example assumes a moinmoin-local</p>
-<p>Default:   moinmoin-local</p>
+<p>Default:   moinmoin</p>
 </dd></dl>
 
 <dl class="describe">
@@ -1336,7 +1336,7 @@ out for other wiki types.</p>
 <dd><p>For remote access to a wiki. It specifies the &#8220;root&#8221; URL where the
 wiki can be accessed, without any particular page name. It is ignored for the moinmoin-local
 wikitype and only used for other wikitypes.</p>
-<p>Default:   <a class="reference external" href="http://hk-vm.cs.uni-paderborn.de:8080/">http://hk-vm.cs.uni-paderborn.de:8080/</a></p>
+<p>Default:   <a class="reference external" href="http://hk-vm.cs.upb.de:8888/">http://hk-vm.cs.upb.de:8888/</a></p>
 </dd></dl>
 
 <dl class="describe">
@@ -1346,7 +1346,7 @@ wikitype and only used for other wikitypes.</p>
 moinmoin-local wikitype. The default corresponds to the account name
 preset in the distribution&#8217;s moinmoin wiki. Change this option to
 reflect your own user name.</p>
-<p>Default:   ProjectMaster</p>
+<p>Default:   HolgerKarl</p>
 </dd></dl>
 
 <dl class="describe">
@@ -1356,7 +1356,7 @@ reflect your own user name.</p>
 distribution&#8217;s example moinmoin wiki. You definitely want to change
 the password on the wiki and then reflect this change here. It is ignored in the
 moinmoin-local wikitype and only needed for remote access.</p>
-<p>Default:   123abc</p>
+<p>Default:   epi1KUR</p>
 </dd></dl>
 
 <dl class="describe">
@@ -4515,7 +4515,7 @@ ${pieRequestedPartnerTypes_tikz}
 <span class="c"># Which flags to use? -v is verbose for all scripts; </span>
 <span class="c"># in production use, -v is usually not necessary</span>
 <span class="c"># FLAGS = -v </span>
-<span class="nv">FLAGS</span> <span class="o">=</span>
+<span class="nv">FLAGS</span> <span class="o">=</span> 
 
 <span class="nv">LATEXBIN</span> <span class="o">=</span> pdflatex -interaction<span class="o">=</span>nonstopmode
 
@@ -4721,7 +4721,6 @@ fullcommit:
 <span class="k">\setlength</span><span class="nb">{</span><span class="k">\pltopsep</span><span class="nb">}{</span>0.5ex<span class="nb">}</span>
 <span class="k">\setlength</span><span class="nb">{</span><span class="k">\plitemsep</span><span class="nb">}{</span>0.25ex<span class="nb">}</span>
 
-<span class="k">\usepackage</span><span class="nb">{</span>datetime<span class="nb">}</span>
 
 <span class="k">\begin</span><span class="nb">{</span>document<span class="nb">}</span>
 
@@ -4878,6 +4877,7 @@ The maximum length applying to a legal entity composed of several members, each 
 <span class="k">\hspace</span><span class="nb">{</span><span class="k">\subfigbottomskip</span><span class="nb">}}</span>
 
 <span class="k">\input</span><span class="nb">{</span>figures/pies/piePMsWPs<span class="nb">}</span>
+
 <span class="k">\input</span><span class="nb">{</span>figures/pies/piePMsPartners<span class="nb">}</span>
 <span class="k">\input</span><span class="nb">{</span>figures/pies/pieBudgetPartners<span class="nb">}</span>
 <span class="k">\input</span><span class="nb">{</span>figures/pies/pieRequestedBudgetPartners<span class="nb">}</span>
@@ -5150,7 +5150,7 @@ protection authorities.
     </div>
     <div class="footer">
         &copy; Copyright 2012, Holger Karl.
-      Last updated on Apr 15, 2013.
+      Last updated on Apr 17, 2013.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
     </div>
   </body>

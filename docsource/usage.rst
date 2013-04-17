@@ -330,6 +330,17 @@ software, ... -checkcommissiontemplate) and "Dissemination"
 
    Table specifying deliverables
 
+Generate LaTeX labels
+=====================
+
+Based on workpackages, tasks, deliverables, milestones, LaTeX labels are generated as follows (see main.tex for details, it is actually a labitem): 
+
+- For each task, there is a label task:LABEL 
+
+
+To each of these labels, you can refer to in the text. E.g., suppose you have a task with the label architecture and which turns out to be, e.g., task 3 in workpackage 1, you can write \ref{task:architecture} and that would turn into T\,1.3. (so, ideally, you should write: Task~\ref{task:architecture})
+
+
 Budget information
 ==================
 
@@ -451,52 +462,62 @@ recognized features (see Section :ref:`sec-wiki-parser` for details):
   actual table. 
 
 
-- Some attempts are made to maintain special characters. In particular: 
+- Boldface markup is recognized and turned into \textbf
 
-  - Some effort is made to deal with ampersand characters &. However,
-    they are hard to do since they serve as separators in plain LaTeX,
-    and since entering plain LaTeX code should be possible (e.g., for
-    complicated tables), they cannot simply all be escaped. The
-    current compromises is a follows: 
-
-    - Ampersands that are surrounded (!) by white space are escaped,
-      e.g., turned into \& and are typeset thus by LaTeX as an
-      ampersand mark. 
-
-    - Ampersands without spaces around them are passed through
-      unmodified, unescaped. 
-
-    The upshoot is this: 
-
-    - Users have to be told (and this usually fails) that for
-      abbreviations like R&D (when no space is desired), they have to
-      enter R\&D! This often fails when users are not familiar with
-      LaTeX. 
-
-    - Users familiar with LaTeX, on the other hand, are likely to
-      write "bla \& bla", since they know that ampersands have to be
-      escaped. This should work, but tread careful here nonetheless. 
-
-    - If you need the ampersand as LaTeX's control character, then you
-      must not use space around them. If space is absolutely
-      necessary, you could try something like "bla {}&{} bla", but I
-      have no idea whether this works as desired. 
-
-  - Boldface markup is recognized 
-
-  - Italics markup as well 
-
-  - Line breaks specified by <BR> turn into newline commands 
-
-  - Commands of the form: #TODO: some text # are turned into fxwarning
-    commands of the fixme package (and appear in warnings.tex) 
-
-  - Some attempts are made to provide correct left and right quotation
-    marks; guessing is based on spaces before or after a quotation mark ". 
-
-  - Pure hash marks # are protected by turning them into \\#. 
+- Italics markup as well and turned into \emph 
 
 
+=========================
+ Recognized LaTeX markup
+=========================
+
+
+Some attempts are made to maintain special characters. In particular: 
+
+- Some effort is made to deal with ampersand characters &. However,
+  they are hard to do since they serve as separators in plain LaTeX,
+  and since entering plain LaTeX code should be possible (e.g., for
+  complicated tables), they cannot simply all be escaped. The
+  current compromises is a follows: 
+
+  - Ampersands that are surrounded (!) by white space are escaped,
+    e.g., turned into \& and are typeset thus by LaTeX as an
+    ampersand mark. 
+
+  - Ampersands without spaces around them are passed through
+    unmodified, unescaped. 
+
+  The upshoot is this: 
+
+  - Users have to be told (and this usually fails) that for
+    abbreviations like R&D (when no space is desired), they have to
+    enter R\&D! This often fails when users are not familiar with
+    LaTeX. 
+
+  - Users familiar with LaTeX, on the other hand, are likely to
+    write "bla \& bla", since they know that ampersands have to be
+    escaped. This should work, but tread careful here nonetheless. 
+
+  - If you need the ampersand as LaTeX's control character, then you
+    must not use space around them. If space is absolutely
+    necessary, you could try something like "bla {}&{} bla", but I
+    have no idea whether this works as desired. 
+
+- Line breaks specified by <BR> turn into newline commands 
+
+- Commands of the form: #TODO: some text # are turned into fxwarning
+  commands of the fixme package (and appear in warnings.tex) 
+
+- Some attempts are made to provide correct left and right quotation
+  marks; guessing is based on spaces before or after a quotation mark ". 
+
+- Pure hash marks # are protected by turning them into \\#. 
+
+- Pairs of \begin{verbatim} and \end{verbatim} are recognized, and whatever is between them is NOT treated for special characters, etc. However, with some limitations: 
+
+  - There MUST be some text before the first \begin{verbatim}. Else, translation will fail. 
+
+  - Nesting of verbatim environments is not supported and will generated completely wrong LaTeX code (which would likely not even compile). 
 
 
 

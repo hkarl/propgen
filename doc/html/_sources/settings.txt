@@ -49,7 +49,7 @@ to use to log in.
     slightly different from a moinmoin wiki.
     The distribution's configuration file example assumes a moinmoin-local 
 
-    Default:   moinmoin-local
+    Default:   moinmoin
 
 .. describe:: moinmoinpath
 
@@ -65,7 +65,7 @@ to use to log in.
     wiki can be accessed, without any particular page name. It is ignored for the moinmoin-local
     wikitype and only used for other wikitypes. 
 
-    Default:   http://hk-vm.cs.uni-paderborn.de:8080/
+    Default:   http://hk-vm.cs.upb.de:8888/
 
 .. describe:: wikiuser
 
@@ -74,7 +74,7 @@ to use to log in.
     preset in the distribution's moinmoin wiki. Change this option to
     reflect your own user name. 
 
-    Default:   ProjectMaster
+    Default:   HolgerKarl
 
 .. describe:: wikipassword
 
@@ -83,7 +83,7 @@ to use to log in.
     the password on the wiki and then reflect this change here. It is ignored in the
     moinmoin-local wikitype and only needed for remote access. 
 
-    Default:   123abc
+    Default:   epi1KUR
 
 .. describe:: loginURL
 
