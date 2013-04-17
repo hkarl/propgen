@@ -277,12 +277,12 @@ class wikiParser:
                                                      d["file"] + ".pdf"))) and
                         (not os.path.exists(os.path.join(self.config.get("PathNames", 'uploadedfigurespath'),
                                                          d["file"] + ".pdf")))):
-                    w = "You are trying to include file " + d["file"] +  \
-                        ", but no PDF file of that name exists in " + \
-                        self.config.get("PathNames", 'manuallatexfigurespath') + \
-                        ' or in ' +  self.config.get("PathNames", 'uploadedfigurespath')
-                    utils.warning (w)
-                    s += w
+                    ## w = "You are trying to include file " + d["file"] +  \
+                    ##     ", but no PDF file of that name exists in " + \
+                    ##     self.config.get("PathNames", 'manuallatexfigurespath') + \
+                    ##     ' or in ' +  self.config.get("PathNames", 'uploadedfigurespath')
+                    ## utils.warning (w)
+                    ## s += w
 
                     # print (os.path.join(
                     #     self.config.get("PathNames", 'manuallatexfigurespath'),
@@ -384,7 +384,7 @@ class wikiParser:
                 tabularHeader = mh.group(1)
 		if re.search ('XTABULAR', l):
 		    tabularType = 'xtabular'
-                    print "xtabular recognized"
+                    # print "xtabular recognized"
 		else:
 		    tabularType = 'tabular'
 
@@ -618,7 +618,7 @@ class wikiParserMoinmoin(wikiParser):
         # print "in GetFileFromWiki"
         # print self.wikifile
 
-        print figfile
+        # print figfile
 
 
         # try to find out what the candidate files are:
