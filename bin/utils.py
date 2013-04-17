@@ -266,3 +266,16 @@ def getSettings(filename):
 
 
     return c 
+
+##############################
+
+def myFormat (x):
+    """Take a number, either int or float, and return a string with the
+    decimal point only present if necessary. E.g.,
+    - myFormat(23) -> '23'
+    - myFormat(23.5) -> '23.5'
+    - myFormat(23.78) -> '23.8'
+    """
+
+
+    return '{0:.0f}'.format(x) if int(x)==x else  '{0:.1f}'.format(x)

@@ -1030,24 +1030,24 @@ def computeStatistics (verbose):
 
     # What can we compute about WPs?
     for wp in allWPDicts:
-        wp['wpeffort'] = str(sum([int(e['resources'])
+        wp['wpeffort'] = utils.myFormat(sum([float(e['resources'])
                                   for e in allEfforts if e['wp'] == wp['Number']]))
         wp.keydoc = """The total effort of this WP (as string, not
         sure why?)."""
 
         taskset = set([task['Label'] for task in allTasks if task['wp'] == wp['Number']])
-        wp['taskeffort'] = dict([ (t, sum([int(te['resources'])
+        wp['taskeffort'] = dict([ (t, sum([float(te['resources'])
                                            for te in allEfforts if te['task'] == t]))
                                   for t in taskset ] )
         wp.keydoc = """A dictionary, mapping the symbolic label of
         each task of this WP to the total effort it consumes (as
         integer)."""
         
-        partnerset = set([te['partner'] for te in allEfforts if te['wp'] == wp['Number'] and int(te['resources']) > 0])
-        wp['partnereffort'] = dict([ (p, sum([int(te['resources'])
+        partnerset = set([te['partner'] for te in allEfforts if te['wp'] == wp['Number'] and float(te['resources']) > 0])
+        wp['partnereffort'] = dict([ (p, sum([float(te['resources'])
                                               for te in allEfforts
                                               if te['partner'] == p and
-                                              te['wp'] == wp['Number'] and int(te['resources']) > 0]))
+                                              te['wp'] == wp['Number'] and float(te['resources']) > 0]))
                                      for p in partnerset ] )
         wp.keydoc = """A dictionary mapping the shortname of each
         partner with positive effort in this WP to the effort (as integer)."""
