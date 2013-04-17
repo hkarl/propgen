@@ -376,12 +376,15 @@ class wikiParser:
         for l in lines:
             # is there a tabular header in the wiki input?
             # extract it for the next following table
-            mh = re.search (r'#+ *[X]TABULAR: *(.*?) *#*$', l)
+            mh = re.search (r'#+ *X?TABULAR: *(.*?) *#*$', l)
             if mh:
+                # print "recognized header"
+                # print l 
                 # print mh.group(1)
                 tabularHeader = mh.group(1)
 		if re.search ('XTABULAR', l):
 		    tabularType = 'xtabular'
+                    print "xtabular recognized"
 		else:
 		    tabularType = 'tabular'
 
@@ -406,10 +409,13 @@ class wikiParser:
                         latex+= "\\centering\\begin{" + tabularType + "}{" + tabularHeader  + "}\n"
                         tabularHeader = ""
                     else:
-                        latex+= "\\centering\\begin{" + tabularType + "}{" + (colstring * cols)  + "}\n"
-                    latex+= "\\toprule\n"
+                        latex+= "\\centering\\begin{tabular}{" + (colstring * cols)  + "}\n"
+                        tabularType = "tabular"
+                    if tabularType == 'tabular':
+                        latex+= "\\toprule\n"
                     latex+= ll + "\\\\ \n"
-                    latex+= "\\midrule\n"
+                    if tabularType == 'tabular':
+                        latex+= "\\midrule\n"
                     inTable=True
                 else:
                     # we already are in the table, just put in the line 
@@ -417,7 +423,9 @@ class wikiParser:
             else:
                 if inTable:
                     # we just left a table 
-                    latex+= "\\bottomrule \n\\end{" + tabularType + "}\n"
+                    if tabularType == 'tabular':
+                        latex+= "\\bottomrule \n"
+                    latex += "\\end{" + tabularType + "} \n"
                     inTable=False
 
                 latex += l + '\n'
