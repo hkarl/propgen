@@ -460,8 +460,23 @@ class wikiParser:
 
         # before we do anything, let's get rid of "lonely" & characters
         # later on, we build them back into \& for LaTeX processing
+
+        # first, let's deal with those ampersands where somebody thought about
+        # a single backslash in front of them; we do not touch two backslashes,
+        # cause then somebody obviously thought about that:
+        latex = re.sub (r'\\&', '&amp;', latex)
+        # latex = re.sub (r'{}&{}', '&amp;', latex)
+        
+        
+        # note: this only happens to ampersands with a space AFTERWARDS 
         latex  = string.replace (latex, '& ', '&amp;')
 
+        
+
+        ## print "==== after amp replace: ===="
+        ## print latex
+        ## print "=========="
+        
         # build the headings:
         latex = self.buildHeadings (latex) 
 
@@ -474,10 +489,7 @@ class wikiParser:
         # build table
         latex = self.buildTable (latex) 
 
-        # and some simple replacements; need to fix the umlaut thingies
-        # this needs to be done before the table generation 
-
-        # and some simple replacements; need to fix the umlaut thingies 
+        # and some simple replacements
         latex = self.handleCharacters(latex)
 
         return latex 
@@ -512,32 +524,6 @@ class wikiParser:
             else:
                 latex += self.applyLaTeXFunctions(verbatimsplits[i])
                 
-        
-        ## # t = [('bla1 \\b{v} bla2 \\e{v} bla3 \\b{v} bla4 ', ' bla5')]
-        ## verbatimsplitter = re.compile (r'(.*?)\\begin\{verbatim\}(.*?)\\end\{verbatim\}', re.DOTALL)
-        ## # [('bla1 ', ' bla2 '), (' bla3 ', ' bla4 ')]
-        ## verbatimsplit = verbatimsplitter.findall(t)
-        ## # print type(verbatimsplit)
-        ## # print (verbatimsplit)
-
-        ## if verbatimsplit: 
-        ##     verbatimender = re.compile (r'(.*)\\end\{verbatim\}(.*)', re.DOTALL)
-        ##     # [('bla1 \\b{v} bla2 \\e{v} bla3 \\b{v} bla4 ', ' bla5')]
-        ##     verbatimend = verbatimender.findall(t)
-
-        ##     latex = ""
-        ##     # now iterate over verbatimsplit, apply functions to first part, add with second part
-        ##     for block in verbatimsplit:
-        ##         latex += self.applyLaTeXFunctions(block[0]) + "\\begin{verbatim}" + block[1] + "\\end{verbatim}"
-        ##     if verbatimend:
-        ##         # print verbatimend
-        ##         latex += self.applyLaTeXFunctions (verbatimend[0][1])
-
-        ##     # in the function calls, all # characters are still there 
-        ##     # t = applyFunctions(t)
-        ## else:
-        ##     latex = self.applyLaTeXFunctions (t) 
-
         return latex
 
     def constructLabel (self, t):
@@ -686,6 +672,7 @@ class wikiParserMoinmoin(wikiParser):
         {{attachment:duckie.png|&postion=htbp,&caption=bla bla and some more text for the caption,&label=fig:duckie,&latexwidth=0.8}}
            kvstring has the key-value pairs, with the {{attachment: }} already removed 
         """
+
         d = {}
 
         l = string.split(kvstring, '|')

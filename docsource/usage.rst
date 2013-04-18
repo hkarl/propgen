@@ -346,7 +346,8 @@ Based on workpackages, tasks, deliverables, milestones, LaTeX labels are generat
 
 - For each workpackage, there is a label wp:Shortname. (Note that this
   is a bit of a hack; it looks to work realiably so far, but that
-  might warrant some watching.) 
+  might warrant some watching. Implemented in main.tex and the Wp
+  template by means of the \WpCounter.) 
 
 - For each task, there is a label task:LABEL 
 
@@ -354,12 +355,12 @@ Based on workpackages, tasks, deliverables, milestones, LaTeX labels are generat
 
 - For each milestone, there is a label ms:LABEL 
 
-- Figures that are generated via the LaTeX templates there are typical labels defined (see templates/latexTemplates.cfg for details). 
+- For figures that are generated via the LaTeX templates there are typical labels defined (see templates/latexTemplates.cfg for details). 
 
 - Similarly, the automatically generated tables have suitable labels. Again, typically done via the template scheme; look there for details. 
 
 
-To each of these labels, you can refer to in the text. E.g., suppose you have a task with the label architecture and which turns out to be, e.g., task 3 in workpackage 1, you can write \ref{task:architecture} and that would turn into T\,1.3. (so, ideally, you should write: Task~\ref{task:architecture})
+To each of these labels, you can refer in the text. E.g., suppose you have a task with the label architecture and which turns out to be, e.g., task 3 in workpackage 1, you can write \ref{task:architecture} and that would turn into T\,1.3. (so, ideally, you should write: Task~\ref{task:architecture})
 
 
 Budget information
@@ -487,6 +488,9 @@ recognized features (see Section :ref:`sec-wiki-parser` for details):
 
 - Italics markup as well and turned into \emph 
 
+- Anything enclosed in <DEL> ... </DEL> is ignored. Useful to remove
+  some text from final production which you still might want to keep
+  on the Wiki nonetheless. 
 
 =========================
  Recognized LaTeX markup
@@ -501,28 +505,38 @@ Some attempts are made to maintain special characters. In particular:
   complicated tables), they cannot simply all be escaped. The
   current compromises is a follows: 
 
-  - Ampersands that are surrounded (!) by white space are escaped,
+  - Ampersands that are *followed* (!) by white space are escaped,
     e.g., turned into \& and are typeset thus by LaTeX as an
     ampersand mark. 
 
-  - Ampersands without spaces around them are passed through
-    unmodified, unescaped. 
+  - Ampersands with a preceding backslash - i.e., \& - are also turned
+    into correct LaTeX markup and typset as ampersands in the
+    resulting text. 
+
+  - Ampersands without spaces around them  (and without preceding backslash)
+    are passed through unmodified, unescaped. 
+
 
   The upshoot is this: 
 
-  - Users have to be told (and this usually fails) that for
+  - Users have to be told (and this often causes confusion) that for
     abbreviations like R&D (when no space is desired), they have to
     enter R\&D! This often fails when users are not familiar with
     LaTeX. 
 
-  - Users familiar with LaTeX, on the other hand, are likely to
-    write "bla \& bla", since they know that ampersands have to be
-    escaped. This should work, but tread careful here nonetheless. 
+  - Consequence: whenever you use & for wiki markup purposes, they
+    MUST NOT be followed by a whitespace. Typical example is the use
+    of & in the inclusion of figures in the moinmoin wiki syntax. 
 
-  - If you need the ampersand as LaTeX's control character, then you
-    must not use space around them. If space is absolutely
-    necessary, you could try something like "bla {}&{} bla", but I
-    have no idea whether this works as desired. 
+    Put the other way around: No spaces around ampersands in figure
+    commands!
+
+
+  - If you need an ampersand as LaTeX's control character, then you
+    must not use space around it. If space is absolutely necessary
+    while at the same time using ampersand as control character (not
+    that I can of a situation where that would be the case), you could
+    use "bla {}&{} bla".
 
 - Line breaks specified by <BR> turn into newline commands 
 
