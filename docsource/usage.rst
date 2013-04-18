@@ -158,11 +158,16 @@ tasks and only use workpackages. (Not without considerably reworking a
 lot of the templates, at least.) This part is started by a *level-2
 heading* "Tasks". 
 
-Inside this section, there can be any number of
-*level-3 headings*, starting with "Task Description: ", and then
-the **symbolic label** of each task: Each task is assigned a label,
-typically a short word or phrase (no spaces!) via which information
-about this task at various places in this page can be cross-linked. 
+Inside this section, there can be any number of *level-3 headings*,
+starting with "Task Description: ", and then the **symbolic label** of
+each task: Each task is assigned a label, typically a short word or
+phrase (no spaces!) via which information about this task at various
+places in this page can be cross-linked. It really makes *no sense at
+all* to use labels of the forme, e.g., t2.2 to indicate the second
+deliverable in the second task in workpackage two. The entire point
+here is have things numbered automatically; using such numbers as
+names really defeats the purpose and makes resorting of such entities
+(workpackage, tasks, deliverables, milestones) totally confusing. 
 
 Then, there should be, per task, *two level-4 headings* "Objectives" and
 "Description of work". The purpose is similar to the WP descriptions,
@@ -335,7 +340,19 @@ Generate LaTeX labels
 
 Based on workpackages, tasks, deliverables, milestones, LaTeX labels are generated as follows (see main.tex for details, it is actually a labitem): 
 
+- For each major section, there is a label in standard LaTeX fashion (see main.tex for details) 
+
+- For each automatically generated partner section, there is a label partner:PARTNERLABEL
+
 - For each task, there is a label task:LABEL 
+
+- For each deliverable, there is a label del:LABEL 
+
+- For each milestone, there is a label ms:LABEL 
+
+- Figures that are generated via the LaTeX templates there are typical labels defined (see templates/latexTemplates.cfg for details). 
+
+- Similarly, the automatically generated tables have suitable labels. Again, typically done via the template scheme; look there for details. 
 
 
 To each of these labels, you can refer to in the text. E.g., suppose you have a task with the label architecture and which turns out to be, e.g., task 3 in workpackage 1, you can write \ref{task:architecture} and that would turn into T\,1.3. (so, ideally, you should write: Task~\ref{task:architecture})
