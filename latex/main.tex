@@ -121,6 +121,16 @@
 
 \usepackage{datetime}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% a counter to reference to WP tables 
+\newcounter{WpCounter}
+\newcommand{\WpCounter}[1] {%
+  \refstepcounter{WpCounter}
+  \label{wp:#1}
+}
+
+
+
 \begin{document}
 
 \setlength\landscapewidth{\textheight}

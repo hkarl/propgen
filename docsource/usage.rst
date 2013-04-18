@@ -344,6 +344,10 @@ Based on workpackages, tasks, deliverables, milestones, LaTeX labels are generat
 
 - For each automatically generated partner section, there is a label partner:PARTNERLABEL
 
+- For each workpackage, there is a label wp:Shortname. (Note that this
+  is a bit of a hack; it looks to work realiably so far, but that
+  might warrant some watching.) 
+
 - For each task, there is a label task:LABEL 
 
 - For each deliverable, there is a label del:LABEL 
