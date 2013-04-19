@@ -341,7 +341,8 @@ class wikiParser:
                     if d.has_key("caption"):
                         st += "\\caption{" + d["caption"] + "}"
                     if d.has_key("label"):
-                        st += "\\label{fig:" + d["label"] + "}"
+                        # st += "\\label{fig:" + d["label"] + "}"
+                        st += "\\label{" + d["label"] + "}"
                     st += "}\\end{figure}"
 
                 if s:
