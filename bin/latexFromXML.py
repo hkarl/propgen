@@ -90,12 +90,35 @@ def errorMsg(tree):
 
 def dictFromXML (tree):
     """Given an XML node (obtained via the xml.etree.ElementTree
-    libary, build a dictionary where the keys are the tag of a child
+    libary), build a dictionary where the keys are the tag of a child
     node and the text attribute of the child node is the value. Return
     this dictionary."""
 
+    def getTyped (v, t):
+        """Convert a text v into a properly typed value,
+        according to the type given in t.
+        Code inspired by: http://codrspace.com/durden/xml-parsing-in-python/
+        """
+
+        try:
+            if 'type' in t:
+                t = t['type']
+                if t=='int':
+                    v = int(v)
+                if t=='float':
+                    v= float(v)
+                    
+        except Exception as e:
+            print e 
+            utils.warning ("Failed converting v to t in getTyped: " + str( v) + str(t))
+
+        return v 
+        
     try:
-        return utils.documentedDict ([(x.tag.strip(), x.text.strip()) for x in tree.getchildren()])
+        return utils.documentedDict ([(x.tag.strip(),
+                                       getTyped(x.text.strip(),
+                                                x.attrib)
+                                                ) for x in tree.getchildren()])
     except:
         errorMsg(tree)
 
@@ -1088,37 +1111,58 @@ def generatePartnerDescriptions(config, verbose):
 
 def parseBudget (config):
     """
-    If there is a budget file (excel), read in the data from there
+    Produce budget information.
+    - Either use an excel file as specified by the [Budget] information in settings
+    - Or use budget equations in settings 
     """
 
-    import xlrd
 
-    try:
-	wb = xlrd.open_workbook (os.path.join('..',
-					      config.get('Budget', 'file')))
-	sh = wb.sheet_by_name (config.get('Budget', 'sheet'))
-	for i in range (config.getint('Budget', 'partnerCol')-1,
-			config.getint('Budget', 'partnerCol')-1 + len(partnerList)):
-	    partner = sh.cell_value (config.getint('Budget', 'partnerRow')-1,
-				     i)
+    if config.has_section('BudgetExcel'): 
+        import xlrd
 
-	    dd = {}
-	    for d in ['totalResearch', 'requestedResearch',
-		      'totalManagement', 'requestedManagement',
-		      'totalCost', 'totalRequested', 'PMCost']:
-		dd[d]= sh.cell_value (config.getint('Budget', d)-1,
-				     i)
+        try:
+            wb = xlrd.open_workbook (os.path.join('..',
+                                                  config.get('BudgetExcel', 'file')))
+            sh = wb.sheet_by_name (config.get('BudgetExcel', 'sheet'))
+            for i in range (config.getint('BudgetExcel', 'partnerCol')-1,
+                            config.getint('BudgetExcel', 'partnerCol')-1 + len(partnerList)):
+                partner = sh.cell_value (config.getint('BudgetExcel', 'partnerRow')-1,
+                                         i)
 
-	    # print partner, dd
+                dd = {}
+                for d in ['totalResearch', 'requestedResearch',
+                          'totalManagement', 'requestedManagement',
+                          'totalCost', 'totalRequested', 'PMCost']:
+                    dd[d]= sh.cell_value (config.getint('BudgetExcel', d)-1,
+                                         i)
 
-	    for p in partnerList:
-		if p['Shortname'] == partner:
-		    p.update (dd)
-    except:
-	print "Warning: No budget file found or problems parsing it"
+                # print partner, dd
+
+                for p in partnerList:
+                    if p['Shortname'] == partner:
+                        p.update (dd)
+        except:
+            print "Warning: No budget file found or problems parsing it"
 
 
-    # pp (partnerList)
+    # and we should fill in the person months for research and mgmt per partner
+    # else it becomes to complicated to write the budget equations
+
+    wpTypes = set([wp['Type'] for wp in allWPDicts])
+    for p in partnerList:
+        for wpType in wpTypes:
+            p['personMonths_'+wpType]  = 0.
+
+        for wp in allWPDicts:
+            p['personMonths_'+wp['Type']] += wp['partnereffort'][p['Shortname']]
+
+    if config.has_section('BudgetEquations'):
+        for (lhs, rhs) in config.items('BudgetEquations'):
+            # print lhs, rhs
+            for p in partnerList: 
+                exec lhs + ' = ' + rhs in globals(), p
+
+    # pp(partnerList)
 
 ########################################
 if __name__ == '__main__':

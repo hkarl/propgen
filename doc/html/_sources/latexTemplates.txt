@@ -921,9 +921,9 @@ WpTasksDescriptions
     \\noindent \\textbf{Description of Task ${taskId}: ${Name}} 
     \\ifthenelse{\\boolean{WPTables-taskboxShowsLeader}}{(Task leader: ${Leadpartner})}{}
     \\ifthenelse{\\boolean{WPTables-taskboxShowsObjectives}}{ ~\\\\[0.2cm]
-    \\textbf{Task objectives:} ${taskobjectives}}{}
+    \\noindent \\textbf{Task objectives:} ${taskobjectives}}{}
     \\ifthenelse{\\boolean{WPTables-taskboxShowsDescription}}{~ \\\\[0.2cm]
-    \\textbf{Description of work:} ${taskdescription}}{}
+    \\noindent \\textbf{Description of work:} ${taskdescription}}{}
     \\ifthenelse{\\boolean{WPTables-taskboxShowsDeliverables}}{ %{ (r"""~\\\\[0.3cm]
     \\noindent {\\centering
     \\begin{tabular}{lp{0.7\\textwidth}l}
@@ -958,7 +958,7 @@ WpTasksDescriptions
     %{ ", ".join([ ( r'\\textbf{%s}' % x['partner']  if x['partner'] == '${Leadpartner}'  else x['partner']) 
     for x  in allEfforts 
     if x['task'] == '${Label}' and 
-    int(x['resources']) > 0 ])
+    float(x['resources']) > 0 ])
     %}
     }{}
     \\end{framed}	
@@ -991,7 +991,7 @@ the deliverable and milestone list per WP, along with more detailed description
 .. describe:: template
 
     
-    Default:   \\item \\textbf{${id}}: ${Title} 
+    Default:   \\labitem{${id}}{del:${Label}} ${Title} 
     \\ifthenelse{\\boolean{WPTables-deliverablesWPshowDue}}{
     \\hfill (M\\,${Monthdue})}{}
     \\ifthenelse{\\boolean{WPTables-deliverablesWPshowTasks}}{
@@ -1028,7 +1028,7 @@ WpMilestones
 .. describe:: template
 
     
-    Default:   \\item \\textbf{${id}}: ${Title} 
+    Default:   \\labitem{${id}}{ms:${Label}}  ${Title} 
     \\ifthenelse{\\boolean{WPTables-milestonesWPshowDue}}{
     \\hfill (M\\,${Monthdue})}{}
     \\ifthenelse{\\boolean{WPTables-milestonesWPshowTasks}}{
@@ -1067,6 +1067,7 @@ Wp
     
     Default:   \\newpage 
     \\noindent \\addcontentsline{toc}{subsubsection}{WP ${Number}: ${Shortname} }
+    \\WpCounter{${Shortname}} 
     ${tableheader}
     \\begin{framed}
     \\noindent \\textbf{Objectives of Workpackage ${Number}:}
@@ -1399,9 +1400,9 @@ summaryEffortRows
 
     
     Default:   ${Shortname} & 
-    %{ ' & '.join([str(x['partnereffort']['${Shortname}']) for x in allWPDicts])
+    %{ ' & '.join([utils.myFormat(x['partnereffort']['${Shortname}']) for x in allWPDicts])
     %} & 
-    %{ str(sum([x['partnereffort']['${Shortname}'] for x in allWPDicts])) %}
+    %{ utils.myFormat(sum([x['partnereffort']['${Shortname}'] for x in allWPDicts])) %}
 
 .. describe:: list
 
@@ -1437,7 +1438,7 @@ summaryEffort
     ${summaryEffortRows} \\\\
     \\midrule
     Total & %{ ' & '.join([x['wpeffort'] for x in allWPDicts]) %} &
-    %{ str(sum([int(x['wpeffort']) for x in allWPDicts ] ))  %} \\\\
+    %{ utils.myFormat(sum([float(x['wpeffort']) for x in allWPDicts ] ))  %} \\\\
     \\bottomrule 
     \\end{tabular} 
     \\end{center}
@@ -1473,10 +1474,10 @@ effortPerTaskRows
     
     Default:   ${taskId}  & ${Name} & 
     {\\cellcolor[gray]{0.9}
-    %{ str(sum([int(e['resources']) for e in allEfforts if e['task'] == '${Label}'])) %}
+    %{ utils.myFormat(sum([float(e['resources']) for e in allEfforts if e['task'] == '${Label}'])) %}
     } &
     %{ ' & '.join([ ((r'\\textbf{%s}' % e['resources']) if '${Leadpartner}' == p['Shortname'] 
-    else (e['resources'] if int(e['resources']) > 0 
+    else (e['resources'] if float(e['resources']) > 0 
     else (r'{\\textcolor{%s}0}' % config.get('WPTables','colorInactivePartner'))))
     for p in partnerList
     for e in [ee for ee in allEfforts if 
@@ -1515,9 +1516,9 @@ effortPerTaskRowsWP
     Default:    ${effortPerTaskRows_${Number}} \\\\ \\hline
     \\rowcolor[gray]{0.9}
     \\multicolumn{2}{l|}{\\cellcolor[gray]{0.9} \\textbf{WP ${Number}:}} 
-    & %{ str(sum(${partnereffort}.values()))  %} &
-    %{ ' & '.join([ r'\\textbf{%s}' % str(${partnereffort}[p['Shortname']]) if p['Shortname']=='${Leadership}'
-    else str(${partnereffort}[p['Shortname']])
+    & %{ utils.myFormat(sum(${partnereffort}.values()))  %} &
+    %{ ' & '.join([ r'\\textbf{%s}' % utils.myFormat(${partnereffort}[p['Shortname']]) if p['Shortname']=='${Leadership}'
+    else utils.myFormat(${partnereffort}[p['Shortname']])
     for p in partnerList]) %}
 
 .. describe:: list
@@ -1571,7 +1572,7 @@ effortSum
     Default:   \\rowcolor[gray]{0.8} \\multicolumn{2}{l|}{\\cellcolor[gray]{0.8} 
     \\textbf{Project total: }} & \\textbf{\\totalPM} & 
     %{ ' & '.join([ r'\\textbf{%s}' % 
-    str(sum([ int(e['resources']) for e in allEfforts if 
+    utils.myFormat(sum([ float(e['resources']) for e in allEfforts if 
     e['partner'] == p['Shortname'] ]))
     for p in partnerList]) %}
 
@@ -1741,7 +1742,7 @@ first, the actual tikz figures
     
     Default:    \\begin{tikzpicture}
     \\pie[scale font]{ %{ utils.roundPie ([ (x['Shortname'], 
-    sum([int(e['resources']) for e in allEfforts if e['partner']==x['Shortname']])) 
+    sum([float(e['resources']) for e in allEfforts if e['partner']==x['Shortname']])) 
     for x in partnerList])
     %}}
     \\end{tikzpicture}
@@ -1765,7 +1766,7 @@ pieBudgetPartners_tikz
     
     Default:    \\begin{tikzpicture}
     \\pie[scale font]{ %{ utils.roundPie ([ (x['Shortname'], 
-    int(x['totalCost']))
+    float(x['totalCost']))
     for x in partnerList])
     %}}
     \\end{tikzpicture}
@@ -1789,7 +1790,7 @@ pieRequestedBudgetPartners_tikz
     
     Default:    \\begin{tikzpicture}
     \\pie[scale font]{ %{ utils.roundPie ([ (x['Shortname'], 
-    int(x['totalRequested']))
+    float(x['totalRequested']))
     for x in partnerList])
     %}}
     \\end{tikzpicture}
@@ -1954,6 +1955,7 @@ piePMsNations_tikz
 ==================
 .. program::  piePMsNations_tikz
 
+table for budget 
 pie charts, grouped by nations 
 pie chart over person months assigned to different nations
 a little bit more complicated: we need to pull out the (Nation/Effort) pairs. 
@@ -1971,7 +1973,7 @@ a suitable reduce function: adding up two values
     'Shortname',
     e['partner'],
     'Nation'),
-    int(e['resources']))
+    float(e['resources']))
     for e in allEfforts],
     lambda a,b: a+b))
     %}}
@@ -2192,7 +2194,7 @@ and finally, pie charts for partner types; very similat to the nations grouping
     'Shortname',
     e['partner'],
     'Type'),
-    int(e['resources']))
+    float(e['resources']))
     for e in allEfforts],
     lambda a,b: a+b))
     %}}
@@ -2394,3 +2396,76 @@ piePartnerTypeCompact
 
     
     Default:   pies 
+
+.. index::
+   single:  latexTemplates.cfg ;  BudgetTablePerPartners
+
+BudgetTablePerPartners
+======================
+.. program::  BudgetTablePerPartners
+
+A budget overview table 
+
+
+.. describe:: template
+
+    
+    Default:   \\ithenelse{\\boolean{BudgetEquations-showBudget}}{\\begin{table}
+    \\caption{Budget information (rounded to Euros, unless otherwise noted) }
+    \\label{tab:budget}
+    \\centering{\\adjustbox{angle=90,max width=\\textwidth,max height=0.95\\textheight}{
+    \\begin{tabular}{l%{'r'*len(partnerList)%}r}
+    \\toprule
+    & %{ '&'.join([p['Shortname'] for p in partnerList])  %} & Sum  \\\\
+    Overhead  (percent) &  %{ '&'.join([str(int(p['OverheadPercent'])) for p in partnerList])  %} &  \\\\
+    \\midrule 
+    % \\rowcolor[gray]{.9}
+    \\textbf{Research} \\\\
+    \\midrule 
+    Person months (research) &  %{ '&'.join([str(int(p['personMonths_RTD'])) for p in partnerList])  %} & %{ str(int(sum([p['personMonths_RTD'] for p in partnerList]))) %}  \\\\
+    Personnel cost & %{ '&'.join([str(int(p['RTDPersonnelCost'])) for p in partnerList])  %} & %{ str(int(sum([p['RTDPersonnelCost'] for p in partnerList]))) %}   \\\\
+    Travel cost  & %{ '&'.join([str(int(p['Travel'])) for p in partnerList])  %} & %{  str(int(sum([p['Travel'] for p in partnerList]))) %}   \\\\
+    Durable Equipment  & %{ '&'.join([str(int(p['DurableEquipment'])) for p in partnerList])  %} & %{ str(int(sum([p['DurableEquipment'] for p in partnerList])))  %}  \\\\
+    Consumables  & %{ '&'.join([str(int(p['Consumable'])) for p in partnerList])  %}  & %{ str(int(sum([p['Consumable'] for p in partnerList]))) %}  \\\\
+    Other  & %{ '&'.join([str(int(p['Other'])) for p in partnerList])  %}  & %{ str(int(sum([p['Other'] for p in partnerList]))) %}  \\\\
+    Subcontracting  & %{ '&'.join([str(int(p['Subcontracting'])) for p in partnerList])  %}  & %{ str(int(sum([p['Subcontracting'] for p in partnerList]))) %}  \\\\
+    \\midrule 
+    Research direct cost &  %{ '&'.join([str(int(p['RTDDirectCost'])) for p in partnerList])  %}  & %{ str(int(sum([p['RTDDirectCost'] for p in partnerList]))) %}  \\\\
+    Research indirect cost &  %{ '&'.join([str(int(p['RTDIndirectCost'])) for p in partnerList])  %}  & %{ str(int(sum([p['RTDIndirectCost'] for p in partnerList]))) %}  \\\\
+    Research total cost &  %{ '&'.join([str(int(p['totalResearch'])) for p in partnerList])  %}  & %{ str(int(sum([p['totalResearch'] for p in partnerList]))) %}  \\\\
+    Research requested grant  &  %{ '&'.join([str(int(p['requestedResearch'])) for p in partnerList])  %}  & %{ str(int(sum([p['requestedResearch'] for p in partnerList]))) %}  \\\\
+    \\midrule 
+    % \\rowcolor[gray]{.9}
+    \\textbf{Management} \\\\
+    \\midrule 
+    Person months (mgmt.) &  %{ '&'.join([str(int(p['personMonths_MGMT'])) for p in partnerList])  %}  & %{ str(int(sum([p['personMonths_MGMT'] for p in partnerList]))) %}  \\\\
+    Personnel cost (mgmt.) &  %{ '&'.join([str(int(p['MgmtPersonnelCost'])) for p in partnerList])  %}  & %{ str(int(sum([p['MgmtPersonnelCost'] for p in partnerList]))) %}  \\\\
+    Travel &  %{ '&'.join([str(int(p['MgmtTravel'])) for p in partnerList])  %}  & %{ str(int(sum([p['MgmtTravel'] for p in partnerList]))) %}  \\\\
+    Audit cost &  %{ '&'.join([str(int(p['MgmtAuditCost'])) for p in partnerList])  %}  & %{ str(int(sum([p['MgmtAuditCost'] for p in partnerList]))) %}  \\\\
+    \\midrule 
+    Management direct cost &  %{ '&'.join([str(int(p['MgmtDirectCost'])) for p in partnerList])  %}  & %{ str(int(sum([p['MgmtDirectCost'] for p in partnerList]))) %}  \\\\
+    Management indirect cost &  %{ '&'.join([str(int(p['MgmtIndirectCost'])) for p in partnerList])  %}  & %{ str(int(sum([p['MgmtIndirectCost'] for p in partnerList]))) %}  \\\\
+    Management total cost &  %{ '&'.join([str(int(p['totalManagement'])) for p in partnerList])  %}  & %{ str(int(sum([p['totalManagement'] for p in partnerList]))) %}  \\\\
+    Management requested grant  &  %{ '&'.join([str(int(p['requestedManagement'])) for p in partnerList])  %}  & %{ str(int(sum([p['requestedManagement'] for p in partnerList]))) %}  \\\\
+    \\midrule 
+    Total cost &  %{ '&'.join([str(int(p['totalCost'])) for p in partnerList])  %}  & %{ str(int(sum([p['totalCost'] for p in partnerList]))) %}  \\\\
+    Requested grant  &  %{ '&'.join([str(int(p['totalRequested'])) for p in partnerList])  %}  & %{ str(int(sum([p['totalRequested'] for p in partnerList]))) %}  \\\\
+    \\bottomrule 
+    \\end{tabular}
+    }} % closes adjustbox  and centering 
+    \\end{table}}{}
+
+.. describe:: dict
+
+    
+    Default:   expanded 
+
+.. describe:: file
+
+    
+    Default:   True 
+
+.. describe:: dir
+
+    
+    Default:   tables

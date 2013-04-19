@@ -89,6 +89,16 @@ Wiki
 
 The order of the rows is irrelevant. 
 
+Budget
+======
+
+There is an optional section on budget data. You can put the usual information on person month cost, overhead, cost models, etc. for each partner in this table. (It is split from the partner data table only to keep these two tables at reasonable size.) The input values of this table are used to compute actual cost data, e.g., by multiplying with person month numbers according to workpackage (distinguishing between management and research person months, according to workpackage type). Simply add lines to the Budget table if you need further cost categories. 
+
+The rules for these cost computations are laid out in section BudgetEquations of the settings.cfg file. There, it is easy to add further variables or change computation rules. 
+
+These equations are applied once per partner, in the given order. As an result, all these variables appear in the partnerList list, holding the computed values for each individual partner. As a consequence, these values can be accessed from the LaTeX templates. The BudgetTablePerPartners section is an example how a table with all budget information for all partners. (It is actually less complex than it looks at first sight.) In a similar vain, the pie charts are computed from this input information. 
+
+
 =====================
  A generic text page
 =====================

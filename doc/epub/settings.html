@@ -69,7 +69,7 @@ setting. The difference is that the obtained files are parsed
 assuming the twiki syntax and the login process to a Twiki is
 slightly different from a moinmoin wiki.
 The distribution&#8217;s configuration file example assumes a moinmoin-local</p>
-<p>Default:   moinmoin</p>
+<p>Default:   moinmoin-local</p>
 </dd></dl>
 
 <dl class="describe">
@@ -87,7 +87,7 @@ out for other wiki types.</p>
 <dd><p>For remote access to a wiki. It specifies the &#8220;root&#8221; URL where the
 wiki can be accessed, without any particular page name. It is ignored for the moinmoin-local
 wikitype and only used for other wikitypes.</p>
-<p>Default:   <a class="reference external" href="http://hk-vm.cs.upb.de:8888/">http://hk-vm.cs.upb.de:8888/</a></p>
+<p>Default:   <a class="reference external" href="http://hk-vm.cs.uni-paderborn.de:8080/">http://hk-vm.cs.uni-paderborn.de:8080/</a></p>
 </dd></dl>
 
 <dl class="describe">
@@ -97,7 +97,7 @@ wikitype and only used for other wikitypes.</p>
 moinmoin-local wikitype. The default corresponds to the account name
 preset in the distribution&#8217;s moinmoin wiki. Change this option to
 reflect your own user name.</p>
-<p>Default:   HolgerKarl</p>
+<p>Default:   ProjectMaster</p>
 </dd></dl>
 
 <dl class="describe">
@@ -107,7 +107,7 @@ reflect your own user name.</p>
 distribution&#8217;s example moinmoin wiki. You definitely want to change
 the password on the wiki and then reflect this change here. It is ignored in the
 moinmoin-local wikitype and only needed for remote access.</p>
-<p>Default:   epi1KUR</p>
+<p>Default:   123abc</p>
 </dd></dl>
 
 <dl class="describe">
@@ -560,73 +560,108 @@ True/False switches.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="budget">
-<span id="index-4"></span><h1>Budget</h1>
-<p>Budget information extracting from an excel file</p>
+<div class="section" id="budgetequations">
+<span id="index-4"></span><h1>BudgetEquations</h1>
+<p>Budget information
+Option 1: extracting from an excel file
+Numbers give rows in the excel file
+[BudgetExcel]
+file = budget.xls
+sheet = Budget
+partnerRow = 3
+partnerCol = 2
+PMCost = 7
+totalResearch = 16
+requestedResearch = 19
+totalManagement = 49
+requestedManagement = 52
+totalCost = 54
+totalRequested = 55
+Option 2: Give equations. Variables refer to field names from the main
+project page, in the Budget table.
+New variables here get added to each partner entry, and can later be used
+in the latexTemplates to produce graphs, tables, etc.</p>
+<p>The following fields in a partner description are available, IN ADDITION
+to those defined in the Budget section on the project&#8217;s main page:
+- personMonths_WPTYPE for all WPTYPEs that were defined in any workpackage
+(e.g., if you have RTD and MGMT as WP types, then there is personMonths_RTD and
+personMonths_MGMT)</p>
 <dl class="describe">
 <dt>
-<tt class="descname">file</tt></dt>
-<dd><p>Default:   budget.xls</p>
+<tt class="descname">showBudget</tt></dt>
+<dd><p>Default:   True</p>
 </dd></dl>
 
 <dl class="describe">
 <dt>
-<tt class="descname">sheet</tt></dt>
-<dd><p>Default:   Budget</p>
+<tt class="descname">RTDPersonnelCost</tt></dt>
+<dd><p>Default:   personMonths_RTD * PMCost</p>
 </dd></dl>
 
 <dl class="describe">
 <dt>
-<tt class="descname">partnerRow</tt></dt>
-<dd><p>Default:   3</p>
+<tt class="descname">RTDDirectCost</tt></dt>
+<dd><p>Default:   RTDPersonnelCost + Travel + DurableEquipment + Consumable + Other + Subcontracting</p>
 </dd></dl>
 
 <dl class="describe">
 <dt>
-<tt class="descname">partnerCol</tt></dt>
-<dd><p>Default:   2</p>
-</dd></dl>
-
-<dl class="describe">
-<dt>
-<tt class="descname">PMCost</tt></dt>
-<dd><p>Default:   7</p>
+<tt class="descname">RTDIndirectCost</tt></dt>
+<dd><p>Default:   (RTDDirectCost - Subcontracting) * OverheadPercent/100</p>
 </dd></dl>
 
 <dl class="describe">
 <dt>
 <tt class="descname">totalResearch</tt></dt>
-<dd><p>Default:   16</p>
+<dd><p>Default:   RTDDirectCost + RTDIndirectCost</p>
 </dd></dl>
 
 <dl class="describe">
 <dt>
-<tt class="descname">requestedResearch</tt></dt>
-<dd><p>Default:   19</p>
+<tt class="descname">requestedResearch = totalResearch * (0.5 if Type =</tt></dt>
+<dd><p>Default:  &#8216;IN&#8217; else 0.75)</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">MgmtPersonnelCost</tt></dt>
+<dd><p>Default:   personMonths_MGMT * MgmtPMCost</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">MgmtDirectCost</tt></dt>
+<dd><p>Default:   MgmtPersonnelCost + MgmtTravel + MgmtAuditCost</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">MgmtIndirectCost</tt></dt>
+<dd><p>Default:   (MgmtDirectCost - MgmtAuditCost) * OverheadPercent/100</p>
 </dd></dl>
 
 <dl class="describe">
 <dt>
 <tt class="descname">totalManagement</tt></dt>
-<dd><p>Default:   49</p>
+<dd><p>Default:   MgmtDirectCost + MgmtIndirectCost</p>
 </dd></dl>
 
 <dl class="describe">
 <dt>
 <tt class="descname">requestedManagement</tt></dt>
-<dd><p>Default:   52</p>
+<dd><p>Default:   totalManagement</p>
 </dd></dl>
 
 <dl class="describe">
 <dt>
 <tt class="descname">totalCost</tt></dt>
-<dd><p>Default:   54</p>
+<dd><p>Default:   totalResearch + totalManagement</p>
 </dd></dl>
 
 <dl class="describe">
 <dt>
 <tt class="descname">totalRequested</tt></dt>
-<dd><p>Default:   55</p>
+<dd><p>Default:   requestedResearch + requestedManagement</p>
 </dd></dl>
 
 </div>
@@ -959,7 +994,7 @@ use of this feature, you have to understand the Python code!</p>
 <tt class="descname">totalPM</tt></dt>
 <dd><p>As an example: total person months should be defined like this. This
 command is actually used.</p>
-<p>Default:   sum([int(e[&#8216;resources&#8217;]) for e in allEfforts])</p>
+<p>Default:   sum([float(e[&#8216;resources&#8217;]) for e in allEfforts])</p>
 </dd></dl>
 
 <dl class="describe">
@@ -1035,7 +1070,7 @@ generated PADs. Set this to True of False</p>
     </div>
     <div class="footer">
         &copy; Copyright 2012, Holger Karl.
-      Last updated on Apr 17, 2013.
+      Last updated on Apr 19, 2013.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
     </div>
   </body>

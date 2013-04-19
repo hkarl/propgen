@@ -49,7 +49,7 @@ to use to log in.
     slightly different from a moinmoin wiki.
     The distribution's configuration file example assumes a moinmoin-local 
 
-    Default:   moinmoin
+    Default:   moinmoin-local
 
 .. describe:: moinmoinpath
 
@@ -65,7 +65,7 @@ to use to log in.
     wiki can be accessed, without any particular page name. It is ignored for the moinmoin-local
     wikitype and only used for other wikitypes. 
 
-    Default:   http://hk-vm.cs.upb.de:8888/
+    Default:   http://hk-vm.cs.uni-paderborn.de:8080/
 
 .. describe:: wikiuser
 
@@ -74,7 +74,7 @@ to use to log in.
     preset in the distribution's moinmoin wiki. Change this option to
     reflect your own user name. 
 
-    Default:   HolgerKarl
+    Default:   ProjectMaster
 
 .. describe:: wikipassword
 
@@ -83,7 +83,7 @@ to use to log in.
     the password on the wiki and then reflect this change here. It is ignored in the
     moinmoin-local wikitype and only needed for remote access. 
 
-    Default:   epi1KUR
+    Default:   123abc
 
 .. describe:: loginURL
 
@@ -495,69 +495,103 @@ True/False switches.
     Default:   True 
 
 .. index::
-   single:  settings.cfg ;  Budget
+   single:  settings.cfg ;  BudgetEquations
 
-Budget
-======
-.. program::  Budget
+BudgetEquations
+===============
+.. program::  BudgetEquations
 
-Budget information extracting from an excel file 
+Budget information 
+Option 1: extracting from an excel file 
+Numbers give rows in the excel file 
+[BudgetExcel]
+file = budget.xls
+sheet = Budget 
+partnerRow = 3
+partnerCol = 2
+PMCost = 7 
+totalResearch = 16
+requestedResearch = 19 
+totalManagement = 49
+requestedManagement = 52
+totalCost = 54
+totalRequested = 55 
+Option 2: Give equations. Variables refer to field names from the main 
+project page, in the Budget table. 
+New variables here get added to each partner entry, and can later be used 
+in the latexTemplates to produce graphs, tables, etc. 
+
+The following fields in a partner description are available, IN ADDITION 
+to those defined in the Budget section on the project's main page: 
+- personMonths_WPTYPE for all WPTYPEs that were defined in any workpackage 
+(e.g., if you have RTD and MGMT as WP types, then there is personMonths_RTD and 
+personMonths_MGMT) 
 
 
-.. describe:: file
+.. describe:: showBudget
 
     
-    Default:   budget.xls
+    Default:   True 
 
-.. describe:: sheet
-
-    
-    Default:   Budget 
-
-.. describe:: partnerRow
+.. describe:: RTDPersonnelCost
 
     
-    Default:   3
+    Default:   personMonths_RTD * PMCost 
 
-.. describe:: partnerCol
-
-    
-    Default:   2
-
-.. describe:: PMCost
+.. describe:: RTDDirectCost
 
     
-    Default:   7 
+    Default:   RTDPersonnelCost + Travel + DurableEquipment + Consumable + Other + Subcontracting 
+
+.. describe:: RTDIndirectCost
+
+    
+    Default:   (RTDDirectCost - Subcontracting) * OverheadPercent/100
 
 .. describe:: totalResearch
 
     
-    Default:   16
+    Default:   RTDDirectCost + RTDIndirectCost 
 
-.. describe:: requestedResearch
+.. describe:: requestedResearch = totalResearch * (0.5 if Type =
 
     
-    Default:   19 
+    Default:  'IN' else 0.75)
+
+.. describe:: MgmtPersonnelCost
+
+    
+    Default:   personMonths_MGMT * MgmtPMCost
+
+.. describe:: MgmtDirectCost
+
+    
+    Default:   MgmtPersonnelCost + MgmtTravel + MgmtAuditCost 
+
+.. describe:: MgmtIndirectCost
+
+    
+    Default:   (MgmtDirectCost - MgmtAuditCost) * OverheadPercent/100
 
 .. describe:: totalManagement
 
     
-    Default:   49
+    Default:   MgmtDirectCost + MgmtIndirectCost 
 
 .. describe:: requestedManagement
 
     
-    Default:   52
+    Default:   totalManagement
 
 .. describe:: totalCost
 
     
-    Default:   54
+    Default:   totalResearch + totalManagement
 
 .. describe:: totalRequested
 
     
-    Default:   55 
+    Default:   requestedResearch + requestedManagement 
 
 .. index::
    single:  settings.cfg ;  WPTables
@@ -879,7 +913,7 @@ use of this feature, you have to understand the Python code!
     As an example: total person months should be defined like this. This
     command is actually used.  
 
-    Default:   sum([int(e['resources']) for e in allEfforts])
+    Default:   sum([float(e['resources']) for e in allEfforts])
 
 .. describe:: tocLevel
 

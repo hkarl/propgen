@@ -120,6 +120,12 @@ the partner directory).</dd>
 </dl>
 <p>The order of the rows is irrelevant.</p>
 </div>
+<div class="section" id="budget">
+<h3>Budget<a class="headerlink" href="#budget" title="Permalink to this headline">¶</a></h3>
+<p>There is an optional section on budget data. You can put the usual information on person month cost, overhead, cost models, etc. for each partner in this table. (It is split from the partner data table only to keep these two tables at reasonable size.) The input values of this table are used to compute actual cost data, e.g., by multiplying with person month numbers according to workpackage (distinguishing between management and research person months, according to workpackage type). Simply add lines to the Budget table if you need further cost categories.</p>
+<p>The rules for these cost computations are laid out in section BudgetEquations of the settings.cfg file. There, it is easy to add further variables or change computation rules.</p>
+<p>These equations are applied once per partner, in the given order. As an result, all these variables appear in the partnerList list, holding the computed values for each individual partner. As a consequence, these values can be accessed from the LaTeX templates. The BudgetTablePerPartners section is an example how a table with all budget information for all partners. (It is actually less complex than it looks at first sight.) In a similar vain, the pie charts are computed from this input information.</p>
+</div>
 </div>
 <div class="section" id="a-generic-text-page">
 <h2>A generic text page<a class="headerlink" href="#a-generic-text-page" title="Permalink to this headline">¶</a></h2>
@@ -173,11 +179,16 @@ tasks (even only one, if so desired); it is not possible to do without
 tasks and only use workpackages. (Not without considerably reworking a
 lot of the templates, at least.) This part is started by a <em>level-2
 heading</em> &#8220;Tasks&#8221;.</p>
-<p>Inside this section, there can be any number of
-<em>level-3 headings</em>, starting with &#8220;Task Description: &#8221;, and then
-the <strong>symbolic label</strong> of each task: Each task is assigned a label,
-typically a short word or phrase (no spaces!) via which information
-about this task at various places in this page can be cross-linked.</p>
+<p>Inside this section, there can be any number of <em>level-3 headings</em>,
+starting with &#8220;Task Description: &#8221;, and then the <strong>symbolic label</strong> of
+each task: Each task is assigned a label, typically a short word or
+phrase (no spaces!) via which information about this task at various
+places in this page can be cross-linked. It really makes <em>no sense at
+all</em> to use labels of the forme, e.g., t2.2 to indicate the second
+deliverable in the second task in workpackage two. The entire point
+here is have things numbered automatically; using such numbers as
+names really defeats the purpose and makes resorting of such entities
+(workpackage, tasks, deliverables, milestones) totally confusing.</p>
 <p>Then, there should be, per task, <em>two level-4 headings</em> &#8220;Objectives&#8221; and
 &#8220;Description of work&#8221;. The purpose is similar to the WP descriptions,
 but they are specifically linked to the particular task.</p>
@@ -322,9 +333,19 @@ software, ... -checkcommissiontemplate) and &#8220;Dissemination&#8221;
 <h3>Generate LaTeX labels<a class="headerlink" href="#generate-latex-labels" title="Permalink to this headline">¶</a></h3>
 <p>Based on workpackages, tasks, deliverables, milestones, LaTeX labels are generated as follows (see main.tex for details, it is actually a labitem):</p>
 <ul class="simple">
+<li>For each major section, there is a label in standard LaTeX fashion (see main.tex for details)</li>
+<li>For each automatically generated partner section, there is a label partner:PARTNERLABEL</li>
+<li>For each workpackage, there is a label wp:Shortname. (Note that this
+is a bit of a hack; it looks to work realiably so far, but that
+might warrant some watching. Implemented in main.tex and the Wp
+template by means of the WpCounter.)</li>
 <li>For each task, there is a label task:LABEL</li>
+<li>For each deliverable, there is a label del:LABEL</li>
+<li>For each milestone, there is a label ms:LABEL</li>
+<li>For figures that are generated via the LaTeX templates there are typical labels defined (see templates/latexTemplates.cfg for details).</li>
+<li>Similarly, the automatically generated tables have suitable labels. Again, typically done via the template scheme; look there for details.</li>
 </ul>
-<p>To each of these labels, you can refer to in the text. E.g., suppose you have a task with the label architecture and which turns out to be, e.g., task 3 in workpackage 1, you can write ref{task:architecture} and that would turn into T,1.3. (so, ideally, you should write: Task~ref{task:architecture})</p>
+<p>To each of these labels, you can refer in the text. E.g., suppose you have a task with the label architecture and which turns out to be, e.g., task 3 in workpackage 1, you can write ref{task:architecture} and that would turn into T,1.3. (so, ideally, you should write: Task~ref{task:architecture})</p>
 </div>
 <div class="section" id="budget-information">
 <h3>Budget information<a class="headerlink" href="#budget-information" title="Permalink to this headline">¶</a></h3>
@@ -442,6 +463,10 @@ actual table.</p>
 </li>
 <li><p class="first">Italics markup as well and turned into emph</p>
 </li>
+<li><p class="first">Anything enclosed in &lt;DEL&gt; ... &lt;/DEL&gt; is ignored. Useful to remove
+some text from final production which you still might want to keep
+on the Wiki nonetheless.</p>
+</li>
 </ul>
 </div>
 <div class="section" id="recognized-latex-markup">
@@ -454,25 +479,34 @@ and since entering plain LaTeX code should be possible (e.g., for
 complicated tables), they cannot simply all be escaped. The
 current compromises is a follows:</p>
 <ul class="simple">
-<li>Ampersands that are surrounded (!) by white space are escaped,
+<li>Ampersands that are <em>followed</em> (!) by white space are escaped,
 e.g., turned into &amp; and are typeset thus by LaTeX as an
 ampersand mark.</li>
-<li>Ampersands without spaces around them are passed through
-unmodified, unescaped.</li>
+<li>Ampersands with a preceding backslash - i.e., &amp; - are also turned
+into correct LaTeX markup and typset as ampersands in the
+resulting text.</li>
+<li>Ampersands without spaces around them  (and without preceding backslash)
+are passed through unmodified, unescaped.</li>
 </ul>
 <p>The upshoot is this:</p>
-<ul class="simple">
-<li>Users have to be told (and this usually fails) that for
+<ul>
+<li><p class="first">Users have to be told (and this often causes confusion) that for
 abbreviations like R&amp;D (when no space is desired), they have to
 enter R&amp;D! This often fails when users are not familiar with
-LaTeX.</li>
-<li>Users familiar with LaTeX, on the other hand, are likely to
-write &#8220;bla &amp; bla&#8221;, since they know that ampersands have to be
-escaped. This should work, but tread careful here nonetheless.</li>
-<li>If you need the ampersand as LaTeX&#8217;s control character, then you
-must not use space around them. If space is absolutely
-necessary, you could try something like &#8220;bla {}&amp;{} bla&#8221;, but I
-have no idea whether this works as desired.</li>
+LaTeX.</p>
+</li>
+<li><p class="first">Consequence: whenever you use &amp; for wiki markup purposes, they
+MUST NOT be followed by a whitespace. Typical example is the use
+of &amp; in the inclusion of figures in the moinmoin wiki syntax.</p>
+<p>Put the other way around: No spaces around ampersands in figure
+commands!</p>
+</li>
+<li><p class="first">If you need an ampersand as LaTeX&#8217;s control character, then you
+must not use space around it. If space is absolutely necessary
+while at the same time using ampersand as control character (not
+that I can of a situation where that would be the case), you could
+use &#8220;bla {}&amp;{} bla&#8221;.</p>
+</li>
 </ul>
 </li>
 <li><p class="first">Line breaks specified by &lt;BR&gt; turn into newline commands</p>
@@ -552,6 +586,7 @@ easy way of doing password authentication.</p>
 <li><a class="reference internal" href="#main-data">Main data</a></li>
 <li><a class="reference internal" href="#workpackages">Workpackages</a></li>
 <li><a class="reference internal" href="#partner-data">Partner data</a></li>
+<li><a class="reference internal" href="#budget">Budget</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#a-generic-text-page">A generic text page</a></li>
@@ -623,7 +658,7 @@ easy way of doing password authentication.</p>
     </div>
     <div class="footer">
         &copy; Copyright 2012, Holger Karl.
-      Last updated on Apr 17, 2013.
+      Last updated on Apr 19, 2013.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
     </div>
   </body>

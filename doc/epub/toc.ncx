@@ -236,818 +236,830 @@
           </navLabel>
           <content src="usage.html#partner-data" />
         </navPoint>
+        <navPoint id="navPoint31" playOrder="31">
+          <navLabel>
+            <text>Budget</text>
+          </navLabel>
+          <content src="usage.html#budget" />
+        </navPoint>
       </navPoint>
-      <navPoint id="navPoint31" playOrder="31">
+      <navPoint id="navPoint32" playOrder="32">
         <navLabel>
           <text>A generic text page</text>
         </navLabel>
         <content src="usage.html#a-generic-text-page" />
       </navPoint>
-      <navPoint id="navPoint32" playOrder="32">
+      <navPoint id="navPoint33" playOrder="33">
         <navLabel>
           <text>A workpackage page</text>
         </navLabel>
         <content src="usage.html#a-workpackage-page" />
-        <navPoint id="navPoint32" playOrder="32">
+        <navPoint id="navPoint33" playOrder="33">
           <navLabel>
             <text>A workpackage page</text>
           </navLabel>
           <content src="usage.html#a-workpackage-page" />
         </navPoint>
-        <navPoint id="navPoint33" playOrder="33">
+        <navPoint id="navPoint34" playOrder="34">
           <navLabel>
             <text>Work package description</text>
           </navLabel>
           <content src="usage.html#work-package-description" />
         </navPoint>
-        <navPoint id="navPoint34" playOrder="34">
+        <navPoint id="navPoint35" playOrder="35">
           <navLabel>
             <text>Tasks descriptions</text>
           </navLabel>
           <content src="usage.html#tasks-descriptions" />
         </navPoint>
-        <navPoint id="navPoint35" playOrder="35">
+        <navPoint id="navPoint36" playOrder="36">
           <navLabel>
             <text>Adminstrative information</text>
           </navLabel>
           <content src="usage.html#adminstrative-information" />
         </navPoint>
-        <navPoint id="navPoint36" playOrder="36">
+        <navPoint id="navPoint37" playOrder="37">
           <navLabel>
             <text>Adminstrative information about Tasks</text>
           </navLabel>
           <content src="usage.html#adminstrative-information-about-tasks" />
         </navPoint>
-        <navPoint id="navPoint37" playOrder="37">
+        <navPoint id="navPoint38" playOrder="38">
           <navLabel>
             <text>Task efforts</text>
           </navLabel>
           <content src="usage.html#task-efforts" />
         </navPoint>
-        <navPoint id="navPoint38" playOrder="38">
+        <navPoint id="navPoint39" playOrder="39">
           <navLabel>
             <text>Milestones</text>
           </navLabel>
           <content src="usage.html#milestones" />
         </navPoint>
-        <navPoint id="navPoint39" playOrder="39">
+        <navPoint id="navPoint40" playOrder="40">
           <navLabel>
             <text>Deliverables</text>
           </navLabel>
           <content src="usage.html#deliverables" />
         </navPoint>
-        <navPoint id="navPoint40" playOrder="40">
+        <navPoint id="navPoint41" playOrder="41">
           <navLabel>
             <text>Generate LaTeX labels</text>
           </navLabel>
           <content src="usage.html#generate-latex-labels" />
         </navPoint>
-        <navPoint id="navPoint41" playOrder="41">
+        <navPoint id="navPoint42" playOrder="42">
           <navLabel>
             <text>Budget information</text>
           </navLabel>
           <content src="usage.html#budget-information" />
         </navPoint>
       </navPoint>
-      <navPoint id="navPoint42" playOrder="42">
+      <navPoint id="navPoint43" playOrder="43">
         <navLabel>
           <text>Recognized Wiki markup</text>
         </navLabel>
         <content src="usage.html#recognized-wiki-markup" />
       </navPoint>
-      <navPoint id="navPoint43" playOrder="43">
+      <navPoint id="navPoint44" playOrder="44">
         <navLabel>
           <text>Recognized LaTeX markup</text>
         </navLabel>
         <content src="usage.html#recognized-latex-markup" />
       </navPoint>
-      <navPoint id="navPoint44" playOrder="44">
+      <navPoint id="navPoint45" playOrder="45">
         <navLabel>
           <text>Building a PDF file</text>
         </navLabel>
         <content src="usage.html#building-a-pdf-file" />
       </navPoint>
-      <navPoint id="navPoint45" playOrder="45">
+      <navPoint id="navPoint46" playOrder="46">
         <navLabel>
           <text>Etherpad-lite  support</text>
         </navLabel>
         <content src="usage.html#etherpad-lite-support" />
       </navPoint>
     </navPoint>
-    <navPoint id="navPoint46" playOrder="46">
+    <navPoint id="navPoint47" playOrder="47">
       <navLabel>
         <text>How to customize PropGren</text>
       </navLabel>
       <content src="customize.html" />
-      <navPoint id="navPoint46" playOrder="46">
+      <navPoint id="navPoint47" playOrder="47">
         <navLabel>
           <text>How to customize PropGren</text>
         </navLabel>
         <content src="customize.html" />
       </navPoint>
-      <navPoint id="navPoint47" playOrder="47">
+      <navPoint id="navPoint48" playOrder="48">
         <navLabel>
           <text>Simple customization</text>
         </navLabel>
         <content src="customize.html#simple-customization" />
       </navPoint>
-      <navPoint id="navPoint48" playOrder="48">
+      <navPoint id="navPoint49" playOrder="49">
         <navLabel>
           <text>Customize LaTeX templates</text>
         </navLabel>
         <content src="customize.html#customize-latex-templates" />
       </navPoint>
-      <navPoint id="navPoint49" playOrder="49">
+      <navPoint id="navPoint50" playOrder="50">
         <navLabel>
           <text>Complex customization</text>
         </navLabel>
         <content src="customize.html#complex-customization" />
       </navPoint>
     </navPoint>
-    <navPoint id="navPoint50" playOrder="50">
+    <navPoint id="navPoint51" playOrder="51">
       <navLabel>
         <text>Directory layout and major files</text>
       </navLabel>
       <content src="directorylayout.html" />
-      <navPoint id="navPoint50" playOrder="50">
+      <navPoint id="navPoint51" playOrder="51">
         <navLabel>
           <text>Directory layout and major files</text>
         </navLabel>
         <content src="directorylayout.html" />
       </navPoint>
-      <navPoint id="navPoint51" playOrder="51">
+      <navPoint id="navPoint52" playOrder="52">
         <navLabel>
           <text>Directory structure</text>
         </navLabel>
         <content src="directorylayout.html#directory-structure" />
       </navPoint>
-      <navPoint id="navPoint52" playOrder="52">
+      <navPoint id="navPoint53" playOrder="53">
         <navLabel>
           <text>Relevant files</text>
         </navLabel>
         <content src="directorylayout.html#relevant-files" />
       </navPoint>
     </navPoint>
-    <navPoint id="navPoint53" playOrder="53">
+    <navPoint id="navPoint54" playOrder="54">
       <navLabel>
         <text>Open Issues</text>
       </navLabel>
       <content src="openissues.html" />
-      <navPoint id="navPoint53" playOrder="53">
+      <navPoint id="navPoint54" playOrder="54">
         <navLabel>
           <text>Open Issues</text>
         </navLabel>
         <content src="openissues.html" />
       </navPoint>
-      <navPoint id="navPoint54" playOrder="54">
+      <navPoint id="navPoint55" playOrder="55">
         <navLabel>
           <text>Known bugs</text>
         </navLabel>
         <content src="openissues.html#known-bugs" />
       </navPoint>
-      <navPoint id="navPoint55" playOrder="55">
+      <navPoint id="navPoint56" playOrder="56">
         <navLabel>
           <text>Things still to do (TODO)</text>
         </navLabel>
         <content src="openissues.html#things-still-to-do-todo" />
       </navPoint>
-      <navPoint id="navPoint56" playOrder="56">
+      <navPoint id="navPoint57" playOrder="57">
         <navLabel>
           <text>Debatable aspects</text>
         </navLabel>
         <content src="openissues.html#debatable-aspects" />
       </navPoint>
-      <navPoint id="navPoint57" playOrder="57">
+      <navPoint id="navPoint58" playOrder="58">
         <navLabel>
           <text>Ideas for future features</text>
         </navLabel>
         <content src="openissues.html#ideas-for-future-features" />
       </navPoint>
     </navPoint>
-    <navPoint id="navPoint58" playOrder="58">
+    <navPoint id="navPoint59" playOrder="59">
       <navLabel>
         <text>Source code documentation</text>
       </navLabel>
       <content src="sourcecodedoc.html" />
-      <navPoint id="navPoint58" playOrder="58">
+      <navPoint id="navPoint59" playOrder="59">
         <navLabel>
           <text>Source code documentation</text>
         </navLabel>
         <content src="sourcecodedoc.html" />
       </navPoint>
-      <navPoint id="navPoint59" playOrder="59">
+      <navPoint id="navPoint60" playOrder="60">
         <navLabel>
           <text>pullproject</text>
         </navLabel>
         <content src="sourcecodedoc.html#module-pullProject" />
       </navPoint>
-      <navPoint id="navPoint60" playOrder="60">
+      <navPoint id="navPoint61" playOrder="61">
         <navLabel>
           <text>wikiParser</text>
         </navLabel>
         <content src="sourcecodedoc.html#wikiparser" />
-        <navPoint id="navPoint60" playOrder="60">
+        <navPoint id="navPoint61" playOrder="61">
           <navLabel>
             <text>wikiParser</text>
           </navLabel>
           <content src="sourcecodedoc.html#wikiparser" />
         </navPoint>
-        <navPoint id="navPoint61" playOrder="61">
+        <navPoint id="navPoint62" playOrder="62">
           <navLabel>
             <text>The wikiParser module as such</text>
           </navLabel>
           <content src="sourcecodedoc.html#module-wikiParser" />
         </navPoint>
-        <navPoint id="navPoint62" playOrder="62">
+        <navPoint id="navPoint63" playOrder="63">
           <navLabel>
             <text>The wikiParser base class</text>
           </navLabel>
           <content src="sourcecodedoc.html#the-wikiparser-base-class" />
         </navPoint>
-        <navPoint id="navPoint63" playOrder="63">
+        <navPoint id="navPoint64" playOrder="64">
           <navLabel>
             <text>The moinmoin parser</text>
           </navLabel>
           <content src="sourcecodedoc.html#the-moinmoin-parser" />
         </navPoint>
-        <navPoint id="navPoint64" playOrder="64">
+        <navPoint id="navPoint65" playOrder="65">
           <navLabel>
             <text>The twiki parser</text>
           </navLabel>
           <content src="sourcecodedoc.html#the-twiki-parser" />
         </navPoint>
       </navPoint>
-      <navPoint id="navPoint65" playOrder="65">
+      <navPoint id="navPoint66" playOrder="66">
         <navLabel>
           <text>latexFromWiki</text>
         </navLabel>
         <content src="sourcecodedoc.html#module-latexFromWiki" />
       </navPoint>
-      <navPoint id="navPoint66" playOrder="66">
+      <navPoint id="navPoint67" playOrder="67">
         <navLabel>
           <text>latexFromXML</text>
         </navLabel>
         <content src="sourcecodedoc.html#latexfromxml" />
       </navPoint>
-      <navPoint id="navPoint67" playOrder="67">
+      <navPoint id="navPoint68" playOrder="68">
         <navLabel>
           <text>latexFromXML - key/value pairs used in global variables</text>
         </navLabel>
         <content src="sourcecodedoc.html#latexfromxml-key-value-pairs-used-in-global-variables" />
-        <navPoint id="navPoint67" playOrder="67">
+        <navPoint id="navPoint68" playOrder="68">
           <navLabel>
             <text>latexFromXML - key/value pairs used in global variables</text>
           </navLabel>
           <content src="sourcecodedoc.html#latexfromxml-key-value-pairs-used-in-global-variables" />
         </navPoint>
-        <navPoint id="navPoint68" playOrder="68">
+        <navPoint id="navPoint69" playOrder="69">
           <navLabel>
             <text>titlepageDict</text>
           </navLabel>
           <content src="sourcecodedoc.html#titlepagedict" />
         </navPoint>
-        <navPoint id="navPoint69" playOrder="69">
+        <navPoint id="navPoint70" playOrder="70">
           <navLabel>
             <text>allWPDicts</text>
           </navLabel>
           <content src="sourcecodedoc.html#allwpdicts" />
         </navPoint>
-        <navPoint id="navPoint70" playOrder="70">
+        <navPoint id="navPoint71" playOrder="71">
           <navLabel>
             <text>allTasks</text>
           </navLabel>
           <content src="sourcecodedoc.html#alltasks" />
         </navPoint>
-        <navPoint id="navPoint71" playOrder="71">
+        <navPoint id="navPoint72" playOrder="72">
           <navLabel>
             <text>allMilestones</text>
           </navLabel>
           <content src="sourcecodedoc.html#allmilestones" />
         </navPoint>
-        <navPoint id="navPoint72" playOrder="72">
+        <navPoint id="navPoint73" playOrder="73">
           <navLabel>
             <text>allDeliverables</text>
           </navLabel>
           <content src="sourcecodedoc.html#alldeliverables" />
         </navPoint>
-        <navPoint id="navPoint73" playOrder="73">
+        <navPoint id="navPoint74" playOrder="74">
           <navLabel>
             <text>allEfforts</text>
           </navLabel>
           <content src="sourcecodedoc.html#allefforts" />
         </navPoint>
-        <navPoint id="navPoint74" playOrder="74">
+        <navPoint id="navPoint75" playOrder="75">
           <navLabel>
             <text>partnerList</text>
           </navLabel>
           <content src="sourcecodedoc.html#partnerlist" />
         </navPoint>
       </navPoint>
-      <navPoint id="navPoint75" playOrder="75">
+      <navPoint id="navPoint76" playOrder="76">
         <navLabel>
           <text>ensureSymbolicLinks</text>
         </navLabel>
         <content src="sourcecodedoc.html#module-ensureSymbolicLinks" />
       </navPoint>
-      <navPoint id="navPoint76" playOrder="76">
+      <navPoint id="navPoint77" playOrder="77">
         <navLabel>
           <text>utils</text>
         </navLabel>
         <content src="sourcecodedoc.html#module-utils" />
       </navPoint>
-      <navPoint id="navPoint77" playOrder="77">
+      <navPoint id="navPoint78" playOrder="78">
         <navLabel>
           <text>settings.cfg</text>
         </navLabel>
         <content src="sourcecodedoc.html#settings-cfg" />
-        <navPoint id="navPoint77" playOrder="77">
+        <navPoint id="navPoint78" playOrder="78">
           <navLabel>
             <text>settings.cfg</text>
           </navLabel>
           <content src="sourcecodedoc.html#settings-cfg" />
         </navPoint>
-        <navPoint id="navPoint78" playOrder="78">
+        <navPoint id="navPoint79" playOrder="79">
           <navLabel>
             <text>Wiki</text>
           </navLabel>
           <content src="sourcecodedoc.html#wiki" />
         </navPoint>
-        <navPoint id="navPoint79" playOrder="79">
+        <navPoint id="navPoint80" playOrder="80">
           <navLabel>
             <text>PathNames</text>
           </navLabel>
           <content src="sourcecodedoc.html#pathnames" />
         </navPoint>
-        <navPoint id="navPoint80" playOrder="80">
+        <navPoint id="navPoint81" playOrder="81">
           <navLabel>
             <text>Gantts</text>
           </navLabel>
           <content src="sourcecodedoc.html#gantts" />
         </navPoint>
-        <navPoint id="navPoint81" playOrder="81">
+        <navPoint id="navPoint82" playOrder="82">
           <navLabel>
             <text>Summaries</text>
           </navLabel>
           <content src="sourcecodedoc.html#summaries" />
         </navPoint>
-        <navPoint id="navPoint82" playOrder="82">
-          <navLabel>
-            <text>Budget</text>
-          </navLabel>
-          <content src="sourcecodedoc.html#budget" />
-        </navPoint>
         <navPoint id="navPoint83" playOrder="83">
+          <navLabel>
+            <text>BudgetEquations</text>
+          </navLabel>
+          <content src="sourcecodedoc.html#budgetequations" />
+        </navPoint>
+        <navPoint id="navPoint84" playOrder="84">
           <navLabel>
             <text>WPTables</text>
           </navLabel>
           <content src="sourcecodedoc.html#wptables" />
         </navPoint>
-        <navPoint id="navPoint84" playOrder="84">
+        <navPoint id="navPoint85" playOrder="85">
           <navLabel>
             <text>Participants</text>
           </navLabel>
           <content src="sourcecodedoc.html#participants" />
         </navPoint>
-        <navPoint id="navPoint85" playOrder="85">
+        <navPoint id="navPoint86" playOrder="86">
           <navLabel>
             <text>LaTeX</text>
           </navLabel>
           <content src="sourcecodedoc.html#latex" />
         </navPoint>
-        <navPoint id="navPoint86" playOrder="86">
+        <navPoint id="navPoint87" playOrder="87">
           <navLabel>
             <text>CustomLaTeX</text>
           </navLabel>
           <content src="sourcecodedoc.html#customlatex" />
         </navPoint>
-        <navPoint id="navPoint87" playOrder="87">
+        <navPoint id="navPoint88" playOrder="88">
           <navLabel>
             <text>Etherpad</text>
           </navLabel>
           <content src="sourcecodedoc.html#etherpad" />
         </navPoint>
       </navPoint>
-      <navPoint id="navPoint88" playOrder="88">
+      <navPoint id="navPoint89" playOrder="89">
         <navLabel>
           <text>latexTemplates.cfg</text>
         </navLabel>
         <content src="sourcecodedoc.html#latextemplates-cfg" />
-        <navPoint id="navPoint88" playOrder="88">
+        <navPoint id="navPoint89" playOrder="89">
           <navLabel>
             <text>latexTemplates.cfg</text>
           </navLabel>
           <content src="sourcecodedoc.html#latextemplates-cfg" />
         </navPoint>
-        <navPoint id="navPoint89" playOrder="89">
+        <navPoint id="navPoint90" playOrder="90">
           <navLabel>
             <text>titleheader</text>
           </navLabel>
           <content src="sourcecodedoc.html#titleheader" />
         </navPoint>
-        <navPoint id="navPoint90" playOrder="90">
+        <navPoint id="navPoint91" playOrder="91">
           <navLabel>
             <text>partnerTableRow</text>
           </navLabel>
           <content src="sourcecodedoc.html#partnertablerow" />
         </navPoint>
-        <navPoint id="navPoint91" playOrder="91">
+        <navPoint id="navPoint92" playOrder="92">
           <navLabel>
             <text>titlepage</text>
           </navLabel>
           <content src="sourcecodedoc.html#titlepage" />
         </navPoint>
-        <navPoint id="navPoint92" playOrder="92">
+        <navPoint id="navPoint93" playOrder="93">
           <navLabel>
             <text>wpSummaryRows</text>
           </navLabel>
           <content src="sourcecodedoc.html#wpsummaryrows" />
         </navPoint>
-        <navPoint id="navPoint93" playOrder="93">
+        <navPoint id="navPoint94" playOrder="94">
           <navLabel>
             <text>wpsummarytable</text>
           </navLabel>
           <content src="sourcecodedoc.html#wpsummarytable" />
         </navPoint>
-        <navPoint id="navPoint94" playOrder="94">
+        <navPoint id="navPoint95" playOrder="95">
           <navLabel>
             <text>ganttPrefix</text>
           </navLabel>
           <content src="sourcecodedoc.html#ganttprefix" />
         </navPoint>
-        <navPoint id="navPoint95" playOrder="95">
+        <navPoint id="navPoint96" playOrder="96">
           <navLabel>
             <text>ganttPostfix</text>
           </navLabel>
           <content src="sourcecodedoc.html#ganttpostfix" />
         </navPoint>
-        <navPoint id="navPoint96" playOrder="96">
+        <navPoint id="navPoint97" playOrder="97">
           <navLabel>
             <text>WpMilestonesUncompressedShow</text>
           </navLabel>
           <content src="sourcecodedoc.html#wpmilestonesuncompressedshow" />
         </navPoint>
-        <navPoint id="navPoint97" playOrder="97">
+        <navPoint id="navPoint98" playOrder="98">
           <navLabel>
             <text>WpMilestonesShow</text>
           </navLabel>
           <content src="sourcecodedoc.html#wpmilestonesshow" />
         </navPoint>
-        <navPoint id="navPoint98" playOrder="98">
+        <navPoint id="navPoint99" playOrder="99">
           <navLabel>
             <text>WpDeliverablesUncompressedShow</text>
           </navLabel>
           <content src="sourcecodedoc.html#wpdeliverablesuncompressedshow" />
         </navPoint>
-        <navPoint id="navPoint99" playOrder="99">
+        <navPoint id="navPoint100" playOrder="100">
           <navLabel>
             <text>WpDeliverablesShow</text>
           </navLabel>
           <content src="sourcecodedoc.html#wpdeliverablesshow" />
         </navPoint>
-        <navPoint id="navPoint100" playOrder="100">
+        <navPoint id="navPoint101" playOrder="101">
           <navLabel>
             <text>ganttWP</text>
           </navLabel>
           <content src="sourcecodedoc.html#ganttwp" />
         </navPoint>
-        <navPoint id="navPoint101" playOrder="101">
+        <navPoint id="navPoint102" playOrder="102">
           <navLabel>
             <text>ganttWPLegend</text>
           </navLabel>
           <content src="sourcecodedoc.html#ganttwplegend" />
         </navPoint>
-        <navPoint id="navPoint102" playOrder="102">
+        <navPoint id="navPoint103" playOrder="103">
           <navLabel>
             <text>allTaskDelMSList</text>
           </navLabel>
           <content src="sourcecodedoc.html#alltaskdelmslist" />
         </navPoint>
-        <navPoint id="navPoint103" playOrder="103">
+        <navPoint id="navPoint104" playOrder="104">
           <navLabel>
             <text>allTaskList</text>
           </navLabel>
           <content src="sourcecodedoc.html#alltasklist" />
         </navPoint>
-        <navPoint id="navPoint104" playOrder="104">
+        <navPoint id="navPoint105" playOrder="105">
           <navLabel>
             <text>allTaskDelMS</text>
           </navLabel>
           <content src="sourcecodedoc.html#alltaskdelms" />
         </navPoint>
-        <navPoint id="navPoint105" playOrder="105">
+        <navPoint id="navPoint106" playOrder="106">
           <navLabel>
             <text>allTask</text>
           </navLabel>
           <content src="sourcecodedoc.html#alltask" />
         </navPoint>
-        <navPoint id="navPoint106" playOrder="106">
+        <navPoint id="navPoint107" playOrder="107">
           <navLabel>
             <text>allDelLegend</text>
           </navLabel>
           <content src="sourcecodedoc.html#alldellegend" />
         </navPoint>
-        <navPoint id="navPoint107" playOrder="107">
+        <navPoint id="navPoint108" playOrder="108">
           <navLabel>
             <text>allMSLegend</text>
           </navLabel>
           <content src="sourcecodedoc.html#allmslegend" />
         </navPoint>
-        <navPoint id="navPoint108" playOrder="108">
+        <navPoint id="navPoint109" playOrder="109">
           <navLabel>
             <text>CompleteGanttNoDelMS</text>
           </navLabel>
           <content src="sourcecodedoc.html#completeganttnodelms" />
         </navPoint>
-        <navPoint id="navPoint109" playOrder="109">
+        <navPoint id="navPoint110" playOrder="110">
           <navLabel>
             <text>CompleteGantt</text>
           </navLabel>
           <content src="sourcecodedoc.html#completegantt" />
         </navPoint>
-        <navPoint id="navPoint110" playOrder="110">
+        <navPoint id="navPoint111" playOrder="111">
           <navLabel>
             <text>allLegend</text>
           </navLabel>
           <content src="sourcecodedoc.html#alllegend" />
         </navPoint>
-        <navPoint id="navPoint111" playOrder="111">
+        <navPoint id="navPoint112" playOrder="112">
           <navLabel>
             <text>CompleteGanttFacingLegend</text>
           </navLabel>
           <content src="sourcecodedoc.html#completeganttfacinglegend" />
         </navPoint>
-        <navPoint id="navPoint112" playOrder="112">
+        <navPoint id="navPoint113" playOrder="113">
           <navLabel>
             <text>WpTasks</text>
           </navLabel>
           <content src="sourcecodedoc.html#wptasks" />
         </navPoint>
-        <navPoint id="navPoint113" playOrder="113">
+        <navPoint id="navPoint114" playOrder="114">
           <navLabel>
             <text>WpTasksDescriptions</text>
           </navLabel>
           <content src="sourcecodedoc.html#wptasksdescriptions" />
         </navPoint>
-        <navPoint id="navPoint114" playOrder="114">
+        <navPoint id="navPoint115" playOrder="115">
           <navLabel>
             <text>WpDeliverables</text>
           </navLabel>
           <content src="sourcecodedoc.html#wpdeliverables" />
         </navPoint>
-        <navPoint id="navPoint115" playOrder="115">
+        <navPoint id="navPoint116" playOrder="116">
           <navLabel>
             <text>WpMilestones</text>
           </navLabel>
           <content src="sourcecodedoc.html#wpmilestones" />
         </navPoint>
-        <navPoint id="navPoint116" playOrder="116">
+        <navPoint id="navPoint117" playOrder="117">
           <navLabel>
             <text>Wp</text>
           </navLabel>
           <content src="sourcecodedoc.html#wp" />
         </navPoint>
-        <navPoint id="navPoint117" playOrder="117">
+        <navPoint id="navPoint118" playOrder="118">
           <navLabel>
             <text>DeliverableTableRows</text>
           </navLabel>
           <content src="sourcecodedoc.html#deliverabletablerows" />
         </navPoint>
-        <navPoint id="navPoint118" playOrder="118">
+        <navPoint id="navPoint119" playOrder="119">
           <navLabel>
             <text>DeliverableTableShort</text>
           </navLabel>
           <content src="sourcecodedoc.html#deliverabletableshort" />
         </navPoint>
-        <navPoint id="navPoint119" playOrder="119">
+        <navPoint id="navPoint120" playOrder="120">
           <navLabel>
             <text>DeliverableTableLong</text>
           </navLabel>
           <content src="sourcecodedoc.html#deliverabletablelong" />
         </navPoint>
-        <navPoint id="navPoint120" playOrder="120">
+        <navPoint id="navPoint121" playOrder="121">
           <navLabel>
             <text>DeliverableTable</text>
           </navLabel>
           <content src="sourcecodedoc.html#deliverabletable" />
         </navPoint>
-        <navPoint id="navPoint121" playOrder="121">
+        <navPoint id="navPoint122" playOrder="122">
           <navLabel>
             <text>MilestoneTableRows</text>
           </navLabel>
           <content src="sourcecodedoc.html#milestonetablerows" />
         </navPoint>
-        <navPoint id="navPoint122" playOrder="122">
+        <navPoint id="navPoint123" playOrder="123">
           <navLabel>
             <text>MilestoneTableShort</text>
           </navLabel>
           <content src="sourcecodedoc.html#milestonetableshort" />
         </navPoint>
-        <navPoint id="navPoint123" playOrder="123">
+        <navPoint id="navPoint124" playOrder="124">
           <navLabel>
             <text>MilestoneTableLong</text>
           </navLabel>
           <content src="sourcecodedoc.html#milestonetablelong" />
         </navPoint>
-        <navPoint id="navPoint124" playOrder="124">
+        <navPoint id="navPoint125" playOrder="125">
           <navLabel>
             <text>MilestoneTable</text>
           </navLabel>
           <content src="sourcecodedoc.html#milestonetable" />
         </navPoint>
-        <navPoint id="navPoint125" playOrder="125">
+        <navPoint id="navPoint126" playOrder="126">
           <navLabel>
             <text>summaryEffortRows</text>
           </navLabel>
           <content src="sourcecodedoc.html#summaryeffortrows" />
         </navPoint>
-        <navPoint id="navPoint126" playOrder="126">
+        <navPoint id="navPoint127" playOrder="127">
           <navLabel>
             <text>summaryEffort</text>
           </navLabel>
           <content src="sourcecodedoc.html#summaryeffort" />
         </navPoint>
-        <navPoint id="navPoint127" playOrder="127">
+        <navPoint id="navPoint128" playOrder="128">
           <navLabel>
             <text>effortPerTaskRows</text>
           </navLabel>
           <content src="sourcecodedoc.html#effortpertaskrows" />
         </navPoint>
-        <navPoint id="navPoint128" playOrder="128">
+        <navPoint id="navPoint129" playOrder="129">
           <navLabel>
             <text>effortPerTaskRowsWP</text>
           </navLabel>
           <content src="sourcecodedoc.html#effortpertaskrowswp" />
         </navPoint>
-        <navPoint id="navPoint129" playOrder="129">
+        <navPoint id="navPoint130" playOrder="130">
           <navLabel>
             <text>effortHeader</text>
           </navLabel>
           <content src="sourcecodedoc.html#effortheader" />
         </navPoint>
-        <navPoint id="navPoint130" playOrder="130">
+        <navPoint id="navPoint131" playOrder="131">
           <navLabel>
             <text>effortSum</text>
           </navLabel>
           <content src="sourcecodedoc.html#effortsum" />
         </navPoint>
-        <navPoint id="navPoint131" playOrder="131">
+        <navPoint id="navPoint132" playOrder="132">
           <navLabel>
             <text>effortPerTaskTableShort</text>
           </navLabel>
           <content src="sourcecodedoc.html#effortpertasktableshort" />
         </navPoint>
-        <navPoint id="navPoint132" playOrder="132">
+        <navPoint id="navPoint133" playOrder="133">
           <navLabel>
             <text>effortPerTaskTableMultipage</text>
           </navLabel>
           <content src="sourcecodedoc.html#effortpertasktablemultipage" />
         </navPoint>
-        <navPoint id="navPoint133" playOrder="133">
+        <navPoint id="navPoint134" playOrder="134">
           <navLabel>
             <text>effortPerTaskTable</text>
           </navLabel>
           <content src="sourcecodedoc.html#effortpertasktable" />
         </navPoint>
-        <navPoint id="navPoint134" playOrder="134">
+        <navPoint id="navPoint135" playOrder="135">
           <navLabel>
             <text>piePMsWPs</text>
           </navLabel>
           <content src="sourcecodedoc.html#piepmswps" />
         </navPoint>
-        <navPoint id="navPoint135" playOrder="135">
+        <navPoint id="navPoint136" playOrder="136">
           <navLabel>
             <text>piePMsPartners_tikz</text>
           </navLabel>
           <content src="sourcecodedoc.html#piepmspartners-tikz" />
         </navPoint>
-        <navPoint id="navPoint136" playOrder="136">
+        <navPoint id="navPoint137" playOrder="137">
           <navLabel>
             <text>pieBudgetPartners_tikz</text>
           </navLabel>
           <content src="sourcecodedoc.html#piebudgetpartners-tikz" />
         </navPoint>
-        <navPoint id="navPoint137" playOrder="137">
+        <navPoint id="navPoint138" playOrder="138">
           <navLabel>
             <text>pieRequestedBudgetPartners_tikz</text>
           </navLabel>
           <content src="sourcecodedoc.html#pierequestedbudgetpartners-tikz" />
         </navPoint>
-        <navPoint id="navPoint138" playOrder="138">
+        <navPoint id="navPoint139" playOrder="139">
           <navLabel>
             <text>piePMsPartners</text>
           </navLabel>
           <content src="sourcecodedoc.html#piepmspartners" />
         </navPoint>
-        <navPoint id="navPoint139" playOrder="139">
+        <navPoint id="navPoint140" playOrder="140">
           <navLabel>
             <text>pieBudgetPartners</text>
           </navLabel>
           <content src="sourcecodedoc.html#piebudgetpartners" />
         </navPoint>
-        <navPoint id="navPoint140" playOrder="140">
+        <navPoint id="navPoint141" playOrder="141">
           <navLabel>
             <text>pieRequestedBudgetPartners</text>
           </navLabel>
           <content src="sourcecodedoc.html#pierequestedbudgetpartners" />
         </navPoint>
-        <navPoint id="navPoint141" playOrder="141">
+        <navPoint id="navPoint142" playOrder="142">
           <navLabel>
             <text>piePartnersCompact</text>
           </navLabel>
           <content src="sourcecodedoc.html#piepartnerscompact" />
         </navPoint>
-        <navPoint id="navPoint142" playOrder="142">
+        <navPoint id="navPoint143" playOrder="143">
           <navLabel>
             <text>piePMsNations_tikz</text>
           </navLabel>
           <content src="sourcecodedoc.html#piepmsnations-tikz" />
         </navPoint>
-        <navPoint id="navPoint143" playOrder="143">
+        <navPoint id="navPoint144" playOrder="144">
           <navLabel>
             <text>pieTotalCostNations_tikz</text>
           </navLabel>
           <content src="sourcecodedoc.html#pietotalcostnations-tikz" />
         </navPoint>
-        <navPoint id="navPoint144" playOrder="144">
+        <navPoint id="navPoint145" playOrder="145">
           <navLabel>
             <text>pieRequestedNations_tikz</text>
           </navLabel>
           <content src="sourcecodedoc.html#pierequestednations-tikz" />
         </navPoint>
-        <navPoint id="navPoint145" playOrder="145">
+        <navPoint id="navPoint146" playOrder="146">
           <navLabel>
             <text>piePMsNations</text>
           </navLabel>
           <content src="sourcecodedoc.html#piepmsnations" />
         </navPoint>
-        <navPoint id="navPoint146" playOrder="146">
+        <navPoint id="navPoint147" playOrder="147">
           <navLabel>
             <text>pieTotalCostNations</text>
           </navLabel>
           <content src="sourcecodedoc.html#pietotalcostnations" />
         </navPoint>
-        <navPoint id="navPoint147" playOrder="147">
+        <navPoint id="navPoint148" playOrder="148">
           <navLabel>
             <text>pieRequestedNations</text>
           </navLabel>
           <content src="sourcecodedoc.html#pierequestednations" />
         </navPoint>
-        <navPoint id="navPoint148" playOrder="148">
+        <navPoint id="navPoint149" playOrder="149">
           <navLabel>
             <text>pieNationsCompact</text>
           </navLabel>
           <content src="sourcecodedoc.html#pienationscompact" />
         </navPoint>
-        <navPoint id="navPoint149" playOrder="149">
+        <navPoint id="navPoint150" playOrder="150">
           <navLabel>
             <text>piePMsPartnerTypes_tikz</text>
           </navLabel>
           <content src="sourcecodedoc.html#piepmspartnertypes-tikz" />
         </navPoint>
-        <navPoint id="navPoint150" playOrder="150">
+        <navPoint id="navPoint151" playOrder="151">
           <navLabel>
             <text>pieTotalCostPartnerTypes_tikz</text>
           </navLabel>
           <content src="sourcecodedoc.html#pietotalcostpartnertypes-tikz" />
         </navPoint>
-        <navPoint id="navPoint151" playOrder="151">
+        <navPoint id="navPoint152" playOrder="152">
           <navLabel>
             <text>pieRequestedPartnerTypes_tikz</text>
           </navLabel>
           <content src="sourcecodedoc.html#pierequestedpartnertypes-tikz" />
         </navPoint>
-        <navPoint id="navPoint152" playOrder="152">
+        <navPoint id="navPoint153" playOrder="153">
           <navLabel>
             <text>piePMsPartnerTypes</text>
           </navLabel>
           <content src="sourcecodedoc.html#piepmspartnertypes" />
         </navPoint>
-        <navPoint id="navPoint153" playOrder="153">
+        <navPoint id="navPoint154" playOrder="154">
           <navLabel>
             <text>pieTotalCostPartnerType</text>
           </navLabel>
           <content src="sourcecodedoc.html#pietotalcostpartnertype" />
         </navPoint>
-        <navPoint id="navPoint154" playOrder="154">
+        <navPoint id="navPoint155" playOrder="155">
           <navLabel>
             <text>pieRequestedPartnerType</text>
           </navLabel>
           <content src="sourcecodedoc.html#pierequestedpartnertype" />
         </navPoint>
-        <navPoint id="navPoint155" playOrder="155">
+        <navPoint id="navPoint156" playOrder="156">
           <navLabel>
             <text>piePartnerTypeCompact</text>
           </navLabel>
           <content src="sourcecodedoc.html#piepartnertypecompact" />
         </navPoint>
+        <navPoint id="navPoint157" playOrder="157">
+          <navLabel>
+            <text>BudgetTablePerPartners</text>
+          </navLabel>
+          <content src="sourcecodedoc.html#budgettableperpartners" />
+        </navPoint>
       </navPoint>
-      <navPoint id="navPoint156" playOrder="156">
+      <navPoint id="navPoint158" playOrder="158">
         <navLabel>
           <text>Makefile</text>
         </navLabel>
         <content src="sourcecodedoc.html#makefile" />
       </navPoint>
-      <navPoint id="navPoint157" playOrder="157">
+      <navPoint id="navPoint159" playOrder="159">
         <navLabel>
           <text>main.tex</text>
         </navLabel>

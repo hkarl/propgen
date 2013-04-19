@@ -907,9 +907,9 @@ need to think about the duration, though!</p>
 \noindent \textbf{Description of Task ${taskId}: ${Name}}
 \ifthenelse{\boolean{WPTables-taskboxShowsLeader}}{(Task leader: ${Leadpartner})}{}
 \ifthenelse{\boolean{WPTables-taskboxShowsObjectives}}{ ~\\[0.2cm]
-\textbf{Task objectives:} ${taskobjectives}}{}
+\noindent \textbf{Task objectives:} ${taskobjectives}}{}
 \ifthenelse{\boolean{WPTables-taskboxShowsDescription}}{~ \\[0.2cm]
-\textbf{Description of work:} ${taskdescription}}{}
+\noindent \textbf{Description of work:} ${taskdescription}}{}
 \ifthenelse{\boolean{WPTables-taskboxShowsDeliverables}}{ %{ (r&#8221;&#8220;&#8221;~\\[0.3cm]
 \noindent {\centering
 \begin{tabular}{lp{0.7\textwidth}l}
@@ -944,7 +944,7 @@ if [d for d in allMilestones if &#8216;${Label}&#8217; in d[&#8216;Producingtask
 %{ &#8221;, &#8221;.join([ ( r&#8217;\textbf{%s}&#8217; % x[&#8216;partner&#8217;]  if x[&#8216;partner&#8217;] == &#8216;${Leadpartner}&#8217;  else x[&#8216;partner&#8217;])
 for x  in allEfforts
 if x[&#8216;task&#8217;] == &#8216;${Label}&#8217; and
-int(x[&#8216;resources&#8217;]) &gt; 0 ])
+float(x[&#8216;resources&#8217;]) &gt; 0 ])
 %}
 }{}
 \end{framed}</p>
@@ -975,7 +975,7 @@ int(x[&#8216;resources&#8217;]) &gt; 0 ])
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
-<dd><p>Default:   \item \textbf{${id}}: ${Title}
+<dd><p>Default:   \labitem{${id}}{del:${Label}} ${Title}
 \ifthenelse{\boolean{WPTables-deliverablesWPshowDue}}{
 \hfill (M\,${Monthdue})}{}
 \ifthenelse{\boolean{WPTables-deliverablesWPshowTasks}}{
@@ -1010,7 +1010,7 @@ int(x[&#8216;resources&#8217;]) &gt; 0 ])
 <dl class="describe">
 <dt>
 <tt class="descname">template</tt></dt>
-<dd><p>Default:   \item \textbf{${id}}: ${Title}
+<dd><p>Default:   \labitem{${id}}{ms:${Label}}  ${Title}
 \ifthenelse{\boolean{WPTables-milestonesWPshowDue}}{
 \hfill (M\,${Monthdue})}{}
 \ifthenelse{\boolean{WPTables-milestonesWPshowTasks}}{
@@ -1047,6 +1047,7 @@ int(x[&#8216;resources&#8217;]) &gt; 0 ])
 <tt class="descname">template</tt></dt>
 <dd><p>Default:   \newpage
 \noindent \addcontentsline{toc}{subsubsection}{WP ${Number}: ${Shortname} }
+\WpCounter{${Shortname}}
 ${tableheader}
 \begin{framed}
 \noindent \textbf{Objectives of Workpackage ${Number}:}
@@ -1354,9 +1355,9 @@ ${MilestoneTableRows}\\
 <dt>
 <tt class="descname">template</tt></dt>
 <dd><p>Default:   ${Shortname} &amp;
-%{ &#8216; &amp; &#8216;.join([str(x[&#8216;partnereffort&#8217;][&#8216;${Shortname}&#8217;]) for x in allWPDicts])
+%{ &#8216; &amp; &#8216;.join([utils.myFormat(x[&#8216;partnereffort&#8217;][&#8216;${Shortname}&#8217;]) for x in allWPDicts])
 %} &amp;
-%{ str(sum([x[&#8216;partnereffort&#8217;][&#8216;${Shortname}&#8217;] for x in allWPDicts])) %}</p>
+%{ utils.myFormat(sum([x[&#8216;partnereffort&#8217;][&#8216;${Shortname}&#8217;] for x in allWPDicts])) %}</p>
 </dd></dl>
 
 <dl class="describe">
@@ -1389,7 +1390,7 @@ Partner &amp;  %{ &#8216; &amp; &#8216;.join([ &#8216;WP\,%s&#8217; % x[&#8216;N
 ${summaryEffortRows} \\
 \midrule
 Total &amp; %{ &#8216; &amp; &#8216;.join([x[&#8216;wpeffort&#8217;] for x in allWPDicts]) %} &amp;
-%{ str(sum([int(x[&#8216;wpeffort&#8217;]) for x in allWPDicts ] ))  %} \\
+%{ utils.myFormat(sum([float(x[&#8216;wpeffort&#8217;]) for x in allWPDicts ] ))  %} \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -1423,10 +1424,10 @@ Total &amp; %{ &#8216; &amp; &#8216;.join([x[&#8216;wpeffort&#8217;] for x in al
 <tt class="descname">template</tt></dt>
 <dd><p>Default:   ${taskId}  &amp; ${Name} &amp;
 {\cellcolor[gray]{0.9}
-%{ str(sum([int(e[&#8216;resources&#8217;]) for e in allEfforts if e[&#8216;task&#8217;] == &#8216;${Label}&#8217;])) %}
+%{ utils.myFormat(sum([float(e[&#8216;resources&#8217;]) for e in allEfforts if e[&#8216;task&#8217;] == &#8216;${Label}&#8217;])) %}
 } &amp;
 %{ &#8216; &amp; &#8216;.join([ ((r&#8217;\textbf{%s}&#8217; % e[&#8216;resources&#8217;]) if &#8216;${Leadpartner}&#8217; == p[&#8216;Shortname&#8217;]
-else (e[&#8216;resources&#8217;] if int(e[&#8216;resources&#8217;]) &gt; 0
+else (e[&#8216;resources&#8217;] if float(e[&#8216;resources&#8217;]) &gt; 0
 else (r&#8217;{\textcolor{%s}0}&#8217; % config.get(&#8216;WPTables&#8217;,&#8217;colorInactivePartner&#8217;))))
 for p in partnerList
 for e in [ee for ee in allEfforts if
@@ -1463,9 +1464,9 @@ ee[&#8216;partner&#8217;] == p[&#8216;Shortname&#8217;]] ]
 <dd><p>Default:    ${effortPerTaskRows_${Number}} \\ \hline
 \rowcolor[gray]{0.9}
 \multicolumn{2}{l|}{\cellcolor[gray]{0.9} \textbf{WP ${Number}:}}
-&amp; %{ str(sum(${partnereffort}.values()))  %} &amp;
-%{ &#8216; &amp; &#8216;.join([ r&#8217;\textbf{%s}&#8217; % str(${partnereffort}[p[&#8216;Shortname&#8217;]]) if p[&#8216;Shortname&#8217;]==&#8217;${Leadership}&#8217;
-else str(${partnereffort}[p[&#8216;Shortname&#8217;]])
+&amp; %{ utils.myFormat(sum(${partnereffort}.values()))  %} &amp;
+%{ &#8216; &amp; &#8216;.join([ r&#8217;\textbf{%s}&#8217; % utils.myFormat(${partnereffort}[p[&#8216;Shortname&#8217;]]) if p[&#8216;Shortname&#8217;]==&#8217;${Leadership}&#8217;
+else utils.myFormat(${partnereffort}[p[&#8216;Shortname&#8217;]])
 for p in partnerList]) %}</p>
 </dd></dl>
 
@@ -1513,7 +1514,7 @@ Task &amp; Task name &amp; Total PM &amp; %{ &#8216; &amp; &#8216;.join([p[&#821
 <dd><p>Default:   \rowcolor[gray]{0.8} \multicolumn{2}{l|}{\cellcolor[gray]{0.8}
 \textbf{Project total: }} &amp; \textbf{\totalPM} &amp;
 %{ &#8216; &amp; &#8216;.join([ r&#8217;\textbf{%s}&#8217; %
-str(sum([ int(e[&#8216;resources&#8217;]) for e in allEfforts if
+utils.myFormat(sum([ float(e[&#8216;resources&#8217;]) for e in allEfforts if
 e[&#8216;partner&#8217;] == p[&#8216;Shortname&#8217;] ]))
 for p in partnerList]) %}</p>
 </dd></dl>
@@ -1667,7 +1668,7 @@ first, the actual tikz figures</p>
 <tt class="descname">template</tt></dt>
 <dd><p>Default:    \begin{tikzpicture}
 \pie[scale font]{ %{ utils.roundPie ([ (x[&#8216;Shortname&#8217;],
-sum([int(e[&#8216;resources&#8217;]) for e in allEfforts if e[&#8216;partner&#8217;]==x[&#8216;Shortname&#8217;]]))
+sum([float(e[&#8216;resources&#8217;]) for e in allEfforts if e[&#8216;partner&#8217;]==x[&#8216;Shortname&#8217;]]))
 for x in partnerList])
 %}}
 \end{tikzpicture}</p>
@@ -1687,7 +1688,7 @@ for x in partnerList])
 <tt class="descname">template</tt></dt>
 <dd><p>Default:    \begin{tikzpicture}
 \pie[scale font]{ %{ utils.roundPie ([ (x[&#8216;Shortname&#8217;],
-int(x[&#8216;totalCost&#8217;]))
+float(x[&#8216;totalCost&#8217;]))
 for x in partnerList])
 %}}
 \end{tikzpicture}</p>
@@ -1707,7 +1708,7 @@ for x in partnerList])
 <tt class="descname">template</tt></dt>
 <dd><p>Default:    \begin{tikzpicture}
 \pie[scale font]{ %{ utils.roundPie ([ (x[&#8216;Shortname&#8217;],
-int(x[&#8216;totalRequested&#8217;]))
+float(x[&#8216;totalRequested&#8217;]))
 for x in partnerList])
 %}}
 \end{tikzpicture}</p>
@@ -1862,7 +1863,8 @@ ${pieRequestedBudgetPartners_tikz}
 </div>
 <div class="section" id="piepmsnations-tikz">
 <span id="index-53"></span><h1>piePMsNations_tikz<a class="headerlink" href="#piepmsnations-tikz" title="Permalink to this headline">¶</a></h1>
-<p>pie charts, grouped by nations
+<p>table for budget
+pie charts, grouped by nations
 pie chart over person months assigned to different nations
 a little bit more complicated: we need to pull out the (Nation/Effort) pairs.
 those we get from allEfforts, where we look up the nation in the partnerList
@@ -1877,7 +1879,7 @@ a suitable reduce function: adding up two values</p>
 &#8216;Shortname&#8217;,
 e[&#8216;partner&#8217;],
 &#8216;Nation&#8217;),
-int(e[&#8216;resources&#8217;]))
+float(e[&#8216;resources&#8217;]))
 for e in allEfforts],
 lambda a,b: a+b))
 %}}
@@ -2078,7 +2080,7 @@ ${pieRequestedNations_tikz}
 &#8216;Shortname&#8217;,
 e[&#8216;partner&#8217;],
 &#8216;Type&#8217;),
-int(e[&#8216;resources&#8217;]))
+float(e[&#8216;resources&#8217;]))
 for e in allEfforts],
 lambda a,b: a+b))
 %}}
@@ -2268,6 +2270,77 @@ ${pieRequestedPartnerTypes_tikz}
 </dd></dl>
 
 </div>
+<div class="section" id="budgettableperpartners">
+<span id="index-67"></span><h1>BudgetTablePerPartners<a class="headerlink" href="#budgettableperpartners" title="Permalink to this headline">¶</a></h1>
+<p>A budget overview table</p>
+<dl class="describe">
+<dt>
+<tt class="descname">template</tt></dt>
+<dd><p>Default:   \ithenelse{\boolean{BudgetEquations-showBudget}}{\begin{table}
+\caption{Budget information (rounded to Euros, unless otherwise noted) }
+\label{tab:budget}
+\centering{\adjustbox{angle=90,max width=\textwidth,max height=0.95\textheight}{
+\begin{tabular}{l%{&#8216;r&#8217;<a href="#id7"><span class="problematic" id="id8">*</span></a>len(partnerList)%}r}
+\toprule
+&amp; %{ &#8216;&amp;&#8217;.join([p[&#8216;Shortname&#8217;] for p in partnerList])  %} &amp; Sum  \\
+Overhead  (percent) &amp;  %{ &#8216;&amp;&#8217;.join([str(int(p[&#8216;OverheadPercent&#8217;])) for p in partnerList])  %} &amp;  \\
+\midrule
+% \rowcolor[gray]{.9}
+\textbf{Research} \\
+\midrule
+Person months (research) &amp;  %{ &#8216;&amp;&#8217;.join([str(int(p[&#8216;personMonths_RTD&#8217;])) for p in partnerList])  %} &amp; %{ str(int(sum([p[&#8216;personMonths_RTD&#8217;] for p in partnerList]))) %}  \\
+Personnel cost &amp; %{ &#8216;&amp;&#8217;.join([str(int(p[&#8216;RTDPersonnelCost&#8217;])) for p in partnerList])  %} &amp; %{ str(int(sum([p[&#8216;RTDPersonnelCost&#8217;] for p in partnerList]))) %}   \\
+Travel cost  &amp; %{ &#8216;&amp;&#8217;.join([str(int(p[&#8216;Travel&#8217;])) for p in partnerList])  %} &amp; %{  str(int(sum([p[&#8216;Travel&#8217;] for p in partnerList]))) %}   \\
+Durable Equipment  &amp; %{ &#8216;&amp;&#8217;.join([str(int(p[&#8216;DurableEquipment&#8217;])) for p in partnerList])  %} &amp; %{ str(int(sum([p[&#8216;DurableEquipment&#8217;] for p in partnerList])))  %}  \\
+Consumables  &amp; %{ &#8216;&amp;&#8217;.join([str(int(p[&#8216;Consumable&#8217;])) for p in partnerList])  %}  &amp; %{ str(int(sum([p[&#8216;Consumable&#8217;] for p in partnerList]))) %}  \\
+Other  &amp; %{ &#8216;&amp;&#8217;.join([str(int(p[&#8216;Other&#8217;])) for p in partnerList])  %}  &amp; %{ str(int(sum([p[&#8216;Other&#8217;] for p in partnerList]))) %}  \\
+Subcontracting  &amp; %{ &#8216;&amp;&#8217;.join([str(int(p[&#8216;Subcontracting&#8217;])) for p in partnerList])  %}  &amp; %{ str(int(sum([p[&#8216;Subcontracting&#8217;] for p in partnerList]))) %}  \\
+\midrule
+Research direct cost &amp;  %{ &#8216;&amp;&#8217;.join([str(int(p[&#8216;RTDDirectCost&#8217;])) for p in partnerList])  %}  &amp; %{ str(int(sum([p[&#8216;RTDDirectCost&#8217;] for p in partnerList]))) %}  \\
+Research indirect cost &amp;  %{ &#8216;&amp;&#8217;.join([str(int(p[&#8216;RTDIndirectCost&#8217;])) for p in partnerList])  %}  &amp; %{ str(int(sum([p[&#8216;RTDIndirectCost&#8217;] for p in partnerList]))) %}  \\
+Research total cost &amp;  %{ &#8216;&amp;&#8217;.join([str(int(p[&#8216;totalResearch&#8217;])) for p in partnerList])  %}  &amp; %{ str(int(sum([p[&#8216;totalResearch&#8217;] for p in partnerList]))) %}  \\
+Research requested grant  &amp;  %{ &#8216;&amp;&#8217;.join([str(int(p[&#8216;requestedResearch&#8217;])) for p in partnerList])  %}  &amp; %{ str(int(sum([p[&#8216;requestedResearch&#8217;] for p in partnerList]))) %}  \\
+\midrule
+% \rowcolor[gray]{.9}
+\textbf{Management} \\
+\midrule
+Person months (mgmt.) &amp;  %{ &#8216;&amp;&#8217;.join([str(int(p[&#8216;personMonths_MGMT&#8217;])) for p in partnerList])  %}  &amp; %{ str(int(sum([p[&#8216;personMonths_MGMT&#8217;] for p in partnerList]))) %}  \\
+Personnel cost (mgmt.) &amp;  %{ &#8216;&amp;&#8217;.join([str(int(p[&#8216;MgmtPersonnelCost&#8217;])) for p in partnerList])  %}  &amp; %{ str(int(sum([p[&#8216;MgmtPersonnelCost&#8217;] for p in partnerList]))) %}  \\
+Travel &amp;  %{ &#8216;&amp;&#8217;.join([str(int(p[&#8216;MgmtTravel&#8217;])) for p in partnerList])  %}  &amp; %{ str(int(sum([p[&#8216;MgmtTravel&#8217;] for p in partnerList]))) %}  \\
+Audit cost &amp;  %{ &#8216;&amp;&#8217;.join([str(int(p[&#8216;MgmtAuditCost&#8217;])) for p in partnerList])  %}  &amp; %{ str(int(sum([p[&#8216;MgmtAuditCost&#8217;] for p in partnerList]))) %}  \\
+\midrule
+Management direct cost &amp;  %{ &#8216;&amp;&#8217;.join([str(int(p[&#8216;MgmtDirectCost&#8217;])) for p in partnerList])  %}  &amp; %{ str(int(sum([p[&#8216;MgmtDirectCost&#8217;] for p in partnerList]))) %}  \\
+Management indirect cost &amp;  %{ &#8216;&amp;&#8217;.join([str(int(p[&#8216;MgmtIndirectCost&#8217;])) for p in partnerList])  %}  &amp; %{ str(int(sum([p[&#8216;MgmtIndirectCost&#8217;] for p in partnerList]))) %}  \\
+Management total cost &amp;  %{ &#8216;&amp;&#8217;.join([str(int(p[&#8216;totalManagement&#8217;])) for p in partnerList])  %}  &amp; %{ str(int(sum([p[&#8216;totalManagement&#8217;] for p in partnerList]))) %}  \\
+Management requested grant  &amp;  %{ &#8216;&amp;&#8217;.join([str(int(p[&#8216;requestedManagement&#8217;])) for p in partnerList])  %}  &amp; %{ str(int(sum([p[&#8216;requestedManagement&#8217;] for p in partnerList]))) %}  \\
+\midrule
+Total cost &amp;  %{ &#8216;&amp;&#8217;.join([str(int(p[&#8216;totalCost&#8217;])) for p in partnerList])  %}  &amp; %{ str(int(sum([p[&#8216;totalCost&#8217;] for p in partnerList]))) %}  \\
+Requested grant  &amp;  %{ &#8216;&amp;&#8217;.join([str(int(p[&#8216;totalRequested&#8217;])) for p in partnerList])  %}  &amp; %{ str(int(sum([p[&#8216;totalRequested&#8217;] for p in partnerList]))) %}  \\
+\bottomrule
+\end{tabular}
+}} % closes adjustbox  and centering
+\end{table}}{}</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dict</tt></dt>
+<dd><p>Default:   expanded</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">file</tt></dt>
+<dd><p>Default:   True</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">dir</tt></dt>
+<dd><p>Default:   tables</p>
+</dd></dl>
+
+</div>
 
 
           </div>
@@ -2344,6 +2417,7 @@ ${pieRequestedPartnerTypes_tikz}
 <li><a class="reference internal" href="#pietotalcostpartnertype">pieTotalCostPartnerType</a></li>
 <li><a class="reference internal" href="#pierequestedpartnertype">pieRequestedPartnerType</a></li>
 <li><a class="reference internal" href="#piepartnertypecompact">piePartnerTypeCompact</a></li>
+<li><a class="reference internal" href="#budgettableperpartners">BudgetTablePerPartners</a></li>
 </ul>
 
   <h3>This Page</h3>
@@ -2382,7 +2456,7 @@ ${pieRequestedPartnerTypes_tikz}
     </div>
     <div class="footer">
         &copy; Copyright 2012, Holger Karl.
-      Last updated on Apr 17, 2013.
+      Last updated on Apr 19, 2013.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
     </div>
   </body>

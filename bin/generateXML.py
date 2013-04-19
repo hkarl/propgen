@@ -224,11 +224,34 @@ def partnerXML(wiki, parser):
 
     # pp(partnerDict) 
 
+    # is there budget information?
+    budgetTable = parser.getTable(parser.getSection(wiki, "Budget", 2))
+    if budgetTable:
+        # pp( budgetTable)
+
+        for x in budgetTable:
+            # just to make sure that all field types are present in the partnerDict
+
+            fieldType = x['FieldType']
+            for p in partnerDict:
+                try:
+                    p[fieldType] = float(x[p['Shortname']])
+                except:
+                    p[fieldType] = 0.0
+
+
+    pp(partnerDict)
+    
     xml = "<allpartners>\n"
     for partner in partnerDict:
         xml += "\t<partnerdescription>\n"
         for k,v in partner.iteritems():
-            xml += "\t\t<" + k + "> " + v + "</" + k + ">\n"  
+            if type(v) == float:
+                xml += "\t\t<" + k + " type='float'> " + str(v) + "</" + k + ">\n"
+            elif type(v) == int:
+                xml += "\t\t<" + k + " type='int'> " + str(v) + "</" + k + ">\n"
+            else:
+                xml += "\t\t<" + k + "> " + v + "</" + k + ">\n"  
         xml += "\t</partnerdescription>\n"
     xml += "</allpartners>\n"
 
