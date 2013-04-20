@@ -1,0 +1,71 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Version history</title>
+    
+    <link rel="stylesheet" href="_static/epub.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="sourcecodedoc.html" title="Source code documentation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">PropGen 0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="version-history">
+<h1>Version history</h1>
+<p>Version 0.2 (April 19, 2013):</p>
+<ul class="simple">
+<li>Budget information can be handled via a table in the main project page. Actual cost data is then computed based on actual person months assigned in the projects and based on the type of workpackages (research vs. management) and partners (industry vs. academic). Highly configurable rules; no need for Excel files any more. Alternatively, there is shaky support for reading budget data from an Excel file, but that is not well supported.</li>
+<li>Better support for the moinmoin figure inclusion syntax; not possible to specify captions and labels directly</li>
+<li>Handling of ampersands rewritten. Hopefully simplified the interface and removed a number of pitfalls.</li>
+<li>Person months can now be floats; no longer need to be integers. However, this is not well tested yet and should be considered an experimental feature.</li>
+<li>wikiParser got various overhauls. In particular, handling with verbatim environments was simplified (nesting is no longer allowed, which never made much sense anyway), which resulted in BIG speedup for the wiki parsing (easily a factor of ten faster now).</li>
+<li>Labels for figures no longer automatically generate a fig: prefix. Despite being convenient, it turned out to be simply too confusing (this breaks backward compatibility, but is easiy to fix; look for fig: in wikiParser.py)</li>
+<li>Various small bugs removed (e.g., partners were not filtered correctly in the task tables).</li>
+<li>Various small additions (e.g., additional pie charts for budget distribution  defined).</li>
+</ul>
+<p>Outlook:</p>
+<ul class="simple">
+<li>Twiki is supported is on the list of endangered modules, since I am not using twiki any longer. Use at your own risk!</li>
+</ul>
+<p>Version 0.1:</p>
+<ul class="simple">
+<li>First released version</li>
+</ul>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, 2013, Holger Karl.
+      Last updated on Apr 19, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+  </body>
+</html>

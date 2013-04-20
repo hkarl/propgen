@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>PropGen 0.1 documentation</title>
+    <title>PropGen 0.2 documentation</title>
     
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.1',
+        VERSION:     '0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -30,7 +30,7 @@
     <div class="related">
       <h3>Navigation</h3>
       <ul>
-        <li><a href="#">PropGen 0.1 documentation</a> &raquo;</li> 
+        <li><a href="#">PropGen 0.2 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -6501,6 +6501,28 @@ protection authorities.
 </div>
 </div>
 </div>
+<span id="document-history"></span><div class="section" id="version-history">
+<h2>Version history<a class="headerlink" href="#version-history" title="Permalink to this headline">¶</a></h2>
+<p>Version 0.2 (April 19, 2013):</p>
+<ul class="simple">
+<li>Budget information can be handled via a table in the main project page. Actual cost data is then computed based on actual person months assigned in the projects and based on the type of workpackages (research vs. management) and partners (industry vs. academic). Highly configurable rules; no need for Excel files any more. Alternatively, there is shaky support for reading budget data from an Excel file, but that is not well supported.</li>
+<li>Better support for the moinmoin figure inclusion syntax; not possible to specify captions and labels directly</li>
+<li>Handling of ampersands rewritten. Hopefully simplified the interface and removed a number of pitfalls.</li>
+<li>Person months can now be floats; no longer need to be integers. However, this is not well tested yet and should be considered an experimental feature.</li>
+<li>wikiParser got various overhauls. In particular, handling with verbatim environments was simplified (nesting is no longer allowed, which never made much sense anyway), which resulted in BIG speedup for the wiki parsing (easily a factor of ten faster now).</li>
+<li>Labels for figures no longer automatically generate a fig: prefix. Despite being convenient, it turned out to be simply too confusing (this breaks backward compatibility, but is easiy to fix; look for fig: in wikiParser.py)</li>
+<li>Various small bugs removed (e.g., partners were not filtered correctly in the task tables).</li>
+<li>Various small additions (e.g., additional pie charts for budget distribution  defined).</li>
+</ul>
+<p>Outlook:</p>
+<ul class="simple">
+<li>Twiki is supported is on the list of endangered modules, since I am not using twiki any longer. Use at your own risk!</li>
+</ul>
+<p>Version 0.1:</p>
+<ul class="simple">
+<li>First released version</li>
+</ul>
+</div>
 </div>
 </div>
 <div class="section" id="indices-and-tables">
@@ -6573,6 +6595,7 @@ protection authorities.
 <li class="toctree-l2"><a class="reference internal" href="index.html#main-tex">main.tex</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-history">Version history</a></li>
 </ul>
 
 <div id="searchbox" style="display: none">
@@ -6595,11 +6618,11 @@ protection authorities.
     <div class="related">
       <h3>Navigation</h3>
       <ul>
-        <li><a href="#">PropGen 0.1 documentation</a> &raquo;</li> 
+        <li><a href="#">PropGen 0.2 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2012, Holger Karl.
+        &copy; Copyright 2012, 2013, Holger Karl.
       Last updated on Apr 19, 2013.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
     </div>

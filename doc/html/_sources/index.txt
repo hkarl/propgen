@@ -18,7 +18,7 @@ Contents:
    directorylayout
    openissues
    sourcecodedoc 
-
+   history 
 
 
 Indices and tables

@@ -1066,5 +1066,11 @@
         <content src="sourcecodedoc.html#main-tex" />
       </navPoint>
     </navPoint>
+    <navPoint id="navPoint160" playOrder="160">
+      <navLabel>
+        <text>Version history</text>
+      </navLabel>
+      <content src="history.html" />
+    </navPoint>
   </navMap>
 </ncx>

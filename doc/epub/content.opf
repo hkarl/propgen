@@ -22,6 +22,9 @@
     <item id="genindex.html"
           href="genindex.html"
           media-type="application/xhtml+xml" />
+    <item id="history.html"
+          href="history.html"
+          media-type="application/xhtml+xml" />
     <item id="index.html"
           href="index.html"
           media-type="application/xhtml+xml" />
@@ -146,6 +149,7 @@
     <itemref idref="directorylayout.html" />
     <itemref idref="openissues.html" />
     <itemref idref="sourcecodedoc.html" />
+    <itemref idref="history.html" />
     <itemref idref="py-modindex.html" />
     <itemref idref="genindex.html" />
   </spine>
